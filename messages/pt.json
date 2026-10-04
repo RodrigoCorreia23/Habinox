@@ -1,0 +1,17 @@
+{
+  "Metadata": {
+    "title": "Abinox",
+    "description": "Serralharia por medida em inox, ferro e alumínio."
+  },
+  "Nav": {
+    "home": "Início",
+    "account": "A minha conta"
+  },
+  "Home": {
+    "title": "Abinox",
+    "subtitle": "Portões, escadas, guardas e chaminés por medida."
+  },
+  "Account": {
+    "title": "A minha conta"
+  }
+}

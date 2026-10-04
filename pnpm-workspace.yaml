@@ -1,3 +1,7 @@
+# pnpm 12 exige aprovação explícita de scripts de build das dependências.
+# Nenhum destes é necessário: usam binários pré-compilados ou são opcionais.
 allowBuilds:
   sharp: false
   unrs-resolver: false
+  "@parcel/watcher": false
+  "@swc/core": false
