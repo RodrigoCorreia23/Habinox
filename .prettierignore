@@ -4,3 +4,5 @@ node_modules
 src/db/migrations
 CLAUDE.md
 AGENTS.md
+test-results
+playwright-report
