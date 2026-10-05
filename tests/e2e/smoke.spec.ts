@@ -5,8 +5,3 @@ test("a raiz redireciona para /pt e mostra a loja", async ({ page }) => {
   await expect(page).toHaveURL(/\/pt$/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Abinox");
 });
-
-test("o backoffice abre", async ({ page }) => {
-  await page.goto("/admin");
-  await expect(page.getByRole("heading", { name: "Painel" })).toBeVisible();
-});

@@ -13,14 +13,33 @@ jobs:
   check:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: abinox
+          POSTGRES_PASSWORD: abinox
+          POSTGRES_DB: abinox
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U abinox"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 20
     env:
       # Valores fictícios: o CI não fala com serviços reais.
       NEXT_PUBLIC_APP_ENV: development
+      DATABASE_URL: postgres://abinox:abinox@localhost:5432/abinox
       CRON_SECRET: ci-cron-secret-0123456789abcdef0123456789
+      BETTER_AUTH_SECRET: ci-auth-secret-0123456789abcdef0123456789
+      BETTER_AUTH_URL: http://localhost:3000
+      SEED_ADMIN_EMAIL: admin@abinox.test
+      SEED_ADMIN_PASSWORD: ci-admin-password-123
     steps:
       - uses: actions/checkout@v5
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
       - uses: actions/setup-node@v5
         with:
@@ -37,6 +56,12 @@ jobs:
 
       - name: Tipos
         run: pnpm typecheck
+
+      - name: Migrações em falta
+        run: pnpm db:check && pnpm db:generate && git diff --exit-code src/db/migrations
+
+      - name: Aplicar migrações e seed
+        run: pnpm db:migrate && pnpm db:seed
 
       - name: Testes unitários
         run: pnpm test

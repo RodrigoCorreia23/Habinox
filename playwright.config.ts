@@ -1,6 +1,12 @@
+import { existsSync } from "node:fs";
 import { defineConfig, devices } from "@playwright/test";
 
-const port = 3100;
+// Localmente as credenciais (ex.: admin do seed) vêm do .env.local; no CI já estão no ambiente.
+if (!process.env.CI && existsSync(".env.local")) {
+  process.loadEnvFile(".env.local");
+}
+
+const port = 3000;
 
 export default defineConfig({
   testDir: "tests/e2e",
@@ -8,7 +14,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? "github" : "list",
   use: {
-    baseURL: `http://localhost:${port}`,
+    baseURL: process.env.BETTER_AUTH_URL ?? `http://localhost:${port}`,
     trace: "retain-on-failure",
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],

@@ -12,6 +12,53 @@
     "subtitle": "Portões, escadas, guardas e chaminés por medida."
   },
   "Account": {
-    "title": "A minha conta"
+    "title": "A minha conta",
+    "signedInAs": "Sessão iniciada como {email}",
+    "signOut": "Terminar sessão"
+  },
+  "Auth": {
+    "email": "Email",
+    "password": "Password",
+    "name": "Nome",
+    "newPassword": "Nova password",
+    "passwordHint": "Mínimo de 10 caracteres.",
+    "signIn": {
+      "title": "Entrar",
+      "submit": "Entrar",
+      "noAccount": "Ainda não tem conta?",
+      "createAccount": "Criar conta",
+      "forgot": "Esqueceu-se da password?"
+    },
+    "signUp": {
+      "title": "Criar conta",
+      "submit": "Criar conta",
+      "hasAccount": "Já tem conta?",
+      "signIn": "Entrar",
+      "done": "Conta criada. Enviámos um email para {email} — abra o link para ativar a conta."
+    },
+    "forgot": {
+      "title": "Recuperar password",
+      "intro": "Indique o seu email. Se existir uma conta, enviamos um link para definir uma nova password.",
+      "submit": "Enviar link",
+      "done": "Se existir uma conta com esse email, receberá um link em breve.",
+      "back": "Voltar a entrar"
+    },
+    "reset": {
+      "title": "Nova password",
+      "submit": "Guardar password",
+      "done": "Password alterada. Já pode entrar.",
+      "invalidLink": "Este link é inválido ou expirou. Peça um novo.",
+      "requestNew": "Pedir novo link"
+    },
+    "errors": {
+      "generic": "Ocorreu um erro. Tente novamente.",
+      "INVALID_EMAIL_OR_PASSWORD": "Email ou password incorretos.",
+      "EMAIL_NOT_VERIFIED": "Ainda não confirmou o email. Reenviámos o link de ativação.",
+      "USER_ALREADY_EXISTS": "Já existe uma conta com este email.",
+      "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL": "Já existe uma conta com este email.",
+      "PASSWORD_TOO_SHORT": "A password tem de ter pelo menos 10 caracteres.",
+      "INVALID_TOKEN": "Este link é inválido ou expirou. Peça um novo.",
+      "TOO_MANY_REQUESTS": "Demasiadas tentativas. Aguarde um pouco e tente novamente."
+    }
   }
 }
