@@ -187,9 +187,9 @@ Portão de correr =
 ```
 materials        (id, phc_code, name, unit, cost numeric(12,4), cost_updated_at, phc_missing_at)
 material_costs   (id, material_id, cost, observed_at)          -- histórico
-categories       (id, slug, name)
-products         (id, category_id, slug, name, model_glb_url, active)
-product_options  (id, product_id, key, type, min, max, step, unit, required)
+categories       (id, parent_id, slug, name, position)                 -- árvore: categoria → subcategoria
+products         (id, category_id, slug, name, model_glb_url, status: draft|validated|published)
+product_options  (id, product_id, key, type, min, max, step, unit, required)  -- medidas sempre em mm; modelo de opções reutilizáveis por desenhar (docs/fase-0.md)
 formula_versions (id, product_id, version, margin, rounding, active, created_at, created_by)
 formula_lines    (id, formula_version_id, label, kind: material|labour|finish, material_id, quantity_expr, unit, position)
 finishes         (id, name, type: material|cor, ral, price_modifier)

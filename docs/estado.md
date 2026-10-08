@@ -168,8 +168,9 @@ Notas:
 
 ### Fase 0 (próximo trabalho real; não depende do deploy)
 
-- Lista final de produtos e **fórmulas reais de 2–3 produtos-piloto** (portão de correr, guarda, caixa de correio): medidas com mín./máx., materiais e quantidade em função das medidas, horas de mão de obra, margem. **Pedido ao cliente, ainda sem resposta.**
-- Wireframes.
+- **Ver `docs/fase-0.md`**: decisões já tomadas, perguntas para o Bruno (blocos A–I) e checklist de entregáveis.
+- Em curso: o Rodrigo vai reunir com o Bruno (blocos A–C: produtos, preço, responsabilidade/instalação) e contactar o privado que aloja o site atual (bloco H: domínio, DNS, email, conteúdo).
+- Por fazer do nosso lado: desenhar o modelo de opções reutilizáveis entre categorias; wireframes e mockup (não existe mockup).
 
 ### Fase 1 (depois da fase 0), pela ordem do CLAUDE.md
 
