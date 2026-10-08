@@ -1,4 +1,5 @@
 @AGENTS.md
+@docs/estado.md
 
 # Abinox — Plataforma digital de vendas
 
@@ -299,3 +300,4 @@ Requisito do cliente: **as IAs têm de falar umas com as outras para perceber se
 - Em pagamentos, autenticação e preços: código explícito, testado e revisto linha a linha. É onde erros custam dinheiro e confiança.
 - Escreve testes para o motor de preços e para a sincronização PHC.
 - Mensagens de commit e comentários em português; nomes de código em inglês.
+- **No fim de cada sessão, atualizar `docs/estado.md`** (o que foi feito, como, e o que falta). É o que permite continuar o trabalho noutra máquina ou sessão.
