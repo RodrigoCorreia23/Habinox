@@ -130,5 +130,10 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 - [ ] Desenho final do modelo de opções reutilizáveis (ver proposta acima)
 - [ ] Fórmula de preço por produto, validada contra orçamentos reais
 - [ ] Regras de instalação, portes, pagamento (sinal/total) e validade de orçamentos
-- [ ] Wireframes das páginas principais: home, categoria, configurador, carrinho, checkout, conta, backoffice (produtos, fórmulas, encomendas)
+- [ ] Wireframes das páginas principais (ver `docs/wireframes/`):
+  - [x] Configurador (portão de correr)
+  - [x] Carrinho, checkout e confirmação
+  - [ ] Home e página de categoria
+  - [ ] Área de cliente (encomendas, orçamentos guardados)
+  - [ ] Backoffice: produtos/opções, fórmulas com pré-visualização, encomendas, sincronização PHC
 - [ ] Mockup visual a partir dos wireframes e do logótipo

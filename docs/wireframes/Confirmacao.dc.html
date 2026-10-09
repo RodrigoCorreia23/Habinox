@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<title>Confirmação da encomenda</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
+a{color:#2238A8}a:hover{color:#16257A}
+button{font-family:inherit}
+:focus-visible{outline:3px solid #2238A8;outline-offset:2px}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column">
+
+  <div style="background: #FFF4D6; border-bottom: 1px solid #E8D59A">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 10px 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-size: 14px">
+      <span>Protótipo: ver o caso</span>
+      <sc-for list="{{cases}}" as="c" hint-placeholder-count="2">
+        <button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="{{c.style}}">{{c.label}}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <header style="background: #FFFFFF; border-bottom: 1px solid #D5D9DA">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 14px 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px">
+      <a href="Main.dc.html" style="display: flex; align-items: center; justify-content: center; min-width: 132px; height: 44px; padding: 0 12px; border: 1.5px dashed #9AA2A6; border-radius: 6px; text-decoration: none; color: #5D656A; font-size: 14px">Logótipo Abinox</a>
+      <a href="#" style="font-size: 15px; min-height: 44px; display: inline-flex; align-items: center">A minha conta</a>
+    </div>
+  </header>
+
+  <main style="max-width: 1320px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 40px 28px 56px; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+
+    <section style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <p style="margin: 0; font-size: 16px; color: #5D656A">Encomenda n.º ABX-[ano]-[número]</p>
+        <h1 style="margin: 0; font-size: 56px; line-height: 0.95; font-weight: 800; font-variation-settings: 'wdth' 70; max-width: 18ch">{{title}}</h1>
+        <p style="margin: 0; font-size: 17px; line-height: 1.5; max-width: 60ch">{{lead}}</p>
+      </div>
+
+      <sc-if value="{{isMultibanco}}" hint-placeholder-val="{{ false }}">
+        <div style="background: #FFFFFF; border: 2px solid #22262A; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 16px; max-width: 520px">
+          <h2 style="margin: 0; font-size: 20px; font-weight: 700">Dados para pagamento Multibanco</h2>
+          <dl style="margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 24px; row-gap: 10px; font-size: 17px">
+            <dt style="color: #5D656A">Entidade</dt><dd style="margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 0.04em">[00000]</dd>
+            <dt style="color: #5D656A">Referência</dt><dd style="margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 0.04em">[000 000 000]</dd>
+            <dt style="color: #5D656A">Montante</dt><dd style="margin: 0; font-weight: 700; font-variant-numeric: tabular-nums">[valor] €</dd>
+            <dt style="color: #5D656A">Pagar até</dt><dd style="margin: 0; font-weight: 700">[data]</dd>
+          </dl>
+          <button type="button" onClick="{{copy}}" style="align-self: flex-start; height: 44px; padding: 0 18px; border-radius: 8px; border: 1.5px solid #22262A; background: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer">{{copyLabel}}</button>
+          <p style="margin: 0; font-size: 14px; color: #5D656A; line-height: 1.45">Enviámos estes dados para [email]. Se a referência não for paga até à data indicada, a encomenda é cancelada.</p>
+        </div>
+      </sc-if>
+
+      <div style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+        <h2 style="margin: 0; font-size: 20px; font-weight: 700">O que acontece a seguir</h2>
+        <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0">
+          <sc-for list="{{steps}}" as="st" hint-placeholder-count="3">
+            <li style="display: flex; gap: 16px; padding: 12px 0">
+              <span aria-hidden="true" style="{{st.markStyle}}">{{st.n}}</span>
+              <span style="display: flex; flex-direction: column; gap: 2px">
+                <span style="font-size: 16px; font-weight: 700">{{st.title}}</span>
+                <span style="font-size: 15px; color: #5D656A; line-height: 1.45">{{st.detail}}</span>
+              </span>
+            </li>
+          </sc-for>
+        </ol>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 10px">
+        <a href="#" style="display: inline-flex; align-items: center; height: 52px; padding: 0 24px; border-radius: 8px; background: #2238A8; color: #FFFFFF; font-weight: 700; text-decoration: none">Acompanhar encomenda</a>
+        <a href="Main.dc.html" style="display: inline-flex; align-items: center; height: 52px; padding: 0 24px; border-radius: 8px; border: 1.5px solid #22262A; color: #22262A; font-weight: 700; text-decoration: none">Voltar à loja</a>
+      </div>
+    </section>
+
+    <aside aria-label="Resumo da encomenda" style="flex: 1 1 360px; min-width: 0; background: #FFFFFF; border: 1px solid #D5D9DA; border-top: 4px solid #22262A; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+      <h2 style="margin: 0; font-size: 22px; font-weight: 700; font-variation-settings: 'wdth' 85">Resumo</h2>
+      <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px">
+        <li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px"><span><strong>Portão de correr</strong><br><span style="color: #5D656A">3 500 × 1 800 mm, ferro RAL 7016, com motor e instalação</span></span><span style="font-variant-numeric: tabular-nums; white-space: nowrap">[preço] €</span></li>
+        <li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px"><span><strong>Caixa de correio</strong><br><span style="color: #5D656A">400 × 300 × 120 mm, inox escovado</span></span><span style="font-variant-numeric: tabular-nums; white-space: nowrap">[preço] €</span></li>
+      </ul>
+      <dl style="margin: 0; padding-top: 14px; border-top: 1px solid #E3E6E7; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 16px; row-gap: 8px; font-size: 15px">
+        <dt style="color: #5D656A">Entrega</dt><dd style="margin: 0">[morada de entrega]</dd>
+        <dt style="color: #5D656A">Faturação</dt><dd style="margin: 0">[nome, NIF, morada]</dd>
+        <dt style="color: #5D656A">Pagamento</dt><dd style="margin: 0">{{paymentLabel}}</dd>
+      </dl>
+      <div style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 14px; border-top: 1px solid #E3E6E7">
+        <span style="font-size: 16px; font-weight: 600">Total com IVA</span>
+        <span style="font-size: 36px; line-height: 1; font-weight: 800; font-variation-settings: 'wdth' 72; font-variant-numeric: tabular-nums">[total] €</span>
+      </div>
+    </aside>
+  </main>
+
+  <footer style="margin-top: auto; background: #22262A; color: #D5D9DA">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 28px; display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: 14px">
+      <span>[Abinox, NIF, morada em Viana do Castelo]</span>
+      <a href="#" style="color: #D5D9DA">Termos e condições</a>
+      <a href="#" style="color: #D5D9DA">Privacidade</a>
+      <a href="#" style="color: #D5D9DA">Livro de Reclamações</a>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1250}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { kase: 'pago', copied: false };
+  }
+
+  renderVals() {
+    var s = this.state;
+    var self = this;
+    var mb = s.kase === 'multibanco';
+
+    function mark(done) {
+      return 'width: 32px; height: 32px; flex: none; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; ' +
+        (done ? 'background: #2238A8; color: #FFFFFF' : 'background: #FFFFFF; color: #22262A; border: 2px solid #C3C9CB');
+    }
+
+    var steps = [
+      { title: mb ? 'Pagamento por fazer' : 'Pagamento recebido', detail: mb ? 'Assim que pagar a referência, avisamos por email.' : 'Confirmado em [data e hora].', done: !mb },
+      { title: 'Fabrico na oficina', detail: 'Começa depois do pagamento e demora cerca de [n] semanas.', done: false },
+      { title: 'Entrega e instalação', detail: 'Telefonamos para combinar o dia.', done: false }
+    ].map(function (st, i) {
+      return { n: i + 1, title: st.title, detail: st.detail, markStyle: mark(st.done) };
+    });
+
+    return {
+      cases: [{ id: 'pago', label: 'Pago (cartão ou MB WAY)' }, { id: 'multibanco', label: 'Multibanco por pagar' }].map(function (c) {
+        var on = c.id === s.kase;
+        return {
+          label: c.label,
+          pressed: on,
+          style: 'height: 36px; padding: 0 14px; border-radius: 6px; cursor: pointer; font-size: 14px; border: 1px solid #22262A; ' +
+            (on ? 'background: #22262A; color: #FFFFFF; font-weight: 700' : 'background: transparent; color: #22262A'),
+          pick: function () { self.setState({ kase: c.id, copied: false }); }
+        };
+      }),
+      isMultibanco: mb,
+      title: mb ? 'Falta pagar a referência Multibanco' : 'Encomenda confirmada',
+      lead: mb
+        ? 'A encomenda está registada e os preços ficam reservados até à data de pagamento. O fabrico começa quando o pagamento for recebido.'
+        : 'Obrigado. Recebemos o pagamento e enviámos a confirmação para [email]. Vamos começar a preparar o fabrico.',
+      steps: steps,
+      paymentLabel: mb ? 'Referência Multibanco (por pagar)' : 'Cartão (pago)',
+      copy: function () { self.setState({ copied: true }); },
+      copyLabel: s.copied ? 'Referência copiada' : 'Copiar referência'
+    };
+  }
+}
+</script>
+</body>
+</html>

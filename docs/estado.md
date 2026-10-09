@@ -2,7 +2,7 @@
 
 > Documento vivo. **Atualizar no fim de cada sessão de trabalho** (secções 2, 6 e 7).
 > O `CLAUDE.md` tem o contexto de negócio, as decisões e as regras; este ficheiro tem
-> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-10-08.
+> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-10-09.
 
 ---
 
@@ -170,7 +170,8 @@ Notas:
 
 - **Ver `docs/fase-0.md`**: decisões já tomadas, perguntas para o Bruno (blocos A–I) e checklist de entregáveis.
 - Em curso: o Rodrigo vai reunir com o Bruno (blocos A–C: produtos, preço, responsabilidade/instalação) e contactar o privado que aloja o site atual (bloco H: domínio, DNS, email, conteúdo).
-- Por fazer do nosso lado: desenhar o modelo de opções reutilizáveis entre categorias; wireframes e mockup (não existe mockup).
+- Wireframes feitos: configurador, carrinho, checkout e confirmação — ver `docs/wireframes/README.md` (canvas online + cópia do código). Direção visual "ficha de fabrico" com desenho cotado do portão.
+- Por fazer do nosso lado: wireframes de home/categoria, área de cliente e backoffice; desenhar o modelo de opções reutilizáveis entre categorias; mockup final com o logótipo.
 
 ### Fase 1 (depois da fase 0), pela ordem do CLAUDE.md
 

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<title>Carrinho</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
+a{color:#2238A8}a:hover{color:#16257A}
+button{font-family:inherit}
+:focus-visible{outline:3px solid #2238A8;outline-offset:2px}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column">
+
+  <header style="background: #FFFFFF; border-bottom: 1px solid #D5D9DA">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 14px 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 28px">
+      <a href="Main.dc.html" style="display: flex; align-items: center; justify-content: center; min-width: 132px; height: 44px; padding: 0 12px; border: 1.5px dashed #9AA2A6; border-radius: 6px; text-decoration: none; color: #5D656A; font-size: 14px">Logótipo Abinox</a>
+      <nav aria-label="Categorias" style="display: flex; flex-wrap: wrap; gap: 4px; flex: 1 1 420px">
+        <a href="Main.dc.html" style="text-decoration: none; color: #22262A; padding: 12px 12px">Portões</a>
+        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Escadas</a>
+        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Guardas</a>
+        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Chaminés</a>
+        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Caixas de correio</a>
+      </nav>
+      <div style="display: flex; gap: 8px">
+        <a href="#" aria-label="Conta" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 6px; color: #22262A">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>
+        </a>
+        <a href="Carrinho.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: 6px; color: #22262A; text-decoration: none; border: 1px solid #22262A; font-weight: 600">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"></path><circle cx="10" cy="20" r="1.4"></circle><circle cx="17" cy="20" r="1.4"></circle></svg>
+          Carrinho ({{count}})
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main style="max-width: 1320px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 32px 28px 56px; display: flex; flex-direction: column; gap: 24px">
+    <h1 style="margin: 0; font-size: 56px; line-height: 0.95; font-weight: 800; font-variation-settings: 'wdth' 70">Carrinho</h1>
+
+    <sc-if value="{{isEmpty}}" hint-placeholder-val="{{ false }}">
+      <div style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 40px 28px; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; max-width: 640px">
+        <p style="margin: 0; font-size: 20px; font-weight: 700">O carrinho está vazio</p>
+        <p style="margin: 0; font-size: 16px; color: #5D656A; line-height: 1.5">Escolha um produto, indique as medidas e veja o preço na hora.</p>
+        <a href="Main.dc.html" style="display: inline-flex; align-items: center; height: 52px; padding: 0 24px; border-radius: 8px; background: #2238A8; color: #FFFFFF; font-weight: 700; text-decoration: none">Ver portões</a>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{hasItems}}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+
+        <section aria-label="Artigos" style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+          <sc-for list="{{items}}" as="it" hint-placeholder-count="2">
+            <article style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 20px; display: flex; flex-wrap: wrap; gap: 20px">
+              <div aria-hidden="true" style="width: 150px; height: 112px; flex: none; border-radius: 6px; background: #FBFBFA; border: 1px solid #E3E6E7; display: flex; align-items: center; justify-content: center">
+                <svg width="120" height="84" viewBox="0 0 120 84" fill="none">
+                  <path d="M4 70H116" stroke="#9AA2A6"></path>
+                  <rect x="{{it.thumbX}}" y="{{it.thumbY}}" width="{{it.thumbW}}" height="{{it.thumbH}}" stroke="#22262A" stroke-width="4"></rect>
+                  <path d="{{it.thumbBars}}" stroke="#22262A" stroke-width="2"></path>
+                </svg>
+              </div>
+              <div style="flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+                <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px">
+                  <h2 style="margin: 0; font-size: 22px; font-weight: 700; font-variation-settings: 'wdth' 85">{{it.name}}</h2>
+                  <span style="font-size: 22px; font-weight: 800; font-variation-settings: 'wdth' 75; font-variant-numeric: tabular-nums">[preço] €</span>
+                </div>
+                <dl style="margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 16px; row-gap: 4px; font-size: 15px">
+                  <sc-for list="{{it.spec}}" as="row" hint-placeholder-count="4">
+                    <dt style="color: #5D656A">{{row.k}}</dt>
+                    <dd style="margin: 0">{{row.v}}</dd>
+                  </sc-for>
+                </dl>
+                <p style="margin: 0; font-size: 14px; color: #5D656A">Preço garantido até [data].</p>
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding-top: 6px">
+                  <div role="group" aria-label="{{it.qtyLabel}}" style="display: inline-flex; align-items: center; border: 1px solid #C3C9CB; border-radius: 6px">
+                    <button type="button" onClick="{{it.dec}}" disabled="{{it.atMin}}" aria-label="Diminuir quantidade" style="width: 44px; height: 44px; border: 0; background: transparent; font-size: 20px; color: #22262A; cursor: pointer">−</button>
+                    <span aria-live="polite" style="min-width: 32px; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums">{{it.qty}}</span>
+                    <button type="button" onClick="{{it.inc}}" aria-label="Aumentar quantidade" style="width: 44px; height: 44px; border: 0; background: transparent; font-size: 20px; color: #22262A; cursor: pointer">+</button>
+                  </div>
+                  <a href="Main.dc.html" style="font-size: 15px">Alterar configuração</a>
+                  <button type="button" onClick="{{it.remove}}" style="height: 44px; padding: 0 4px; border: 0; background: transparent; color: #8C1D17; font-size: 15px; text-decoration: underline; cursor: pointer">Remover</button>
+                </div>
+              </div>
+            </article>
+          </sc-for>
+          <a href="Main.dc.html" style="align-self: flex-start; font-size: 15px; min-height: 36px; display: inline-flex; align-items: center">Configurar outro produto</a>
+        </section>
+
+        <aside aria-label="Resumo da encomenda" style="flex: 1 1 340px; min-width: 0; background: #FFFFFF; border: 1px solid #D5D9DA; border-top: 4px solid #22262A; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+          <h2 style="margin: 0; font-size: 22px; font-weight: 700; font-variation-settings: 'wdth' 85">Resumo</h2>
+          <dl style="margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) max-content; row-gap: 10px; font-size: 16px">
+            <dt style="color: #5D656A">Produtos ({{count}})</dt><dd style="margin: 0; text-align: right; font-variant-numeric: tabular-nums">[subtotal] €</dd>
+            <sc-if value="{{hasInstall}}" hint-placeholder-val="{{ true }}">
+              <dt style="color: #5D656A">Instalação</dt><dd style="margin: 0; text-align: right; font-variant-numeric: tabular-nums">[instalação] €</dd>
+            </sc-if>
+            <dt style="color: #5D656A">Portes</dt><dd style="margin: 0; text-align: right; color: #5D656A">No passo seguinte</dd>
+          </dl>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 14px; border-top: 1px solid #E3E6E7">
+            <span style="font-size: 16px; font-weight: 600">Total com IVA</span>
+            <span style="font-size: 40px; line-height: 1; font-weight: 800; font-variation-settings: 'wdth' 72; font-variant-numeric: tabular-nums">[total] €</span>
+          </div>
+          <a href="Checkout.dc.html" style="display: flex; align-items: center; justify-content: center; height: 52px; border-radius: 8px; background: #2238A8; color: #FFFFFF; font-size: 16px; font-weight: 700; text-decoration: none">Finalizar encomenda</a>
+          <p style="margin: 0; font-size: 14px; color: #5D656A; line-height: 1.45">Paga com cartão, MB WAY ou referência Multibanco. Os portes são calculados com a morada de entrega.</p>
+        </aside>
+      </div>
+    </sc-if>
+  </main>
+
+  <footer style="margin-top: auto; background: #22262A; color: #D5D9DA">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 28px; display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: 14px">
+      <span>[Abinox, NIF, morada em Viana do Castelo]</span>
+      <a href="#" style="color: #D5D9DA">Termos e condições</a>
+      <a href="#" style="color: #D5D9DA">Privacidade</a>
+      <a href="#" style="color: #D5D9DA">Livro de Reclamações</a>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { qty: { a: 1, b: 1 }, removed: {} };
+  }
+
+  renderVals() {
+    var s = this.state;
+    var self = this;
+    // Configurações de EXEMPLO.
+    var CART = [
+      {
+        id: 'a', name: 'Portão de correr', install: true, w: 3500, h: 1800, bars: 8,
+        spec: [
+          { k: 'Medidas', v: '3 500 × 1 800 mm' },
+          { k: 'Material', v: 'Ferro, lacado RAL 7016 Cinza antracite' },
+          { k: 'Motorização', v: 'Motor de correr com 2 comandos' },
+          { k: 'Instalação', v: 'Pela Abinox' }
+        ]
+      },
+      {
+        id: 'b', name: 'Caixa de correio', install: false, w: 400, h: 300, bars: 0,
+        spec: [
+          { k: 'Medidas', v: '400 × 300 × 120 mm' },
+          { k: 'Material', v: 'Inox, escovado' },
+          { k: 'Instalação', v: 'Não incluída' }
+        ]
+      }
+    ];
+
+    var items = CART.filter(function (it) { return !s.removed[it.id]; }).map(function (it) {
+      var q = s.qty[it.id];
+      var sc = Math.min(100 / it.w, 56 / it.h);
+      var tw = it.w * sc, th = it.h * sc, tx = (120 - tw) / 2, ty = 70 - th;
+      var bars = '';
+      for (var i = 1; i < it.bars; i++) {
+        var x = tx + (tw / it.bars) * i;
+        bars += 'M' + x.toFixed(1) + ' ' + ty.toFixed(1) + 'V70 ';
+      }
+      function setQty(n) {
+        var next = Object.assign({}, s.qty); next[it.id] = n;
+        self.setState({ qty: next });
+      }
+      return {
+        name: it.name,
+        spec: it.spec,
+        qty: q,
+        qtyLabel: 'Quantidade de ' + it.name,
+        atMin: q <= 1,
+        dec: function () { if (q > 1) setQty(q - 1); },
+        inc: function () { setQty(q + 1); },
+        remove: function () {
+          var r = Object.assign({}, s.removed); r[it.id] = true;
+          self.setState({ removed: r });
+        },
+        thumbX: tx.toFixed(1), thumbY: ty.toFixed(1), thumbW: tw.toFixed(1), thumbH: th.toFixed(1),
+        thumbBars: bars,
+        install: it.install
+      };
+    });
+
+    var count = items.reduce(function (n, it) { return n + it.qty; }, 0);
+    return {
+      items: items,
+      count: count,
+      isEmpty: items.length === 0,
+      hasItems: items.length > 0,
+      hasInstall: items.some(function (it) { return it.install; })
+    };
+  }
+}
+</script>
+</body>
+</html>

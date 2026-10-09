@@ -1,0 +1,147 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-08T10:00:00Z"
+  },
+  "title": "Wireframes — Loja Abinox",
+  "launch": {
+    "view": "canvas"
+  },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 1640,
+      "title": "Configurador — Portão de correr",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Carrinho.dc.html": {
+      "x": 0,
+      "y": 1880,
+      "w": 1440,
+      "h": 1100,
+      "title": "Carrinho",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Checkout.dc.html": {
+      "x": 1560,
+      "y": 1880,
+      "w": 1440,
+      "h": 2000,
+      "title": "Checkout",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Confirmacao.dc.html": {
+      "x": 3120,
+      "y": 1880,
+      "w": 1440,
+      "h": 1250,
+      "title": "Confirmação da encomenda",
+      "expand": "fill",
+      "is_interactive": true
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Carrinho.dc.html",
+    "Checkout.dc.html",
+    "Confirmacao.dc.html"
+  ],
+  "notes": {
+    "n1": {
+      "x": 1520,
+      "y": 0,
+      "w": 380,
+      "maxH": 420,
+      "fill": "blue",
+      "text": "Medidas do vão\nO cliente escolhe mm, cm ou m. Internamente tudo fica em mm, arredondado ao cm, e o texto de ajuda mostra o valor exato que vai para fabrico.\n\nPerguntar ao Bruno:\n• Mínimos e máximos reais (no ecrã: exemplo 1–6 m × 0,8–2,2 m).\n• 1 cm de precisão chega?\n• Há mais medidas (espaço lateral para a folha recolher)?"
+    },
+    "n2": {
+      "x": 1520,
+      "y": 460,
+      "w": 380,
+      "maxH": 380,
+      "fill": "blue",
+      "text": "Material e acabamento\nOs acabamentos dependem do material; a cor RAL só aparece quando o acabamento é lacado.\n\nRegras do ecrã são EXEMPLO:\n• Inox: escovado ou polido\n• Ferro: galvanizado ou lacado\n• Alumínio: lacado\n\nPerguntar: regras reais; lista fechada de RAL ou qualquer RAL?"
+    },
+    "n3": {
+      "x": 1520,
+      "y": 880,
+      "w": 380,
+      "maxH": 300,
+      "fill": "blue",
+      "text": "Opções\nMotorização vem da biblioteca de opções reutilizáveis (serve também portões de batente, portas…).\n\nPerguntar: que opções existem neste produto e com que valores?"
+    },
+    "n4": {
+      "x": 1520,
+      "y": 1220,
+      "w": 380,
+      "maxH": 280,
+      "fill": "orange",
+      "text": "Instalação\nOpcional, com preço adicional.\n\nPerguntar: como se calcula (fixo, por zona, por hora)? Em que zonas? Há medição no local?"
+    },
+    "n5": {
+      "x": 1960,
+      "y": 0,
+      "w": 380,
+      "maxH": 420,
+      "fill": "orange",
+      "text": "Preço e responsabilidade\n• O preço com IVA só aparece com medidas válidas.\n• Fora dos limites: \"Não fabricamos este portão com estas medidas\", sem preço.\n• Adicionar ao carrinho só depois de o cliente confirmar que é responsável pelas medidas (registado com data/hora).\n\nPerguntar: manter o link \"Pedir uma proposta à medida\"?"
+    },
+    "n6": {
+      "x": 1960,
+      "y": 460,
+      "w": 380,
+      "maxH": 300,
+      "fill": "orange",
+      "text": "Guardar orçamento\nO preço fica garantido durante [n] dias; depois é recalculado.\n\nPerguntar: 15 ou 30 dias? Exige conta?"
+    },
+    "n7": {
+      "x": 1960,
+      "y": 800,
+      "w": 380,
+      "maxH": 360,
+      "fill": "gray",
+      "text": "Desenho com medidas + modelo 3D\nO desenho é gerado a partir das medidas (proporção real, cotas em mm) e serve de referência de fabrico — compensa o 3D do beta não mudar de tamanho.\nO 3D (GLB do TopSolid) muda só material e cor.\n\nPerguntar: o desenho deve mostrar mais detalhe (nº de barras, perfis)?"
+    },
+    "c1": {
+      "x": 0,
+      "y": 3060,
+      "w": 420,
+      "maxH": 420,
+      "fill": "orange",
+      "text": "Carrinho\n• Cada artigo mostra a ficha completa da configuração e um link para a editar.\n• \"Preço garantido até [data]\" vem da validade do orçamento.\n• Portes só no checkout, porque dependem da morada.\n\nPerguntar ao Bruno:\n• Faz sentido quantidade > 1 (ex.: 2 portões iguais)?\n• Pedido mínimo?"
+    },
+    "k1": {
+      "x": 1560,
+      "y": 3960,
+      "w": 420,
+      "maxH": 480,
+      "fill": "orange",
+      "text": "Checkout — perguntar ao Bruno\n• Compra sem conta (convidado) ou conta obrigatória?\n• Pagamento total ou sinal (ex.: 50%)?\n• Zonas de entrega: continente? ilhas? Espanha?\n• Levantamento nas instalações?\n• Portes: como se calculam?\n• Faturação no PHC: automática ou manual?"
+    },
+    "k2": {
+      "x": 2020,
+      "y": 3960,
+      "w": 420,
+      "maxH": 420,
+      "fill": "blue",
+      "text": "Checkout — regras já decididas\n• Morada de entrega pode ser diferente da de faturação.\n• Cartão, MB WAY e referência Multibanco.\n• Nunca cobrar taxa pelo meio de pagamento (DL 3/2010).\n• Aceitar termos é obrigatório; o consentimento de marketing é opcional e fica registado com data e origem (necessário para o follow-up no GoHighLevel, fase 3)."
+    },
+    "f1": {
+      "x": 3120,
+      "y": 3210,
+      "w": 420,
+      "maxH": 420,
+      "fill": "orange",
+      "text": "Confirmação\n• Dois casos: pagamento imediato (cartão/MB WAY) e referência Multibanco por pagar.\n• A encomenda Multibanco fica \"a aguardar pagamento\"; a produção só começa depois do pagamento.\n\nPerguntar ao Bruno:\n• Quantos dias para pagar a referência?\n• O que acontece se não for paga (cancela ou fica para revisão)?"
+    }
+  },
+  "designSystems": []
+}

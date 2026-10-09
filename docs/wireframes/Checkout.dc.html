@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<title>Checkout</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
+a{color:#2238A8}a:hover{color:#16257A}
+input,select,button{font-family:inherit}
+:focus-visible{outline:3px solid #2238A8;outline-offset:2px}
+button:disabled{cursor:not-allowed}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column">
+
+  <header style="background: #FFFFFF; border-bottom: 1px solid #D5D9DA">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 14px 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px">
+      <a href="Main.dc.html" style="display: flex; align-items: center; justify-content: center; min-width: 132px; height: 44px; padding: 0 12px; border: 1.5px dashed #9AA2A6; border-radius: 6px; text-decoration: none; color: #5D656A; font-size: 14px">Logótipo Abinox</a>
+      <a href="Carrinho.dc.html" style="font-size: 15px; min-height: 44px; display: inline-flex; align-items: center">Voltar ao carrinho</a>
+    </div>
+  </header>
+
+  <main style="max-width: 1320px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 32px 28px 56px; display: flex; flex-direction: column; gap: 24px">
+    <h1 style="margin: 0; font-size: 56px; line-height: 0.95; font-weight: 800; font-variation-settings: 'wdth' 70">Finalizar encomenda</h1>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+      <form onSubmit="{{noSubmit}}" style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+
+        <fieldset style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px">
+            <span style="font-size: 20px; font-weight: 700"><span style="color: #2238A8; font-variation-settings: 'wdth' 75; margin-right: 8px">1</span>Os seus dados</span>
+            <span style="font-size: 15px">Já tem conta? <a href="#">Entrar</a></span>
+          </legend>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px">
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="nome" style="font-size: 15px; font-weight: 600">Nome</label>
+              <input id="nome" type="text" autocomplete="name" value="{{name}}" onChange="{{onName}}" style="height: 48px; padding: 0 12px; border: 1px solid #C3C9CB; border-radius: 6px; font-size: 16px">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="email" style="font-size: 15px; font-weight: 600">Email</label>
+              <input id="email" type="email" autocomplete="email" value="{{email}}" onChange="{{onEmail}}" style="height: 48px; padding: 0 12px; border: 1px solid #C3C9CB; border-radius: 6px; font-size: 16px">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="telefone" style="font-size: 15px; font-weight: 600">Telemóvel</label>
+              <input id="telefone" type="tel" autocomplete="tel" placeholder="9xx xxx xxx" style="height: 48px; padding: 0 12px; border: 1px solid #C3C9CB; border-radius: 6px; font-size: 16px">
+              <span style="font-size: 13px; color: #5D656A">Para combinarmos a entrega.</span>
+            </div>
+          </div>
+          <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-size: 15px; line-height: 1.45">
+            <input type="checkbox" checked="{{createAccount}}" onChange="{{toggleAccount}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #2238A8">
+            <span>Criar conta para acompanhar a encomenda e guardar orçamentos</span>
+          </label>
+          <sc-if value="{{createAccount}}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 6px; max-width: 360px">
+              <label for="password" style="font-size: 15px; font-weight: 600">Password</label>
+              <input id="password" type="password" autocomplete="new-password" style="height: 48px; padding: 0 12px; border: 1px solid #C3C9CB; border-radius: 6px; font-size: 16px">
+              <span style="font-size: 13px; color: #5D656A">Mínimo de 10 caracteres.</span>
+            </div>
+          </sc-if>
+        </fieldset>
+
+        <fieldset style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #2238A8; font-variation-settings: 'wdth' 75; margin-right: 8px">2</span>Entrega</legend>
+          <div role="radiogroup" aria-label="Forma de entrega" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px">
+            <sc-for list="{{deliveryOptions}}" as="o" hint-placeholder-count="2">
+              <label style="{{o.style}}">
+                <input type="radio" name="entrega" checked="{{o.checked}}" onChange="{{o.pick}}" style="margin: 3px 0 0; width: 18px; height: 18px; flex: none; accent-color: #2238A8">
+                <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 700">{{o.label}}</span><span style="font-size: 14px; color: #5D656A">{{o.detail}}</span></span>
+              </label>
+            </sc-for>
+          </div>
+          <sc-if value="{{pickupWithInstall}}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="border-radius: 8px; background: #FBEAE8; padding: 14px 16px; font-size: 15px; line-height: 1.45">
+              <strong style="color: #8C1D17">O portão tem instalação incluída.</strong> A instalação é feita na morada de entrega. Escolha a entrega na morada ou retire a instalação no carrinho.
+            </div>
+          </sc-if>
+          <sc-if value="{{isDelivery}}" hint-placeholder-val="{{ true }}">
+            <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px">
+              <div style="grid-column: span 6; display: flex; flex-direction: column; gap: 6px">
+                <label for="morada" style="font-size: 15px; font-weight: 600">Morada</label>
+                <input id="morada" type="text" autocomplete="address-line1" style="height: 48px; padding: 0 12px; border: 1px solid #C3C9CB; border-radius: 6px; font-size: 16px">
+              </div>
+              <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 6px">
+                <label for="cp" style="font-size: 15px; font-weight: 600">Código postal</label>
+                <input id="cp" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="4900-000" value="{{postal}}" onChange="{{onPostal}}" aria-invalid="{{postalBad}}" aria-describedby="cp-ajuda" style="{{postalStyle}}">
+              </div>
+              <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 6px">
+                <label for="localidade" style="font-size: 15px; font-weight: 600">Localidade</label>
+                <input id="localidade" type="text" autocomplete="address-level2" style="height: 48px; padding: 0 12px; border: 1px solid #C3C9CB; border-radius: 6px; font-size: 16px">
+              </div>
+              <span id="cp-ajuda" style="{{postalHintStyle}}">{{postalHint}}</span>
+            </div>
+          </sc-if>
+        </fieldset>
+
+        <fieldset style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #2238A8; font-variation-settings: 'wdth' 75; margin-right: 8px">3</span>Faturação</legend>
+          <div style="display: flex; flex-direction: column; gap: 6px; max-width: 360px">
+            <label for="nif" style="font-size: 15px; font-weight: 600">NIF (opcional)</label>
+            <input id="nif" type="text" inputmode="numeric" maxlength="9" style="height: 48px; padding: 0 12px; border: 1px solid #C3C9CB; border-radius: 6px; font-size: 16px">
+            <span style="font-size: 13px; color: #5D656A">Sem NIF, a fatura é emitida como consumidor final.</span>
+          </div>
+          <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-size: 15px">
+            <input type="checkbox" checked="{{sameBilling}}" onChange="{{toggleBilling}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #2238A8">
+            <span>{{sameBillingLabel}}</span>
+          </label>
+          <sc-if value="{{showBilling}}" hint-placeholder-val="{{ false }}">
+            <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px">
+              <div style="grid-column: span 6; display: flex; flex-direction: column; gap: 6px">
+                <label for="fat-nome" style="font-size: 15px; font-weight: 600">Nome ou empresa</label>
+                <input id="fat-nome" type="text" autocomplete="billing organization" style="height: 48px; padding: 0 12px; border: 1px solid #C3C9CB; border-radius: 6px; font-size: 16px">
+              </div>
+              <div style="grid-column: span 6; display: flex; flex-direction: column; gap: 6px">
+                <label for="fat-morada" style="font-size: 15px; font-weight: 600">Morada de faturação</label>
+                <input id="fat-morada" type="text" autocomplete="billing address-line1" style="height: 48px; padding: 0 12px; border: 1px solid #C3C9CB; border-radius: 6px; font-size: 16px">
+              </div>
+              <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 6px">
+                <label for="fat-cp" style="font-size: 15px; font-weight: 600">Código postal</label>
+                <input id="fat-cp" type="text" inputmode="numeric" autocomplete="billing postal-code" style="height: 48px; padding: 0 12px; border: 1px solid #C3C9CB; border-radius: 6px; font-size: 16px">
+              </div>
+              <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 6px">
+                <label for="fat-localidade" style="font-size: 15px; font-weight: 600">Localidade</label>
+                <input id="fat-localidade" type="text" autocomplete="billing address-level2" style="height: 48px; padding: 0 12px; border: 1px solid #C3C9CB; border-radius: 6px; font-size: 16px">
+              </div>
+            </div>
+          </sc-if>
+        </fieldset>
+
+        <fieldset style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #2238A8; font-variation-settings: 'wdth' 75; margin-right: 8px">4</span>Pagamento</legend>
+          <div role="radiogroup" aria-label="Meio de pagamento" style="display: flex; flex-direction: column; gap: 8px">
+            <sc-for list="{{payOptions}}" as="p" hint-placeholder-count="3">
+              <label style="{{p.style}}">
+                <input type="radio" name="pagamento" checked="{{p.checked}}" onChange="{{p.pick}}" style="margin: 3px 0 0; width: 18px; height: 18px; flex: none; accent-color: #2238A8">
+                <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 700">{{p.label}}</span><span style="font-size: 14px; color: #5D656A; line-height: 1.45">{{p.detail}}</span></span>
+              </label>
+            </sc-for>
+          </div>
+          <sc-if value="{{isMbway}}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 6px; max-width: 360px">
+              <label for="mbway" style="font-size: 15px; font-weight: 600">Número MB WAY</label>
+              <input id="mbway" type="tel" placeholder="9xx xxx xxx" style="height: 48px; padding: 0 12px; border: 1px solid #C3C9CB; border-radius: 6px; font-size: 16px">
+              <span style="font-size: 13px; color: #5D656A">Vai receber um pedido de pagamento na app MB WAY. Tem [n] minutos para aceitar.</span>
+            </div>
+          </sc-if>
+        </fieldset>
+
+        <div style="display: flex; flex-direction: column; gap: 12px; padding: 4px 2px">
+          <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-size: 15px; line-height: 1.45">
+            <input type="checkbox" checked="{{terms}}" onChange="{{toggleTerms}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #2238A8">
+            <span>Li e aceito as <a href="#">condições de venda</a> e a <a href="#">política de privacidade</a>. Confirmo que as medidas dos produtos foram verificadas por mim.</span>
+          </label>
+          <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-size: 15px; line-height: 1.45">
+            <input type="checkbox" checked="{{marketing}}" onChange="{{toggleMarketing}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #2238A8">
+            <span>Quero receber da Abinox novidades e lembretes sobre orçamentos guardados (opcional).</span>
+          </label>
+        </div>
+      </form>
+
+      <aside aria-label="Resumo da encomenda" style="flex: 1 1 360px; min-width: 0; background: #FFFFFF; border: 1px solid #D5D9DA; border-top: 4px solid #22262A; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+        <h2 style="margin: 0; font-size: 22px; font-weight: 700; font-variation-settings: 'wdth' 85">A sua encomenda</h2>
+        <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px">
+          <li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px"><span><strong>Portão de correr</strong><br><span style="color: #5D656A">3 500 × 1 800 mm, ferro RAL 7016, com motor</span></span><span style="font-variant-numeric: tabular-nums; white-space: nowrap">[preço] €</span></li>
+          <li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px"><span><strong>Caixa de correio</strong><br><span style="color: #5D656A">400 × 300 × 120 mm, inox escovado</span></span><span style="font-variant-numeric: tabular-nums; white-space: nowrap">[preço] €</span></li>
+        </ul>
+        <dl style="margin: 0; padding-top: 14px; border-top: 1px solid #E3E6E7; display: grid; grid-template-columns: minmax(0, 1fr) max-content; row-gap: 10px; font-size: 16px">
+          <dt style="color: #5D656A">Produtos</dt><dd style="margin: 0; text-align: right; font-variant-numeric: tabular-nums">[subtotal] €</dd>
+          <dt style="color: #5D656A">Instalação</dt><dd style="margin: 0; text-align: right; font-variant-numeric: tabular-nums">[instalação] €</dd>
+          <dt style="color: #5D656A">Portes</dt><dd style="{{shippingStyle}}">{{shipping}}</dd>
+        </dl>
+        <div style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 14px; border-top: 1px solid #E3E6E7">
+          <span style="font-size: 16px; font-weight: 600">Total com IVA</span>
+          <span style="font-size: 40px; line-height: 1; font-weight: 800; font-variation-settings: 'wdth' 72; font-variant-numeric: tabular-nums">[total] €</span>
+        </div>
+        <p style="margin: 0; font-size: 14px; color: #5D656A; line-height: 1.45">Pagamento agora: [total ou sinal] €. Sem custos adicionais pelo meio de pagamento.</p>
+
+        <sc-if value="{{canPay}}" hint-placeholder-val="{{ false }}">
+          <a href="Confirmacao.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 8px; background: #2238A8; color: #FFFFFF; font-size: 17px; font-weight: 700; text-decoration: none">{{payCta}}</a>
+        </sc-if>
+        <sc-if value="{{cannotPay}}" hint-placeholder-val="{{ true }}">
+          <button type="button" disabled="{{ true }}" style="height: 56px; border: 0; border-radius: 8px; background: #E3E6E7; color: #5D656A; font-size: 17px; font-weight: 700">{{payCta}}</button>
+          <p style="margin: 0; font-size: 14px; color: #5D656A; line-height: 1.45">{{missing}}</p>
+        </sc-if>
+      </aside>
+    </div>
+  </main>
+
+  <footer style="margin-top: auto; background: #22262A; color: #D5D9DA">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 28px; display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: 14px">
+      <span>[Abinox, NIF, morada em Viana do Castelo]</span>
+      <a href="#" style="color: #D5D9DA">Termos e condições</a>
+      <a href="#" style="color: #D5D9DA">Privacidade</a>
+      <a href="#" style="color: #D5D9DA">Livro de Reclamações</a>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '', email: '', createAccount: true,
+      delivery: 'morada', postal: '',
+      sameBilling: true,
+      payment: 'cartao',
+      terms: false, marketing: false
+    };
+  }
+
+  renderVals() {
+    var s = this.state;
+    var self = this;
+    var cartHasInstall = true; // o carrinho de exemplo tem um portão com instalação
+
+    function card(on) {
+      return 'display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: 8px; cursor: pointer; ' +
+        (on ? 'border: 2px solid #2238A8; background: #F3F5FD' : 'border: 1px solid #C3C9CB; background: #FFFFFF');
+    }
+
+    var isDelivery = s.delivery === 'morada';
+    var postal = s.postal.trim();
+    var postalValid = /^\d{4}-\d{3}$/.test(postal);
+    var islands = postalValid && postal.charAt(0) === '9';
+    var postalBad = postal !== '' && !postalValid;
+
+    var shipping, shippingMuted = true;
+    if (!isDelivery) { shipping = 'Grátis (levantamento)'; shippingMuted = false; }
+    else if (islands) shipping = 'Sem entrega nas ilhas';
+    else if (postalValid) { shipping = '[portes] €'; shippingMuted = false; }
+    else shipping = 'Indique o código postal';
+
+    var missing = [];
+    if (!s.name.trim()) missing.push('o nome');
+    if (!s.email.trim()) missing.push('o email');
+    if (isDelivery && !postalValid) missing.push('um código postal válido');
+    if (islands) missing.push('uma morada no continente');
+    if (!isDelivery && cartHasInstall) missing.push('a entrega na morada (por causa da instalação)');
+    if (!s.terms) missing.push('aceitar as condições de venda');
+    var canPay = missing.length === 0;
+
+    var payCta = { cartao: 'Pagar com cartão', mbway: 'Pagar com MB WAY', multibanco: 'Gerar referência Multibanco' }[s.payment];
+    var missingText = '';
+    if (missing.length) {
+      var last = missing.pop();
+      missingText = 'Para continuar, falta ' + (missing.length ? missing.join(', ') + ' e ' : '') + last + '.';
+    }
+
+    return {
+      noSubmit: function (e) { e.preventDefault(); },
+      name: s.name, email: s.email,
+      onName: function (e) { self.setState({ name: e.target.value }); },
+      onEmail: function (e) { self.setState({ email: e.target.value }); },
+      createAccount: s.createAccount,
+      toggleAccount: function () { self.setState({ createAccount: !s.createAccount }); },
+
+      deliveryOptions: [
+        { id: 'morada', label: 'Entrega na morada', detail: 'Portes calculados pelo código postal. Prazo: [n] dias após o fabrico.' },
+        { id: 'levantar', label: 'Levantar na oficina', detail: 'Viana do Castelo, [morada]. Avisamos quando estiver pronto.' }
+      ].map(function (o) {
+        var on = o.id === s.delivery;
+        return { label: o.label, detail: o.detail, checked: on, style: card(on), pick: function () { self.setState({ delivery: o.id }); } };
+      }),
+      isDelivery: isDelivery,
+      pickupWithInstall: !isDelivery && cartHasInstall,
+      postal: s.postal,
+      onPostal: function (e) { self.setState({ postal: e.target.value }); },
+      postalBad: postalBad,
+      postalStyle: 'height: 48px; padding: 0 12px; border-radius: 6px; font-size: 16px; font-variant-numeric: tabular-nums; border: ' + (postalBad || islands ? '2px solid #B3261E' : '1px solid #C3C9CB'),
+      postalHint: postalBad ? 'Use o formato 0000-000.' : islands ? 'Ainda não entregamos nos Açores e na Madeira.' : 'Os portes dependem do código postal.',
+      postalHintStyle: 'grid-column: span 6; font-size: 13px; color: ' + (postalBad || islands ? '#8C1D17' : '#5D656A'),
+
+      sameBilling: s.sameBilling,
+      sameBillingLabel: isDelivery ? 'A morada de faturação é a mesma da entrega' : 'Usar os dados acima na fatura',
+      toggleBilling: function () { self.setState({ sameBilling: !s.sameBilling }); },
+      showBilling: !s.sameBilling,
+
+      payOptions: [
+        { id: 'cartao', label: 'Cartão de crédito ou débito', detail: 'Visa, Mastercard. Pagamento confirmado na hora.' },
+        { id: 'mbway', label: 'MB WAY', detail: 'Confirme o pagamento na app do telemóvel.' },
+        { id: 'multibanco', label: 'Referência Multibanco', detail: 'Recebe a referência por email e paga num multibanco ou no homebanking até [n] dias. O fabrico começa depois do pagamento.' }
+      ].map(function (p) {
+        var on = p.id === s.payment;
+        return { label: p.label, detail: p.detail, checked: on, style: card(on), pick: function () { self.setState({ payment: p.id }); } };
+      }),
+      isMbway: s.payment === 'mbway',
+
+      terms: s.terms,
+      toggleTerms: function () { self.setState({ terms: !s.terms }); },
+      marketing: s.marketing,
+      toggleMarketing: function () { self.setState({ marketing: !s.marketing }); },
+
+      shipping: shipping,
+      shippingStyle: 'margin: 0; text-align: right; font-variant-numeric: tabular-nums; color: ' + (shippingMuted ? '#5D656A' : '#22262A'),
+      canPay: canPay,
+      cannotPay: !canPay,
+      payCta: payCta,
+      missing: missingText
+    };
+  }
+}
+</script>
+</body>
+</html>
