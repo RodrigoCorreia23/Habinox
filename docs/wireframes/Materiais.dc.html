@@ -2,6 +2,7 @@
 <html lang="pt">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Backoffice — Materiais e sincronização PHC</title>
 <script src="./support.js"></script>
 </head>
@@ -9,12 +10,16 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
 a{color:#2238A8}a:hover{color:#16257A}
 button{font-family:inherit}
 :focus-visible{outline:3px solid #2238A8;outline-offset:2px}
+label:has(input:focus-visible){outline:3px solid #2238A8;outline-offset:2px}
+footer :focus-visible,nav[aria-label="Backoffice"] :focus-visible,.on-dark :focus-visible{outline-color:#FFFFFF}
+h1{text-wrap:balance}
 button:disabled{cursor:not-allowed}
 th{font-weight:600;text-align:left}
 </style>
@@ -79,7 +84,7 @@ th{font-weight:600;text-align:left}
                 <tr style="background: #F7F8F8; color: #5D656A; font-size: 13px">
                   <th scope="col" style="padding: 10px 14px">Artigo</th>
                   <th scope="col" style="padding: 10px 14px">Custo</th>
-                  <th scope="col" style="padding: 10px 14px">Desde a última</th>
+                  <th scope="col" style="padding: 10px 14px">Desde a sincronização anterior</th>
                   <th scope="col" style="padding: 10px 14px">Usado em</th>
                   <th scope="col" style="padding: 10px 14px">Estado</th>
                 </tr>
@@ -110,7 +115,17 @@ th{font-weight:600;text-align:left}
               <span><strong>Deixou de aparecer no PHC em [data].</strong> Mantemos o último custo conhecido; nunca fica a zero.</span>
               <div style="display: flex; flex-wrap: wrap; gap: 8px">
                 <button type="button" onClick="{{confirmKeep}}" style="height: 40px; padding: 0 12px; border-radius: 6px; border: 0; background: #2238A8; color: #FFFFFF; font-size: 14px; font-weight: 700; cursor: pointer">Manter este custo</button>
-                <button type="button" style="height: 40px; padding: 0 12px; border-radius: 6px; border: 1px solid #C3C9CB; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Trocar por outro artigo</button>
+                <button type="button" style="height: 40px; padding: 0 12px; border-radius: 6px; border: 1px solid #7F878B; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Trocar por outro artigo</button>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{sel.variation}}" hint-placeholder-val="{{ true }}">
+            <div style="border-radius: 8px; background: #FFF4D6; border: 1px solid #E8D59A; padding: 12px; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 8px">
+              <span><strong>O custo no PHC subiu [%].</strong> Variações acima de [x]% só chegam aos preços da loja depois de aprovadas.</span>
+              <span>Impacto num portão de correr de 3,5 × 1,8 m: <strong>[preço atual] €</strong> passa a <strong>[novo preço] €</strong>.</span>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                <button type="button" onClick="{{applyTq}}" style="height: 44px; padding: 0 12px; border-radius: 6px; border: 0; background: #2238A8; color: #FFFFFF; font-size: 14px; font-weight: 700; cursor: pointer">Aplicar aos preços</button>
+                <button type="button" onClick="{{keepTq}}" style="height: 44px; padding: 0 12px; border-radius: 6px; border: 1px solid #7F878B; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Manter o custo anterior</button>
               </div>
             </div>
           </sc-if>
@@ -147,7 +162,7 @@ th{font-weight:600;text-align:left}
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { kase: 'ok', running: false, manualRuns: 0, onlyReview: false, selected: 'KR02', kept: false };
+    this.state = { kase: 'ok', running: false, manualRuns: 0, onlyReview: false, selected: 'TQ40', kept: false, tq: 'pendente' };
   }
 
   componentWillUnmount() { if (this.timer) clearTimeout(this.timer); }
@@ -161,7 +176,7 @@ class Component extends DCLogic {
       return 'display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: 13px; font-size: 13px; font-weight: 700; white-space: nowrap; ' + t;
     }
     var MATS = [
-      { code: 'TQ40', name: 'Tubo quadrado 40×40', unit: 'm', change: 'subiu [%]', used: '[n] produtos', status: 'Variação grande', tone: 'warn', attention: true },
+      { code: 'TQ40', name: 'Tubo quadrado 40×40', unit: 'm', change: 'subiu [%]', used: '[n] produtos', status: { pendente: 'Por aprovar', aplicado: 'Novo custo aplicado', mantido: 'Custo anterior mantido' }[s.tq], tone: s.tq === 'pendente' ? 'warn' : 'info', attention: s.tq === 'pendente', variation: s.tq === 'pendente' },
       { code: 'TQ20', name: 'Tubo quadrado 20×20', unit: 'm', change: 'igual', used: '[n] produtos', status: 'Atualizado', tone: 'ok' },
       { code: 'CAL01', name: 'Calha de chão', unit: 'm', change: 'desceu [%]', used: '[n] produtos', status: 'Atualizado', tone: 'ok' },
       { code: 'KR02', name: 'Kit de rodízios e guias', unit: 'un', change: 'não veio do PHC', used: '[n] produtos', status: s.kept ? 'Custo mantido' : 'Para rever', tone: s.kept ? 'info' : 'bad', attention: !s.kept, missing: !s.kept },
@@ -204,7 +219,7 @@ class Component extends DCLogic {
       stats: [
         { label: 'Última sincronização', value: failed ? 'há 36 h' : 'hoje, [hora]', tone: failed ? 'bad' : 'ok' },
         { label: 'Artigos lidos', value: '[n]' },
-        { label: 'Custos alterados', value: '2' },
+        { label: 'Custos por aprovar', value: s.tq === 'pendente' ? '1' : '0', tone: s.tq === 'pendente' ? 'bad' : null },
         { label: 'Novos no PHC', value: '1' },
         { label: 'Desapareceram', value: s.kept ? '0' : '1', tone: s.kept ? null : 'bad' }
       ].map(function (x) {
@@ -221,7 +236,9 @@ class Component extends DCLogic {
           select: function () { self.setState({ selected: m.code }); }
         };
       }),
-      sel: { name: sel.name, code: sel.code, unit: sel.unit, missing: Boolean(sel.missing) },
+      sel: { name: sel.name, code: sel.code, unit: sel.unit, missing: Boolean(sel.missing), variation: Boolean(sel.variation) },
+      applyTq: function () { self.setState({ tq: 'aplicado' }); },
+      keepTq: function () { self.setState({ tq: 'mantido' }); },
       confirmKeep: function () { self.setState({ kept: true }); },
       runs: runs.map(function (r) { return { when: r.when, source: r.source, duration: r.duration, items: r.items, result: r.result, style: badge(r.tone) }; })
     };

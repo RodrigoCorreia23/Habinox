@@ -14,7 +14,7 @@
       "x": 0,
       "y": 0,
       "w": 1440,
-      "h": 1640,
+      "h": 1760,
       "title": "Configurador — Portão de correr",
       "expand": "fill",
       "is_interactive": true
@@ -108,6 +108,33 @@
       "title": "Backoffice — Materiais e sincronização PHC",
       "expand": "fill",
       "is_interactive": true
+    },
+    "Mobile-Configurador.dc.html": {
+      "x": 7200,
+      "y": 0,
+      "w": 390,
+      "h": 3700,
+      "title": "Configurador — telemóvel",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Mobile-Checkout.dc.html": {
+      "x": 7670,
+      "y": 0,
+      "w": 390,
+      "h": 3300,
+      "title": "Checkout — telemóvel",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Mobile-Confirmacao.dc.html": {
+      "x": 8140,
+      "y": 0,
+      "w": 390,
+      "h": 2100,
+      "title": "Confirmação — telemóvel",
+      "expand": "fill",
+      "is_interactive": true
     }
   },
   "order": [
@@ -121,7 +148,10 @@
     "Conta.dc.html",
     "Produto.dc.html",
     "Encomendas.dc.html",
-    "Materiais.dc.html"
+    "Materiais.dc.html",
+    "Mobile-Configurador.dc.html",
+    "Mobile-Checkout.dc.html",
+    "Mobile-Confirmacao.dc.html"
   ],
   "notes": {
     "n1": {
@@ -130,7 +160,7 @@
       "w": 380,
       "maxH": 420,
       "fill": "blue",
-      "text": "Medidas do vão\nO cliente escolhe mm, cm ou m. Internamente tudo fica em mm, arredondado ao cm, e o texto de ajuda mostra o valor exato que vai para fabrico.\n\nPerguntar ao Bruno:\n• Mínimos e máximos reais (no ecrã: exemplo 1–6 m × 0,8–2,2 m).\n• 1 cm de precisão chega?\n• Há mais medidas (espaço lateral para a folha recolher)?"
+      "text": "Medidas do vão\n• mm, cm ou m; aceita \"3 500\"; sugere a unidade certa quando parece errada.\n• Lado de recolha obrigatório; o espaço livre desse lado aparece cotado no desenho.\n• \"Como medir\" abre ajuda e oferece medição no local.\n\nPerguntar ao Bruno:\n• Mínimos e máximos reais (exemplo: 1–6 m × 0,8–2,2 m).\n• Texto do guia de medição; preço da medição no local."
     },
     "n2": {
       "x": 1520,
@@ -162,7 +192,7 @@
       "w": 380,
       "maxH": 420,
       "fill": "orange",
-      "text": "Preço e responsabilidade\n• O preço com IVA só aparece com medidas válidas.\n• Fora dos limites: \"Não fabricamos este portão com estas medidas\", sem preço.\n• Adicionar ao carrinho só depois de o cliente confirmar que é responsável pelas medidas (registado com data/hora).\n\nPerguntar: manter o link \"Pedir uma proposta à medida\"?"
+      "text": "Preço e responsabilidade\n• Preço sempre visível numa faixa fixa (desktop) ou barra em baixo (telemóvel).\n• A confirmação cita as medidas, o lado e o espaço livre, e é anulada se as medidas mudarem.\n• O botão diz o que falta em vez de ficar só cinzento.\n\nPerguntar: redação da exclusão de devolução (jurista)."
     },
     "n6": {
       "x": 1960,
@@ -210,7 +240,7 @@
       "w": 420,
       "maxH": 420,
       "fill": "orange",
-      "text": "Confirmação\n• Dois casos: pagamento imediato (cartão/MB WAY) e referência Multibanco por pagar.\n• A encomenda Multibanco fica \"a aguardar pagamento\"; a produção só começa depois do pagamento.\n\nPerguntar ao Bruno:\n• Quantos dias para pagar a referência?\n• O que acontece se não for paga (cancela ou fica para revisão)?"
+      "text": "Confirmação — 4 casos\n• Pago; à espera do MB WAY (contagem); Multibanco por pagar; pagamento falhou (tentar de novo / mudar de meio, sem refazer o checkout).\n\nPerguntar ao Bruno:\n• Quantos dias para pagar a referência?\n• O que acontece se não for paga?"
     },
     "b1": {
       "x": 1520,
@@ -226,7 +256,7 @@
       "w": 420,
       "maxH": 420,
       "fill": "blue",
-      "text": "Versões e validação\n• Cada alteração cria uma nova versão em rascunho.\n• Rascunho → validada (o Bruno compara com orçamentos reais) → publicada.\n• Publicar só afeta novos orçamentos; os já guardados e as encomendas mantêm o preço (snapshot).\n• Material que desaparece do PHC fica marcado para revisão, nunca a zero."
+      "text": "Versões e validação\n• Rascunho → validada → publicada.\n• Só se valida com: linhas sem erros, todos os orçamentos reais dentro de ±[x]% e artigos do PHC revistos.\n• Publicar só afeta novos orçamentos; guardados e encomendas mantêm o preço (snapshot)."
     },
     "b3": {
       "x": 1980,
@@ -280,7 +310,7 @@
       "w": 420,
       "maxH": 460,
       "fill": "blue",
-      "text": "Produto e opções\n• Biblioteca de opções definida uma vez e reutilizada (motorização serve vários produtos).\n• Cada produto escolhe as opções e os valores permitidos, e define os limites das medidas em mm.\n• Regras de compatibilidade: \"se material = inox, acabamento ∈ {escovado, polido}\".\n• Estados: rascunho → validado → publicado (só o Bruno publica)."
+      "text": "Produto e opções\n• Biblioteca de opções reutilizável; cada produto escolhe valores e limites (mm).\n• Regras de combinação.\n• Um só fluxo: guardar rascunho → publicar alterações (exige fórmula publicada e opções válidas). Já não há estado escolhido à mão."
     },
     "e1": {
       "x": 4040,
@@ -288,7 +318,7 @@
       "w": 420,
       "maxH": 460,
       "fill": "blue",
-      "text": "Encomendas\n• Estados explícitos; o backoffice só oferece as transições permitidas.\n• Cada encomenda guarda o snapshot do preço (versão da fórmula e custos usados) e a aceitação das medidas com data/hora.\n• Pagamento Multibanco que chega depois de expirar vai para \"Para rever\" — nunca muda de estado sozinho."
+      "text": "Encomendas\n• Só as transições permitidas.\n• Cancelar / cancelar e devolver pedem confirmação, motivo e mostram o valor a devolver.\n• Snapshot do preço e aceitação das medidas com data/hora.\n• Multibanco pago depois de expirar vai para \"Para rever\"."
     },
     "e2": {
       "x": 4500,
@@ -304,7 +334,22 @@
       "w": 420,
       "maxH": 460,
       "fill": "blue",
-      "text": "Materiais e sincronização PHC\n• O PHC é só lido, 1x por dia, para uma cópia local; a loja nunca o consulta em tempo real.\n• \"Sincronizar agora\" para forçar.\n• Se falhar: a loja continua com os últimos custos e aparece este aviso.\n• Artigo que desaparece: mantém o último custo e fica \"para rever\".\n• Histórico de custos guardado (auditoria e relatórios)."
+      "text": "Materiais e sincronização PHC\n• PHC só lido, 1x/dia, para cópia local.\n• Falha: a loja continua com os últimos custos + aviso.\n• Artigo desaparecido: último custo, \"para rever\".\n• Variação de custo acima de [x]%: fica \"por aprovar\", com impacto num preço de referência; só chega à loja depois de \"Aplicar aos preços\"."
+    },
+    "t3": {
+      "x": 7200,
+      "y": -300,
+      "text": "Telemóvel (390 px)",
+      "kind": "title1",
+      "maxW": 1330
+    },
+    "mob1": {
+      "x": 7200,
+      "y": 3780,
+      "w": 420,
+      "maxH": 360,
+      "fill": "blue",
+      "text": "Versões de telemóvel\n• Mesmo código dos ecrãs de desktop, vistos a 390 px.\n• No configurador, o preço fica numa barra fixa em baixo, sempre visível enquanto se escolhem as medidas.\n• Ao alterar um ecrã de desktop, copiar também para a versão de telemóvel (ou vice-versa)."
     }
   },
   "designSystems": []

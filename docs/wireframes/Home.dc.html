@@ -2,6 +2,7 @@
 <html lang="pt">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Abinox — Página inicial</title>
 <script src="./support.js"></script>
 </head>
@@ -9,12 +10,16 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
 a{color:#2238A8}a:hover{color:#16257A}
 input,select,button{font-family:inherit}
 :focus-visible{outline:3px solid #2238A8;outline-offset:2px}
+label:has(input:focus-visible){outline:3px solid #2238A8;outline-offset:2px}
+footer :focus-visible,nav[aria-label="Backoffice"] :focus-visible,.on-dark :focus-visible{outline-color:#FFFFFF}
+h1{text-wrap:balance}
 </style>
 </helmet>
 <div style="min-height: 100vh; display: flex; flex-direction: column">
@@ -52,7 +57,7 @@ input,select,button{font-family:inherit}
           <form onSubmit="{{noSubmit}}" style="display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 10px; background: #F2F3F2; max-width: 560px">
             <div style="display: flex; flex-direction: column; gap: 6px">
               <label for="produto" style="font-size: 15px; font-weight: 600">O que precisa?</label>
-              <select id="produto" value="{{product}}" onChange="{{onProduct}}" style="height: 48px; padding: 0 12px; border: 1px solid #C3C9CB; border-radius: 6px; background: #FFFFFF; font-size: 16px">
+              <select id="produto" value="{{product}}" onChange="{{onProduct}}" style="height: 48px; padding: 0 12px; border: 1px solid #7F878B; border-radius: 6px; background: #FFFFFF; font-size: 16px">
                 <option value="correr">Portão de correr</option>
                 <option value="batente">Portão de batente</option>
                 <option value="guarda">Guarda de varanda</option>
@@ -62,14 +67,14 @@ input,select,button{font-family:inherit}
             <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
               <div style="display: flex; flex-direction: column; gap: 6px">
                 <label for="h-largura" style="font-size: 15px; font-weight: 600">Largura</label>
-                <div style="display: flex; align-items: center; border: 1px solid #C3C9CB; border-radius: 6px; background: #FFFFFF">
+                <div style="display: flex; align-items: center; border: 1px solid #7F878B; border-radius: 6px; background: #FFFFFF">
                   <input id="h-largura" type="text" inputmode="decimal" value="{{w}}" onChange="{{onW}}" style="flex: 1; min-width: 0; height: 48px; padding: 0 12px; border: 0; background: transparent; font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums">
                   <span style="padding: 0 12px; color: #5D656A">m</span>
                 </div>
               </div>
               <div style="display: flex; flex-direction: column; gap: 6px">
                 <label for="h-altura" style="font-size: 15px; font-weight: 600">Altura</label>
-                <div style="display: flex; align-items: center; border: 1px solid #C3C9CB; border-radius: 6px; background: #FFFFFF">
+                <div style="display: flex; align-items: center; border: 1px solid #7F878B; border-radius: 6px; background: #FFFFFF">
                   <input id="h-altura" type="text" inputmode="decimal" value="{{h}}" onChange="{{onH}}" style="flex: 1; min-width: 0; height: 48px; padding: 0 12px; border: 0; background: transparent; font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums">
                   <span style="padding: 0 12px; color: #5D656A">m</span>
                 </div>
@@ -82,7 +87,7 @@ input,select,button{font-family:inherit}
         <div style="flex: 1 1 520px; min-width: 0">
           <svg viewBox="0 0 640 420" style="display: block; width: 100%; height: auto" role="img" aria-label="{{drawingLabel}}">
             <path d="M8 330H632" stroke="#9AA2A6" fill="none"></path>
-            <path d="{{d.hatch}}" stroke="#C3C9CB" fill="none"></path>
+            <path d="{{d.hatch}}" stroke="#7F878B" fill="none"></path>
             <rect x="{{d.x}}" y="{{d.y}}" width="{{d.w}}" height="{{d.h}}" fill="none" stroke="#22262A" stroke-width="10"></rect>
             <path d="{{d.inner}}" stroke="#22262A" stroke-width="4" fill="none"></path>
             <path d="{{d.dims}}" stroke="#2238A8" stroke-width="1.5" fill="none"></path>
@@ -138,7 +143,7 @@ input,select,button{font-family:inherit}
       </div>
     </section>
 
-    <section aria-label="Instaladores" style="background: #22262A; color: #FFFFFF">
+    <section aria-label="Instaladores" class="on-dark" style="background: #22262A; color: #FFFFFF">
       <div style="max-width: 1320px; margin: 0 auto; padding: 36px 28px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between">
         <div style="display: flex; flex-direction: column; gap: 6px; max-width: 60ch">
           <h2 style="margin: 0; font-size: 28px; font-weight: 800; font-variation-settings: 'wdth' 75">É instalador?</h2>
@@ -149,7 +154,7 @@ input,select,button{font-family:inherit}
     </section>
   </main>
 
-  <footer style="margin-top: auto; background: #1A1D20; color: #D5D9DA">
+  <footer style="margin-top: auto; background: #22262A; color: #D5D9DA">
     <div style="max-width: 1320px; margin: 0 auto; padding: 28px; display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: 14px">
       <span>[Abinox, NIF, morada em Viana do Castelo]</span>
       <a href="#" style="color: #D5D9DA">Termos e condições</a>

@@ -177,6 +177,8 @@ Notas:
 - **Ver `docs/fase-0.md`**: decisões já tomadas, perguntas para o Bruno (blocos A–I) e checklist de entregáveis.
 - Em curso: o Rodrigo vai reunir com o Bruno (blocos A–C: produtos, preço, responsabilidade/instalação) e contactar o privado que aloja o site atual (bloco H: domínio, DNS, email, conteúdo).
 - Wireframes feitos (11 ecrãs, todos ligados entre si): home, categoria, configurador, carrinho, checkout, confirmação, área de cliente; backoffice de produto/opções, fórmula de preço, encomendas, materiais/sincronização PHC — ver `docs/wireframes/README.md` (canvas online + cópia do código). Direção visual "ficha de fabrico" com desenho cotado do portão.
+- Revisão dos wireframes com `impeccable` + `web-design-guidelines` feita e P1 corrigidos (ver `docs/revisao-wireframes.md`); 3 ecrãs de telemóvel acrescentados (14 no total). Perguntas novas 40–50 na `docs/fase-0.md`.
+- **Decisões técnicas da revisão:** números com `Intl.NumberFormat('pt-PT', { useGrouping: 'always' })`; tokens de design em variáveis CSS; linhas de fórmula com artigo PHC por material (rever modelo antes de `lib/pricing`).
 - Por fazer do nosso lado: validar os wireframes com o Bruno (partilhar o canvas); fechar o modelo de opções reutilizáveis com produtos reais; mockup final com o logótipo.
 
 ### Fase 1 (depois da fase 0), pela ordem do CLAUDE.md

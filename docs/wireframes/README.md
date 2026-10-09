@@ -15,6 +15,7 @@ Protótipos clicáveis da fase 0, para validar com o Bruno antes de programar.
 | `Checkout.dc.html` | Dados, entrega/levantamento, faturação com NIF, pagamento (cartão, MB WAY, Multibanco), consentimentos |
 | `Confirmacao.dc.html` | Confirmação: pago na hora ou referência Multibanco por pagar |
 | `Conta.dc.html` | Área de cliente: encomendas com progresso, orçamentos guardados (válido / a expirar / expirado), dados e privacidade (RGPD) |
+| `Mobile-Configurador.dc.html`, `Mobile-Checkout.dc.html`, `Mobile-Confirmacao.dc.html` | Os mesmos ecrãs a 390 px (cópias; ao alterar a versão desktop, atualizar também) |
 | **Backoffice** | |
 | `Produto.dc.html` | Produto: estado, medidas em mm, opções da biblioteca com valores permitidos, regras de combinação |
 | `Formulas.dc.html` | Fórmula de preço: linhas de custo com expressões (L, H), condições por opção, teste ao vivo, comparação com orçamentos reais, rascunho → validada → publicada |
@@ -29,5 +30,7 @@ Os ficheiros `.dc.html` são do formato *Design Component* do canvas (precisam d
 - Fundo `#F2F3F2`, superfícies `#FFFFFF`, texto `#22262A`, secundário `#5D656A`, acento único `#2238A8` (azul de traçagem), erro `#B3261E`.
 - Tipografia: Archivo (largura variável): títulos e preços comprimidos e pesados; algarismos tabulares nas medidas.
 - Elemento principal: desenho cotado do portão gerado a partir das medidas (o 3D do beta não muda de tamanho).
+
+Revisão de UX e acessibilidade: ver `docs/revisao-wireframes.md`.
 
 Tudo o que é número, regra ou opção nos wireframes é **exemplo** até o Bruno confirmar; preços aparecem como `[preço]`.

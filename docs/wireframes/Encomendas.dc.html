@@ -2,6 +2,7 @@
 <html lang="pt">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Backoffice — Encomendas</title>
 <script src="./support.js"></script>
 </head>
@@ -9,12 +10,16 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
 a{color:#2238A8}a:hover{color:#16257A}
 button{font-family:inherit}
 :focus-visible{outline:3px solid #2238A8;outline-offset:2px}
+label:has(input:focus-visible){outline:3px solid #2238A8;outline-offset:2px}
+footer :focus-visible,nav[aria-label="Backoffice"] :focus-visible,.on-dark :focus-visible{outline-color:#FFFFFF}
+h1{text-wrap:balance}
 th{font-weight:600;text-align:left}
 </style>
 </helmet>
@@ -116,8 +121,28 @@ th{font-weight:600;text-align:left}
             <sc-for list="{{sel.actions}}" as="a" hint-placeholder-count="2">
               <button type="button" onClick="{{a.run}}" style="{{a.style}}">{{a.label}}</button>
             </sc-for>
-            <button type="button" style="height: 44px; padding: 0 16px; border-radius: 8px; border: 1px solid #C3C9CB; background: #FFFFFF; font-size: 15px; font-weight: 600; cursor: pointer">Imprimir ficha de fabrico</button>
+            <button type="button" style="height: 44px; padding: 0 16px; border-radius: 8px; border: 1px solid #7F878B; background: #FFFFFF; font-size: 15px; font-weight: 600; cursor: pointer">Imprimir ficha de fabrico</button>
           </div>
+          <sc-if value="{{confirming}}" hint-placeholder-val="{{ false }}">
+            <div role="alertdialog" aria-labelledby="conf-titulo" style="border-radius: 8px; background: #FBEAE8; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+              <strong id="conf-titulo" style="color: #8C1D17; font-size: 16px">{{confirmTitle}}</strong>
+              <sc-if value="{{confirmRefund}}" hint-placeholder-val="{{ false }}">
+                <span style="font-size: 15px">Valor a devolver: <strong>[total] €</strong>, pelo mesmo meio de pagamento ([meio]).</span>
+              </sc-if>
+              <label for="motivo" style="font-size: 15px; font-weight: 600">Motivo</label>
+              <select id="motivo" style="height: 44px; padding: 0 10px; border: 1px solid #7F878B; border-radius: 6px; background: #FFFFFF; font-size: 15px; max-width: 360px">
+                <option>Pedido do cliente</option>
+                <option>Pagamento fora de prazo</option>
+                <option>Medidas impossíveis de fabricar</option>
+                <option>Outro</option>
+              </select>
+              <span style="font-size: 14px; color: #3F464B">O cliente recebe um email. Fica registado no histórico com o seu nome.</span>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                <button type="button" onClick="{{confirmRun}}" style="height: 44px; padding: 0 16px; border-radius: 8px; border: 0; background: #B3261E; color: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer">{{confirmCta}}</button>
+                <button type="button" onClick="{{confirmBack}}" style="height: 44px; padding: 0 16px; border-radius: 8px; border: 1.5px solid #22262A; background: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer">Voltar</button>
+              </div>
+            </div>
+          </sc-if>
         </div>
       </section>
     </div>
@@ -135,7 +160,8 @@ class Component extends DCLogic {
         'ABX-0045': 'aguarda', 'ABX-0044': 'paga', 'ABX-0042': 'rever',
         'ABX-0038': 'fabrico', 'ABX-0036': 'pronta', 'ABX-0021': 'concluida'
       },
-      log: {}
+      log: {},
+      pending: null
     };
   }
 
@@ -155,7 +181,7 @@ class Component extends DCLogic {
     // Transições permitidas: o backoffice só oferece estas.
     var NEXT = {
       aguarda: [['cancelada', 'Cancelar encomenda', 'danger']],
-      paga: [['fabrico', 'Passar a "Em fabrico"', 'primary']],
+      paga: [['fabrico', 'Passar a «Em fabrico»', 'primary']],
       rever: [['paga', 'Aceitar pagamento', 'primary'], ['cancelada', 'Cancelar e devolver', 'danger']],
       fabrico: [['pronta', 'Marcar como pronta', 'primary']],
       pronta: [['enviada', 'Marcar como enviada / a instalar', 'primary']],
@@ -191,14 +217,26 @@ class Component extends DCLogic {
       'ABX-0021': ['[data, hora] Encomenda criada', '[data] Concluída']
     }[selOrder.id].concat(s.log[selOrder.id] || []);
 
+    var pend = s.pending && s.pending.order === selOrder.id ? s.pending : null;
     return {
+      confirming: Boolean(pend),
+      confirmTitle: pend ? (pend.label === 'Cancelar e devolver' ? 'Cancelar a encomenda e devolver o pagamento?' : 'Cancelar a encomenda?') : '',
+      confirmRefund: Boolean(pend && pend.label === 'Cancelar e devolver'),
+      confirmCta: pend ? (pend.label === 'Cancelar e devolver' ? 'Cancelar e devolver' : 'Cancelar encomenda') : '',
+      confirmBack: function () { self.setState({ pending: null }); },
+      confirmRun: function () {
+        if (!pend) return;
+        var st = Object.assign({}, s.status); st[pend.order] = pend.to;
+        var lg = Object.assign({}, s.log); lg[pend.order] = (lg[pend.order] || []).concat(['agora ' + LABEL[pend.to] + ' (por [utilizador], motivo registado)']);
+        self.setState({ status: st, log: lg, pending: null });
+      },
       filters: FILTERS.map(function (f) {
         var on = f[0] === s.filter;
         var n = ORDERS.filter(function (o) { return !f[2] || f[2].indexOf(s.status[o.id]) >= 0; }).length;
         return {
           label: f[1] + ' (' + n + ')', on: on,
           style: 'height: 40px; padding: 0 14px; border-radius: 20px; cursor: pointer; font-size: 14px; ' +
-            (on ? 'border: 1.5px solid #22262A; background: #22262A; color: #FFFFFF; font-weight: 700' : 'border: 1px solid #C3C9CB; background: #FFFFFF; color: #22262A'),
+            (on ? 'border: 1.5px solid #22262A; background: #22262A; color: #FFFFFF; font-weight: 700' : 'border: 1px solid #7F878B; background: #FFFFFF; color: #22262A'),
           pick: function () { self.setState({ filter: f[0] }); }
         };
       }),
@@ -225,6 +263,7 @@ class Component extends DCLogic {
           return {
             label: n[1], style: style,
             run: function () {
+              if (n[2] === 'danger') { self.setState({ pending: { order: selOrder.id, to: n[0], label: n[1] } }); return; }
               var st = Object.assign({}, s.status); st[selOrder.id] = n[0];
               var lg = Object.assign({}, s.log); lg[selOrder.id] = (lg[selOrder.id] || []).concat(['agora ' + LABEL[n[0]] + ' (por [utilizador])']);
               self.setState({ status: st, log: lg });

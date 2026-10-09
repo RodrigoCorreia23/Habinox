@@ -2,6 +2,7 @@
 <html lang="pt">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Portões — Abinox</title>
 <script src="./support.js"></script>
 </head>
@@ -9,12 +10,16 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
 a{color:#2238A8}a:hover{color:#16257A}
 button{font-family:inherit}
 :focus-visible{outline:3px solid #2238A8;outline-offset:2px}
+label:has(input:focus-visible){outline:3px solid #2238A8;outline-offset:2px}
+footer :focus-visible,nav[aria-label="Backoffice"] :focus-visible,.on-dark :focus-visible{outline-color:#FFFFFF}
+h1{text-wrap:balance}
 </style>
 </helmet>
 <div style="min-height: 100vh; display: flex; flex-direction: column">
@@ -48,7 +53,7 @@ button{font-family:inherit}
 
     <div style="display: flex; flex-direction: column; gap: 12px; max-width: 760px">
       <h1 style="margin: 0; font-size: 64px; line-height: 0.95; font-weight: 800; font-variation-settings: 'wdth' 66">Portões</h1>
-      <p style="margin: 0; font-size: 18px; line-height: 1.5; color: #3F464B; max-width: 58ch">Escolha o tipo de portão. Em seguida indica as medidas do vão, o material e a cor, e vê o preço.</p>
+      <p style="margin: 0; font-size: 18px; line-height: 1.5; color: #3F464B; max-width: 58ch">Escolha o tipo de portão. Em seguida, indique as medidas do vão, o material e a cor, e veja o preço.</p>
     </div>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px">
@@ -90,7 +95,9 @@ button{font-family:inherit}
       <span>[Abinox, NIF, morada em Viana do Castelo]</span>
       <a href="#" style="color: #D5D9DA">Termos e condições</a>
       <a href="#" style="color: #D5D9DA">Privacidade</a>
+      <a href="#" style="color: #D5D9DA">Cookies</a>
       <a href="#" style="color: #D5D9DA">Livro de Reclamações</a>
+      <a href="#" style="color: #D5D9DA">Resolução de litígios</a>
     </div>
   </footer>
 </div>

@@ -2,6 +2,7 @@
 <html lang="pt">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Backoffice — Produto e opções</title>
 <script src="./support.js"></script>
 </head>
@@ -9,12 +10,16 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
 a{color:#2238A8}a:hover{color:#16257A}
 input,select,button{font-family:inherit}
 :focus-visible{outline:3px solid #2238A8;outline-offset:2px}
+label:has(input:focus-visible){outline:3px solid #2238A8;outline-offset:2px}
+footer :focus-visible,nav[aria-label="Backoffice"] :focus-visible,.on-dark :focus-visible{outline-color:#FFFFFF}
+h1{text-wrap:balance}
 th{font-weight:600;text-align:left}
 </style>
 </helmet>
@@ -45,11 +50,18 @@ th{font-weight:600;text-align:left}
         </div>
         <div style="display: flex; flex-wrap: wrap; gap: 8px">
           <a href="Main.dc.html" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 8px; border: 1.5px solid #22262A; color: #22262A; font-weight: 700; text-decoration: none">Ver na loja</a>
-          <button type="button" onClick="{{save}}" style="height: 44px; padding: 0 16px; border-radius: 8px; border: 0; background: #2238A8; color: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer">Guardar alterações</button>
+          <button type="button" onClick="{{save}}" style="height: 44px; padding: 0 16px; border-radius: 8px; border: 1.5px solid #22262A; background: #FFFFFF; color: #22262A; font-size: 15px; font-weight: 700; cursor: pointer">Guardar rascunho</button>
+          <button type="button" onClick="{{publish}}" disabled="{{cannotPublish}}" style="{{publishStyle}}">Publicar alterações</button>
         </div>
       </div>
-      <sc-if value="{{saved}}" hint-placeholder-val="{{ false }}">
-        <p role="status" style="margin: 0; padding: 10px 14px; border-radius: 8px; background: #EEF1FB; color: #1A2B85; font-size: 15px">Alterações guardadas. Na loja, o produto continua com a versão publicada até publicar estas alterações.</p>
+      <div aria-live="polite" style="display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: #3F464B">
+        <span style="font-weight: 700; color: #22262A">Para publicar:</span>
+        <sc-for list="{{checks}}" as="ck" hint-placeholder-count="3">
+          <span style="{{ck.style}}">{{ck.mark}} {{ck.label}}</span>
+        </sc-for>
+      </div>
+      <sc-if value="{{notice}}" hint-placeholder-val="{{ false }}">
+        <p role="status" style="margin: 0; padding: 10px 14px; border-radius: 8px; background: #EEF1FB; color: #1A2B85; font-size: 15px">{{noticeText}}</p>
       </sc-if>
     </div>
 
@@ -66,20 +78,16 @@ th{font-weight:600;text-align:left}
         <section style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 18px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
           <div style="display: flex; flex-direction: column; gap: 6px">
             <label for="p-nome" style="font-size: 15px; font-weight: 600">Nome</label>
-            <input id="p-nome" type="text" value="Portão de correr" style="height: 44px; padding: 0 12px; border: 1px solid #C3C9CB; border-radius: 6px; font-size: 16px">
+            <input id="p-nome" type="text" value="Portão de correr" style="height: 44px; padding: 0 12px; border: 1px solid #7F878B; border-radius: 6px; font-size: 16px">
           </div>
           <div style="display: flex; flex-direction: column; gap: 6px">
             <label for="p-cat" style="font-size: 15px; font-weight: 600">Subcategoria de</label>
-            <select id="p-cat" style="height: 46px; padding: 0 10px; border: 1px solid #C3C9CB; border-radius: 6px; background: #FFFFFF; font-size: 16px"><option>Portões</option><option>Portas</option></select>
+            <select id="p-cat" style="height: 46px; padding: 0 10px; border: 1px solid #7F878B; border-radius: 6px; background: #FFFFFF; font-size: 16px"><option>Portões</option><option>Portas</option></select>
           </div>
           <div style="display: flex; flex-direction: column; gap: 6px">
-            <label for="p-estado" style="font-size: 15px; font-weight: 600">Estado</label>
-            <select id="p-estado" value="{{status}}" onChange="{{onStatus}}" style="height: 46px; padding: 0 10px; border: 1px solid #C3C9CB; border-radius: 6px; background: #FFFFFF; font-size: 16px">
-              <option value="rascunho">Rascunho</option>
-              <option value="validado">Validado</option>
-              <option value="publicado">Publicado</option>
-            </select>
-            <span style="font-size: 13px; color: #5D656A">Só aparece na loja quando está publicado.</span>
+            <span style="font-size: 15px; font-weight: 600">Na loja</span>
+            <span style="height: 46px; display: flex; align-items: center; font-size: 16px">{{liveText}}</span>
+            <span style="font-size: 13px; color: #5D656A">O preço usa sempre a última fórmula publicada. <a href="Formulas.dc.html">Ver fórmula</a></span>
           </div>
         </section>
 
@@ -92,12 +100,12 @@ th{font-weight:600;text-align:left}
             <table style="width: 100%; min-width: 560px; border-collapse: collapse; font-size: 15px">
               <thead><tr style="background: #F7F8F8; color: #5D656A; font-size: 13px"><th scope="col" style="padding: 10px 20px">Medida</th><th scope="col" style="padding: 10px 12px">Mínimo</th><th scope="col" style="padding: 10px 12px">Máximo</th><th scope="col" style="padding: 10px 12px">Precisão</th><th scope="col" style="padding: 10px 12px">Variável na fórmula</th></tr></thead>
               <tbody>
-                <tr style="border-top: 1px solid #E3E6E7"><td style="padding: 10px 20px; font-weight: 700">Largura</td><td style="padding: 6px 12px"><input aria-label="Largura mínima" type="text" value="1 000" style="width: 100px; height: 38px; padding: 0 8px; border: 1px solid #C3C9CB; border-radius: 6px; font-size: 15px"></td><td style="padding: 6px 12px"><input aria-label="Largura máxima" type="text" value="6 000" style="width: 100px; height: 38px; padding: 0 8px; border: 1px solid #C3C9CB; border-radius: 6px; font-size: 15px"></td><td style="padding: 10px 12px">10 mm</td><td style="padding: 10px 12px"><strong>L</strong> (em m)</td></tr>
-                <tr style="border-top: 1px solid #E3E6E7"><td style="padding: 10px 20px; font-weight: 700">Altura</td><td style="padding: 6px 12px"><input aria-label="Altura mínima" type="text" value="800" style="width: 100px; height: 38px; padding: 0 8px; border: 1px solid #C3C9CB; border-radius: 6px; font-size: 15px"></td><td style="padding: 6px 12px"><input aria-label="Altura máxima" type="text" value="2 200" style="width: 100px; height: 38px; padding: 0 8px; border: 1px solid #C3C9CB; border-radius: 6px; font-size: 15px"></td><td style="padding: 10px 12px">10 mm</td><td style="padding: 10px 12px"><strong>H</strong> (em m)</td></tr>
+                <tr style="border-top: 1px solid #E3E6E7"><td style="padding: 10px 20px; font-weight: 700">Largura</td><td style="padding: 6px 12px"><input aria-label="Largura mínima" type="text" value="1 000" style="width: 100px; height: 38px; padding: 0 8px; border: 1px solid #7F878B; border-radius: 6px; font-size: 15px"></td><td style="padding: 6px 12px"><input aria-label="Largura máxima" type="text" value="6 000" style="width: 100px; height: 38px; padding: 0 8px; border: 1px solid #7F878B; border-radius: 6px; font-size: 15px"></td><td style="padding: 10px 12px">10 mm</td><td style="padding: 10px 12px"><strong>L</strong> (em m)</td></tr>
+                <tr style="border-top: 1px solid #E3E6E7"><td style="padding: 10px 20px; font-weight: 700">Altura</td><td style="padding: 6px 12px"><input aria-label="Altura mínima" type="text" value="800" style="width: 100px; height: 38px; padding: 0 8px; border: 1px solid #7F878B; border-radius: 6px; font-size: 15px"></td><td style="padding: 6px 12px"><input aria-label="Altura máxima" type="text" value="2 200" style="width: 100px; height: 38px; padding: 0 8px; border: 1px solid #7F878B; border-radius: 6px; font-size: 15px"></td><td style="padding: 10px 12px">10 mm</td><td style="padding: 10px 12px"><strong>H</strong> (em m)</td></tr>
               </tbody>
             </table>
           </div>
-          <div style="padding: 10px 20px; border-top: 1px solid #E3E6E7"><button type="button" style="height: 40px; padding: 0 14px; border-radius: 6px; border: 1px solid #C3C9CB; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar medida</button></div>
+          <div style="padding: 10px 20px; border-top: 1px solid #E3E6E7"><button type="button" style="height: 40px; padding: 0 14px; border-radius: 6px; border: 1px solid #7F878B; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar medida</button></div>
         </section>
 
         <section style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 16px 20px; display: flex; flex-direction: column; gap: 14px">
@@ -120,8 +128,8 @@ th{font-weight:600;text-align:left}
           </sc-for>
           <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
             <label for="add-opt" style="font-size: 15px; font-weight: 600">Adicionar opção da biblioteca</label>
-            <select id="add-opt" style="height: 42px; padding: 0 10px; border: 1px solid #C3C9CB; border-radius: 6px; background: #FFFFFF; font-size: 15px"><option>Fechadura</option><option>Enchimento</option><option>Perfil</option></select>
-            <button type="button" style="height: 42px; padding: 0 14px; border-radius: 6px; border: 1px solid #C3C9CB; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar</button>
+            <select id="add-opt" style="height: 42px; padding: 0 10px; border: 1px solid #7F878B; border-radius: 6px; background: #FFFFFF; font-size: 15px"><option>Fechadura</option><option>Enchimento</option><option>Perfil</option></select>
+            <button type="button" style="height: 42px; padding: 0 14px; border-radius: 6px; border: 1px solid #7F878B; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar</button>
           </div>
         </section>
 
@@ -141,18 +149,18 @@ th{font-weight:600;text-align:left}
           </ul>
           <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-top: 4px">
             <span style="font-size: 15px">Se</span>
-            <select aria-label="Opção da condição" value="{{newIf}}" onChange="{{onNewIf}}" style="height: 42px; padding: 0 10px; border: 1px solid #C3C9CB; border-radius: 6px; background: #FFFFFF; font-size: 15px">
+            <select aria-label="Opção da condição" value="{{newIf}}" onChange="{{onNewIf}}" style="height: 42px; padding: 0 10px; border: 1px solid #7F878B; border-radius: 6px; background: #FFFFFF; font-size: 15px">
               <option value="Material = Ferro">Material = Ferro</option>
               <option value="Material = Inox">Material = Inox</option>
               <option value="Largura &gt; 4 000 mm">Largura &gt; 4 000 mm</option>
             </select>
             <span style="font-size: 15px">então</span>
-            <select aria-label="Consequência" value="{{newThen}}" onChange="{{onNewThen}}" style="height: 42px; padding: 0 10px; border: 1px solid #C3C9CB; border-radius: 6px; background: #FFFFFF; font-size: 15px">
+            <select aria-label="Consequência" value="{{newThen}}" onChange="{{onNewThen}}" style="height: 42px; padding: 0 10px; border: 1px solid #7F878B; border-radius: 6px; background: #FFFFFF; font-size: 15px">
               <option value="Motorização é obrigatória">Motorização é obrigatória</option>
               <option value="Acabamento só pode ser Galvanizado ou Lacado">Acabamento só pode ser Galvanizado ou Lacado</option>
               <option value="Não é possível">Não é possível</option>
             </select>
-            <button type="button" onClick="{{addRule}}" style="height: 42px; padding: 0 14px; border-radius: 6px; border: 1px solid #C3C9CB; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar regra</button>
+            <button type="button" onClick="{{addRule}}" style="height: 42px; padding: 0 14px; border-radius: 6px; border: 1px solid #7F878B; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar regra</button>
           </div>
         </section>
       </div>
@@ -168,7 +176,7 @@ th{font-weight:600;text-align:left}
             </li>
           </sc-for>
         </ul>
-        <button type="button" style="height: 42px; border-radius: 6px; border: 1px solid #C3C9CB; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Nova opção</button>
+        <button type="button" style="height: 42px; border-radius: 6px; border: 1px solid #7F878B; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Nova opção</button>
       </aside>
     </div>
   </main>
@@ -180,8 +188,8 @@ class Component extends DCLogic {
     super(props);
     this.nextRule = 4;
     this.state = {
-      status: 'publicado',
-      saved: false,
+      dirty: false,
+      notice: null,
       newIf: 'Largura > 4 000 mm',
       newThen: 'Motorização é obrigatória',
       allowed: {
@@ -207,19 +215,27 @@ class Component extends DCLogic {
       { name: 'Cor RAL', values: ['RAL 7016', 'RAL 9005', 'RAL 9016', 'RAL 6009', 'Outra cor RAL'] },
       { name: 'Motorização', values: ['Sem motor', 'Motor, 2 comandos', 'Motor, 4 comandos'] }
     ];
-    var STATUS = {
-      rascunho: ['Rascunho', 'background: #E3E6E7; color: #22262A'],
-      validado: ['Validado', 'background: #EEF1FB; color: #1A2B85'],
-      publicado: ['Publicado', 'background: #E3F1E6; color: #1E5B2C']
-    };
+    var emptyOption = OPTIONS.filter(function (o) {
+      return !o.values.some(function (v) { return s.allowed[o.name + ':' + v]; });
+    })[0];
+    var checks = [
+      { label: 'fórmula de preço publicada (v2)', ok: true },
+      { label: emptyOption ? 'a opção "' + emptyOption.name + '" não tem valores' : 'todas as opções com pelo menos um valor', ok: !emptyOption },
+      { label: s.dirty ? 'há alterações por publicar' : 'sem alterações por publicar', ok: s.dirty }
+    ];
+    var canPublish = checks.every(function (c) { return c.ok; });
 
     return {
-      status: s.status,
-      statusLabel: STATUS[s.status][0],
-      statusStyle: 'display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 15px; font-size: 14px; font-weight: 700; ' + STATUS[s.status][1],
-      onStatus: function (e) { self.setState({ status: e.target.value }); },
-      saved: s.saved,
-      save: function () { self.setState({ saved: true }); },
+      statusLabel: s.dirty ? 'Publicado, com alterações por publicar' : 'Publicado',
+      statusStyle: 'display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 4px; font-size: 14px; font-weight: 700; ' + (s.dirty ? 'background: #FFF4D6; color: #6B4700' : 'background: #E3F1E6; color: #1E5B2C'),
+      liveText: 'Publicado com a fórmula v2' + (s.dirty ? '; as alterações abaixo ainda não estão na loja' : ''),
+      checks: checks.map(function (c) { return { label: c.label, mark: c.ok ? '✓' : '✗', style: c.ok ? 'color: #1E5B2C' : 'color: #8C1D17; font-weight: 600' }; }),
+      cannotPublish: !canPublish,
+      publishStyle: 'height: 44px; padding: 0 16px; border-radius: 8px; border: 0; font-size: 15px; font-weight: 700; ' + (canPublish ? 'background: #2238A8; color: #FFFFFF; cursor: pointer' : 'background: #E3E6E7; color: #3F464B'),
+      notice: Boolean(s.notice),
+      noticeText: s.notice || '',
+      save: function () { self.setState({ notice: 'Rascunho guardado. A loja continua com a versão publicada.' }); },
+      publish: function () { self.setState({ dirty: false, notice: 'Publicado. A loja já usa estas opções e regras.' }); },
 
       options: OPTIONS.map(function (o) {
         var on = o.values.filter(function (v) { return s.allowed[o.name + ':' + v]; }).length;
@@ -232,10 +248,10 @@ class Component extends DCLogic {
             return {
               label: v, on: checked,
               style: 'display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 12px; border-radius: 6px; cursor: pointer; font-size: 15px; ' +
-                (checked ? 'border: 1.5px solid #2238A8; background: #F3F5FD' : 'border: 1px solid #C3C9CB; background: #FFFFFF; color: #5D656A'),
+                (checked ? 'border: 1.5px solid #2238A8; background: #F3F5FD' : 'border: 1px solid #7F878B; background: #FFFFFF; color: #5D656A'),
               toggle: function () {
                 var next = Object.assign({}, s.allowed); next[key] = !checked;
-                self.setState({ allowed: next, saved: false });
+                self.setState({ allowed: next, dirty: true, notice: null });
               }
             };
           })
@@ -245,14 +261,14 @@ class Component extends DCLogic {
       rules: s.rules.map(function (r) {
         return {
           ifText: r.ifText, thenText: r.thenText,
-          remove: function () { self.setState({ rules: s.rules.filter(function (x) { return x.id !== r.id; }), saved: false }); }
+          remove: function () { self.setState({ rules: s.rules.filter(function (x) { return x.id !== r.id; }), dirty: true, notice: null }); }
         };
       }),
       newIf: s.newIf, newThen: s.newThen,
       onNewIf: function (e) { self.setState({ newIf: e.target.value }); },
       onNewThen: function (e) { self.setState({ newThen: e.target.value }); },
       addRule: function () {
-        self.setState({ rules: s.rules.concat([{ id: self.nextRule++, ifText: s.newIf, thenText: s.newThen }]), saved: false });
+        self.setState({ rules: s.rules.concat([{ id: self.nextRule++, ifText: s.newIf, thenText: s.newThen }]), dirty: true, notice: null });
       },
 
       library: [

@@ -2,6 +2,7 @@
 <html lang="pt">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Carrinho</title>
 <script src="./support.js"></script>
 </head>
@@ -9,12 +10,16 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
 a{color:#2238A8}a:hover{color:#16257A}
 button{font-family:inherit}
 :focus-visible{outline:3px solid #2238A8;outline-offset:2px}
+label:has(input:focus-visible){outline:3px solid #2238A8;outline-offset:2px}
+footer :focus-visible,nav[aria-label="Backoffice"] :focus-visible,.on-dark :focus-visible{outline-color:#FFFFFF}
+h1{text-wrap:balance}
 </style>
 </helmet>
 <div style="min-height: 100vh; display: flex; flex-direction: column">
@@ -78,7 +83,7 @@ button{font-family:inherit}
                 </dl>
                 <p style="margin: 0; font-size: 14px; color: #5D656A">Preço garantido até [data].</p>
                 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding-top: 6px">
-                  <div role="group" aria-label="{{it.qtyLabel}}" style="display: inline-flex; align-items: center; border: 1px solid #C3C9CB; border-radius: 6px">
+                  <div role="group" aria-label="{{it.qtyLabel}}" style="display: inline-flex; align-items: center; border: 1px solid #7F878B; border-radius: 6px">
                     <button type="button" onClick="{{it.dec}}" disabled="{{it.atMin}}" aria-label="Diminuir quantidade" style="width: 44px; height: 44px; border: 0; background: transparent; font-size: 20px; color: #22262A; cursor: pointer">−</button>
                     <span aria-live="polite" style="min-width: 32px; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums">{{it.qty}}</span>
                     <button type="button" onClick="{{it.inc}}" aria-label="Aumentar quantidade" style="width: 44px; height: 44px; border: 0; background: transparent; font-size: 20px; color: #22262A; cursor: pointer">+</button>
@@ -117,7 +122,9 @@ button{font-family:inherit}
       <span>[Abinox, NIF, morada em Viana do Castelo]</span>
       <a href="#" style="color: #D5D9DA">Termos e condições</a>
       <a href="#" style="color: #D5D9DA">Privacidade</a>
+      <a href="#" style="color: #D5D9DA">Cookies</a>
       <a href="#" style="color: #D5D9DA">Livro de Reclamações</a>
+      <a href="#" style="color: #D5D9DA">Resolução de litígios</a>
     </div>
   </footer>
 </div>

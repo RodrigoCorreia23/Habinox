@@ -123,6 +123,20 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 
 ---
 
+### J. Novas perguntas da revisão dos wireframes (ver `docs/revisao-wireframes.md`)
+
+40. 🔴 **Medição:** o cliente indica o **lado de recolha** do portão de correr? Que espaço livre é preciso desse lado (a largura do vão + quanto)? Há mais medidas a pedir?
+41. 🔴 **Guia "Como medir":** texto e ilustrações — onde medir a largura e a altura, o que fazer com chão desnivelado.
+42. **Medição no local:** a Abinox faz? Em que zonas? Com que preço, e é descontado na encomenda?
+43. 🔴 **Fórmulas por material:** uma linha de custo (ex.: "tubo 40×40") usa artigos PHC diferentes conforme o material (ferro, inox, alumínio)? Lista dos artigos por material.
+44. **Tolerância de validação:** que diferença aceita entre a fórmula e os orçamentos reais (±3%? ±5%)? Quantos orçamentos reais por produto?
+45. **Variações de custo do PHC:** acima de que percentagem uma subida/descida de custo deve esperar aprovação antes de mudar os preços da loja?
+46. **Multibanco não pago:** quantos dias para pagar? Passado o prazo, a encomenda cancela ou fica para revisão? (Hoje a confirmação diz "[a definir]".)
+47. **Pagamento falhado:** durante quanto tempo se guarda a encomenda e o preço para tentar de novo?
+48. **Cancelamentos:** que motivos quer registar? Quem pode cancelar e devolver?
+49. **Contacto visível no site:** telefone, email e horário para os momentos de dúvida.
+50. 🔴 **Jurista:** redação da exclusão do direito de devolução nos produtos feitos por medida e da confirmação de medidas.
+
 ## 3. Entregáveis da fase 0
 
 - [ ] Lista de categorias/subcategorias do beta
