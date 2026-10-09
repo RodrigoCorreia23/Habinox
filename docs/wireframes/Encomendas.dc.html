@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<title>Backoffice — Encomendas</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
+a{color:#2238A8}a:hover{color:#16257A}
+button{font-family:inherit}
+:focus-visible{outline:3px solid #2238A8;outline-offset:2px}
+th{font-weight:600;text-align:left}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-wrap: wrap">
+
+  <nav aria-label="Backoffice" style="flex: 1 1 220px; max-width: 100%; box-sizing: border-box; background: #22262A; color: #D5D9DA; padding: 20px 14px; display: flex; flex-direction: column; gap: 4px">
+    <span style="display: flex; align-items: center; justify-content: center; height: 40px; margin-bottom: 16px; border: 1.5px dashed #6B7378; border-radius: 6px; font-size: 13px; color: #B9BEC1">Logótipo Abinox</span>
+    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Painel</a>
+    <a href="Encomendas.dc.html" aria-current="page" style="color: #FFFFFF; text-decoration: none; padding: 10px 12px; border-radius: 6px; background: #3A4146; font-weight: 700">Encomendas</a>
+    <a href="Produto.dc.html" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Produtos</a>
+    <a href="Materiais.dc.html" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Materiais e custos</a>
+    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Opções</a>
+    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Clientes</a>
+    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Definições</a>
+  </nav>
+
+  <main style="flex: 999 1 900px; min-width: 0; box-sizing: border-box; padding: 24px 28px 48px; display: flex; flex-direction: column; gap: 16px">
+    <h1 style="margin: 0; font-size: 44px; line-height: 1; font-weight: 800; font-variation-settings: 'wdth' 70">Encomendas</h1>
+
+    <div role="group" aria-label="Filtrar por estado" style="display: flex; flex-wrap: wrap; gap: 6px">
+      <sc-for list="{{filters}}" as="f" hint-placeholder-count="6">
+        <button type="button" onClick="{{f.pick}}" aria-pressed="{{f.on}}" style="{{f.style}}">{{f.label}}</button>
+      </sc-for>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+      <section aria-label="Lista de encomendas" style="flex: 1 1 520px; min-width: 0; background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; overflow-x: auto">
+        <table style="width: 100%; min-width: 520px; border-collapse: collapse; font-size: 15px">
+          <thead>
+            <tr style="background: #F7F8F8; color: #5D656A; font-size: 13px">
+              <th scope="col" style="padding: 10px 14px">Encomenda</th>
+              <th scope="col" style="padding: 10px 14px">Cliente</th>
+              <th scope="col" style="padding: 10px 14px">Pagamento</th>
+              <th scope="col" style="padding: 10px 14px">Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{rows}}" as="o" hint-placeholder-count="5">
+              <tr style="{{o.rowStyle}}">
+                <td style="padding: 10px 14px">
+                  <button type="button" onClick="{{o.select}}" aria-pressed="{{o.selected}}" style="border: 0; background: transparent; padding: 0; text-align: left; cursor: pointer; color: #2238A8; font-size: 15px; font-weight: 700; text-decoration: underline">{{o.id}}</button>
+                  <span style="display: block; font-size: 13px; color: #5D656A">{{o.date}} · [total] €</span>
+                </td>
+                <td style="padding: 10px 14px">{{o.client}}</td>
+                <td style="padding: 10px 14px; font-size: 14px">{{o.payment}}</td>
+                <td style="padding: 10px 14px"><span style="{{o.badgeStyle}}">{{o.statusLabel}}</span></td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+        <sc-if value="{{noRows}}" hint-placeholder-val="{{ false }}">
+          <p style="margin: 0; padding: 24px; font-size: 15px; color: #5D656A">Não há encomendas neste estado.</p>
+        </sc-if>
+      </section>
+
+      <section aria-label="Detalhe da encomenda" style="flex: 1 1 460px; min-width: 0; background: #FFFFFF; border: 1px solid #D5D9DA; border-top: 4px solid #22262A; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 16px">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px">
+          <div style="display: flex; flex-direction: column; gap: 2px">
+            <h2 style="margin: 0; font-size: 26px; font-weight: 800; font-variation-settings: 'wdth' 75">{{sel.id}}</h2>
+            <span style="font-size: 14px; color: #5D656A">{{sel.client}} · {{sel.date}}</span>
+          </div>
+          <span style="{{sel.badgeStyle}}">{{sel.statusLabel}}</span>
+        </div>
+
+        <sc-if value="{{sel.review}}" hint-placeholder-val="{{ false }}">
+          <div role="alert" style="border-radius: 8px; background: #FFF4D6; border: 1px solid #E8D59A; padding: 12px 14px; font-size: 15px; line-height: 1.45">
+            <strong>Pagamento recebido depois do prazo.</strong> A referência expirou em [data] e o pagamento entrou em [data]. Os custos podem ter mudado desde então. Aceite o pagamento ou cancele e devolva o valor.
+          </div>
+        </sc-if>
+
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <h3 style="margin: 0; font-size: 16px; font-weight: 700">Artigos</h3>
+          <div style="border: 1px solid #E3E6E7; border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; font-size: 15px">
+            <strong>Portão de correr</strong>
+            <span>3 500 × 1 800 mm · ferro, lacado RAL 7016 · motor, 2 comandos · com instalação</span>
+            <span style="font-size: 13px; color: #5D656A">Preço calculado com a fórmula v2 e os custos de [data]. Medidas confirmadas pelo cliente em [data, hora].</span>
+          </div>
+        </div>
+
+        <dl style="margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 18px; row-gap: 8px; font-size: 15px">
+          <dt style="color: #5D656A">Entrega</dt><dd style="margin: 0">{{sel.shipping}}</dd>
+          <dt style="color: #5D656A">Faturação</dt><dd style="margin: 0">[nome, NIF, morada]</dd>
+          <dt style="color: #5D656A">Pagamento</dt><dd style="margin: 0">{{sel.payment}}</dd>
+          <dt style="color: #5D656A">Fatura</dt><dd style="margin: 0">[emitida no PHC / por emitir]</dd>
+        </dl>
+
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <h3 style="margin: 0; font-size: 16px; font-weight: 700">Histórico</h3>
+          <ol style="margin: 0; padding: 0 0 0 18px; display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: #3F464B">
+            <sc-for list="{{sel.history}}" as="h" hint-placeholder-count="3">
+              <li>{{h}}</li>
+            </sc-for>
+          </ol>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 12px; border-top: 1px solid #E3E6E7">
+          <span style="font-size: 14px; color: #5D656A">{{sel.actionsHint}}</span>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            <sc-for list="{{sel.actions}}" as="a" hint-placeholder-count="2">
+              <button type="button" onClick="{{a.run}}" style="{{a.style}}">{{a.label}}</button>
+            </sc-for>
+            <button type="button" style="height: 44px; padding: 0 16px; border-radius: 8px; border: 1px solid #C3C9CB; background: #FFFFFF; font-size: 15px; font-weight: 600; cursor: pointer">Imprimir ficha de fabrico</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1400}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      filter: 'todas',
+      selected: 'ABX-0044',
+      status: {
+        'ABX-0045': 'aguarda', 'ABX-0044': 'paga', 'ABX-0042': 'rever',
+        'ABX-0038': 'fabrico', 'ABX-0036': 'pronta', 'ABX-0021': 'concluida'
+      },
+      log: {}
+    };
+  }
+
+  renderVals() {
+    var s = this.state;
+    var self = this;
+    var LABEL = {
+      aguarda: 'A aguardar pagamento', paga: 'Paga', rever: 'Para rever', fabrico: 'Em fabrico',
+      pronta: 'Pronta', enviada: 'Enviada / a instalar', concluida: 'Concluída', cancelada: 'Cancelada'
+    };
+    var TONE = {
+      aguarda: 'background: #FFF4D6; color: #6B4700', paga: 'background: #EEF1FB; color: #1A2B85',
+      rever: 'background: #FBEAE8; color: #8C1D17', fabrico: 'background: #EEF1FB; color: #1A2B85',
+      pronta: 'background: #EEF1FB; color: #1A2B85', enviada: 'background: #EEF1FB; color: #1A2B85',
+      concluida: 'background: #E3F1E6; color: #1E5B2C', cancelada: 'background: #E3E6E7; color: #3F464B'
+    };
+    // Transições permitidas: o backoffice só oferece estas.
+    var NEXT = {
+      aguarda: [['cancelada', 'Cancelar encomenda', 'danger']],
+      paga: [['fabrico', 'Passar a "Em fabrico"', 'primary']],
+      rever: [['paga', 'Aceitar pagamento', 'primary'], ['cancelada', 'Cancelar e devolver', 'danger']],
+      fabrico: [['pronta', 'Marcar como pronta', 'primary']],
+      pronta: [['enviada', 'Marcar como enviada / a instalar', 'primary']],
+      enviada: [['concluida', 'Marcar como concluída', 'primary']],
+      concluida: [], cancelada: []
+    };
+    var ORDERS = [
+      { id: 'ABX-0045', date: 'hoje', client: 'Cliente particular', payment: 'Multibanco, por pagar', shipping: '[morada do cliente]' },
+      { id: 'ABX-0044', date: 'ontem', client: 'Instalador (Pro)', payment: 'Cartão, pago', shipping: '[morada do cliente final], diferente da faturação' },
+      { id: 'ABX-0042', date: '[data]', client: 'Cliente particular', payment: 'Multibanco, pago após expirar', shipping: '[morada do cliente]' },
+      { id: 'ABX-0038', date: '[data]', client: 'Cliente particular', payment: 'MB WAY, pago', shipping: 'Levantamento na oficina' },
+      { id: 'ABX-0036', date: '[data]', client: 'Cliente particular', payment: 'Cartão, pago', shipping: '[morada do cliente]' },
+      { id: 'ABX-0021', date: '[data]', client: 'Instalador (Pro)', payment: 'Cartão, pago', shipping: '[morada do cliente final]' }
+    ];
+    var FILTERS = [
+      ['todas', 'Todas', null], ['aguarda', 'A aguardar pagamento', ['aguarda']], ['rever', 'Para rever', ['rever']],
+      ['producao', 'Em produção', ['paga', 'fabrico', 'pronta']], ['enviada', 'Enviadas', ['enviada']], ['fechadas', 'Concluídas e canceladas', ['concluida', 'cancelada']]
+    ];
+    function badge(st) {
+      return 'display: inline-flex; align-items: center; height: 28px; padding: 0 10px; border-radius: 14px; font-size: 13px; font-weight: 700; white-space: nowrap; ' + TONE[st];
+    }
+    var active = FILTERS.filter(function (f) { return f[0] === s.filter; })[0];
+    var visible = ORDERS.filter(function (o) { return !active[2] || active[2].indexOf(s.status[o.id]) >= 0; });
+
+    var selOrder = ORDERS.filter(function (o) { return o.id === s.selected; })[0];
+    var selStatus = s.status[selOrder.id];
+    var baseHistory = {
+      'ABX-0045': ['[data, hora] Encomenda criada', '[data, hora] Referência Multibanco gerada'],
+      'ABX-0044': ['[data, hora] Encomenda criada', '[data, hora] Pagamento confirmado (cartão)'],
+      'ABX-0042': ['[data, hora] Encomenda criada', '[data] Referência expirou', '[data, hora] Pagamento recebido (Multibanco)'],
+      'ABX-0038': ['[data, hora] Encomenda criada', '[data, hora] Pagamento confirmado (MB WAY)', '[data] Em fabrico'],
+      'ABX-0036': ['[data, hora] Encomenda criada', '[data, hora] Pagamento confirmado', '[data] Em fabrico', '[data] Pronta'],
+      'ABX-0021': ['[data, hora] Encomenda criada', '[data] Concluída']
+    }[selOrder.id].concat(s.log[selOrder.id] || []);
+
+    return {
+      filters: FILTERS.map(function (f) {
+        var on = f[0] === s.filter;
+        var n = ORDERS.filter(function (o) { return !f[2] || f[2].indexOf(s.status[o.id]) >= 0; }).length;
+        return {
+          label: f[1] + ' (' + n + ')', on: on,
+          style: 'height: 40px; padding: 0 14px; border-radius: 20px; cursor: pointer; font-size: 14px; ' +
+            (on ? 'border: 1.5px solid #22262A; background: #22262A; color: #FFFFFF; font-weight: 700' : 'border: 1px solid #C3C9CB; background: #FFFFFF; color: #22262A'),
+          pick: function () { self.setState({ filter: f[0] }); }
+        };
+      }),
+      rows: visible.map(function (o) {
+        var st = s.status[o.id];
+        var isSel = o.id === s.selected;
+        return {
+          id: o.id, date: o.date, client: o.client, payment: o.payment,
+          statusLabel: LABEL[st], badgeStyle: badge(st), selected: isSel,
+          rowStyle: 'border-top: 1px solid #E3E6E7; ' + (isSel ? 'background: #F3F5FD' : ''),
+          select: function () { self.setState({ selected: o.id }); }
+        };
+      }),
+      noRows: visible.length === 0,
+      sel: {
+        id: selOrder.id, client: selOrder.client, date: selOrder.date, payment: selOrder.payment, shipping: selOrder.shipping,
+        statusLabel: LABEL[selStatus], badgeStyle: badge(selStatus),
+        review: selStatus === 'rever',
+        history: baseHistory,
+        actionsHint: NEXT[selStatus].length ? 'Próximo passo' : 'Sem ações: a encomenda está fechada.',
+        actions: NEXT[selStatus].map(function (n) {
+          var style = 'height: 44px; padding: 0 16px; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; ' +
+            (n[2] === 'primary' ? 'border: 0; background: #2238A8; color: #FFFFFF' : 'border: 1.5px solid #B3261E; background: #FFFFFF; color: #8C1D17');
+          return {
+            label: n[1], style: style,
+            run: function () {
+              var st = Object.assign({}, s.status); st[selOrder.id] = n[0];
+              var lg = Object.assign({}, s.log); lg[selOrder.id] = (lg[selOrder.id] || []).concat(['agora ' + LABEL[n[0]] + ' (por [utilizador])']);
+              self.setState({ status: st, log: lg });
+            }
+          };
+        })
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

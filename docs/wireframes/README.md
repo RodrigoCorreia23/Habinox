@@ -7,11 +7,19 @@ Protótipos clicáveis da fase 0, para validar com o Bruno antes de programar.
 
 | Ficheiro | Ecrã |
 |---|---|
+| **Loja** | |
+| `Home.dc.html` | Página inicial: escolher produto e medidas e ir direto ao preço, categorias, como funciona, oficina, Área Pro |
+| `Categoria.dc.html` | Categoria Portões: subcategorias com desenho, correr vs batente, pedido especial |
 | `Main.dc.html` | Configurador do portão de correr (desenho com medidas, material, opções, instalação, preço) |
 | `Carrinho.dc.html` | Carrinho (ficha de cada artigo, quantidade, remover, carrinho vazio) |
 | `Checkout.dc.html` | Dados, entrega/levantamento, faturação com NIF, pagamento (cartão, MB WAY, Multibanco), consentimentos |
 | `Confirmacao.dc.html` | Confirmação: pago na hora ou referência Multibanco por pagar |
-| `Formulas.dc.html` | Backoffice: fórmula de preço (linhas de custo com expressões, condições por opção, teste ao vivo, comparação com orçamentos reais, rascunho → validada → publicada) |
+| `Conta.dc.html` | Área de cliente: encomendas com progresso, orçamentos guardados (válido / a expirar / expirado), dados e privacidade (RGPD) |
+| **Backoffice** | |
+| `Produto.dc.html` | Produto: estado, medidas em mm, opções da biblioteca com valores permitidos, regras de combinação |
+| `Formulas.dc.html` | Fórmula de preço: linhas de custo com expressões (L, H), condições por opção, teste ao vivo, comparação com orçamentos reais, rascunho → validada → publicada |
+| `Encomendas.dc.html` | Encomendas: filtros por estado, detalhe com snapshot de preço e histórico, só transições permitidas, caso "pago depois de expirar" |
+| `Materiais.dc.html` | Materiais e sincronização PHC: estado da última sync, caso de falha, sincronizar agora, artigos para rever, histórico de custos e de sincronizações |
 | `canvas.json` | Disposição no canvas e notas com as perguntas para o Bruno |
 
 Os ficheiros `.dc.html` são do formato *Design Component* do canvas (precisam do runtime do canvas para correr; não abrem diretamente no browser).

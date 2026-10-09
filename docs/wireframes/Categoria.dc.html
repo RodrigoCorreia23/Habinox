@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<title>Portões — Abinox</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
+a{color:#2238A8}a:hover{color:#16257A}
+button{font-family:inherit}
+:focus-visible{outline:3px solid #2238A8;outline-offset:2px}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column">
+
+  <header style="background: #FFFFFF; border-bottom: 1px solid #D5D9DA">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 14px 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 28px">
+      <a href="Home.dc.html" style="display: flex; align-items: center; justify-content: center; min-width: 132px; height: 44px; padding: 0 12px; border: 1.5px dashed #9AA2A6; border-radius: 6px; text-decoration: none; color: #5D656A; font-size: 14px">Logótipo Abinox</a>
+      <nav aria-label="Categorias" style="display: flex; flex-wrap: wrap; gap: 4px; flex: 1 1 420px">
+        <a href="Categoria.dc.html" aria-current="page" style="text-decoration: none; color: #22262A; font-weight: 600; padding: 12px 12px; border-radius: 6px; background: #EEF0F0">Portões</a>
+        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Escadas</a>
+        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Guardas</a>
+        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Chaminés</a>
+        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Caixas de correio</a>
+      </nav>
+      <div style="display: flex; gap: 8px">
+        <a href="Conta.dc.html" aria-label="Conta" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 6px; color: #22262A">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>
+        </a>
+        <a href="Carrinho.dc.html" style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: 6px; color: #22262A; text-decoration: none; border: 1px solid #D5D9DA">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"></path><circle cx="10" cy="20" r="1.4"></circle><circle cx="17" cy="20" r="1.4"></circle></svg>
+          Carrinho
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main style="max-width: 1320px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 24px 28px 56px; display: flex; flex-direction: column; gap: 28px">
+    <nav aria-label="Caminho" style="font-size: 14px; color: #5D656A; display: flex; gap: 8px">
+      <a href="Home.dc.html" style="color: #5D656A">Início</a><span aria-hidden="true">/</span><span style="color: #22262A">Portões</span>
+    </nav>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; max-width: 760px">
+      <h1 style="margin: 0; font-size: 64px; line-height: 0.95; font-weight: 800; font-variation-settings: 'wdth' 66">Portões</h1>
+      <p style="margin: 0; font-size: 18px; line-height: 1.5; color: #3F464B; max-width: 58ch">Escolha o tipo de portão. Em seguida indica as medidas do vão, o material e a cor, e vê o preço.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px">
+      <sc-for list="{{types}}" as="t" hint-placeholder-count="4">
+        <a href="{{t.href}}" style="display: flex; flex-direction: column; border-radius: 10px; background: #FFFFFF; border: 1px solid #D5D9DA; text-decoration: none; color: #22262A; overflow: hidden">
+          <div style="background: #FBFBFA; border-bottom: 1px solid #E3E6E7; padding: 16px">
+            <svg viewBox="0 0 240 140" style="display: block; width: 100%; height: auto" fill="none" aria-hidden="true">
+              <path d="M8 120H232" stroke="#9AA2A6"></path>
+              <path d="{{t.frame}}" stroke="#22262A" stroke-width="5" stroke-linejoin="round"></path>
+              <path d="{{t.bars}}" stroke="#22262A" stroke-width="2.5"></path>
+              <path d="{{t.motion}}" stroke="#2238A8" stroke-width="1.5" stroke-dasharray="5 4"></path>
+            </svg>
+          </div>
+          <div style="padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px">
+            <span style="font-size: 22px; font-weight: 700; font-variation-settings: 'wdth' 85">{{t.name}}</span>
+            <span style="font-size: 15px; color: #5D656A; line-height: 1.45">{{t.detail}}</span>
+            <span style="font-size: 15px; color: #22262A">{{t.range}}</span>
+            <span style="margin-top: 4px; font-size: 15px; font-weight: 700; color: #2238A8">Configurar e ver preço</span>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+
+    <section aria-labelledby="escolher" style="display: flex; flex-wrap: wrap; gap: 24px; background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 24px">
+      <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+        <h2 id="escolher" style="margin: 0; font-size: 26px; font-weight: 800; font-variation-settings: 'wdth' 75">Correr ou batente?</h2>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3F464B; max-width: 60ch">O portão de correr precisa de espaço lateral livre, com pelo menos a largura do vão. O de batente precisa de espaço para as folhas abrirem para dentro. [Texto a rever pela Abinox.]</p>
+      </div>
+      <div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+        <h2 style="margin: 0; font-size: 26px; font-weight: 800; font-variation-settings: 'wdth' 75">Medida especial?</h2>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3F464B">Se o seu vão sai dos limites, envie-nos as medidas e uma fotografia.</p>
+        <a href="#" style="font-size: 16px; font-weight: 600; align-self: flex-start">Pedir uma proposta à medida</a>
+      </div>
+    </section>
+  </main>
+
+  <footer style="margin-top: auto; background: #22262A; color: #D5D9DA">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 28px; display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: 14px">
+      <span>[Abinox, NIF, morada em Viana do Castelo]</span>
+      <a href="#" style="color: #D5D9DA">Termos e condições</a>
+      <a href="#" style="color: #D5D9DA">Privacidade</a>
+      <a href="#" style="color: #D5D9DA">Livro de Reclamações</a>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1300}}'>
+class Component extends DCLogic {
+  renderVals() {
+    function bars(x0, x1, top, step) {
+      var d = '';
+      for (var x = x0 + step; x < x1 - step / 2; x += step) d += 'M' + x + ' ' + (top + 3) + 'V117 ';
+      return d;
+    }
+    return {
+      types: [
+        {
+          name: 'Portão de correr', href: 'Main.dc.html',
+          detail: 'Desliza para o lado. Bom para entradas largas de garagem.',
+          range: 'Largura de [mín.] a [máx.] m',
+          frame: 'M20 120V40H170V120M170 120H230', bars: bars(20, 170, 40, 10),
+          motion: 'M176 30H226M218 24L226 30L218 36'
+        },
+        {
+          name: 'Portão de batente de 2 folhas', href: '#',
+          detail: 'Abre a meio, para dentro. Para entradas médias e largas.',
+          range: 'Largura de [mín.] a [máx.] m',
+          frame: 'M30 120V40H210V120M120 40V120', bars: bars(30, 120, 40, 10) + bars(120, 210, 40, 10),
+          motion: 'M118 128A60 60 0 0 0 66 96M122 128A60 60 0 0 1 174 96'
+        },
+        {
+          name: 'Portão de batente de 1 folha', href: '#',
+          detail: 'Uma só folha com dobradiças de um lado.',
+          range: 'Largura de [mín.] a [máx.] m',
+          frame: 'M50 120V40H190V120', bars: bars(50, 190, 40, 10),
+          motion: 'M190 128A140 140 0 0 0 66 70'
+        },
+        {
+          name: 'Portão pedonal', href: '#',
+          detail: 'Porta de entrada para pessoas, com fechadura.',
+          range: 'Largura de [mín.] a [máx.] m',
+          frame: 'M90 120V30H150V120', bars: bars(90, 150, 30, 10),
+          motion: 'M150 128A60 60 0 0 0 100 84'
+        }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

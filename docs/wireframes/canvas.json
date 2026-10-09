@@ -54,6 +54,60 @@
       "title": "Backoffice — Fórmula de preço",
       "expand": "fill",
       "is_interactive": true
+    },
+    "Home.dc.html": {
+      "x": 2480,
+      "y": 0,
+      "w": 1440,
+      "h": 1500,
+      "title": "Página inicial",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Categoria.dc.html": {
+      "x": 4040,
+      "y": 0,
+      "w": 1440,
+      "h": 1300,
+      "title": "Categoria — Portões",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Conta.dc.html": {
+      "x": 5600,
+      "y": 0,
+      "w": 1440,
+      "h": 1250,
+      "title": "Área de cliente",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Produto.dc.html": {
+      "x": 2480,
+      "y": 4620,
+      "w": 1440,
+      "h": 1500,
+      "title": "Backoffice — Produto e opções",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Encomendas.dc.html": {
+      "x": 4040,
+      "y": 4620,
+      "w": 1440,
+      "h": 1400,
+      "title": "Backoffice — Encomendas",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Materiais.dc.html": {
+      "x": 5600,
+      "y": 4620,
+      "w": 1440,
+      "h": 1350,
+      "title": "Backoffice — Materiais e sincronização PHC",
+      "expand": "fill",
+      "is_interactive": true
     }
   },
   "order": [
@@ -61,7 +115,13 @@
     "Carrinho.dc.html",
     "Checkout.dc.html",
     "Confirmacao.dc.html",
-    "Formulas.dc.html"
+    "Formulas.dc.html",
+    "Home.dc.html",
+    "Categoria.dc.html",
+    "Conta.dc.html",
+    "Produto.dc.html",
+    "Encomendas.dc.html",
+    "Materiais.dc.html"
   ],
   "notes": {
     "n1": {
@@ -175,6 +235,76 @@
       "maxH": 520,
       "fill": "orange",
       "text": "Perguntar ao Bruno (com um orçamento real à frente)\n• Que linhas de custo entram num portão de correr?\n• Como estima a quantidade de cada material a partir das medidas?\n• Desperdício: por material ou geral?\n• Custo/hora: um só ou por tipo de trabalho (corte, soldadura, pintura, montagem)?\n• Margem: por produto ou por categoria?\n• Arredondamento: para cima, a múltiplos de quanto?\n• Que diferença aceita entre a fórmula e os orçamentos reais (ex.: ±3%)?"
+    },
+    "t1": {
+      "x": 0,
+      "y": -300,
+      "text": "Loja",
+      "kind": "title1",
+      "maxW": 7040
+    },
+    "t2": {
+      "x": 0,
+      "y": 4330,
+      "text": "Backoffice",
+      "kind": "title1",
+      "maxW": 1440
+    },
+    "h1": {
+      "x": 2480,
+      "y": 1580,
+      "w": 420,
+      "maxH": 420,
+      "fill": "orange",
+      "text": "Página inicial\n• O topo deixa escolher produto e medidas e ir direto ao preço: é a promessa principal do site.\n\nPerguntar ao Bruno:\n• Textos institucionais e fotos da oficina.\n• Anos de atividade, zonas onde trabalha.\n• Destacar a Área Pro (instaladores) já no beta?"
+    },
+    "g1": {
+      "x": 4040,
+      "y": 1380,
+      "w": 420,
+      "maxH": 360,
+      "fill": "orange",
+      "text": "Categoria\n• Cada subcategoria leva ao seu configurador.\n\nPerguntar ao Bruno:\n• Mostrar \"desde [preço]\"? (precisa de uma configuração mínima de referência por produto)\n• Lista final de subcategorias de portões."
+    },
+    "a1": {
+      "x": 5600,
+      "y": 1330,
+      "w": 420,
+      "maxH": 420,
+      "fill": "blue",
+      "text": "Área de cliente\n• Encomendas com estado e próximos passos.\n• Orçamentos guardados: preço garantido até à data; depois de expirar, é recalculado ao abrir.\n• Dados e privacidade (RGPD): consentimentos com data, exportar dados, pedir apagamento da conta."
+    },
+    "p1": {
+      "x": 2480,
+      "y": 6200,
+      "w": 420,
+      "maxH": 460,
+      "fill": "blue",
+      "text": "Produto e opções\n• Biblioteca de opções definida uma vez e reutilizada (motorização serve vários produtos).\n• Cada produto escolhe as opções e os valores permitidos, e define os limites das medidas em mm.\n• Regras de compatibilidade: \"se material = inox, acabamento ∈ {escovado, polido}\".\n• Estados: rascunho → validado → publicado (só o Bruno publica)."
+    },
+    "e1": {
+      "x": 4040,
+      "y": 6100,
+      "w": 420,
+      "maxH": 460,
+      "fill": "blue",
+      "text": "Encomendas\n• Estados explícitos; o backoffice só oferece as transições permitidas.\n• Cada encomenda guarda o snapshot do preço (versão da fórmula e custos usados) e a aceitação das medidas com data/hora.\n• Pagamento Multibanco que chega depois de expirar vai para \"Para rever\" — nunca muda de estado sozinho."
+    },
+    "e2": {
+      "x": 4500,
+      "y": 6100,
+      "w": 420,
+      "maxH": 360,
+      "fill": "orange",
+      "text": "Encomendas — perguntar ao Bruno\n• Que estados usa na oficina (em fabrico, pronto, enviado…)?\n• Quer uma ficha de fabrico para imprimir?\n• Fatura: emitida no PHC à mão ou automática?"
+    },
+    "m1": {
+      "x": 5600,
+      "y": 6050,
+      "w": 420,
+      "maxH": 460,
+      "fill": "blue",
+      "text": "Materiais e sincronização PHC\n• O PHC é só lido, 1x por dia, para uma cópia local; a loja nunca o consulta em tempo real.\n• \"Sincronizar agora\" para forçar.\n• Se falhar: a loja continua com os últimos custos e aparece este aviso.\n• Artigo que desaparece: mantém o último custo e fica \"para rever\".\n• Histórico de custos guardado (auditoria e relatórios)."
     }
   },
   "designSystems": []

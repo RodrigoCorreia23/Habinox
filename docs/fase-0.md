@@ -133,8 +133,9 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 - [ ] Wireframes das páginas principais (ver `docs/wireframes/`):
   - [x] Configurador (portão de correr)
   - [x] Carrinho, checkout e confirmação
-  - [ ] Home e página de categoria
-  - [ ] Área de cliente (encomendas, orçamentos guardados)
+  - [x] Home e página de categoria
+  - [x] Área de cliente (encomendas, orçamentos guardados, privacidade)
   - [x] Backoffice: fórmula de preço com pré-visualização
-  - [ ] Backoffice: produtos/opções, encomendas, sincronização PHC
+  - [x] Backoffice: produtos/opções, encomendas, materiais e sincronização PHC
+  - [ ] Validar todos os wireframes com o Bruno
 - [ ] Mockup visual a partir dos wireframes e do logótipo

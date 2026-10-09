@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<title>Abinox — Página inicial</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
+a{color:#2238A8}a:hover{color:#16257A}
+input,select,button{font-family:inherit}
+:focus-visible{outline:3px solid #2238A8;outline-offset:2px}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column">
+
+  <header style="background: #FFFFFF; border-bottom: 1px solid #D5D9DA">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 14px 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 28px">
+      <a href="Home.dc.html" aria-current="page" style="display: flex; align-items: center; justify-content: center; min-width: 132px; height: 44px; padding: 0 12px; border: 1.5px dashed #9AA2A6; border-radius: 6px; text-decoration: none; color: #5D656A; font-size: 14px">Logótipo Abinox</a>
+      <nav aria-label="Categorias" style="display: flex; flex-wrap: wrap; gap: 4px; flex: 1 1 420px">
+        <a href="Categoria.dc.html" style="text-decoration: none; color: #22262A; padding: 12px 12px">Portões</a>
+        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Escadas</a>
+        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Guardas</a>
+        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Chaminés</a>
+        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Caixas de correio</a>
+      </nav>
+      <div style="display: flex; gap: 8px">
+        <a href="Conta.dc.html" aria-label="Conta" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 6px; color: #22262A">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>
+        </a>
+        <a href="Carrinho.dc.html" style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: 6px; color: #22262A; text-decoration: none; border: 1px solid #D5D9DA">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"></path><circle cx="10" cy="20" r="1.4"></circle><circle cx="17" cy="20" r="1.4"></circle></svg>
+          Carrinho
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main style="display: flex; flex-direction: column">
+
+    <section aria-label="Preço na hora" style="background: #FFFFFF; border-bottom: 1px solid #D5D9DA">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 48px 28px 40px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
+        <div style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+          <h1 style="margin: 0; font-size: 72px; line-height: 0.92; font-weight: 800; font-variation-settings: 'wdth' 66; max-width: 12ch">Serralharia por medida, com preço na hora</h1>
+          <p style="margin: 0; font-size: 19px; line-height: 1.5; color: #3F464B; max-width: 46ch">Indique as medidas do seu vão e veja logo quanto custa. Fabricamos em inox, ferro e alumínio na nossa oficina em Viana do Castelo.</p>
+
+          <form onSubmit="{{noSubmit}}" style="display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 10px; background: #F2F3F2; max-width: 560px">
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="produto" style="font-size: 15px; font-weight: 600">O que precisa?</label>
+              <select id="produto" value="{{product}}" onChange="{{onProduct}}" style="height: 48px; padding: 0 12px; border: 1px solid #C3C9CB; border-radius: 6px; background: #FFFFFF; font-size: 16px">
+                <option value="correr">Portão de correr</option>
+                <option value="batente">Portão de batente</option>
+                <option value="guarda">Guarda de varanda</option>
+                <option value="caixa">Caixa de correio</option>
+              </select>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+              <div style="display: flex; flex-direction: column; gap: 6px">
+                <label for="h-largura" style="font-size: 15px; font-weight: 600">Largura</label>
+                <div style="display: flex; align-items: center; border: 1px solid #C3C9CB; border-radius: 6px; background: #FFFFFF">
+                  <input id="h-largura" type="text" inputmode="decimal" value="{{w}}" onChange="{{onW}}" style="flex: 1; min-width: 0; height: 48px; padding: 0 12px; border: 0; background: transparent; font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums">
+                  <span style="padding: 0 12px; color: #5D656A">m</span>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 6px">
+                <label for="h-altura" style="font-size: 15px; font-weight: 600">Altura</label>
+                <div style="display: flex; align-items: center; border: 1px solid #C3C9CB; border-radius: 6px; background: #FFFFFF">
+                  <input id="h-altura" type="text" inputmode="decimal" value="{{h}}" onChange="{{onH}}" style="flex: 1; min-width: 0; height: 48px; padding: 0 12px; border: 0; background: transparent; font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums">
+                  <span style="padding: 0 12px; color: #5D656A">m</span>
+                </div>
+              </div>
+            </div>
+            <a href="Main.dc.html" style="display: flex; align-items: center; justify-content: center; height: 52px; border-radius: 8px; background: #2238A8; color: #FFFFFF; font-size: 17px; font-weight: 700; text-decoration: none">Ver o preço</a>
+          </form>
+        </div>
+
+        <div style="flex: 1 1 520px; min-width: 0">
+          <svg viewBox="0 0 640 420" style="display: block; width: 100%; height: auto" role="img" aria-label="{{drawingLabel}}">
+            <path d="M8 330H632" stroke="#9AA2A6" fill="none"></path>
+            <path d="{{d.hatch}}" stroke="#C3C9CB" fill="none"></path>
+            <rect x="{{d.x}}" y="{{d.y}}" width="{{d.w}}" height="{{d.h}}" fill="none" stroke="#22262A" stroke-width="10"></rect>
+            <path d="{{d.inner}}" stroke="#22262A" stroke-width="4" fill="none"></path>
+            <path d="{{d.dims}}" stroke="#2238A8" stroke-width="1.5" fill="none"></path>
+            <text x="{{d.wx}}" y="{{d.wy}}" text-anchor="middle" font-family="Archivo, sans-serif" font-size="20" font-weight="700" fill="#2238A8">{{d.wLabel}}</text>
+            <text x="{{d.hx}}" y="{{d.hy}}" text-anchor="middle" transform="{{d.hRot}}" font-family="Archivo, sans-serif" font-size="20" font-weight="700" fill="#2238A8">{{d.hLabel}}</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="cat-titulo" style="max-width: 1320px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 48px 28px; display: flex; flex-direction: column; gap: 20px">
+      <h2 id="cat-titulo" style="margin: 0; font-size: 40px; font-weight: 800; font-variation-settings: 'wdth' 72">Produtos</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px">
+        <sc-for list="{{categories}}" as="c" hint-placeholder-count="6">
+          <a href="{{c.href}}" style="display: flex; flex-direction: column; gap: 12px; padding: 18px; border-radius: 10px; background: #FFFFFF; border: 1px solid #D5D9DA; text-decoration: none; color: #22262A">
+            <svg viewBox="0 0 120 72" style="width: 100%; height: 96px" fill="none" stroke="#22262A" stroke-width="2.5" stroke-linejoin="round" aria-hidden="true"><path d="{{c.icon}}"></path><path d="M6 66H114" stroke="#9AA2A6" stroke-width="1"></path></svg>
+            <span style="font-size: 20px; font-weight: 700">{{c.name}}</span>
+            <span style="font-size: 15px; color: #5D656A; line-height: 1.4">{{c.detail}}</span>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+
+    <section aria-labelledby="como-titulo" style="background: #FFFFFF; border-top: 1px solid #D5D9DA; border-bottom: 1px solid #D5D9DA">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 48px 28px; display: flex; flex-direction: column; gap: 24px">
+        <h2 id="como-titulo" style="margin: 0; font-size: 40px; font-weight: 800; font-variation-settings: 'wdth' 72">Como funciona</h2>
+        <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 28px">
+          <li style="display: flex; flex-direction: column; gap: 8px">
+            <span aria-hidden="true" style="font-size: 56px; line-height: 1; font-weight: 800; font-variation-settings: 'wdth' 62; color: #2238A8">1</span>
+            <span style="font-size: 20px; font-weight: 700">Configure e veja o preço</span>
+            <span style="font-size: 16px; color: #5D656A; line-height: 1.5; max-width: 36ch">Escolha o produto, as medidas, o material e a cor. O preço aparece na hora, com IVA.</span>
+          </li>
+          <li style="display: flex; flex-direction: column; gap: 8px">
+            <span aria-hidden="true" style="font-size: 56px; line-height: 1; font-weight: 800; font-variation-settings: 'wdth' 62; color: #2238A8">2</span>
+            <span style="font-size: 20px; font-weight: 700">Encomende e pague online</span>
+            <span style="font-size: 16px; color: #5D656A; line-height: 1.5; max-width: 36ch">Cartão, MB WAY ou referência Multibanco. Também pode guardar o orçamento e decidir depois.</span>
+          </li>
+          <li style="display: flex; flex-direction: column; gap: 8px">
+            <span aria-hidden="true" style="font-size: 56px; line-height: 1; font-weight: 800; font-variation-settings: 'wdth' 62; color: #2238A8">3</span>
+            <span style="font-size: 20px; font-weight: 700">Fabricamos e entregamos</span>
+            <span style="font-size: 16px; color: #5D656A; line-height: 1.5; max-width: 36ch">Feito na nossa oficina em cerca de [n] semanas. Entregamos ou instalamos, se preferir.</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section aria-labelledby="oficina-titulo" style="max-width: 1320px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 48px 28px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center">
+      <div style="flex: 1 1 480px; min-width: 0; aspect-ratio: 3 / 2; border-radius: 10px; background: #E3E6E7; display: flex; align-items: center; justify-content: center; color: #5D656A; font-size: 15px">[Fotografia da oficina]</div>
+      <div style="flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+        <h2 id="oficina-titulo" style="margin: 0; font-size: 40px; font-weight: 800; font-variation-settings: 'wdth' 72">A oficina</h2>
+        <p style="margin: 0; font-size: 17px; line-height: 1.55; color: #3F464B; max-width: 52ch">[Texto sobre a Abinox: anos de experiência, equipa, como trabalha, zonas onde instala.]</p>
+        <a href="#" style="font-size: 16px; align-self: flex-start">Conhecer a Abinox</a>
+      </div>
+    </section>
+
+    <section aria-label="Instaladores" style="background: #22262A; color: #FFFFFF">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 36px 28px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between">
+        <div style="display: flex; flex-direction: column; gap: 6px; max-width: 60ch">
+          <h2 style="margin: 0; font-size: 28px; font-weight: 800; font-variation-settings: 'wdth' 75">É instalador?</h2>
+          <p style="margin: 0; font-size: 16px; color: #D5D9DA; line-height: 1.5">Na Área Pro compra com desconto, envia para a morada do seu cliente e acede aos ficheiros técnicos. Acesso por convite.</p>
+        </div>
+        <a href="#" style="display: inline-flex; align-items: center; height: 52px; padding: 0 22px; border-radius: 8px; background: #FFFFFF; color: #22262A; font-weight: 700; text-decoration: none">Pedir acesso</a>
+      </div>
+    </section>
+  </main>
+
+  <footer style="margin-top: auto; background: #1A1D20; color: #D5D9DA">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 28px; display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: 14px">
+      <span>[Abinox, NIF, morada em Viana do Castelo]</span>
+      <a href="#" style="color: #D5D9DA">Termos e condições</a>
+      <a href="#" style="color: #D5D9DA">Privacidade</a>
+      <a href="#" style="color: #D5D9DA">Cookies</a>
+      <a href="#" style="color: #D5D9DA">Livro de Reclamações</a>
+      <a href="#" style="color: #D5D9DA">Resolução de litígios</a>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { product: 'correr', w: '3,5', h: '1,8' };
+  }
+
+  renderVals() {
+    var s = this.state;
+    var self = this;
+    function num(t, fallback) {
+      var n = Number(String(t).trim().replace(',', '.'));
+      return isNaN(n) || n <= 0 ? fallback : n;
+    }
+    function fmtM(n) { return String(Math.round(n * 1000)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' mm'; }
+    var W = Math.min(num(s.w, 3.5), 12), H = Math.min(num(s.h, 1.8), 5);
+    var left = 90, ground = 330, maxW = 500, maxH = 280;
+    var sc = Math.min(maxW / W, maxH / H);
+    var gw = W * sc, gh = H * sc, gx = left, gy = ground - gh;
+
+    var inner = '';
+    if (s.product === 'correr' || s.product === 'guarda') {
+      var step = Math.max(0.12 * sc, 8);
+      for (var x = gx + step; x < gx + gw - step / 2; x += step) inner += 'M' + x.toFixed(1) + ' ' + (gy + 4) + 'V' + (ground - 4) + ' ';
+    } else if (s.product === 'batente') {
+      inner = 'M' + (gx + gw / 2).toFixed(1) + ' ' + gy.toFixed(1) + 'V' + ground + ' ';
+      var st2 = Math.max(0.15 * sc, 8);
+      for (var x2 = gx + st2; x2 < gx + gw - st2 / 2; x2 += st2) inner += 'M' + x2.toFixed(1) + ' ' + (gy + 4) + 'V' + (ground - 4) + ' ';
+    } else {
+      inner = 'M' + (gx + gw * 0.2).toFixed(1) + ' ' + (gy + gh * 0.3).toFixed(1) + 'H' + (gx + gw * 0.8).toFixed(1);
+    }
+    var hatch = '';
+    for (var hx = 8; hx < 632; hx += 14) hatch += 'M' + hx + ' 342L' + (hx + 10) + ' 332 ';
+    var dimY = ground + 48, dimX = gx - 42;
+    function tick(x, y) { return 'M' + (x - 6) + ' ' + (y + 6) + 'L' + (x + 6) + ' ' + (y - 6) + ' '; }
+
+    return {
+      noSubmit: function (e) { e.preventDefault(); },
+      product: s.product, w: s.w, h: s.h,
+      onProduct: function (e) { self.setState({ product: e.target.value }); },
+      onW: function (e) { self.setState({ w: e.target.value }); },
+      onH: function (e) { self.setState({ h: e.target.value }); },
+      drawingLabel: 'Desenho com ' + fmtM(W) + ' de largura e ' + fmtM(H) + ' de altura',
+      d: {
+        x: gx.toFixed(1), y: gy.toFixed(1), w: gw.toFixed(1), h: gh.toFixed(1),
+        inner: inner, hatch: hatch,
+        dims: 'M' + gx.toFixed(1) + ' ' + dimY + 'H' + (gx + gw).toFixed(1) + ' ' + tick(gx, dimY) + tick(gx + gw, dimY) +
+          'M' + gx.toFixed(1) + ' ' + (ground + 8) + 'V' + (dimY + 8) + 'M' + (gx + gw).toFixed(1) + ' ' + (ground + 8) + 'V' + (dimY + 8) +
+          'M' + dimX + ' ' + gy.toFixed(1) + 'V' + ground + ' ' + tick(dimX, gy) + tick(dimX, ground) +
+          'M' + (gx - 10) + ' ' + gy.toFixed(1) + 'H' + (dimX - 8) + 'M' + (gx - 10) + ' ' + ground + 'H' + (dimX - 8),
+        wLabel: fmtM(W), wx: (gx + gw / 2).toFixed(1), wy: dimY - 10,
+        hLabel: fmtM(H), hx: dimX - 12, hy: (gy + gh / 2).toFixed(1),
+        hRot: 'rotate(-90 ' + (dimX - 12) + ' ' + (gy + gh / 2).toFixed(1) + ')'
+      },
+      categories: [
+        { name: 'Portões', detail: 'De correr ou de batente, manuais ou motorizados.', href: 'Categoria.dc.html', icon: 'M14 66V18H106V66M14 18H106M30 18V66M46 18V66M62 18V66M78 18V66M94 18V66' },
+        { name: 'Escadas', detail: 'Retas ou em caracol, interiores e exteriores.', href: '#', icon: 'M14 66H34V54H54V42H74V30H94V18H110' },
+        { name: 'Guardas', detail: 'Para varandas, escadas e terraços.', href: '#', icon: 'M10 30H110M14 30V66M106 30V66M30 30V66M46 30V66M62 30V66M78 30V66M94 30V66' },
+        { name: 'Chaminés', detail: 'Tubagem e acessórios em inox.', href: '#', icon: 'M50 66V14H70V66M46 14H74M50 34H70M50 50H70' },
+        { name: 'Chapéus de chaminé', detail: 'Por medida para cada conduta.', href: '#', icon: 'M30 40L60 20L90 40M44 40V66M76 40V66M40 40H80' },
+        { name: 'Caixas de correio', detail: 'Individuais ou em bateria.', href: '#', icon: 'M34 66V24H86V66M34 24L60 14L86 24M44 36H76M44 46H64' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
