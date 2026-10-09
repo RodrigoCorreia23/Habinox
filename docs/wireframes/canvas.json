@@ -4,7 +4,7 @@
     "v": 1,
     "at": "2026-10-08T10:00:00Z"
   },
-  "title": "Wireframes — Loja Abinox",
+  "title": "Wireframes — Loja Abinox (identidade catálogo técnico)",
   "launch": {
     "view": "canvas"
   },
@@ -56,10 +56,10 @@
       "is_interactive": true
     },
     "Home.dc.html": {
-      "x": 2480,
+      "x": -1600,
       "y": 0,
       "w": 1440,
-      "h": 1500,
+      "h": 2860,
       "title": "Página inicial",
       "expand": "fill",
       "is_interactive": true
@@ -267,11 +267,11 @@
       "text": "Perguntar ao Bruno (com um orçamento real à frente)\n• Que linhas de custo entram num portão de correr?\n• Como estima a quantidade de cada material a partir das medidas?\n• Desperdício: por material ou geral?\n• Custo/hora: um só ou por tipo de trabalho (corte, soldadura, pintura, montagem)?\n• Margem: por produto ou por categoria?\n• Arredondamento: para cima, a múltiplos de quanto?\n• Que diferença aceita entre a fórmula e os orçamentos reais (ex.: ±3%)?"
     },
     "t1": {
-      "x": 0,
+      "x": -1600,
       "y": -300,
       "text": "Loja",
       "kind": "title1",
-      "maxW": 7040
+      "maxW": 8640
     },
     "t2": {
       "x": 0,
@@ -281,12 +281,12 @@
       "maxW": 1440
     },
     "h1": {
-      "x": 2480,
-      "y": 1580,
+      "x": -1600,
+      "y": 2940,
       "w": 420,
       "maxH": 420,
       "fill": "orange",
-      "text": "Página inicial\n• O topo deixa escolher produto e medidas e ir direto ao preço: é a promessa principal do site.\n\nPerguntar ao Bruno:\n• Textos institucionais e fotos da oficina.\n• Anos de atividade, zonas onde trabalha.\n• Destacar a Área Pro (instaladores) já no beta?"
+      "text": "Página inicial\n• Segue o mockup de referência (docs/design/Loja_Pagina_Inicial_mockup.html), tornado fluido: herói com desenho cotado e cartão de configuração, barra de categorias 01–06, produtos em destaque, como funciona, pedido personalizado, faixa Área Pro.\n\nPerguntar ao Bruno:\n• Textos institucionais, obras realizadas.\n• Lista dos produtos em destaque."
     },
     "g1": {
       "x": 4040,
@@ -350,6 +350,14 @@
       "maxH": 360,
       "fill": "blue",
       "text": "Versões de telemóvel\n• Mesmo código dos ecrãs de desktop, vistos a 390 px.\n• No configurador, o preço fica numa barra fixa em baixo, sempre visível enquanto se escolhem as medidas.\n• Ao alterar um ecrã de desktop, copiar também para a versão de telemóvel (ou vice-versa)."
+    },
+    "id1": {
+      "x": -1600,
+      "y": 3420,
+      "w": 420,
+      "maxH": 420,
+      "fill": "gray",
+      "text": "Identidade visual\nTodos os ecrãs seguem o DESIGN.md: catálogo técnico, Archivo + IBM Plex Sans + IBM Plex Mono, raio de 2px, sem sombras, linhas finas, medidas e códigos em mono.\nAcento #B8461A só nas cotas, na numeração dos passos e num único botão principal por ecrã."
     }
   },
   "designSystems": []

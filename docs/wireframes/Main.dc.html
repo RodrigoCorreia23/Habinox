@@ -11,46 +11,50 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif;font-variation-settings:'wdth' 100}
-a{color:#2238A8}a:hover{color:#16257A}
+body{margin:0;background:#F5F4F1;color:#15171A;font-family:'IBM Plex Sans',system-ui,sans-serif;}
+a{color:#15171A}a:hover{color:#B8461A}
 input,select,button{font-family:inherit}
-:focus-visible{outline:3px solid #2238A8;outline-offset:2px}
-label:has(input:focus-visible){outline:3px solid #2238A8;outline-offset:2px}
+:focus-visible{outline:2px solid #15171A;outline-offset:2px}
+label:has(input:focus-visible){outline:2px solid #15171A;outline-offset:2px}
 footer :focus-visible{outline-color:#FFFFFF}
 input[type=text]{font-variant-numeric:tabular-nums}
 button:disabled{cursor:not-allowed}
 h1{text-wrap:balance}
 @media (prefers-reduced-motion: no-preference){.leaf{transition:fill .2s,stroke .2s}}
 @media (max-width: 760px){
-  .price-strip{position:fixed!important;left:0;right:0;bottom:0;top:auto!important;z-index:20;border-radius:0!important;border-width:1px 0 0 0!important;box-shadow:0 -4px 12px rgba(34,38,42,.18)}
+  .price-strip{position:fixed!important;left:0;right:0;bottom:0;top:auto!important;z-index:20;border-radius:0!important;border-width:1px 0 0 0!important;border-top:1px solid #DAD8D2}
   .page-pad{padding-bottom:110px!important}
   .h1-main{font-size:40px!important}
 }
+h1,h2,h3,legend{font-family:'Archivo',system-ui,sans-serif}
+input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+.wrap{padding-left:80px;padding-right:80px}
+@media (max-width: 760px){.wrap{padding-left:16px!important;padding-right:16px!important}}
 </style>
 </helmet>
 <div style="min-height: 100vh; display: flex; flex-direction: column">
 
-  <header style="background: #FFFFFF; border-bottom: 1px solid #D5D9DA">
-    <div style="max-width: 1320px; margin: 0 auto; padding: 14px 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 20px">
-      <a href="Home.dc.html" style="display: flex; align-items: center; justify-content: center; min-width: 132px; height: 44px; padding: 0 12px; border: 1.5px dashed #9AA2A6; border-radius: 6px; text-decoration: none; color: #5D656A; font-size: 14px">Logótipo Abinox</a>
+  <header style="background: #FFFFFF; border-bottom: 1px solid #DAD8D2">
+    <div class="wrap" style="max-width: 1440px; margin: 0 auto; padding: 14px 80px; display: flex; flex-wrap: wrap; align-items: center; gap: 20px">
+      <a href="Home.dc.html" style="display: flex; align-items: center; min-height: 44px; font-family: Archivo, sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 0.02em; color: #15171A; text-decoration: none">Abinox</a>
       <nav aria-label="Categorias" style="display: flex; flex-wrap: wrap; gap: 4px; flex: 1 1 420px">
-        <a href="Categoria.dc.html" style="text-decoration: none; color: #22262A; font-weight: 600; padding: 12px 12px; border-radius: 6px; background: #EEF0F0">Portões</a>
-        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Escadas</a>
-        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Guardas</a>
-        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Chaminés</a>
-        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Caixas de correio</a>
+        <a href="Categoria.dc.html" style="text-decoration: none; color: #15171A; font-weight: 600; padding: 12px 12px; border-radius: 2px; background: #EAE8E3">Portões</a>
+        <a href="#" style="text-decoration: none; color: #15171A; padding: 12px 12px">Escadas</a>
+        <a href="#" style="text-decoration: none; color: #15171A; padding: 12px 12px">Guardas</a>
+        <a href="#" style="text-decoration: none; color: #15171A; padding: 12px 12px">Chaminés</a>
+        <a href="#" style="text-decoration: none; color: #15171A; padding: 12px 12px">Caixas de correio</a>
       </nav>
       <div style="display: flex; gap: 8px; align-items: center">
-        <a href="tel:+351000000000" style="display: flex; align-items: center; gap: 6px; height: 44px; padding: 0 10px; color: #22262A; text-decoration: none; font-size: 15px">
+        <a href="tel:+351000000000" style="display: flex; align-items: center; gap: 6px; height: 44px; padding: 0 10px; color: #15171A; text-decoration: none; font-size: 15px">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2"></path></svg>
           [telefone]
         </a>
-        <a href="Conta.dc.html" aria-label="Conta" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 6px; color: #22262A">
+        <a href="Conta.dc.html" aria-label="Conta" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 2px; color: #15171A">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>
         </a>
-        <a href="Carrinho.dc.html" style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: 6px; color: #22262A; text-decoration: none; border: 1px solid #D5D9DA">
+        <a href="Carrinho.dc.html" style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 2px; color: #FFFFFF; background: #15171A; text-decoration: none; font-size: 14px; font-weight: 500">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"></path><circle cx="10" cy="20" r="1.4"></circle><circle cx="17" cy="20" r="1.4"></circle></svg>
           Carrinho ({{cartCount}})
         </a>
@@ -58,74 +62,74 @@ h1{text-wrap:balance}
     </div>
   </header>
 
-  <main class="page-pad" style="max-width: 1320px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 24px 20px 56px; display: flex; flex-direction: column; gap: 20px">
+  <main class="page-pad wrap" style="max-width: 1440px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 24px 80px 56px; display: flex; flex-direction: column; gap: 20px">
 
-    <nav aria-label="Caminho" style="font-size: 14px; color: #5D656A; display: flex; flex-wrap: wrap; gap: 8px">
-      <a href="Home.dc.html" style="color: #5D656A">Início</a><span aria-hidden="true">/</span>
-      <a href="Categoria.dc.html" style="color: #5D656A">Portões</a><span aria-hidden="true">/</span>
-      <span style="color: #22262A">Portão de correr</span>
+    <nav aria-label="Caminho" style="font-size: 14px; color: #5A5F66; display: flex; flex-wrap: wrap; gap: 8px">
+      <a href="Home.dc.html" style="color: #5A5F66">Início</a><span aria-hidden="true">/</span>
+      <a href="Categoria.dc.html" style="color: #5A5F66">Portões</a><span aria-hidden="true">/</span>
+      <span style="color: #15171A">Portão de correr</span>
     </nav>
 
     <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
 
       <section aria-label="Pré-visualização" style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
         <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
-          <h1 class="h1-main" style="margin: 0; font-size: 56px; line-height: 0.95; font-weight: 800; font-variation-settings: 'wdth' 70; letter-spacing: -0.01em">Portão de correr</h1>
-          <div role="group" aria-label="Vista" style="display: flex; background: #E3E6E7; border-radius: 8px; padding: 4px">
+          <h1 class="h1-main" style="margin: 0; font-size: 56px; line-height: 0.95; font-family: Archivo, sans-serif; font-weight: 600; letter-spacing: -0.02em">Portão de correr</h1>
+          <div role="group" aria-label="Vista" style="display: flex; background: #EDECE8; border-radius: 2px; padding: 4px">
             <sc-for list="{{views}}" as="v" hint-placeholder-count="2">
               <button type="button" onClick="{{v.pick}}" aria-pressed="{{v.pressed}}" style="{{v.style}}">{{v.label}}</button>
             </sc-for>
           </div>
         </div>
 
-        <div style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; overflow: hidden">
+        <div style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; overflow: hidden">
           <sc-if value="{{showDrawing}}" hint-placeholder-val="{{ true }}">
-            <svg viewBox="0 0 760 460" style="display: block; width: 100%; height: auto; background: #FBFBFA" role="img" aria-label="{{drawingLabel}}">
-              <path d="{{d.ground}}" stroke="#9AA2A6" stroke-width="1" fill="none"></path>
-              <path d="{{d.hatch}}" stroke="#C3C9CB" stroke-width="1" fill="none"></path>
-              <rect x="{{d.freeX}}" y="{{d.freeY}}" width="{{d.freeW}}" height="{{d.freeH}}" fill="{{d.freeFill}}" stroke="#7F878B" stroke-width="1" stroke-dasharray="6 5"></rect>
-              <text x="{{d.freeLabelX}}" y="{{d.freeLabelY}}" text-anchor="middle" font-family="Archivo, sans-serif" font-size="14" fill="#3F464B">{{d.freeLabel}}</text>
-              <path d="{{d.track}}" stroke="#5D656A" stroke-width="2" stroke-dasharray="6 5" fill="none"></path>
-              <rect x="{{d.postLx}}" y="{{d.postY}}" width="14" height="{{d.postH}}" fill="#D5D9DA" stroke="#22262A" stroke-width="1"></rect>
-              <rect x="{{d.postRx}}" y="{{d.postY}}" width="14" height="{{d.postH}}" fill="#D5D9DA" stroke="#22262A" stroke-width="1"></rect>
-              <path d="{{d.bars}}" stroke="#22262A" stroke-width="7" fill="none"></path>
+            <svg viewBox="0 0 760 460" style="display: block; width: 100%; height: auto; background: #EAE8E3" role="img" aria-label="{{drawingLabel}}">
+              <path d="{{d.ground}}" stroke="#A9AEB5" stroke-width="1" fill="none"></path>
+              <path d="{{d.hatch}}" stroke="#DAD8D2" stroke-width="1" fill="none"></path>
+              <rect x="{{d.freeX}}" y="{{d.freeY}}" width="{{d.freeW}}" height="{{d.freeH}}" fill="{{d.freeFill}}" stroke="#85827A" stroke-width="1" stroke-dasharray="6 5"></rect>
+              <text x="{{d.freeLabelX}}" y="{{d.freeLabelY}}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" fill="#4A4F56">{{d.freeLabel}}</text>
+              <path d="{{d.track}}" stroke="#5A5F66" stroke-width="2" stroke-dasharray="6 5" fill="none"></path>
+              <rect x="{{d.postLx}}" y="{{d.postY}}" width="14" height="{{d.postH}}" fill="#DAD8D2" stroke="#15171A" stroke-width="1"></rect>
+              <rect x="{{d.postRx}}" y="{{d.postY}}" width="14" height="{{d.postH}}" fill="#DAD8D2" stroke="#15171A" stroke-width="1"></rect>
+              <path d="{{d.bars}}" stroke="#15171A" stroke-width="7" fill="none"></path>
               <path class="leaf" d="{{d.bars}}" stroke="{{d.fill}}" stroke-width="5" fill="none"></path>
-              <rect x="{{d.x}}" y="{{d.y}}" width="{{d.w}}" height="{{d.h}}" fill="none" stroke="#22262A" stroke-width="12"></rect>
+              <rect x="{{d.x}}" y="{{d.y}}" width="{{d.w}}" height="{{d.h}}" fill="none" stroke="#15171A" stroke-width="12"></rect>
               <rect class="leaf" x="{{d.x}}" y="{{d.y}}" width="{{d.w}}" height="{{d.h}}" fill="none" stroke="{{d.fill}}" stroke-width="10"></rect>
-              <path d="{{d.arrow}}" stroke="#2238A8" stroke-width="2" fill="none"></path>
-              <path d="{{d.ext}}" stroke="#2238A8" stroke-width="1" fill="none"></path>
+              <path d="{{d.arrow}}" stroke="#B8461A" stroke-width="2" fill="none"></path>
+              <path d="{{d.ext}}" stroke="#B8461A" stroke-width="1" fill="none"></path>
               <path d="{{d.dims}}" stroke="{{d.dimColorW}}" stroke-width="1.5" fill="none"></path>
               <path d="{{d.dimsV}}" stroke="{{d.dimColorH}}" stroke-width="1.5" fill="none"></path>
-              <text x="{{d.wLabelX}}" y="{{d.wLabelY}}" text-anchor="middle" font-family="Archivo, sans-serif" font-size="20" font-weight="700" fill="{{d.dimColorW}}" style="font-variant-numeric: tabular-nums">{{d.wLabel}}</text>
-              <text x="{{d.hLabelX}}" y="{{d.hLabelY}}" text-anchor="middle" transform="{{d.hRotate}}" font-family="Archivo, sans-serif" font-size="20" font-weight="700" fill="{{d.dimColorH}}" style="font-variant-numeric: tabular-nums">{{d.hLabel}}</text>
+              <text x="{{d.wLabelX}}" y="{{d.wLabelY}}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="14" font-weight="500" fill="{{d.dimColorW}}" style="font-family: 'IBM Plex Mono', monospace">{{d.wLabel}}</text>
+              <text x="{{d.hLabelX}}" y="{{d.hLabelY}}" text-anchor="middle" transform="{{d.hRotate}}" font-family="IBM Plex Mono, monospace" font-size="14" font-weight="500" fill="{{d.dimColorH}}" style="font-family: 'IBM Plex Mono', monospace">{{d.hLabel}}</text>
             </svg>
           </sc-if>
           <sc-if value="{{show3d}}" hint-placeholder-val="{{ false }}">
-            <div style="aspect-ratio: 760 / 460; background: #EEF0F0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; padding: 24px; box-sizing: border-box">
-              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#5D656A" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7z"></path><path d="M3 7l9 5 9-5M12 12v10"></path></svg>
+            <div style="aspect-ratio: 760 / 460; background: #EAE8E3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; padding: 24px; box-sizing: border-box">
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#5A5F66" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7z"></path><path d="M3 7l9 5 9-5M12 12v10"></path></svg>
               <p style="margin: 0; font-size: 17px; font-weight: 600">Modelo 3D do portão</p>
-              <p style="margin: 0; font-size: 15px; color: #5D656A; max-width: 44ch">Mostra {{finishPhrase}}. Rode e aproxime para ver os detalhes. O 3D não é desenhado à escala das suas medidas.</p>
+              <p style="margin: 0; font-size: 15px; color: #5A5F66; max-width: 44ch">Mostra {{finishPhrase}}. Rode e aproxime para ver os detalhes. O 3D não é desenhado à escala das suas medidas.</p>
             </div>
           </sc-if>
         </div>
-        <p style="margin: 0; font-size: 14px; color: #5D656A; max-width: 70ch">{{viewCaption}}</p>
+        <p style="margin: 0; font-size: 14px; color: #5A5F66; max-width: 70ch">{{viewCaption}}</p>
       </section>
 
       <section aria-label="Configurar o portão" style="flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
 
-        <div class="price-strip" style="position: sticky; top: 8px; z-index: 5; background: #FFFFFF; border: 1px solid #22262A; border-radius: 10px; padding: 12px 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px">
+        <div class="price-strip" style="position: sticky; top: 8px; z-index: 5; background: #FFFFFF; border: 1px solid #15171A; border-radius: 2px; padding: 12px 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px">
           <div aria-live="polite" style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
             <span style="{{stripMainStyle}}">{{stripMain}}</span>
-            <span style="font-size: 13px; color: #5D656A">{{stripSub}}</span>
+            <span style="font-size: 13px; color: #5A5F66">{{stripSub}}</span>
           </div>
-          <a href="#resumo" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 8px; background: #2238A8; color: #FFFFFF; font-weight: 700; text-decoration: none; font-size: 15px">Ver resumo</a>
+          <a href="#resumo" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 2px; background: #15171A; color: #FFFFFF; font-weight: 700; text-decoration: none; font-size: 15px">Ver resumo</a>
         </div>
 
-        <fieldset style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 16px">
-          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #2238A8; font-variation-settings: 'wdth' 75; margin-right: 8px">1</span>Medidas do vão</legend>
+        <fieldset style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 16px">
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #B8461A; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">01</span>Medidas do vão</legend>
           <div role="group" aria-label="Unidade das medidas" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
-            <span style="font-size: 15px; color: #3F464B">Escrever em</span>
-            <span style="display: inline-flex; border: 1px solid #7F878B; border-radius: 6px; overflow: hidden">
+            <span style="font-size: 15px; color: #4A4F56">Escrever em</span>
+            <span style="display: inline-flex; border: 1px solid #85827A; border-radius: 2px; overflow: hidden">
               <sc-for list="{{units}}" as="u" hint-placeholder-count="3">
                 <button type="button" onClick="{{u.pick}}" aria-pressed="{{u.pressed}}" style="{{u.style}}">{{u.label}}</button>
               </sc-for>
@@ -133,25 +137,25 @@ h1{text-wrap:balance}
           </div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px">
             <div style="display: flex; flex-direction: column; gap: 6px">
-              <label for="largura" style="font-size: 15px; font-weight: 600">Largura entre pilares <span style="font-weight: 400; color: #5D656A">({{unit}})</span></label>
+              <label for="largura" style="font-size: 15px; font-weight: 600">Largura entre pilares <span style="font-weight: 400; color: #5A5F66">({{unit}})</span></label>
               <div style="{{widthBoxStyle}}">
-                <input id="largura" name="largura" type="text" inputmode="decimal" autocomplete="off" placeholder="{{placeholderW}}" value="{{widthText}}" onChange="{{onWidth}}" aria-invalid="{{widthInvalid}}" aria-describedby="largura-ajuda" style="flex: 1; min-width: 0; height: 48px; padding: 0 12px; border: 0; background: transparent; font-size: 22px; font-weight: 600; color: #22262A">
-                <span aria-hidden="true" style="padding: 0 12px; color: #5D656A; font-size: 15px">{{unit}}</span>
+                <input id="largura" name="largura" type="text" inputmode="decimal" autocomplete="off" placeholder="{{placeholderW}}" value="{{widthText}}" onChange="{{onWidth}}" aria-invalid="{{widthInvalid}}" aria-describedby="largura-ajuda" style="flex: 1; min-width: 0; height: 48px; padding: 0 12px; border: 0; background: transparent; font-size: 22px; font-weight: 600; color: #15171A">
+                <span aria-hidden="true" style="padding: 0 12px; color: #5A5F66; font-size: 15px">{{unit}}</span>
               </div>
               <span id="largura-ajuda" style="{{widthHintStyle}}">{{widthHint}}</span>
             </div>
             <div style="display: flex; flex-direction: column; gap: 6px">
-              <label for="altura" style="font-size: 15px; font-weight: 600">Altura <span style="font-weight: 400; color: #5D656A">({{unit}})</span></label>
+              <label for="altura" style="font-size: 15px; font-weight: 600">Altura <span style="font-weight: 400; color: #5A5F66">({{unit}})</span></label>
               <div style="{{heightBoxStyle}}">
-                <input id="altura" name="altura" type="text" inputmode="decimal" autocomplete="off" placeholder="{{placeholderH}}" value="{{heightText}}" onChange="{{onHeight}}" aria-invalid="{{heightInvalid}}" aria-describedby="altura-ajuda" style="flex: 1; min-width: 0; height: 48px; padding: 0 12px; border: 0; background: transparent; font-size: 22px; font-weight: 600; color: #22262A">
-                <span aria-hidden="true" style="padding: 0 12px; color: #5D656A; font-size: 15px">{{unit}}</span>
+                <input id="altura" name="altura" type="text" inputmode="decimal" autocomplete="off" placeholder="{{placeholderH}}" value="{{heightText}}" onChange="{{onHeight}}" aria-invalid="{{heightInvalid}}" aria-describedby="altura-ajuda" style="flex: 1; min-width: 0; height: 48px; padding: 0 12px; border: 0; background: transparent; font-size: 22px; font-weight: 600; color: #15171A">
+                <span aria-hidden="true" style="padding: 0 12px; color: #5A5F66; font-size: 15px">{{unit}}</span>
               </div>
               <span id="altura-ajuda" style="{{heightHintStyle}}">{{heightHint}}</span>
             </div>
           </div>
 
           <div role="radiogroup" aria-label="Lado para onde o portão recolhe" style="display: flex; flex-direction: column; gap: 8px">
-            <span style="font-size: 15px; font-weight: 600">Para que lado recolhe o portão? <span style="font-weight: 400; color: #5D656A">(visto da rua)</span></span>
+            <span style="font-size: 15px; font-weight: 600">Para que lado recolhe o portão? <span style="font-weight: 400; color: #5A5F66">(visto da rua)</span></span>
             <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
               <sc-for list="{{sides}}" as="sd" hint-placeholder-count="2">
                 <label style="{{sd.style}}">
@@ -160,28 +164,28 @@ h1{text-wrap:balance}
                 </label>
               </sc-for>
             </div>
-            <span style="font-size: 13px; color: #5D656A; line-height: 1.4">Desse lado precisa de espaço livre com, pelo menos, a largura do vão. O desenho mostra-o a tracejado.</span>
+            <span style="font-size: 13px; color: #5A5F66; line-height: 1.4">Desse lado precisa de espaço livre com, pelo menos, a largura do vão. O desenho mostra-o a tracejado.</span>
           </div>
 
-          <button type="button" onClick="{{toggleHelp}}" aria-expanded="{{helpOpen}}" aria-controls="como-medir" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 2px; border: 0; background: transparent; color: #2238A8; font-size: 15px; font-weight: 600; text-decoration: underline; cursor: pointer">
+          <button type="button" onClick="{{toggleHelp}}" aria-expanded="{{helpOpen}}" aria-controls="como-medir" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 2px; border: 0; background: transparent; color: #15171A; font-size: 15px; font-weight: 600; text-decoration: underline; cursor: pointer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17 17 3l4 4L7 21H3z"></path><path d="M7 13l2 2M10 10l2 2M13 7l2 2"></path></svg>
             {{helpLabel}}
           </button>
           <sc-if value="{{helpOpen}}" hint-placeholder-val="{{ false }}">
-            <div id="como-medir" style="border-radius: 8px; background: #F3F5FD; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.5">
+            <div id="como-medir" style="border-radius: 2px; background: #F5F4F1; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.5">
               <ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px">
                 <li><strong>Largura:</strong> meça entre os pilares em baixo, ao meio e em cima. Use a <strong>menor</strong> das três.</li>
                 <li><strong>Altura:</strong> meça do chão até onde quer o topo do portão. Se o chão tiver desnível, meça no ponto mais alto do chão.</li>
                 <li><strong>Espaço de recolha:</strong> confirme que, do lado escolhido, há espaço livre com pelo menos a largura do vão.</li>
               </ol>
-              <p style="margin: 0; color: #3F464B">[Texto e ilustrações a validar pela Abinox.]</p>
+              <p style="margin: 0; color: #4A4F56">[Texto e ilustrações a validar pela Abinox.]</p>
               <p style="margin: 0">Prefere não arriscar? <a href="#">Pedir medição no local</a> ([preço da medição] €, descontado na encomenda).</p>
             </div>
           </sc-if>
         </fieldset>
 
-        <fieldset style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
-          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #2238A8; font-variation-settings: 'wdth' 75; margin-right: 8px">2</span>Material e acabamento</legend>
+        <fieldset style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #B8461A; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">02</span>Material e acabamento</legend>
           <div role="radiogroup" aria-label="Material" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
             <sc-for list="{{materials}}" as="m" hint-placeholder-count="3">
               <label style="{{m.style}}">
@@ -193,7 +197,7 @@ h1{text-wrap:balance}
           </div>
           <div style="display: flex; flex-direction: column; gap: 6px">
             <label for="acabamento" style="font-size: 15px; font-weight: 600">Acabamento</label>
-            <select id="acabamento" name="acabamento" value="{{finish}}" onChange="{{onFinish}}" style="height: 48px; padding: 0 12px; border: 1px solid #7F878B; border-radius: 6px; background: #FFFFFF; font-size: 16px; color: #22262A">
+            <select id="acabamento" name="acabamento" value="{{finish}}" onChange="{{onFinish}}" style="height: 48px; padding: 0 12px; border: 1px solid #85827A; border-radius: 2px; background: #FFFFFF; font-size: 16px; color: #15171A">
               <sc-for list="{{finishes}}" as="f" hint-placeholder-count="2">
                 <option value="{{f.id}}">{{f.label}}</option>
               </sc-for>
@@ -207,7 +211,7 @@ h1{text-wrap:balance}
                   <label style="{{c.style}}">
                     <input type="radio" name="cor" checked="{{c.checked}}" onChange="{{c.pick}}" style="position: absolute; opacity: 0; width: 1px; height: 1px">
                     <span aria-hidden="true" style="{{c.swatch}}"></span>
-                    <span style="display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 600">{{c.code}}</span><span style="font-size: 13px; color: #5D656A">{{c.name}}</span></span>
+                    <span style="display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 600">{{c.code}}</span><span style="font-size: 13px; color: #5A5F66">{{c.name}}</span></span>
                   </label>
                 </sc-for>
               </div>
@@ -215,59 +219,59 @@ h1{text-wrap:balance}
           </sc-if>
         </fieldset>
 
-        <fieldset style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
-          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #2238A8; font-variation-settings: 'wdth' 75; margin-right: 8px">3</span>Opções</legend>
+        <fieldset style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #B8461A; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">03</span>Opções</legend>
           <div style="display: flex; flex-direction: column; gap: 6px">
             <label for="motor" style="font-size: 15px; font-weight: 600">Motorização</label>
-            <select id="motor" name="motor" value="{{motor}}" onChange="{{onMotor}}" style="height: 48px; padding: 0 12px; border: 1px solid #7F878B; border-radius: 6px; background: #FFFFFF; font-size: 16px; color: #22262A">
+            <select id="motor" name="motor" value="{{motor}}" onChange="{{onMotor}}" style="height: 48px; padding: 0 12px; border: 1px solid #85827A; border-radius: 2px; background: #FFFFFF; font-size: 16px; color: #15171A">
               <option value="sem">Sem motor (abertura manual)</option>
               <option value="motor">Motor de correr com 2 comandos</option>
               <option value="motor-extra">Motor de correr com 4 comandos</option>
             </select>
           </div>
-          <p style="margin: 0; padding: 12px 14px; border: 1.5px dashed #7F878B; border-radius: 6px; font-size: 14px; color: #5D656A">Outras opções a definir com a Abinox: fechadura, tipo de enchimento, perfil.</p>
+          <p style="margin: 0; padding: 12px 14px; border: 1.5px dashed #85827A; border-radius: 2px; font-size: 14px; color: #5A5F66">Outras opções a definir com a Abinox: fechadura, tipo de enchimento, perfil.</p>
         </fieldset>
 
-        <fieldset style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 8px">
-          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #2238A8; font-variation-settings: 'wdth' 75; margin-right: 8px">4</span>Instalação</legend>
+        <fieldset style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 8px">
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #B8461A; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">04</span>Instalação</legend>
           <label style="display: flex; align-items: flex-start; gap: 12px; min-height: 44px; cursor: pointer">
-            <input type="checkbox" name="instalacao" checked="{{install}}" onChange="{{toggleInstall}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #2238A8">
+            <input type="checkbox" name="instalacao" checked="{{install}}" onChange="{{toggleInstall}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #15171A">
             <span style="display: flex; flex-direction: column; gap: 4px">
               <span style="font-size: 16px; font-weight: 600">Instalar pela Abinox, por mais [preço da instalação] €</span>
-              <span style="font-size: 14px; color: #5D656A; line-height: 1.45">Disponível em [zonas]. Sem instalação, o portão é entregue pronto a montar.</span>
+              <span style="font-size: 14px; color: #5A5F66; line-height: 1.45">Disponível em [zonas]. Sem instalação, o portão é entregue pronto a montar.</span>
             </span>
           </label>
         </fieldset>
 
-        <section id="resumo" aria-label="Resumo e preço" style="background: #FFFFFF; border: 1px solid #D5D9DA; border-top: 4px solid #22262A; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 16px">
+        <section id="resumo" aria-label="Resumo e preço" style="background: #FFFFFF; border: 1px solid #DAD8D2; border-top: 4px solid #15171A; border-radius: 2px; padding: 22px; display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 16px">
           <dl style="margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 20px; row-gap: 8px; font-size: 15px">
             <sc-for list="{{summary}}" as="row" hint-placeholder-count="6">
-              <dt style="color: #5D656A">{{row.k}}</dt>
+              <dt style="color: #5A5F66">{{row.k}}</dt>
               <dd style="margin: 0; font-weight: 600">{{row.v}}</dd>
             </sc-for>
           </dl>
 
           <sc-if value="{{canPrice}}" hint-placeholder-val="{{ true }}">
-            <div style="display: flex; flex-direction: column; gap: 4px; padding-top: 16px; border-top: 1px solid #E3E6E7">
-              <span style="font-size: 52px; line-height: 1; font-weight: 800; font-variation-settings: 'wdth' 72; font-variant-numeric: tabular-nums">[preço] €</span>
-              <span style="font-size: 15px; color: #5D656A">Com IVA. {{priceNote}}</span>
-              <span style="font-size: 15px; color: #5D656A">Fabrico em [n] semanas, em Viana do Castelo.</span>
+            <div style="display: flex; flex-direction: column; gap: 4px; padding-top: 16px; border-top: 1px solid #EDECE8">
+              <span style="font-size: 52px; line-height: 1; font-family: Archivo, sans-serif; font-weight: 600; font-variant-numeric: tabular-nums">[preço] €</span>
+              <span style="font-size: 15px; color: #5A5F66">Com IVA. {{priceNote}}</span>
+              <span style="font-size: 15px; color: #5A5F66">Fabrico em [n] semanas, em Viana do Castelo.</span>
             </div>
           </sc-if>
           <sc-if value="{{showImpossible}}" hint-placeholder-val="{{ false }}">
-            <div style="border-radius: 8px; background: #FBEAE8; padding: 16px; display: flex; flex-direction: column; gap: 6px">
+            <div style="border-radius: 2px; background: #FBEAE8; padding: 16px; display: flex; flex-direction: column; gap: 6px">
               <strong style="color: #8C1D17; font-size: 16px">Não fabricamos este portão com estas medidas</strong>
-              <span style="font-size: 15px; color: #22262A; line-height: 1.45">{{impossibleReason}}</span>
+              <span style="font-size: 15px; color: #15171A; line-height: 1.45">{{impossibleReason}}</span>
               <a href="#" style="font-size: 15px; color: #8C1D17">Pedir uma proposta à medida</a>
             </div>
           </sc-if>
 
           <div style="{{acceptBoxStyle}}">
             <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-size: 15px; line-height: 1.5">
-              <input type="checkbox" name="confirmo-medidas" checked="{{accept}}" disabled="{{cannotAccept}}" onChange="{{toggleAccept}}" aria-describedby="medidas-nota" style="margin: 3px 0 0; width: 20px; height: 20px; flex: none; accent-color: #2238A8">
+              <input type="checkbox" name="confirmo-medidas" checked="{{accept}}" disabled="{{cannotAccept}}" onChange="{{toggleAccept}}" aria-describedby="medidas-nota" style="margin: 3px 0 0; width: 20px; height: 20px; flex: none; accent-color: #15171A">
               <span>{{acceptText}}</span>
             </label>
-            <p id="medidas-nota" style="margin: 0 0 0 32px; font-size: 14px; color: #3F464B; line-height: 1.45">Este portão é feito à sua medida. Por isso não pode ser devolvido nem trocado por outra medida [confirmar redação com jurista]. <a href="#">Condições de venda</a></p>
+            <p id="medidas-nota" style="margin: 0 0 0 32px; font-size: 14px; color: #4A4F56; line-height: 1.45">Este portão é feito à sua medida. Por isso não pode ser devolvido nem trocado por outra medida [confirmar redação com jurista]. <a href="#">Condições de venda</a></p>
             <sc-if value="{{acceptReset}}" hint-placeholder-val="{{ false }}">
               <p role="status" style="margin: 0 0 0 32px; font-size: 14px; color: #6B4700; font-weight: 600">Alterou as medidas. Confirme de novo.</p>
             </sc-if>
@@ -290,32 +294,33 @@ h1{text-wrap:balance}
 
     <section aria-label="Sobre este portão" style="margin-top: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 28px">
       <div style="display: flex; flex-direction: column; gap: 8px">
-        <h2 style="margin: 0; font-size: 22px; font-weight: 700; font-variation-settings: 'wdth' 85">Como é feito</h2>
-        <p style="margin: 0; color: #5D656A; line-height: 1.55; max-width: 60ch">[Texto do produto, a partir do site atual.]</p>
+        <h2 style="margin: 0; font-size: 22px; font-weight: 700;">Como é feito</h2>
+        <p style="margin: 0; color: #5A5F66; line-height: 1.55; max-width: 60ch">[Texto do produto, a partir do site atual.]</p>
       </div>
       <div style="display: flex; flex-direction: column; gap: 8px">
-        <h2 style="margin: 0; font-size: 22px; font-weight: 700; font-variation-settings: 'wdth' 85">Características técnicas</h2>
-        <p style="margin: 0; color: #5D656A; line-height: 1.55; max-width: 60ch">[Perfis, espessuras, ferragens, garantia.]</p>
+        <h2 style="margin: 0; font-size: 22px; font-weight: 700;">Características técnicas</h2>
+        <p style="margin: 0; color: #5A5F66; line-height: 1.55; max-width: 60ch">[Perfis, espessuras, ferragens, garantia.]</p>
       </div>
       <div style="display: flex; flex-direction: column; gap: 8px">
-        <h2 style="margin: 0; font-size: 22px; font-weight: 700; font-variation-settings: 'wdth' 85">Entrega</h2>
-        <p style="margin: 0; color: #5D656A; line-height: 1.55; max-width: 60ch">[Zonas, portes, prazos, levantamento nas instalações.]</p>
+        <h2 style="margin: 0; font-size: 22px; font-weight: 700;">Entrega</h2>
+        <p style="margin: 0; color: #5A5F66; line-height: 1.55; max-width: 60ch">[Zonas, portes, prazos, levantamento nas instalações.]</p>
       </div>
       <div style="display: flex; flex-direction: column; gap: 8px">
-        <h2 style="margin: 0; font-size: 22px; font-weight: 700; font-variation-settings: 'wdth' 85">Tem dúvidas?</h2>
-        <p style="margin: 0; color: #5D656A; line-height: 1.55; max-width: 60ch">Ligue [telefone] ou escreva para [email], [horário].</p>
+        <h2 style="margin: 0; font-size: 22px; font-weight: 700;">Tem dúvidas?</h2>
+        <p style="margin: 0; color: #5A5F66; line-height: 1.55; max-width: 60ch">Ligue [telefone] ou escreva para [email], [horário].</p>
       </div>
     </section>
   </main>
 
-  <footer style="margin-top: auto; background: #22262A; color: #D5D9DA">
-    <div style="max-width: 1320px; margin: 0 auto; padding: 28px 20px; display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: 14px">
-      <span>[Abinox, NIF, morada em Viana do Castelo]</span>
-      <a href="#" style="color: #D5D9DA">Termos e condições</a>
-      <a href="#" style="color: #D5D9DA">Privacidade</a>
-      <a href="#" style="color: #D5D9DA">Cookies</a>
-      <a href="#" style="color: #D5D9DA">Livro de Reclamações</a>
-      <a href="#" style="color: #D5D9DA">Resolução de litígios</a>
+  <footer class="wrap" style="margin-top: auto; border-top: 1px solid #DAD8D2; padding: 48px 80px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px; font-size: 14px; color: #4A4F56">
+    <div style="display: flex; flex-direction: column; gap: 10px; max-width: 320px">
+      <span style="font-family: Archivo, sans-serif; font-weight: 700; font-size: 18px; color: #15171A">Abinox</span>
+      <span>Bruno Miguel Freitas, Lda · [MORADA], Viana do Castelo</span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 32px 56px">
+      <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-weight: 600; color: #15171A">Produtos</span><a href="Categoria.dc.html">Portões</a><a href="#">Escadas</a><a href="#">Guardas</a><a href="#">Chaminés</a></div>
+      <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-weight: 600; color: #15171A">Contactos</span><span class="mono">[TELEFONE]</span><span>[EMAIL]</span></div>
+      <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-weight: 600; color: #15171A">Legal</span><a href="#">Termos e condições</a><a href="#">Privacidade</a><a href="#">Cookies</a><a href="#">Livro de Reclamações</a><a href="#">Resolução de litígios</a></div>
     </div>
   </footer>
 </div>
@@ -354,7 +359,7 @@ class Component extends DCLogic {
     var MATERIALS = [
       { id: 'inox', label: 'Inox', swatch: '#C8CDD0' },
       { id: 'ferro', label: 'Ferro', swatch: '#7A8287' },
-      { id: 'aluminio', label: 'Alumínio', swatch: '#B9BEC1' }
+      { id: 'aluminio', label: 'Alumínio', swatch: '#A9AEB5' }
     ];
     var FINISHES = {
       inox: [{ id: 'escovado', label: 'Escovado', fill: '#C8CDD0' }, { id: 'polido', label: 'Polido', fill: '#DDE1E3' }],
@@ -432,7 +437,7 @@ class Component extends DCLogic {
       fill: leafFill,
       postLx: (gx - 16).toFixed(1), postRx: (gx + gw + 2).toFixed(1), postY: (gy - 8).toFixed(1), postH: (gh + 8).toFixed(1),
       freeX: (s.side === 'esquerda' ? left - 16 : left + gw + 16).toFixed(1), freeY: (gy).toFixed(1), freeW: gw.toFixed(1), freeH: gh.toFixed(1),
-      freeFill: s.side ? '#EEF1FB' : '#F2F3F2',
+      freeFill: s.side ? '#F5F4F1' : '#EDECE8',
       freeLabel: s.side ? 'espaço livre ≥ ' + grp(dw) + ' mm' : 'lado de recolha?',
       freeLabelX: ((s.side === 'esquerda' ? left - 16 : left + gw + 16) + gw / 2).toFixed(1), freeLabelY: (gy + gh / 2).toFixed(1),
       ground: 'M8 ' + ground + 'H' + (VW - 8),
@@ -446,8 +451,8 @@ class Component extends DCLogic {
         'M' + (Math.min(gx, fx) - 22).toFixed(1) + ' ' + ground + 'H' + (dimX - 10),
       dims: 'M' + gx.toFixed(1) + ' ' + dimY + 'H' + (gx + gw).toFixed(1) + ' ' + tick(gx, dimY) + tick(gx + gw, dimY),
       dimsV: 'M' + dimX + ' ' + gy.toFixed(1) + 'V' + ground + ' ' + tick(dimX, gy) + tick(dimX, ground),
-      dimColorW: widthBad ? '#B3261E' : '#2238A8',
-      dimColorH: heightBad ? '#B3261E' : '#2238A8',
+      dimColorW: widthBad ? '#B3261E' : '#A83F17',
+      dimColorH: heightBad ? '#B3261E' : '#A83F17',
       wLabel: widthOk || widthBad && !widthNaN ? grp(widthMm) + ' mm' : 'largura ?',
       wLabelX: (gx + gw / 2).toFixed(1), wLabelY: dimY - 10,
       hLabel: heightOk || heightBad && !heightNaN ? grp(heightMm) + ' mm' : 'altura ?',
@@ -467,10 +472,10 @@ class Component extends DCLogic {
       return 'Fabricamos com ' + grp(mm) + ' mm. ' + range;
     }
     function boxStyle(bad) {
-      return 'display: flex; align-items: center; border-radius: 6px; background: #FFFFFF; border: ' + (bad ? '2px solid #B3261E' : '1px solid #7F878B');
+      return 'display: flex; align-items: center; border-radius: 2px; background: #FFFFFF; border: ' + (bad ? '2px solid #B3261E' : '1px solid #85827A');
     }
     function hintStyle(bad) {
-      return 'font-size: 13px; line-height: 1.4; color: ' + (bad ? '#8C1D17' : '#5D656A');
+      return 'font-size: 13px; line-height: 1.4; color: ' + (bad ? '#8C1D17' : '#5A5F66');
     }
 
     var bad = [];
@@ -489,7 +494,7 @@ class Component extends DCLogic {
     }
 
     var motorLabel = { sem: 'Sem motor', motor: 'Motor, 2 comandos', 'motor-extra': 'Motor, 4 comandos' }[s.motor];
-    var btn = 'height: 52px; padding: 0 24px; border-radius: 8px; font-size: 16px; font-weight: 700; ';
+    var btn = 'height: 52px; padding: 0 24px; border-radius: 2px; font-size: 16px; font-weight: 700; ';
     var measures = canPrice ? grp(widthMm) + ' × ' + grp(heightMm) + ' mm' : '[medidas]';
 
     function resetOnMeasure(patch) {
@@ -498,17 +503,17 @@ class Component extends DCLogic {
     }
     function seg(on) {
       return 'min-width: 52px; height: 44px; padding: 0 14px; border: 0; cursor: pointer; font-size: 15px; ' +
-        (on ? 'background: #22262A; color: #FFFFFF; font-weight: 700' : 'background: #FFFFFF; color: #22262A');
+        (on ? 'background: #15171A; color: #FFFFFF; font-weight: 700' : 'background: #FFFFFF; color: #15171A');
     }
     function card(on) {
-      return 'position: relative; display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 8px 12px; border-radius: 8px; cursor: pointer; ' +
-        (on ? 'border: 2px solid #2238A8; background: #F3F5FD' : 'border: 1px solid #7F878B; background: #FFFFFF');
+      return 'position: relative; display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 8px 12px; border-radius: 2px; cursor: pointer; ' +
+        (on ? 'border: 2px solid #15171A; background: #F5F4F1' : 'border: 1px solid #85827A; background: #FFFFFF');
     }
 
     var stripMain, stripSub, stripTone;
-    if (canPrice) { stripMain = '[preço] € com IVA'; stripSub = measures + ' · ' + material.label.toLowerCase() + (s.install ? ' · com instalação' : ''); stripTone = '#22262A'; }
+    if (canPrice) { stripMain = '[preço] € com IVA'; stripSub = measures + ' · ' + material.label.toLowerCase() + (s.install ? ' · com instalação' : ''); stripTone = '#15171A'; }
     else if (bad.length) { stripMain = 'Não fabricamos com estas medidas'; stripSub = 'Corrija as medidas para ver o preço.'; stripTone = '#8C1D17'; }
-    else { stripMain = 'Indique as medidas'; stripSub = 'O preço aparece aqui assim que as medidas forem válidas.'; stripTone = '#22262A'; }
+    else { stripMain = 'Indique as medidas'; stripSub = 'O preço aparece aqui assim que as medidas forem válidas.'; stripTone = '#15171A'; }
 
     return {
       cartCount: s.cartCount,
@@ -516,8 +521,8 @@ class Component extends DCLogic {
         var on = v.id === s.view;
         return {
           label: v.label, pressed: on,
-          style: 'height: 44px; padding: 0 16px; border: 0; border-radius: 6px; cursor: pointer; font-size: 15px; ' +
-            (on ? 'background: #FFFFFF; color: #22262A; font-weight: 700; box-shadow: 0 1px 2px rgba(34,38,42,.18)' : 'background: transparent; color: #3F464B'),
+          style: 'height: 44px; padding: 0 16px; border: 0; border-radius: 2px; cursor: pointer; font-size: 15px; ' +
+            (on ? 'background: #FFFFFF; color: #15171A; font-weight: 700' : 'background: transparent; color: #4A4F56'),
           pick: function () { self.setState({ view: v.id }); }
         };
       }),
@@ -532,7 +537,7 @@ class Component extends DCLogic {
 
       stripMain: stripMain,
       stripSub: stripSub,
-      stripMainStyle: 'font-size: 22px; line-height: 1.1; font-weight: 800; font-variation-settings: \'wdth\' 75; color: ' + stripTone,
+      stripMainStyle: 'font-size: 22px; line-height: 1.1; font-family: Archivo, sans-serif; font-weight: 600; color: ' + stripTone,
 
       unit: s.unit,
       placeholderW: 'ex.: ' + (s.unit === 'm' ? '3,5' : s.unit === 'cm' ? '350' : '3500'),
@@ -575,9 +580,9 @@ class Component extends DCLogic {
         var on = m.id === s.material;
         return {
           label: m.label, checked: on,
-          swatch: 'width: 100%; height: 28px; border-radius: 4px; background: ' + m.swatch + '; border: 1px solid rgba(34,38,42,.35)',
-          style: 'position: relative; display: flex; flex-direction: column; gap: 8px; padding: 10px; border-radius: 8px; cursor: pointer; ' +
-            (on ? 'border: 2px solid #2238A8; background: #F3F5FD' : 'border: 1px solid #7F878B; background: #FFFFFF'),
+          swatch: 'width: 100%; height: 28px; border-radius: 2px; background: ' + m.swatch + '; border: 1px solid rgba(34,38,42,.35)',
+          style: 'position: relative; display: flex; flex-direction: column; gap: 8px; padding: 10px; border-radius: 2px; cursor: pointer; ' +
+            (on ? 'border: 2px solid #15171A; background: #F5F4F1' : 'border: 1px solid #85827A; background: #FFFFFF'),
           pick: function () { self.setState({ material: m.id, added: false, saved: false }); }
         };
       }),
@@ -589,9 +594,9 @@ class Component extends DCLogic {
         var on = c.id === s.color;
         return {
           code: c.code, name: c.name, checked: on,
-          swatch: 'width: 32px; height: 32px; flex: none; border-radius: 4px; border: 1px solid rgba(34,38,42,.4); background: ' + c.hex,
-          style: 'position: relative; display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 8px 10px; border-radius: 8px; cursor: pointer; ' +
-            (on ? 'border: 2px solid #2238A8; background: #F3F5FD' : 'border: 1px solid #7F878B; background: #FFFFFF'),
+          swatch: 'width: 32px; height: 32px; flex: none; border-radius: 2px; border: 1px solid rgba(34,38,42,.4); background: ' + c.hex,
+          style: 'position: relative; display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 8px 10px; border-radius: 2px; cursor: pointer; ' +
+            (on ? 'border: 2px solid #15171A; background: #F5F4F1' : 'border: 1px solid #85827A; background: #FFFFFF'),
           pick: function () { self.setState({ color: c.id, added: false, saved: false }); }
         };
       }),
@@ -619,15 +624,15 @@ class Component extends DCLogic {
       acceptText: canPrice && s.side
         ? 'Confirmo que medi o vão: ' + measures + ', a recolher para a ' + sideLabel + ', com pelo menos ' + grp(widthMm) + ' mm livres desse lado. As medidas são da minha responsabilidade.'
         : 'Confirmo as medidas do vão (indique primeiro medidas válidas e o lado de recolha).',
-      acceptBoxStyle: 'display: flex; flex-direction: column; gap: 8px; padding: 14px; border-radius: 8px; border: 1px solid ' + (s.accept ? '#2238A8' : '#7F878B') + '; background: ' + (s.accept ? '#F3F5FD' : '#FFFFFF'),
+      acceptBoxStyle: 'display: flex; flex-direction: column; gap: 8px; padding: 14px; border-radius: 2px; border: 1px solid ' + (s.accept ? '#15171A' : '#85827A') + '; background: ' + (s.accept ? '#F5F4F1' : '#FFFFFF'),
       acceptReset: s.acceptReset && !s.accept,
       toggleAccept: function () { self.setState({ accept: !s.accept, acceptReset: false }); },
 
       missingText: missingText,
-      missingStyle: 'margin: 0; font-size: 14px; line-height: 1.45; color: ' + (s.tried && !canAdd ? '#8C1D17' : '#5D656A') + (canAdd ? '; display: none' : ''),
+      missingStyle: 'margin: 0; font-size: 14px; line-height: 1.45; color: ' + (s.tried && !canAdd ? '#8C1D17' : '#5A5F66') + (canAdd ? '; display: none' : ''),
       cannotSave: !canPrice,
-      addStyle: btn + 'flex: 1 1 220px; border: 0; cursor: pointer; ' + (canAdd ? 'background: #2238A8; color: #FFFFFF' : 'background: #E3E6E7; color: #3F464B'),
-      saveStyle: btn + 'flex: 1 1 160px; background: #FFFFFF; ' + (canPrice ? 'border: 1.5px solid #22262A; color: #22262A; cursor: pointer' : 'border: 1px solid #D5D9DA; color: #5D656A'),
+      addStyle: btn + 'flex: 1 1 220px; border: 0; cursor: pointer; ' + (canAdd ? 'background: #B8461A; color: #FFFFFF' : 'background: #EDECE8; color: #4A4F56'),
+      saveStyle: btn + 'flex: 1 1 160px; background: #FFFFFF; ' + (canPrice ? 'border: 1.5px solid #15171A; color: #15171A; cursor: pointer' : 'border: 1px solid #DAD8D2; color: #5A5F66'),
       addToCart: function () {
         if (!canAdd) { self.setState({ tried: true }); return; }
         self.setState({ added: true, saved: false, tried: false, cartCount: s.cartCount + 1 });

@@ -11,31 +11,35 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
-a{color:#2238A8}a:hover{color:#16257A}
+body{margin:0;background:#F5F4F1;color:#15171A;font-family:'IBM Plex Sans',system-ui,sans-serif}
+a{color:#15171A}a:hover{color:#B8461A}
 input,select,button{font-family:inherit}
-:focus-visible{outline:3px solid #2238A8;outline-offset:2px}
-label:has(input:focus-visible){outline:3px solid #2238A8;outline-offset:2px}
+:focus-visible{outline:2px solid #15171A;outline-offset:2px}
+label:has(input:focus-visible){outline:2px solid #15171A;outline-offset:2px}
 footer :focus-visible,nav[aria-label="Backoffice"] :focus-visible,.on-dark :focus-visible{outline-color:#FFFFFF}
 h1{text-wrap:balance}
 button:disabled{cursor:not-allowed}
 th{font-weight:600;text-align:left}
+h1,h2,h3,legend{font-family:'Archivo',system-ui,sans-serif}
+input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+.wrap{padding-left:80px;padding-right:80px}
+@media (max-width: 760px){.wrap{padding-left:16px!important;padding-right:16px!important}}
 </style>
 </helmet>
 <div style="min-height: 100vh; display: flex; flex-wrap: wrap">
 
-  <nav aria-label="Backoffice" style="flex: 1 1 220px; max-width: 100%; box-sizing: border-box; background: #22262A; color: #D5D9DA; padding: 20px 14px; display: flex; flex-direction: column; gap: 4px">
-    <span style="display: flex; align-items: center; justify-content: center; height: 40px; margin-bottom: 16px; border: 1.5px dashed #6B7378; border-radius: 6px; font-size: 13px; color: #B9BEC1">Logótipo Abinox</span>
-    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Painel</a>
-    <a href="Encomendas.dc.html" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Encomendas</a>
-    <a href="Produto.dc.html" aria-current="page" style="color: #FFFFFF; text-decoration: none; padding: 10px 12px; border-radius: 6px; background: #3A4146; font-weight: 700">Produtos</a>
-    <a href="Materiais.dc.html" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Materiais e custos</a>
-    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Opções</a>
-    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Clientes</a>
-    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Definições</a>
-    <div style="margin-top: auto; padding: 12px; border-radius: 6px; background: #2E3439; font-size: 13px; line-height: 1.45; color: #B9BEC1">
+  <nav aria-label="Backoffice" style="flex: 1 1 220px; max-width: 100%; box-sizing: border-box; background: #15171A; color: #C9CDD2; padding: 20px 14px; display: flex; flex-direction: column; gap: 4px">
+    <span style="display: flex; align-items: baseline; gap: 10px; height: 40px; margin-bottom: 16px; padding: 0 12px; font-family: Archivo, sans-serif; font-weight: 700; font-size: 18px; color: #FFFFFF">Abinox <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 400; font-size: 11px; letter-spacing: 0.08em; color: #A9AEB5">BACKOFFICE</span></span>
+    <a href="#" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Painel</a>
+    <a href="Encomendas.dc.html" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Encomendas</a>
+    <a href="Produto.dc.html" aria-current="page" style="color: #FFFFFF; text-decoration: none; padding: 10px 12px; border-radius: 2px; background: #33373D; font-weight: 700">Produtos</a>
+    <a href="Materiais.dc.html" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Materiais e custos</a>
+    <a href="#" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Opções</a>
+    <a href="#" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Clientes</a>
+    <a href="#" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Definições</a>
+    <div style="margin-top: auto; padding: 12px; border-radius: 2px; background: #33373D; font-size: 13px; line-height: 1.45; color: #A9AEB5">
       <span style="display: block; color: #FFFFFF; font-weight: 600">Sincronização PHC</span>
       Última: hoje às [hora]. 1 artigo para rever.
     </div>
@@ -44,27 +48,27 @@ th{font-weight:600;text-align:left}
   <main style="flex: 999 1 900px; min-width: 0; box-sizing: border-box; padding: 24px 28px 48px; display: flex; flex-direction: column; gap: 20px">
 
     <div style="display: flex; flex-direction: column; gap: 8px">
-      <nav aria-label="Caminho" style="font-size: 14px; color: #5D656A; display: flex; flex-wrap: wrap; gap: 8px">
-        <a href="#" style="color: #5D656A">Produtos</a><span aria-hidden="true">/</span>
-        <a href="#" style="color: #5D656A">Portões</a><span aria-hidden="true">/</span>
-        <a href="Produto.dc.html" style="color: #5D656A">Portão de correr</a><span aria-hidden="true">/</span>
-        <span style="color: #22262A">Fórmula de preço</span>
+      <nav aria-label="Caminho" style="font-size: 14px; color: #5A5F66; display: flex; flex-wrap: wrap; gap: 8px">
+        <a href="#" style="color: #5A5F66">Produtos</a><span aria-hidden="true">/</span>
+        <a href="#" style="color: #5A5F66">Portões</a><span aria-hidden="true">/</span>
+        <a href="Produto.dc.html" style="color: #5A5F66">Portão de correr</a><span aria-hidden="true">/</span>
+        <span style="color: #15171A">Fórmula de preço</span>
       </nav>
       <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
         <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px">
-          <h1 style="margin: 0; font-size: 44px; line-height: 1; font-weight: 800; font-variation-settings: 'wdth' 70">Fórmula de preço</h1>
+          <h1 style="margin: 0; font-size: 44px; line-height: 1; font-family: Archivo, sans-serif; font-weight: 600;">Fórmula de preço</h1>
           <span style="{{statusStyle}}">{{statusLabel}}</span>
           <a href="#" style="font-size: 14px">Versões anteriores (v2 publicada a [data])</a>
         </div>
         <div style="display: flex; flex-wrap: wrap; gap: 8px">
-          <button type="button" onClick="{{saveDraft}}" style="height: 44px; padding: 0 16px; border-radius: 8px; border: 1.5px solid #22262A; background: #FFFFFF; color: #22262A; font-size: 15px; font-weight: 700; cursor: pointer">Guardar rascunho</button>
+          <button type="button" onClick="{{saveDraft}}" style="height: 44px; padding: 0 16px; border-radius: 2px; border: 1.5px solid #15171A; background: #FFFFFF; color: #15171A; font-size: 15px; font-weight: 700; cursor: pointer">Guardar rascunho</button>
           <button type="button" onClick="{{validate}}" disabled="{{cannotValidate}}" style="{{validateStyle}}">Marcar como validada</button>
           <button type="button" onClick="{{publish}}" disabled="{{cannotPublish}}" style="{{publishStyle}}">Publicar</button>
         </div>
       </div>
       <sc-if value="{{showChecklist}}" hint-placeholder-val="{{ true }}">
-        <div aria-live="polite" style="display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: #3F464B">
-          <span style="font-weight: 700; color: #22262A">Para validar:</span>
+        <div aria-live="polite" style="display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: #4A4F56">
+          <span style="font-weight: 700; color: #15171A">Para validar:</span>
           <sc-for list="{{checks}}" as="ck" hint-placeholder-count="3">
             <span style="{{ck.style}}">{{ck.mark}} {{ck.label}}</span>
           </sc-for>
@@ -76,10 +80,10 @@ th{font-weight:600;text-align:left}
     </div>
 
     <sc-if value="{{krPending}}" hint-placeholder-val="{{ true }}">
-      <div style="display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; background: #FFF4D6; border: 1px solid #E8D59A; border-radius: 8px; padding: 12px 16px; font-size: 15px">
+      <div style="display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; background: #FFF4D6; border: 1px solid #E8D59A; border-radius: 2px; padding: 12px 16px; font-size: 15px">
         <strong>Kit de rodízios (PHC KR02) desapareceu do PHC em [data].</strong>
         <span>A fórmula usa o último custo conhecido ([€/un]).</span>
-        <button type="button" onClick="{{keepKr}}" style="height: 40px; padding: 0 12px; border-radius: 6px; border: 0; background: #2238A8; color: #FFFFFF; font-size: 14px; font-weight: 700; cursor: pointer">Manter este custo</button>
+        <button type="button" onClick="{{keepKr}}" style="height: 40px; padding: 0 12px; border-radius: 2px; border: 0; background: #15171A; color: #FFFFFF; font-size: 14px; font-weight: 700; cursor: pointer">Manter este custo</button>
         <a href="Materiais.dc.html">Trocar de artigo</a>
       </div>
     </sc-if>
@@ -87,15 +91,15 @@ th{font-weight:600;text-align:left}
     <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
 
       <section aria-label="Linhas de custo" style="flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-        <div style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; overflow: hidden">
-          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; padding: 16px 18px; border-bottom: 1px solid #E3E6E7">
+        <div style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; overflow: hidden">
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; padding: 16px 18px; border-bottom: 1px solid #EDECE8">
             <h2 style="margin: 0; font-size: 20px; font-weight: 700">Linhas de custo</h2>
-            <span style="font-size: 14px; color: #5D656A">Quantidades em função de <strong style="color: #22262A">L</strong> (largura) e <strong style="color: #22262A">H</strong> (altura), em metros. Linhas e expressões de exemplo.</span>
+            <span style="font-size: 14px; color: #5A5F66">Quantidades em função de <strong style="color: #15171A">L</strong> (largura) e <strong style="color: #15171A">H</strong> (altura), em metros. Linhas e expressões de exemplo.</span>
           </div>
           <div style="overflow-x: auto">
             <table style="width: 100%; min-width: 860px; border-collapse: collapse; font-size: 15px">
               <thead>
-                <tr style="background: #F7F8F8; color: #5D656A; font-size: 13px">
+                <tr style="background: #F5F4F1; color: #5A5F66; font-size: 13px">
                   <th scope="col" style="padding: 10px 14px">Linha</th>
                   <th scope="col" style="padding: 10px 14px">Aplica-se</th>
                   <th scope="col" style="padding: 10px 14px; width: 260px">Quantidade</th>
@@ -109,7 +113,7 @@ th{font-weight:600;text-align:left}
                   <tr style="{{r.rowStyle}}">
                     <td style="padding: 12px 14px; vertical-align: top">
                       <span style="display: block; font-weight: 700">{{r.label}}</span>
-                      <span style="display: block; font-size: 13px; color: #5D656A">{{r.kind}}</span>
+                      <span style="display: block; font-size: 13px; color: #5A5F66">{{r.kind}}</span>
                     </td>
                     <td style="padding: 12px 14px; vertical-align: top; font-size: 14px">
                       <span style="{{r.condStyle}}">{{r.condText}}</span>
@@ -117,20 +121,20 @@ th{font-weight:600;text-align:left}
                     <td style="padding: 8px 14px; vertical-align: top">
                       <label style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)" for="{{r.inputId}}">{{r.inputLabel}}</label>
                       <div style="{{r.exprBoxStyle}}">
-                        <input id="{{r.inputId}}" type="text" value="{{r.expr}}" onChange="{{r.onExpr}}" aria-invalid="{{r.invalid}}" spellcheck="false" style="flex: 1; min-width: 0; height: 40px; padding: 0 10px; border: 0; background: transparent; font-size: 15px; font-variant-numeric: tabular-nums; color: #22262A">
-                        <span style="padding: 0 10px; font-size: 13px; color: #5D656A">{{r.unit}}</span>
+                        <input id="{{r.inputId}}" type="text" value="{{r.expr}}" onChange="{{r.onExpr}}" aria-invalid="{{r.invalid}}" spellcheck="false" style="flex: 1; min-width: 0; height: 40px; padding: 0 10px; border: 0; background: transparent; font-size: 15px; font-family: 'IBM Plex Mono', monospace; color: #15171A">
+                        <span style="padding: 0 10px; font-size: 13px; color: #5A5F66">{{r.unit}}</span>
                       </div>
                       <sc-if value="{{r.invalid}}" hint-placeholder-val="{{ false }}">
                         <span style="display: block; margin-top: 4px; font-size: 13px; color: #8C1D17">{{r.error}}</span>
                       </sc-if>
                     </td>
-                    <td style="padding: 12px 14px; vertical-align: top; text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap">{{r.qtyText}}</td>
+                    <td style="padding: 12px 14px; vertical-align: top; text-align: right; font-weight: 700; font-family: 'IBM Plex Mono', monospace; white-space: nowrap">{{r.qtyText}}</td>
                     <td style="padding: 12px 14px; vertical-align: top; font-size: 14px">
                       <span style="display: block">{{r.cost}}</span>
                       <span style="{{r.sourceStyle}}">{{r.source}}</span>
                     </td>
                     <td style="padding: 8px; vertical-align: top">
-                      <button type="button" onClick="{{r.remove}}" aria-label="{{r.removeLabel}}" style="width: 40px; height: 40px; border: 0; border-radius: 6px; background: transparent; color: #5D656A; cursor: pointer">
+                      <button type="button" onClick="{{r.remove}}" aria-label="{{r.removeLabel}}" style="width: 40px; height: 40px; border: 0; border-radius: 2px; background: transparent; color: #5A5F66; cursor: pointer">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg>
                       </button>
                     </td>
@@ -139,25 +143,25 @@ th{font-weight:600;text-align:left}
               </tbody>
             </table>
           </div>
-          <div style="padding: 12px 18px; border-top: 1px solid #E3E6E7; display: flex; flex-wrap: wrap; gap: 8px">
-            <button type="button" onClick="{{addMaterial}}" style="height: 40px; padding: 0 14px; border-radius: 6px; border: 1px solid #7F878B; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar material</button>
-            <button type="button" onClick="{{addLabour}}" style="height: 40px; padding: 0 14px; border-radius: 6px; border: 1px solid #7F878B; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar mão de obra</button>
-            <button type="button" onClick="{{addFixed}}" style="height: 40px; padding: 0 14px; border-radius: 6px; border: 1px solid #7F878B; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar custo fixo</button>
+          <div style="padding: 12px 18px; border-top: 1px solid #EDECE8; display: flex; flex-wrap: wrap; gap: 8px">
+            <button type="button" onClick="{{addMaterial}}" style="height: 40px; padding: 0 14px; border-radius: 2px; border: 1px solid #85827A; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar material</button>
+            <button type="button" onClick="{{addLabour}}" style="height: 40px; padding: 0 14px; border-radius: 2px; border: 1px solid #85827A; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar mão de obra</button>
+            <button type="button" onClick="{{addFixed}}" style="height: 40px; padding: 0 14px; border-radius: 2px; border: 1px solid #85827A; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar custo fixo</button>
           </div>
         </div>
 
-        <div style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 16px 18px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
+        <div style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; padding: 16px 18px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
           <div style="display: flex; flex-direction: column; gap: 6px">
             <label for="margem" style="font-size: 15px; font-weight: 600">Margem</label>
-            <div style="display: flex; align-items: center; border: 1px solid #7F878B; border-radius: 6px">
+            <div style="display: flex; align-items: center; border: 1px solid #85827A; border-radius: 2px">
               <input id="margem" type="text" inputmode="decimal" placeholder="[%]" style="flex: 1; min-width: 0; height: 44px; padding: 0 10px; border: 0; background: transparent; font-size: 16px">
-              <span style="padding: 0 10px; color: #5D656A">%</span>
+              <span style="padding: 0 10px; color: #5A5F66">%</span>
             </div>
-            <span style="font-size: 13px; color: #5D656A">Sobre o custo total.</span>
+            <span style="font-size: 13px; color: #5A5F66">Sobre o custo total.</span>
           </div>
           <div style="display: flex; flex-direction: column; gap: 6px">
             <label for="arredondar" style="font-size: 15px; font-weight: 600">Arredondamento</label>
-            <select id="arredondar" style="height: 46px; padding: 0 10px; border: 1px solid #7F878B; border-radius: 6px; background: #FFFFFF; font-size: 16px">
+            <select id="arredondar" style="height: 46px; padding: 0 10px; border: 1px solid #85827A; border-radius: 2px; background: #FFFFFF; font-size: 16px">
               <option>Para cima, a 1 €</option>
               <option>Para cima, a 5 €</option>
               <option>Para cima, a 10 €</option>
@@ -171,68 +175,68 @@ th{font-weight:600;text-align:left}
       </section>
 
       <aside aria-label="Pré-visualização do preço" style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-        <div style="background: #FFFFFF; border: 1px solid #D5D9DA; border-top: 4px solid #2238A8; border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 14px">
+        <div style="background: #FFFFFF; border: 1px solid #DAD8D2; border-top: 4px solid #15171A; border-radius: 2px; padding: 18px; display: flex; flex-direction: column; gap: 14px">
           <h2 style="margin: 0; font-size: 20px; font-weight: 700">Testar com uma configuração</h2>
           <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
             <div style="display: flex; flex-direction: column; gap: 4px">
               <label for="tL" style="font-size: 14px; font-weight: 600">Largura (L)</label>
-              <div style="display: flex; align-items: center; border: 1px solid #7F878B; border-radius: 6px">
-                <input id="tL" type="text" inputmode="decimal" value="{{tL}}" onChange="{{onL}}" style="flex: 1; min-width: 0; height: 42px; padding: 0 10px; border: 0; background: transparent; font-size: 16px; font-variant-numeric: tabular-nums">
-                <span style="padding: 0 10px; color: #5D656A">m</span>
+              <div style="display: flex; align-items: center; border: 1px solid #85827A; border-radius: 2px">
+                <input id="tL" type="text" inputmode="decimal" value="{{tL}}" onChange="{{onL}}" style="flex: 1; min-width: 0; height: 42px; padding: 0 10px; border: 0; background: transparent; font-size: 16px; font-family: 'IBM Plex Mono', monospace">
+                <span style="padding: 0 10px; color: #5A5F66">m</span>
               </div>
             </div>
             <div style="display: flex; flex-direction: column; gap: 4px">
               <label for="tH" style="font-size: 14px; font-weight: 600">Altura (H)</label>
-              <div style="display: flex; align-items: center; border: 1px solid #7F878B; border-radius: 6px">
-                <input id="tH" type="text" inputmode="decimal" value="{{tH}}" onChange="{{onH}}" style="flex: 1; min-width: 0; height: 42px; padding: 0 10px; border: 0; background: transparent; font-size: 16px; font-variant-numeric: tabular-nums">
-                <span style="padding: 0 10px; color: #5D656A">m</span>
+              <div style="display: flex; align-items: center; border: 1px solid #85827A; border-radius: 2px">
+                <input id="tH" type="text" inputmode="decimal" value="{{tH}}" onChange="{{onH}}" style="flex: 1; min-width: 0; height: 42px; padding: 0 10px; border: 0; background: transparent; font-size: 16px; font-family: 'IBM Plex Mono', monospace">
+                <span style="padding: 0 10px; color: #5A5F66">m</span>
               </div>
             </div>
             <div style="display: flex; flex-direction: column; gap: 4px">
               <label for="tAc" style="font-size: 14px; font-weight: 600">Acabamento</label>
-              <select id="tAc" value="{{tAc}}" onChange="{{onAc}}" style="height: 44px; padding: 0 8px; border: 1px solid #7F878B; border-radius: 6px; background: #FFFFFF; font-size: 15px">
+              <select id="tAc" value="{{tAc}}" onChange="{{onAc}}" style="height: 44px; padding: 0 8px; border: 1px solid #85827A; border-radius: 2px; background: #FFFFFF; font-size: 15px">
                 <option value="galvanizado">Galvanizado</option>
                 <option value="lacado">Lacado</option>
               </select>
             </div>
             <div style="display: flex; flex-direction: column; gap: 4px">
               <label for="tMot" style="font-size: 14px; font-weight: 600">Motorização</label>
-              <select id="tMot" value="{{tMot}}" onChange="{{onMot}}" style="height: 44px; padding: 0 8px; border: 1px solid #7F878B; border-radius: 6px; background: #FFFFFF; font-size: 15px">
+              <select id="tMot" value="{{tMot}}" onChange="{{onMot}}" style="height: 44px; padding: 0 8px; border: 1px solid #85827A; border-radius: 2px; background: #FFFFFF; font-size: 15px">
                 <option value="sem">Sem motor</option>
                 <option value="com">Com motor</option>
               </select>
             </div>
           </div>
           <label style="display: flex; align-items: center; gap: 10px; font-size: 15px; cursor: pointer">
-            <input type="checkbox" checked="{{tInst}}" onChange="{{onInst}}" style="width: 20px; height: 20px; accent-color: #2238A8">
+            <input type="checkbox" checked="{{tInst}}" onChange="{{onInst}}" style="width: 20px; height: 20px; accent-color: #15171A">
             Com instalação
           </label>
 
-          <dl style="margin: 0; padding-top: 12px; border-top: 1px solid #E3E6E7; display: grid; grid-template-columns: minmax(0, 1fr) max-content; row-gap: 8px; font-size: 15px">
-            <dt style="color: #5D656A">Materiais</dt><dd style="margin: 0; text-align: right">[€]</dd>
-            <dt style="color: #5D656A">Mão de obra ({{hoursText}})</dt><dd style="margin: 0; text-align: right">[€]</dd>
-            <dt style="color: #5D656A">Acabamento e opções</dt><dd style="margin: 0; text-align: right">[€]</dd>
+          <dl style="margin: 0; padding-top: 12px; border-top: 1px solid #EDECE8; display: grid; grid-template-columns: minmax(0, 1fr) max-content; row-gap: 8px; font-size: 15px">
+            <dt style="color: #5A5F66">Materiais</dt><dd style="margin: 0; text-align: right">[€]</dd>
+            <dt style="color: #5A5F66">Mão de obra ({{hoursText}})</dt><dd style="margin: 0; text-align: right">[€]</dd>
+            <dt style="color: #5A5F66">Acabamento e opções</dt><dd style="margin: 0; text-align: right">[€]</dd>
             <dt style="font-weight: 600">Custo total</dt><dd style="margin: 0; text-align: right; font-weight: 600">[€]</dd>
-            <dt style="color: #5D656A">Margem ([%])</dt><dd style="margin: 0; text-align: right">[€]</dd>
-            <dt style="color: #5D656A">IVA 23%</dt><dd style="margin: 0; text-align: right">[€]</dd>
+            <dt style="color: #5A5F66">Margem ([%])</dt><dd style="margin: 0; text-align: right">[€]</dd>
+            <dt style="color: #5A5F66">IVA 23%</dt><dd style="margin: 0; text-align: right">[€]</dd>
           </dl>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 12px; border-top: 1px solid #E3E6E7">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 12px; border-top: 1px solid #EDECE8">
             <span style="font-size: 15px; font-weight: 600">Preço ao cliente</span>
-            <span style="font-size: 36px; line-height: 1; font-weight: 800; font-variation-settings: 'wdth' 72">[preço] €</span>
+            <span style="font-size: 36px; line-height: 1; font-family: Archivo, sans-serif; font-weight: 600;">[preço] €</span>
           </div>
           <sc-if value="{{hasErrors}}" hint-placeholder-val="{{ false }}">
             <p role="alert" style="margin: 0; font-size: 14px; color: #8C1D17">Há linhas com erros. Corrija-as para calcular o preço.</p>
           </sc-if>
-          <p style="margin: 0; font-size: 13px; color: #5D656A">{{activeText}}</p>
+          <p style="margin: 0; font-size: 13px; color: #5A5F66">{{activeText}}</p>
         </div>
 
-        <div style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+        <div style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
           <h2 style="margin: 0; font-size: 20px; font-weight: 700">Comparar com orçamentos reais</h2>
-          <p style="margin: 0; font-size: 14px; color: #5D656A; line-height: 1.45">Antes de validar, a fórmula tem de dar valores próximos de orçamentos que a Abinox já fez.</p>
+          <p style="margin: 0; font-size: 14px; color: #5A5F66; line-height: 1.45">Antes de validar, a fórmula tem de dar valores próximos de orçamentos que a Abinox já fez.</p>
           <div style="overflow-x: auto">
             <table style="width: 100%; border-collapse: collapse; font-size: 14px">
               <thead>
-                <tr style="color: #5D656A; font-size: 13px">
+                <tr style="color: #5A5F66; font-size: 13px">
                   <th scope="col" style="padding: 6px 4px">Orçamento</th>
                   <th scope="col" style="padding: 6px 4px; text-align: right">Real</th>
                   <th scope="col" style="padding: 6px 4px; text-align: right">Fórmula</th>
@@ -241,7 +245,7 @@ th{font-weight:600;text-align:left}
               </thead>
               <tbody>
                 <sc-for list="{{compare}}" as="cp" hint-placeholder-count="3">
-                  <tr style="border-top: 1px solid #E3E6E7">
+                  <tr style="border-top: 1px solid #EDECE8">
                     <td style="padding: 8px 4px">{{cp.label}}</td>
                     <td style="padding: 8px 4px; text-align: right">[€]</td>
                     <td style="padding: 8px 4px; text-align: right">[€]</td>
@@ -258,7 +262,7 @@ th{font-weight:600;text-align:left}
               </tbody>
             </table>
           </div>
-          <button type="button" style="align-self: flex-start; height: 40px; padding: 0 14px; border-radius: 6px; border: 1px solid #7F878B; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar orçamento real</button>
+          <button type="button" style="align-self: flex-start; height: 40px; padding: 0 14px; border-radius: 2px; border: 1px solid #85827A; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar orçamento real</button>
         </div>
       </aside>
     </div>
@@ -383,16 +387,16 @@ class Component extends DCLogic {
         unit: r.unit,
         cost: r.cost,
         source: r.source,
-        sourceStyle: 'display: block; font-size: 13px; ' + (r.review ? 'color: #8A5A00; font-weight: 700' : 'color: #5D656A'),
+        sourceStyle: 'display: block; font-size: 13px; ' + (r.review ? 'color: #8A5A00; font-weight: 700' : 'color: #5A5F66'),
         inputId: 'expr-' + r.id,
         inputLabel: 'Quantidade de ' + r.label,
         invalid: Boolean(res.error),
         error: res.error || '',
-        exprBoxStyle: 'display: flex; align-items: center; border-radius: 6px; background: #FFFFFF; border: ' + (res.error ? '2px solid #B3261E' : '1px solid #7F878B'),
+        exprBoxStyle: 'display: flex; align-items: center; border-radius: 2px; background: #FFFFFF; border: ' + (res.error ? '2px solid #B3261E' : '1px solid #85827A'),
         qtyText: res.error ? '—' : (applies ? fmt(res.value) + ' ' + r.unit : 'não se aplica'),
         condText: r.cond ? 'Só se: ' + r.cond.t : 'Sempre',
-        condStyle: r.cond ? 'display: inline-block; padding: 3px 8px; border-radius: 4px; background: #EEF1FB; color: #1A2B85' : 'color: #5D656A',
-        rowStyle: 'border-top: 1px solid #E3E6E7; ' + (applies ? '' : 'background: #F7F8F8; color: #5D656A'),
+        condStyle: r.cond ? 'display: inline-block; padding: 3px 8px; border-radius: 2px; background: #EDECE8; color: #15171A' : 'color: #5A5F66',
+        rowStyle: 'border-top: 1px solid #EDECE8; ' + (applies ? '' : 'background: #F5F4F1; color: #5A5F66'),
         onExpr: function (e) { updateRow(r.id, { expr: e.target.value }); },
         remove: function () { touched({ rows: s.rows.filter(function (x) { return x.id !== r.id; }) }); },
         removeLabel: 'Remover ' + r.label
@@ -405,8 +409,8 @@ class Component extends DCLogic {
     }
 
     var statusMap = {
-      rascunho: { label: 'Rascunho v3', style: 'background: #E3E6E7; color: #22262A' },
-      validada: { label: 'Validada v3', style: 'background: #EEF1FB; color: #1A2B85' },
+      rascunho: { label: 'Rascunho v3', style: 'background: #EDECE8; color: #15171A' },
+      validada: { label: 'Validada v3', style: 'background: #EDECE8; color: #15171A' },
       publicada: { label: 'Publicada v3', style: 'background: #E3F1E6; color: #1E5B2C' }
     };
     var st = statusMap[s.status];
@@ -418,7 +422,7 @@ class Component extends DCLogic {
     ];
     var canValidate = s.status === 'rascunho' && checks.every(function (c) { return c.ok; });
     var canPublish = s.status === 'validada';
-    var btn = 'height: 44px; padding: 0 16px; border-radius: 8px; font-size: 15px; font-weight: 700; ';
+    var btn = 'height: 44px; padding: 0 16px; border-radius: 2px; font-size: 15px; font-weight: 700; ';
 
     return {
       rows: rows,
@@ -432,7 +436,7 @@ class Component extends DCLogic {
         var v = s.cmp[i];
         return {
           id: 'cmp-' + i, label: label, value: v, srLabel: 'Resultado da comparação: ' + label,
-          style: 'height: 36px; padding: 0 6px; border-radius: 6px; font-size: 13px; background: #FFFFFF; border: 1px solid ' + (v === 'dentro' ? '#1E5B2C' : v === 'fora' ? '#B3261E' : '#7F878B') + '; color: ' + (v === 'dentro' ? '#1E5B2C' : v === 'fora' ? '#8C1D17' : '#22262A'),
+          style: 'height: 36px; padding: 0 6px; border-radius: 2px; font-size: 13px; background: #FFFFFF; border: 1px solid ' + (v === 'dentro' ? '#1E5B2C' : v === 'fora' ? '#B3261E' : '#85827A') + '; color: ' + (v === 'dentro' ? '#1E5B2C' : v === 'fora' ? '#8C1D17' : '#15171A'),
           onChange: function (e) { var next = s.cmp.slice(); next[i] = e.target.value; self.setState({ cmp: next }); }
         };
       }),
@@ -451,17 +455,17 @@ class Component extends DCLogic {
       addFixed: function () { add('Custo fixo', 'un', 'Novo custo fixo', '[€]', 'Valor fixo'); },
 
       statusLabel: st.label,
-      statusStyle: 'display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 15px; font-size: 14px; font-weight: 700; ' + st.style,
+      statusStyle: 'display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 2px; font-size: 14px; font-weight: 700; ' + st.style,
       saveDraft: function () { self.setState({ notice: 'Rascunho guardado.' }); },
       validate: function () { self.setState({ status: 'validada', notice: 'Fórmula validada. Pode publicar quando quiser.' }); },
       publish: function () { self.setState({ status: 'publicada', notice: 'Publicada. Os novos orçamentos usam a v3. Orçamentos guardados e encomendas mantêm o preço que tinham.' }); },
       cannotValidate: !canValidate,
       cannotPublish: !canPublish,
-      validateStyle: btn + (canValidate ? 'border: 1.5px solid #2238A8; background: #FFFFFF; color: #2238A8; cursor: pointer' : 'border: 1px solid #D5D9DA; background: #FFFFFF; color: #5D656A'),
-      publishStyle: btn + 'border: 0; ' + (canPublish ? 'background: #2238A8; color: #FFFFFF; cursor: pointer' : 'background: #E3E6E7; color: #5D656A'),
+      validateStyle: btn + (canValidate ? 'border: 1.5px solid #15171A; background: #FFFFFF; color: #15171A; cursor: pointer' : 'border: 1px solid #DAD8D2; background: #FFFFFF; color: #5A5F66'),
+      publishStyle: btn + 'border: 0; ' + (canPublish ? 'background: #15171A; color: #FFFFFF; cursor: pointer' : 'background: #EDECE8; color: #5A5F66'),
       banner: Boolean(s.notice),
       bannerText: s.notice || '',
-      bannerStyle: 'margin: 0; padding: 10px 14px; border-radius: 8px; font-size: 15px; ' + (s.status === 'publicada' ? 'background: #E3F1E6; color: #1E5B2C' : 'background: #EEF1FB; color: #1A2B85')
+      bannerStyle: 'margin: 0; padding: 10px 14px; border-radius: 2px; font-size: 15px; ' + (s.status === 'publicada' ? 'background: #E3F1E6; color: #1E5B2C' : 'background: #EDECE8; color: #15171A')
     };
   }
 }

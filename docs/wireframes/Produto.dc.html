@@ -11,115 +11,119 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
-a{color:#2238A8}a:hover{color:#16257A}
+body{margin:0;background:#F5F4F1;color:#15171A;font-family:'IBM Plex Sans',system-ui,sans-serif}
+a{color:#15171A}a:hover{color:#B8461A}
 input,select,button{font-family:inherit}
-:focus-visible{outline:3px solid #2238A8;outline-offset:2px}
-label:has(input:focus-visible){outline:3px solid #2238A8;outline-offset:2px}
+:focus-visible{outline:2px solid #15171A;outline-offset:2px}
+label:has(input:focus-visible){outline:2px solid #15171A;outline-offset:2px}
 footer :focus-visible,nav[aria-label="Backoffice"] :focus-visible,.on-dark :focus-visible{outline-color:#FFFFFF}
 h1{text-wrap:balance}
 th{font-weight:600;text-align:left}
+h1,h2,h3,legend{font-family:'Archivo',system-ui,sans-serif}
+input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+.wrap{padding-left:80px;padding-right:80px}
+@media (max-width: 760px){.wrap{padding-left:16px!important;padding-right:16px!important}}
 </style>
 </helmet>
 <div style="min-height: 100vh; display: flex; flex-wrap: wrap">
 
-  <nav aria-label="Backoffice" style="flex: 1 1 220px; max-width: 100%; box-sizing: border-box; background: #22262A; color: #D5D9DA; padding: 20px 14px; display: flex; flex-direction: column; gap: 4px">
-    <span style="display: flex; align-items: center; justify-content: center; height: 40px; margin-bottom: 16px; border: 1.5px dashed #6B7378; border-radius: 6px; font-size: 13px; color: #B9BEC1">Logótipo Abinox</span>
-    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Painel</a>
-    <a href="Encomendas.dc.html" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Encomendas</a>
-    <a href="Produto.dc.html" aria-current="page" style="color: #FFFFFF; text-decoration: none; padding: 10px 12px; border-radius: 6px; background: #3A4146; font-weight: 700">Produtos</a>
-    <a href="Materiais.dc.html" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Materiais e custos</a>
-    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Opções</a>
-    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Clientes</a>
-    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Definições</a>
+  <nav aria-label="Backoffice" style="flex: 1 1 220px; max-width: 100%; box-sizing: border-box; background: #15171A; color: #C9CDD2; padding: 20px 14px; display: flex; flex-direction: column; gap: 4px">
+    <span style="display: flex; align-items: baseline; gap: 10px; height: 40px; margin-bottom: 16px; padding: 0 12px; font-family: Archivo, sans-serif; font-weight: 700; font-size: 18px; color: #FFFFFF">Abinox <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 400; font-size: 11px; letter-spacing: 0.08em; color: #A9AEB5">BACKOFFICE</span></span>
+    <a href="#" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Painel</a>
+    <a href="Encomendas.dc.html" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Encomendas</a>
+    <a href="Produto.dc.html" aria-current="page" style="color: #FFFFFF; text-decoration: none; padding: 10px 12px; border-radius: 2px; background: #33373D; font-weight: 700">Produtos</a>
+    <a href="Materiais.dc.html" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Materiais e custos</a>
+    <a href="#" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Opções</a>
+    <a href="#" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Clientes</a>
+    <a href="#" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Definições</a>
   </nav>
 
   <main style="flex: 999 1 900px; min-width: 0; box-sizing: border-box; padding: 24px 28px 48px; display: flex; flex-direction: column; gap: 18px">
     <div style="display: flex; flex-direction: column; gap: 8px">
-      <nav aria-label="Caminho" style="font-size: 14px; color: #5D656A; display: flex; flex-wrap: wrap; gap: 8px">
-        <a href="#" style="color: #5D656A">Produtos</a><span aria-hidden="true">/</span>
-        <a href="#" style="color: #5D656A">Portões</a><span aria-hidden="true">/</span>
-        <span style="color: #22262A">Portão de correr</span>
+      <nav aria-label="Caminho" style="font-size: 14px; color: #5A5F66; display: flex; flex-wrap: wrap; gap: 8px">
+        <a href="#" style="color: #5A5F66">Produtos</a><span aria-hidden="true">/</span>
+        <a href="#" style="color: #5A5F66">Portões</a><span aria-hidden="true">/</span>
+        <span style="color: #15171A">Portão de correr</span>
       </nav>
       <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px">
         <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px">
-          <h1 style="margin: 0; font-size: 44px; line-height: 1; font-weight: 800; font-variation-settings: 'wdth' 70">Portão de correr</h1>
+          <h1 style="margin: 0; font-size: 44px; line-height: 1; font-family: Archivo, sans-serif; font-weight: 600;">Portão de correr</h1>
           <span style="{{statusStyle}}">{{statusLabel}}</span>
         </div>
         <div style="display: flex; flex-wrap: wrap; gap: 8px">
-          <a href="Main.dc.html" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 8px; border: 1.5px solid #22262A; color: #22262A; font-weight: 700; text-decoration: none">Ver na loja</a>
-          <button type="button" onClick="{{save}}" style="height: 44px; padding: 0 16px; border-radius: 8px; border: 1.5px solid #22262A; background: #FFFFFF; color: #22262A; font-size: 15px; font-weight: 700; cursor: pointer">Guardar rascunho</button>
+          <a href="Main.dc.html" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 2px; border: 1.5px solid #15171A; color: #15171A; font-weight: 700; text-decoration: none">Ver na loja</a>
+          <button type="button" onClick="{{save}}" style="height: 44px; padding: 0 16px; border-radius: 2px; border: 1.5px solid #15171A; background: #FFFFFF; color: #15171A; font-size: 15px; font-weight: 700; cursor: pointer">Guardar rascunho</button>
           <button type="button" onClick="{{publish}}" disabled="{{cannotPublish}}" style="{{publishStyle}}">Publicar alterações</button>
         </div>
       </div>
-      <div aria-live="polite" style="display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: #3F464B">
-        <span style="font-weight: 700; color: #22262A">Para publicar:</span>
+      <div aria-live="polite" style="display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: #4A4F56">
+        <span style="font-weight: 700; color: #15171A">Para publicar:</span>
         <sc-for list="{{checks}}" as="ck" hint-placeholder-count="3">
           <span style="{{ck.style}}">{{ck.mark}} {{ck.label}}</span>
         </sc-for>
       </div>
       <sc-if value="{{notice}}" hint-placeholder-val="{{ false }}">
-        <p role="status" style="margin: 0; padding: 10px 14px; border-radius: 8px; background: #EEF1FB; color: #1A2B85; font-size: 15px">{{noticeText}}</p>
+        <p role="status" style="margin: 0; padding: 10px 14px; border-radius: 2px; background: #EDECE8; color: #15171A; font-size: 15px">{{noticeText}}</p>
       </sc-if>
     </div>
 
-    <div role="group" aria-label="Secções do produto" style="display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid #D5D9DA">
-      <a href="Produto.dc.html" aria-current="page" style="display: inline-flex; align-items: center; height: 46px; padding: 0 14px; margin-bottom: -1px; border-bottom: 3px solid #2238A8; color: #22262A; font-weight: 700; text-decoration: none">Configuração</a>
-      <a href="Formulas.dc.html" style="display: inline-flex; align-items: center; height: 46px; padding: 0 14px; color: #3F464B; text-decoration: none">Fórmula de preço</a>
-      <a href="#" style="display: inline-flex; align-items: center; height: 46px; padding: 0 14px; color: #3F464B; text-decoration: none">Modelo 3D e fotos</a>
-      <a href="#" style="display: inline-flex; align-items: center; height: 46px; padding: 0 14px; color: #3F464B; text-decoration: none">Textos e SEO</a>
+    <div role="group" aria-label="Secções do produto" style="display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid #DAD8D2">
+      <a href="Produto.dc.html" aria-current="page" style="display: inline-flex; align-items: center; height: 46px; padding: 0 14px; margin-bottom: -1px; border-bottom: 3px solid #15171A; color: #15171A; font-weight: 700; text-decoration: none">Configuração</a>
+      <a href="Formulas.dc.html" style="display: inline-flex; align-items: center; height: 46px; padding: 0 14px; color: #4A4F56; text-decoration: none">Fórmula de preço</a>
+      <a href="#" style="display: inline-flex; align-items: center; height: 46px; padding: 0 14px; color: #4A4F56; text-decoration: none">Modelo 3D e fotos</a>
+      <a href="#" style="display: inline-flex; align-items: center; height: 46px; padding: 0 14px; color: #4A4F56; text-decoration: none">Textos e SEO</a>
     </div>
 
     <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
       <div style="flex: 999 1 620px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
 
-        <section style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 18px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
+        <section style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; padding: 18px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
           <div style="display: flex; flex-direction: column; gap: 6px">
             <label for="p-nome" style="font-size: 15px; font-weight: 600">Nome</label>
-            <input id="p-nome" type="text" value="Portão de correr" style="height: 44px; padding: 0 12px; border: 1px solid #7F878B; border-radius: 6px; font-size: 16px">
+            <input id="p-nome" type="text" value="Portão de correr" style="height: 44px; padding: 0 12px; border: 1px solid #85827A; border-radius: 2px; font-size: 16px">
           </div>
           <div style="display: flex; flex-direction: column; gap: 6px">
             <label for="p-cat" style="font-size: 15px; font-weight: 600">Subcategoria de</label>
-            <select id="p-cat" style="height: 46px; padding: 0 10px; border: 1px solid #7F878B; border-radius: 6px; background: #FFFFFF; font-size: 16px"><option>Portões</option><option>Portas</option></select>
+            <select id="p-cat" style="height: 46px; padding: 0 10px; border: 1px solid #85827A; border-radius: 2px; background: #FFFFFF; font-size: 16px"><option>Portões</option><option>Portas</option></select>
           </div>
           <div style="display: flex; flex-direction: column; gap: 6px">
             <span style="font-size: 15px; font-weight: 600">Na loja</span>
             <span style="height: 46px; display: flex; align-items: center; font-size: 16px">{{liveText}}</span>
-            <span style="font-size: 13px; color: #5D656A">O preço usa sempre a última fórmula publicada. <a href="Formulas.dc.html">Ver fórmula</a></span>
+            <span style="font-size: 13px; color: #5A5F66">O preço usa sempre a última fórmula publicada. <a href="Formulas.dc.html">Ver fórmula</a></span>
           </div>
         </section>
 
-        <section style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; overflow: hidden">
-          <div style="padding: 16px 20px; border-bottom: 1px solid #E3E6E7; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline">
+        <section style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; overflow: hidden">
+          <div style="padding: 16px 20px; border-bottom: 1px solid #EDECE8; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline">
             <h2 style="margin: 0; font-size: 20px; font-weight: 700">Medidas</h2>
-            <span style="font-size: 14px; color: #5D656A">Em milímetros. O cliente pode escrever em mm, cm ou m.</span>
+            <span style="font-size: 14px; color: #5A5F66">Em milímetros. O cliente pode escrever em mm, cm ou m.</span>
           </div>
           <div style="overflow-x: auto">
             <table style="width: 100%; min-width: 560px; border-collapse: collapse; font-size: 15px">
-              <thead><tr style="background: #F7F8F8; color: #5D656A; font-size: 13px"><th scope="col" style="padding: 10px 20px">Medida</th><th scope="col" style="padding: 10px 12px">Mínimo</th><th scope="col" style="padding: 10px 12px">Máximo</th><th scope="col" style="padding: 10px 12px">Precisão</th><th scope="col" style="padding: 10px 12px">Variável na fórmula</th></tr></thead>
+              <thead><tr style="background: #F5F4F1; color: #5A5F66; font-size: 13px"><th scope="col" style="padding: 10px 20px">Medida</th><th scope="col" style="padding: 10px 12px">Mínimo</th><th scope="col" style="padding: 10px 12px">Máximo</th><th scope="col" style="padding: 10px 12px">Precisão</th><th scope="col" style="padding: 10px 12px">Variável na fórmula</th></tr></thead>
               <tbody>
-                <tr style="border-top: 1px solid #E3E6E7"><td style="padding: 10px 20px; font-weight: 700">Largura</td><td style="padding: 6px 12px"><input aria-label="Largura mínima" type="text" value="1 000" style="width: 100px; height: 38px; padding: 0 8px; border: 1px solid #7F878B; border-radius: 6px; font-size: 15px"></td><td style="padding: 6px 12px"><input aria-label="Largura máxima" type="text" value="6 000" style="width: 100px; height: 38px; padding: 0 8px; border: 1px solid #7F878B; border-radius: 6px; font-size: 15px"></td><td style="padding: 10px 12px">10 mm</td><td style="padding: 10px 12px"><strong>L</strong> (em m)</td></tr>
-                <tr style="border-top: 1px solid #E3E6E7"><td style="padding: 10px 20px; font-weight: 700">Altura</td><td style="padding: 6px 12px"><input aria-label="Altura mínima" type="text" value="800" style="width: 100px; height: 38px; padding: 0 8px; border: 1px solid #7F878B; border-radius: 6px; font-size: 15px"></td><td style="padding: 6px 12px"><input aria-label="Altura máxima" type="text" value="2 200" style="width: 100px; height: 38px; padding: 0 8px; border: 1px solid #7F878B; border-radius: 6px; font-size: 15px"></td><td style="padding: 10px 12px">10 mm</td><td style="padding: 10px 12px"><strong>H</strong> (em m)</td></tr>
+                <tr style="border-top: 1px solid #EDECE8"><td style="padding: 10px 20px; font-weight: 700">Largura</td><td style="padding: 6px 12px"><input aria-label="Largura mínima" type="text" value="1 000" style="width: 100px; height: 38px; padding: 0 8px; border: 1px solid #85827A; border-radius: 2px; font-size: 15px"></td><td style="padding: 6px 12px"><input aria-label="Largura máxima" type="text" value="6 000" style="width: 100px; height: 38px; padding: 0 8px; border: 1px solid #85827A; border-radius: 2px; font-size: 15px"></td><td style="padding: 10px 12px">10 mm</td><td style="padding: 10px 12px"><strong>L</strong> (em m)</td></tr>
+                <tr style="border-top: 1px solid #EDECE8"><td style="padding: 10px 20px; font-weight: 700">Altura</td><td style="padding: 6px 12px"><input aria-label="Altura mínima" type="text" value="800" style="width: 100px; height: 38px; padding: 0 8px; border: 1px solid #85827A; border-radius: 2px; font-size: 15px"></td><td style="padding: 6px 12px"><input aria-label="Altura máxima" type="text" value="2 200" style="width: 100px; height: 38px; padding: 0 8px; border: 1px solid #85827A; border-radius: 2px; font-size: 15px"></td><td style="padding: 10px 12px">10 mm</td><td style="padding: 10px 12px"><strong>H</strong> (em m)</td></tr>
               </tbody>
             </table>
           </div>
-          <div style="padding: 10px 20px; border-top: 1px solid #E3E6E7"><button type="button" style="height: 40px; padding: 0 14px; border-radius: 6px; border: 1px solid #7F878B; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar medida</button></div>
+          <div style="padding: 10px 20px; border-top: 1px solid #EDECE8"><button type="button" style="height: 40px; padding: 0 14px; border-radius: 2px; border: 1px solid #85827A; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar medida</button></div>
         </section>
 
-        <section style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 16px 20px; display: flex; flex-direction: column; gap: 14px">
+        <section style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; padding: 16px 20px; display: flex; flex-direction: column; gap: 14px">
           <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline">
             <h2 style="margin: 0; font-size: 20px; font-weight: 700">Opções deste produto</h2>
-            <span style="font-size: 14px; color: #5D656A">Escolha que valores da biblioteca o cliente pode usar aqui.</span>
+            <span style="font-size: 14px; color: #5A5F66">Escolha que valores da biblioteca o cliente pode usar aqui.</span>
           </div>
           <sc-for list="{{options}}" as="o" hint-placeholder-count="4">
-            <fieldset style="margin: 0; border: 1px solid #E3E6E7; border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px">
-              <legend style="padding: 0 6px; font-weight: 700">{{o.name}} <span style="font-weight: 400; color: #5D656A; font-size: 14px">{{o.count}}</span></legend>
+            <fieldset style="margin: 0; border: 1px solid #EDECE8; border-radius: 2px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px">
+              <legend style="padding: 0 6px; font-weight: 700">{{o.name}} <span style="font-weight: 400; color: #5A5F66; font-size: 14px">{{o.count}}</span></legend>
               <div style="display: flex; flex-wrap: wrap; gap: 8px">
                 <sc-for list="{{o.values}}" as="v" hint-placeholder-count="3">
                   <label style="{{v.style}}">
-                    <input type="checkbox" checked="{{v.on}}" onChange="{{v.toggle}}" style="width: 18px; height: 18px; margin: 0; accent-color: #2238A8">
+                    <input type="checkbox" checked="{{v.on}}" onChange="{{v.toggle}}" style="width: 18px; height: 18px; margin: 0; accent-color: #15171A">
                     {{v.label}}
                   </label>
                 </sc-for>
@@ -128,55 +132,55 @@ th{font-weight:600;text-align:left}
           </sc-for>
           <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
             <label for="add-opt" style="font-size: 15px; font-weight: 600">Adicionar opção da biblioteca</label>
-            <select id="add-opt" style="height: 42px; padding: 0 10px; border: 1px solid #7F878B; border-radius: 6px; background: #FFFFFF; font-size: 15px"><option>Fechadura</option><option>Enchimento</option><option>Perfil</option></select>
-            <button type="button" style="height: 42px; padding: 0 14px; border-radius: 6px; border: 1px solid #7F878B; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar</button>
+            <select id="add-opt" style="height: 42px; padding: 0 10px; border: 1px solid #85827A; border-radius: 2px; background: #FFFFFF; font-size: 15px"><option>Fechadura</option><option>Enchimento</option><option>Perfil</option></select>
+            <button type="button" style="height: 42px; padding: 0 14px; border-radius: 2px; border: 1px solid #85827A; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar</button>
           </div>
         </section>
 
-        <section style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px">
+        <section style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px">
           <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline">
             <h2 style="margin: 0; font-size: 20px; font-weight: 700">Combinações permitidas</h2>
-            <span style="font-size: 14px; color: #5D656A">Combinações fora destas regras aparecem ao cliente como "não é possível".</span>
+            <span style="font-size: 14px; color: #5A5F66">Combinações fora destas regras aparecem ao cliente como "não é possível".</span>
           </div>
           <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px">
             <sc-for list="{{rules}}" as="r" hint-placeholder-count="3">
-              <li style="display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; padding: 10px 12px; border-radius: 8px; background: #F7F8F8; font-size: 15px">
-                <span style="color: #5D656A">Se</span><strong>{{r.ifText}}</strong>
-                <span style="color: #5D656A">então</span><strong>{{r.thenText}}</strong>
+              <li style="display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; padding: 10px 12px; border-radius: 2px; background: #F5F4F1; font-size: 15px">
+                <span style="color: #5A5F66">Se</span><strong>{{r.ifText}}</strong>
+                <span style="color: #5A5F66">então</span><strong>{{r.thenText}}</strong>
                 <button type="button" onClick="{{r.remove}}" style="margin-left: auto; height: 36px; padding: 0 10px; border: 0; background: transparent; color: #8C1D17; text-decoration: underline; font-size: 14px; cursor: pointer">Remover</button>
               </li>
             </sc-for>
           </ul>
           <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-top: 4px">
             <span style="font-size: 15px">Se</span>
-            <select aria-label="Opção da condição" value="{{newIf}}" onChange="{{onNewIf}}" style="height: 42px; padding: 0 10px; border: 1px solid #7F878B; border-radius: 6px; background: #FFFFFF; font-size: 15px">
+            <select aria-label="Opção da condição" value="{{newIf}}" onChange="{{onNewIf}}" style="height: 42px; padding: 0 10px; border: 1px solid #85827A; border-radius: 2px; background: #FFFFFF; font-size: 15px">
               <option value="Material = Ferro">Material = Ferro</option>
               <option value="Material = Inox">Material = Inox</option>
               <option value="Largura &gt; 4 000 mm">Largura &gt; 4 000 mm</option>
             </select>
             <span style="font-size: 15px">então</span>
-            <select aria-label="Consequência" value="{{newThen}}" onChange="{{onNewThen}}" style="height: 42px; padding: 0 10px; border: 1px solid #7F878B; border-radius: 6px; background: #FFFFFF; font-size: 15px">
+            <select aria-label="Consequência" value="{{newThen}}" onChange="{{onNewThen}}" style="height: 42px; padding: 0 10px; border: 1px solid #85827A; border-radius: 2px; background: #FFFFFF; font-size: 15px">
               <option value="Motorização é obrigatória">Motorização é obrigatória</option>
               <option value="Acabamento só pode ser Galvanizado ou Lacado">Acabamento só pode ser Galvanizado ou Lacado</option>
               <option value="Não é possível">Não é possível</option>
             </select>
-            <button type="button" onClick="{{addRule}}" style="height: 42px; padding: 0 14px; border-radius: 6px; border: 1px solid #7F878B; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar regra</button>
+            <button type="button" onClick="{{addRule}}" style="height: 42px; padding: 0 14px; border-radius: 2px; border: 1px solid #85827A; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar regra</button>
           </div>
         </section>
       </div>
 
-      <aside aria-label="Biblioteca de opções" style="flex: 1 1 300px; min-width: 0; background: #FFFFFF; border: 1px solid #D5D9DA; border-top: 4px solid #22262A; border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+      <aside aria-label="Biblioteca de opções" style="flex: 1 1 300px; min-width: 0; background: #FFFFFF; border: 1px solid #DAD8D2; border-top: 4px solid #15171A; border-radius: 2px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
         <h2 style="margin: 0; font-size: 20px; font-weight: 700">Biblioteca de opções</h2>
-        <p style="margin: 0; font-size: 14px; color: #5D656A; line-height: 1.45">Definidas uma vez e usadas em vários produtos. Alterar um valor aqui afeta todos os produtos que o usam.</p>
+        <p style="margin: 0; font-size: 14px; color: #5A5F66; line-height: 1.45">Definidas uma vez e usadas em vários produtos. Alterar um valor aqui afeta todos os produtos que o usam.</p>
         <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column">
           <sc-for list="{{library}}" as="l" hint-placeholder-count="6">
-            <li style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid #E3E6E7; font-size: 15px">
-              <a href="#" style="color: #22262A; font-weight: 600">{{l.name}}</a>
-              <span style="color: #5D656A; white-space: nowrap">{{l.used}}</span>
+            <li style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid #EDECE8; font-size: 15px">
+              <a href="#" style="color: #15171A; font-weight: 600">{{l.name}}</a>
+              <span style="color: #5A5F66; white-space: nowrap">{{l.used}}</span>
             </li>
           </sc-for>
         </ul>
-        <button type="button" style="height: 42px; border-radius: 6px; border: 1px solid #7F878B; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Nova opção</button>
+        <button type="button" style="height: 42px; border-radius: 2px; border: 1px solid #85827A; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Nova opção</button>
       </aside>
     </div>
   </main>
@@ -227,11 +231,11 @@ class Component extends DCLogic {
 
     return {
       statusLabel: s.dirty ? 'Publicado, com alterações por publicar' : 'Publicado',
-      statusStyle: 'display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 4px; font-size: 14px; font-weight: 700; ' + (s.dirty ? 'background: #FFF4D6; color: #6B4700' : 'background: #E3F1E6; color: #1E5B2C'),
+      statusStyle: 'display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 2px; font-size: 14px; font-weight: 700; ' + (s.dirty ? 'background: #FFF4D6; color: #6B4700' : 'background: #E3F1E6; color: #1E5B2C'),
       liveText: 'Publicado com a fórmula v2' + (s.dirty ? '; as alterações abaixo ainda não estão na loja' : ''),
       checks: checks.map(function (c) { return { label: c.label, mark: c.ok ? '✓' : '✗', style: c.ok ? 'color: #1E5B2C' : 'color: #8C1D17; font-weight: 600' }; }),
       cannotPublish: !canPublish,
-      publishStyle: 'height: 44px; padding: 0 16px; border-radius: 8px; border: 0; font-size: 15px; font-weight: 700; ' + (canPublish ? 'background: #2238A8; color: #FFFFFF; cursor: pointer' : 'background: #E3E6E7; color: #3F464B'),
+      publishStyle: 'height: 44px; padding: 0 16px; border-radius: 2px; border: 0; font-size: 15px; font-weight: 700; ' + (canPublish ? 'background: #15171A; color: #FFFFFF; cursor: pointer' : 'background: #EDECE8; color: #4A4F56'),
       notice: Boolean(s.notice),
       noticeText: s.notice || '',
       save: function () { self.setState({ notice: 'Rascunho guardado. A loja continua com a versão publicada.' }); },
@@ -247,8 +251,8 @@ class Component extends DCLogic {
             var checked = Boolean(s.allowed[key]);
             return {
               label: v, on: checked,
-              style: 'display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 12px; border-radius: 6px; cursor: pointer; font-size: 15px; ' +
-                (checked ? 'border: 1.5px solid #2238A8; background: #F3F5FD' : 'border: 1px solid #7F878B; background: #FFFFFF; color: #5D656A'),
+              style: 'display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 12px; border-radius: 2px; cursor: pointer; font-size: 15px; ' +
+                (checked ? 'border: 1.5px solid #15171A; background: #F5F4F1' : 'border: 1px solid #85827A; background: #FFFFFF; color: #5A5F66'),
               toggle: function () {
                 var next = Object.assign({}, s.allowed); next[key] = !checked;
                 self.setState({ allowed: next, dirty: true, notice: null });

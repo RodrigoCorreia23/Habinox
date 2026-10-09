@@ -11,21 +11,25 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
-a{color:#2238A8}a:hover{color:#16257A}
+body{margin:0;background:#F5F4F1;color:#15171A;font-family:'IBM Plex Sans',system-ui,sans-serif}
+a{color:#15171A}a:hover{color:#B8461A}
 button{font-family:inherit}
-:focus-visible{outline:3px solid #2238A8;outline-offset:2px}
+:focus-visible{outline:2px solid #15171A;outline-offset:2px}
 footer :focus-visible{outline-color:#FFFFFF}
 h1{text-wrap:balance}
 @media (max-width: 760px){.h1-conf{font-size:38px!important}}
+h1,h2,h3,legend{font-family:'Archivo',system-ui,sans-serif}
+input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+.wrap{padding-left:80px;padding-right:80px}
+@media (max-width: 760px){.wrap{padding-left:16px!important;padding-right:16px!important}}
 </style>
 </helmet>
 <div style="min-height: 100vh; display: flex; flex-direction: column">
 
   <div style="background: #FFF4D6; border-bottom: 1px solid #E8D59A">
-    <div style="max-width: 1320px; margin: 0 auto; padding: 10px 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: 14px">
+    <div class="wrap" style="max-width: 1440px; margin: 0 auto; padding: 10px 80px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: 14px">
       <span>Protótipo: ver o caso</span>
       <sc-for list="{{cases}}" as="c" hint-placeholder-count="4">
         <button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="{{c.style}}">{{c.label}}</button>
@@ -33,9 +37,9 @@ h1{text-wrap:balance}
     </div>
   </div>
 
-  <header style="background: #FFFFFF; border-bottom: 1px solid #D5D9DA">
-    <div style="max-width: 1320px; margin: 0 auto; padding: 14px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px">
-      <a href="Home.dc.html" style="display: flex; align-items: center; justify-content: center; min-width: 132px; height: 44px; padding: 0 12px; border: 1.5px dashed #9AA2A6; border-radius: 6px; text-decoration: none; color: #5D656A; font-size: 14px">Logótipo Abinox</a>
+  <header style="background: #FFFFFF; border-bottom: 1px solid #DAD8D2">
+    <div class="wrap" style="max-width: 1440px; margin: 0 auto; padding: 14px 80px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px">
+      <a href="Home.dc.html" style="display: flex; align-items: center; min-height: 44px; font-family: Archivo, sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 0.02em; color: #15171A; text-decoration: none">Abinox</a>
       <div style="display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; font-size: 15px">
         <span>Dúvidas? <a href="tel:+351000000000">[telefone]</a></span>
         <a href="Conta.dc.html" style="min-height: 44px; display: inline-flex; align-items: center">A minha conta</a>
@@ -43,52 +47,52 @@ h1{text-wrap:balance}
     </div>
   </header>
 
-  <main style="max-width: 1320px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 40px 20px 56px; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+  <main class="wrap" style="max-width: 1440px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 40px 80px 56px; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
 
     <section style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
       <div aria-live="polite" style="display: flex; flex-direction: column; gap: 10px">
-        <p style="margin: 0; font-size: 16px; color: #5D656A">Encomenda n.º ABX-[ano]-[número]</p>
-        <h1 class="h1-conf" style="margin: 0; font-size: 56px; line-height: 0.95; font-weight: 800; font-variation-settings: 'wdth' 70; max-width: 18ch">{{title}}</h1>
+        <p style="margin: 0; font-size: 16px; color: #5A5F66">Encomenda n.º ABX-[ano]-[número]</p>
+        <h1 class="h1-conf" style="margin: 0; font-size: 56px; line-height: 0.95; font-family: Archivo, sans-serif; font-weight: 600; max-width: 18ch">{{title}}</h1>
         <p style="margin: 0; font-size: 17px; line-height: 1.5; max-width: 60ch">{{lead}}</p>
       </div>
 
       <sc-if value="{{isMultibanco}}" hint-placeholder-val="{{ false }}">
-        <div style="background: #FFFFFF; border: 2px solid #22262A; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 16px; max-width: 520px">
+        <div style="background: #FFFFFF; border: 2px solid #15171A; border-radius: 2px; padding: 22px; display: flex; flex-direction: column; gap: 16px; max-width: 520px">
           <h2 style="margin: 0; font-size: 20px; font-weight: 700">Dados para pagamento Multibanco</h2>
           <dl style="margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 24px; row-gap: 10px; font-size: 17px">
-            <dt style="color: #5D656A">Entidade</dt><dd style="margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 0.04em">[00000]</dd>
-            <dt style="color: #5D656A">Referência</dt><dd style="margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 0.04em">[000 000 000]</dd>
-            <dt style="color: #5D656A">Montante</dt><dd style="margin: 0; font-weight: 700; font-variant-numeric: tabular-nums">[valor] €</dd>
-            <dt style="color: #5D656A">Pagar até</dt><dd style="margin: 0; font-weight: 700">[data]</dd>
+            <dt style="color: #5A5F66">Entidade</dt><dd style="margin: 0; font-weight: 700; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.04em">[00000]</dd>
+            <dt style="color: #5A5F66">Referência</dt><dd style="margin: 0; font-weight: 700; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.04em">[000 000 000]</dd>
+            <dt style="color: #5A5F66">Montante</dt><dd style="margin: 0; font-weight: 700; font-family: 'IBM Plex Mono', monospace">[valor] €</dd>
+            <dt style="color: #5A5F66">Pagar até</dt><dd style="margin: 0; font-weight: 700">[data]</dd>
           </dl>
-          <button type="button" onClick="{{copy}}" style="align-self: flex-start; height: 44px; padding: 0 18px; border-radius: 8px; border: 1.5px solid #22262A; background: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer">{{copyLabel}}</button>
+          <button type="button" onClick="{{copy}}" style="align-self: flex-start; height: 44px; padding: 0 18px; border-radius: 2px; border: 1.5px solid #15171A; background: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer">{{copyLabel}}</button>
           <p aria-live="polite" style="margin: 0; font-size: 14px; color: #1E5B2C; font-weight: 600">{{copyStatus}}</p>
-          <p style="margin: 0; font-size: 14px; color: #3F464B; line-height: 1.45">Enviámos estes dados para [email]. Se não for paga até à data indicada, [o que acontece à encomenda — a definir com a Abinox].</p>
+          <p style="margin: 0; font-size: 14px; color: #4A4F56; line-height: 1.45">Enviámos estes dados para [email]. Se não for paga até à data indicada, [o que acontece à encomenda — a definir com a Abinox].</p>
         </div>
       </sc-if>
 
       <sc-if value="{{isWaiting}}" hint-placeholder-val="{{ false }}">
-        <div role="status" style="background: #FFFFFF; border: 2px solid #2238A8; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 14px; max-width: 520px">
+        <div role="status" style="background: #FFFFFF; border: 2px solid #15171A; border-radius: 2px; padding: 22px; display: flex; flex-direction: column; gap: 14px; max-width: 520px">
           <h2 style="margin: 0; font-size: 20px; font-weight: 700">Abra a app MB WAY no telemóvel [9xx xxx xxx]</h2>
           <p style="margin: 0; font-size: 16px; line-height: 1.5">Aceite o pedido de pagamento de <strong>[valor] €</strong> da Abinox. Esta página atualiza sozinha.</p>
-          <p style="margin: 0; font-size: 40px; font-weight: 800; font-variation-settings: 'wdth' 72; font-variant-numeric: tabular-nums">[3:42]</p>
-          <span style="font-size: 14px; color: #3F464B">Tempo restante para aceitar.</span>
+          <p style="margin: 0; font-size: 40px; font-family: Archivo, sans-serif; font-weight: 600; font-variant-numeric: tabular-nums">[3:42]</p>
+          <span style="font-size: 14px; color: #4A4F56">Tempo restante para aceitar.</span>
           <a href="#" style="font-size: 15px">Não recebeu o pedido? Enviar de novo</a>
         </div>
       </sc-if>
 
       <sc-if value="{{isFailed}}" hint-placeholder-val="{{ false }}">
-        <div style="background: #FFFFFF; border: 2px solid #B3261E; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 14px; max-width: 560px">
+        <div style="background: #FFFFFF; border: 2px solid #B3261E; border-radius: 2px; padding: 22px; display: flex; flex-direction: column; gap: 14px; max-width: 560px">
           <h2 style="margin: 0; font-size: 20px; font-weight: 700; color: #8C1D17">O pagamento não foi concluído</h2>
           <p style="margin: 0; font-size: 16px; line-height: 1.5">[Motivo devolvido pelo meio de pagamento, ex.: o pedido MB WAY expirou ou o cartão foi recusado.] A encomenda e os preços ficam guardados durante [n] horas, por isso não precisa de preencher tudo de novo.</p>
           <div style="display: flex; flex-wrap: wrap; gap: 10px">
-            <a href="#" style="display: inline-flex; align-items: center; height: 52px; padding: 0 22px; border-radius: 8px; background: #2238A8; color: #FFFFFF; font-weight: 700; text-decoration: none">Tentar de novo</a>
-            <a href="Checkout.dc.html" style="display: inline-flex; align-items: center; height: 52px; padding: 0 22px; border-radius: 8px; border: 1.5px solid #22262A; color: #22262A; font-weight: 700; text-decoration: none">Mudar o meio de pagamento</a>
+            <a href="#" style="display: inline-flex; align-items: center; height: 52px; padding: 0 22px; border-radius: 2px; background: #15171A; color: #FFFFFF; font-weight: 700; text-decoration: none">Tentar de novo</a>
+            <a href="Checkout.dc.html" style="display: inline-flex; align-items: center; height: 52px; padding: 0 22px; border-radius: 2px; border: 1.5px solid #15171A; color: #15171A; font-weight: 700; text-decoration: none">Mudar o meio de pagamento</a>
           </div>
         </div>
       </sc-if>
 
-      <div style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+      <div style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; padding: 22px; display: flex; flex-direction: column; gap: 16px">
         <h2 style="margin: 0; font-size: 20px; font-weight: 700">O que acontece a seguir</h2>
         <ol role="list" style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column">
           <sc-for list="{{steps}}" as="st" hint-placeholder-count="3">
@@ -96,7 +100,7 @@ h1{text-wrap:balance}
               <span aria-hidden="true" style="{{st.markStyle}}">{{st.n}}</span>
               <span style="display: flex; flex-direction: column; gap: 2px">
                 <span style="font-size: 16px; font-weight: 700">{{st.title}} <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">{{st.srState}}</span></span>
-                <span style="font-size: 15px; color: #3F464B; line-height: 1.45">{{st.detail}}</span>
+                <span style="font-size: 15px; color: #4A4F56; line-height: 1.45">{{st.detail}}</span>
               </span>
             </li>
           </sc-for>
@@ -104,38 +108,39 @@ h1{text-wrap:balance}
       </div>
 
       <div style="display: flex; flex-wrap: wrap; gap: 10px">
-        <a href="Conta.dc.html" style="display: inline-flex; align-items: center; height: 52px; padding: 0 24px; border-radius: 8px; background: #2238A8; color: #FFFFFF; font-weight: 700; text-decoration: none">Acompanhar encomenda</a>
-        <a href="Home.dc.html" style="display: inline-flex; align-items: center; height: 52px; padding: 0 24px; border-radius: 8px; border: 1.5px solid #22262A; color: #22262A; font-weight: 700; text-decoration: none">Voltar à loja</a>
+        <a href="Conta.dc.html" style="display: inline-flex; align-items: center; height: 52px; padding: 0 24px; border-radius: 2px; background: #15171A; color: #FFFFFF; font-weight: 700; text-decoration: none">Acompanhar encomenda</a>
+        <a href="Home.dc.html" style="display: inline-flex; align-items: center; height: 52px; padding: 0 24px; border-radius: 2px; border: 1.5px solid #15171A; color: #15171A; font-weight: 700; text-decoration: none">Voltar à loja</a>
       </div>
     </section>
 
-    <aside aria-label="Resumo da encomenda" style="flex: 1 1 340px; min-width: 0; background: #FFFFFF; border: 1px solid #D5D9DA; border-top: 4px solid #22262A; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 16px">
-      <h2 style="margin: 0; font-size: 22px; font-weight: 700; font-variation-settings: 'wdth' 85">Resumo</h2>
+    <aside aria-label="Resumo da encomenda" style="flex: 1 1 340px; min-width: 0; background: #FFFFFF; border: 1px solid #DAD8D2; border-top: 4px solid #15171A; border-radius: 2px; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+      <h2 style="margin: 0; font-size: 22px; font-weight: 700;">Resumo</h2>
       <ul role="list" style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px">
-        <li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px"><span><strong>Portão de correr</strong><br><span style="color: #3F464B">3 500 × 1 800 mm, recolha à direita, ferro RAL 7016, com motor e instalação</span></span><span style="font-variant-numeric: tabular-nums; white-space: nowrap">[preço] €</span></li>
-        <li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px"><span><strong>Caixa de correio</strong><br><span style="color: #3F464B">400 × 300 × 120 mm, inox escovado</span></span><span style="font-variant-numeric: tabular-nums; white-space: nowrap">[preço] €</span></li>
+        <li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px"><span><strong>Portão de correr</strong><br><span style="color: #4A4F56">3 500 × 1 800 mm, recolha à direita, ferro RAL 7016, com motor e instalação</span></span><span style="font-family: 'IBM Plex Mono', monospace; white-space: nowrap">[preço] €</span></li>
+        <li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px"><span><strong>Caixa de correio</strong><br><span style="color: #4A4F56">400 × 300 × 120 mm, inox escovado</span></span><span style="font-family: 'IBM Plex Mono', monospace; white-space: nowrap">[preço] €</span></li>
       </ul>
-      <dl style="margin: 0; padding-top: 14px; border-top: 1px solid #E3E6E7; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 16px; row-gap: 8px; font-size: 15px">
-        <dt style="color: #5D656A">Medidas</dt><dd style="margin: 0">Confirmadas por si em [data, hora]</dd>
-        <dt style="color: #5D656A">Entrega</dt><dd style="margin: 0">[morada de entrega]</dd>
-        <dt style="color: #5D656A">Faturação</dt><dd style="margin: 0">[nome, NIF, morada]</dd>
-        <dt style="color: #5D656A">Pagamento</dt><dd style="margin: 0">{{paymentLabel}}</dd>
+      <dl style="margin: 0; padding-top: 14px; border-top: 1px solid #EDECE8; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 16px; row-gap: 8px; font-size: 15px">
+        <dt style="color: #5A5F66">Medidas</dt><dd style="margin: 0">Confirmadas por si em [data, hora]</dd>
+        <dt style="color: #5A5F66">Entrega</dt><dd style="margin: 0">[morada de entrega]</dd>
+        <dt style="color: #5A5F66">Faturação</dt><dd style="margin: 0">[nome, NIF, morada]</dd>
+        <dt style="color: #5A5F66">Pagamento</dt><dd style="margin: 0">{{paymentLabel}}</dd>
       </dl>
-      <div style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 14px; border-top: 1px solid #E3E6E7">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 14px; border-top: 1px solid #EDECE8">
         <span style="font-size: 16px; font-weight: 600">Total com IVA</span>
-        <span style="font-size: 36px; line-height: 1; font-weight: 800; font-variation-settings: 'wdth' 72; font-variant-numeric: tabular-nums">[total] €</span>
+        <span style="font-size: 36px; line-height: 1; font-family: Archivo, sans-serif; font-weight: 600; font-variant-numeric: tabular-nums">[total] €</span>
       </div>
     </aside>
   </main>
 
-  <footer style="margin-top: auto; background: #22262A; color: #D5D9DA">
-    <div style="max-width: 1320px; margin: 0 auto; padding: 28px 20px; display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: 14px">
-      <span>[Abinox, NIF, morada em Viana do Castelo]</span>
-      <a href="#" style="color: #D5D9DA">Termos e condições</a>
-      <a href="#" style="color: #D5D9DA">Privacidade</a>
-      <a href="#" style="color: #D5D9DA">Cookies</a>
-      <a href="#" style="color: #D5D9DA">Livro de Reclamações</a>
-      <a href="#" style="color: #D5D9DA">Resolução de litígios</a>
+  <footer class="wrap" style="margin-top: auto; border-top: 1px solid #DAD8D2; padding: 48px 80px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px; font-size: 14px; color: #4A4F56">
+    <div style="display: flex; flex-direction: column; gap: 10px; max-width: 320px">
+      <span style="font-family: Archivo, sans-serif; font-weight: 700; font-size: 18px; color: #15171A">Abinox</span>
+      <span>Bruno Miguel Freitas, Lda · [MORADA], Viana do Castelo</span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 32px 56px">
+      <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-weight: 600; color: #15171A">Produtos</span><a href="Categoria.dc.html">Portões</a><a href="#">Escadas</a><a href="#">Guardas</a><a href="#">Chaminés</a></div>
+      <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-weight: 600; color: #15171A">Contactos</span><span class="mono">[TELEFONE]</span><span>[EMAIL]</span></div>
+      <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-weight: 600; color: #15171A">Legal</span><a href="#">Termos e condições</a><a href="#">Privacidade</a><a href="#">Cookies</a><a href="#">Livro de Reclamações</a><a href="#">Resolução de litígios</a></div>
     </div>
   </footer>
 </div>
@@ -154,8 +159,8 @@ class Component extends DCLogic {
     var paid = k === 'pago';
 
     function mark(done) {
-      return 'width: 32px; height: 32px; flex: none; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; ' +
-        (done ? 'background: #2238A8; color: #FFFFFF' : 'background: #FFFFFF; color: #22262A; border: 2px solid #7F878B');
+      return 'width: 32px; height: 32px; flex: none; border-radius: 2px; display: flex; align-items: center; justify-content: center; font-family: Archivo, sans-serif; font-weight: 600; font-size: 15px; ' +
+        (done ? 'background: #15171A; color: #FFFFFF' : 'background: #FFFFFF; color: #15171A; border: 2px solid #85827A');
     }
     var payStep = {
       pago: ['Pagamento recebido', 'Confirmado em [data e hora].'],
@@ -188,8 +193,8 @@ class Component extends DCLogic {
         var on = c.id === k;
         return {
           label: c.label, pressed: on,
-          style: 'height: 40px; padding: 0 14px; border-radius: 6px; cursor: pointer; font-size: 14px; border: 1px solid #22262A; ' +
-            (on ? 'background: #22262A; color: #FFFFFF; font-weight: 700' : 'background: transparent; color: #22262A'),
+          style: 'height: 40px; padding: 0 14px; border-radius: 2px; cursor: pointer; font-size: 14px; border: 1px solid #15171A; ' +
+            (on ? 'background: #15171A; color: #FFFFFF; font-weight: 700' : 'background: transparent; color: #15171A'),
           pick: function () { self.setState({ kase: c.id, copied: false }); }
         };
       }),

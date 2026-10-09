@@ -11,34 +11,38 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
-a{color:#2238A8}a:hover{color:#16257A}
+body{margin:0;background:#F5F4F1;color:#15171A;font-family:'IBM Plex Sans',system-ui,sans-serif}
+a{color:#15171A}a:hover{color:#B8461A}
 button{font-family:inherit}
-:focus-visible{outline:3px solid #2238A8;outline-offset:2px}
-label:has(input:focus-visible){outline:3px solid #2238A8;outline-offset:2px}
+:focus-visible{outline:2px solid #15171A;outline-offset:2px}
+label:has(input:focus-visible){outline:2px solid #15171A;outline-offset:2px}
 footer :focus-visible,nav[aria-label="Backoffice"] :focus-visible,.on-dark :focus-visible{outline-color:#FFFFFF}
 h1{text-wrap:balance}
+h1,h2,h3,legend{font-family:'Archivo',system-ui,sans-serif}
+input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+.wrap{padding-left:80px;padding-right:80px}
+@media (max-width: 760px){.wrap{padding-left:16px!important;padding-right:16px!important}}
 </style>
 </helmet>
 <div style="min-height: 100vh; display: flex; flex-direction: column">
 
-  <header style="background: #FFFFFF; border-bottom: 1px solid #D5D9DA">
-    <div style="max-width: 1320px; margin: 0 auto; padding: 14px 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 28px">
-      <a href="Home.dc.html" style="display: flex; align-items: center; justify-content: center; min-width: 132px; height: 44px; padding: 0 12px; border: 1.5px dashed #9AA2A6; border-radius: 6px; text-decoration: none; color: #5D656A; font-size: 14px">Logótipo Abinox</a>
+  <header style="background: #FFFFFF; border-bottom: 1px solid #DAD8D2">
+    <div class="wrap" style="max-width: 1440px; margin: 0 auto; padding: 14px 80px; display: flex; flex-wrap: wrap; align-items: center; gap: 28px">
+      <a href="Home.dc.html" style="display: flex; align-items: center; min-height: 44px; font-family: Archivo, sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 0.02em; color: #15171A; text-decoration: none">Abinox</a>
       <nav aria-label="Categorias" style="display: flex; flex-wrap: wrap; gap: 4px; flex: 1 1 420px">
-        <a href="Categoria.dc.html" style="text-decoration: none; color: #22262A; padding: 12px 12px">Portões</a>
-        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Escadas</a>
-        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Guardas</a>
-        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Chaminés</a>
-        <a href="#" style="text-decoration: none; color: #22262A; padding: 12px 12px">Caixas de correio</a>
+        <a href="Categoria.dc.html" style="text-decoration: none; color: #15171A; padding: 12px 12px">Portões</a>
+        <a href="#" style="text-decoration: none; color: #15171A; padding: 12px 12px">Escadas</a>
+        <a href="#" style="text-decoration: none; color: #15171A; padding: 12px 12px">Guardas</a>
+        <a href="#" style="text-decoration: none; color: #15171A; padding: 12px 12px">Chaminés</a>
+        <a href="#" style="text-decoration: none; color: #15171A; padding: 12px 12px">Caixas de correio</a>
       </nav>
       <div style="display: flex; gap: 8px">
-        <a href="Conta.dc.html" aria-current="page" aria-label="Conta" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 6px; color: #22262A; background: #EEF0F0">
+        <a href="Conta.dc.html" aria-current="page" aria-label="Conta" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 2px; color: #15171A; background: #EAE8E3">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>
         </a>
-        <a href="Carrinho.dc.html" style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: 6px; color: #22262A; text-decoration: none; border: 1px solid #D5D9DA">
+        <a href="Carrinho.dc.html" style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 2px; color: #FFFFFF; background: #15171A; text-decoration: none; font-size: 14px; font-weight: 500">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"></path><circle cx="10" cy="20" r="1.4"></circle><circle cx="17" cy="20" r="1.4"></circle></svg>
           Carrinho
         </a>
@@ -48,11 +52,11 @@ h1{text-wrap:balance}
 
   <main style="max-width: 1100px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 32px 28px 56px; display: flex; flex-direction: column; gap: 22px">
     <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px">
-      <h1 style="margin: 0; font-size: 56px; line-height: 0.95; font-weight: 800; font-variation-settings: 'wdth' 70">A minha conta</h1>
-      <span style="font-size: 15px; color: #5D656A">[nome] · <button type="button" style="border: 0; background: transparent; padding: 0; color: #2238A8; font-size: 15px; text-decoration: underline; cursor: pointer">Terminar sessão</button></span>
+      <h1 style="margin: 0; font-size: 56px; line-height: 0.95; font-family: Archivo, sans-serif; font-weight: 600;">A minha conta</h1>
+      <span style="font-size: 15px; color: #5A5F66">[nome] · <button type="button" style="border: 0; background: transparent; padding: 0; color: #15171A; font-size: 15px; text-decoration: underline; cursor: pointer">Terminar sessão</button></span>
     </div>
 
-    <div role="group" aria-label="Secções" style="display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid #D5D9DA">
+    <div role="group" aria-label="Secções" style="display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid #DAD8D2">
       <sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
         <button type="button" onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="{{t.style}}">{{t.label}}</button>
       </sc-for>
@@ -61,11 +65,11 @@ h1{text-wrap:balance}
     <sc-if value="{{showOrders}}" hint-placeholder-val="{{ true }}">
       <div style="display: flex; flex-direction: column; gap: 12px">
         <sc-for list="{{orders}}" as="o" hint-placeholder-count="3">
-          <article style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px">
+          <article style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px">
             <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px">
               <div style="display: flex; flex-direction: column; gap: 2px">
                 <h2 style="margin: 0; font-size: 19px; font-weight: 700">{{o.title}}</h2>
-                <span style="font-size: 14px; color: #5D656A">{{o.meta}}</span>
+                <span style="font-size: 14px; color: #5A5F66">{{o.meta}}</span>
               </div>
               <span style="{{o.badgeStyle}}">{{o.status}}</span>
             </div>
@@ -88,18 +92,18 @@ h1{text-wrap:balance}
 
     <sc-if value="{{showQuotes}}" hint-placeholder-val="{{ false }}">
       <div style="display: flex; flex-direction: column; gap: 12px">
-        <p style="margin: 0; font-size: 15px; color: #5D656A">O preço de um orçamento guardado mantém-se até à data indicada. Depois disso, é recalculado com os custos atuais.</p>
+        <p style="margin: 0; font-size: 15px; color: #5A5F66">O preço de um orçamento guardado mantém-se até à data indicada. Depois disso, é recalculado com os custos atuais.</p>
         <sc-for list="{{quotes}}" as="q" hint-placeholder-count="3">
-          <article style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 18px 20px; display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center">
+          <article style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; padding: 18px 20px; display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center">
             <div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 4px">
               <h2 style="margin: 0; font-size: 19px; font-weight: 700">{{q.title}}</h2>
-              <span style="font-size: 15px; color: #5D656A">{{q.spec}}</span>
+              <span style="font-size: 15px; color: #5A5F66">{{q.spec}}</span>
               <span style="{{q.validityStyle}}">{{q.validity}}</span>
             </div>
-            <span style="font-size: 26px; font-weight: 800; font-variation-settings: 'wdth' 75">{{q.price}}</span>
+            <span style="font-size: 26px; font-family: Archivo, sans-serif; font-weight: 600;">{{q.price}}</span>
             <div style="display: flex; flex-wrap: wrap; gap: 8px">
-              <a href="{{q.primaryHref}}" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 8px; background: #2238A8; color: #FFFFFF; font-weight: 700; text-decoration: none">{{q.primary}}</a>
-              <a href="Main.dc.html" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 8px; border: 1.5px solid #22262A; color: #22262A; font-weight: 700; text-decoration: none">Alterar</a>
+              <a href="{{q.primaryHref}}" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 2px; background: #15171A; color: #FFFFFF; font-weight: 700; text-decoration: none">{{q.primary}}</a>
+              <a href="Main.dc.html" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 2px; border: 1.5px solid #15171A; color: #15171A; font-weight: 700; text-decoration: none">Alterar</a>
             </div>
           </article>
         </sc-for>
@@ -108,40 +112,40 @@ h1{text-wrap:balance}
 
     <sc-if value="{{showPrivacy}}" hint-placeholder-val="{{ false }}">
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; align-items: start">
-        <section style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+        <section style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
           <h2 style="margin: 0; font-size: 20px; font-weight: 700">Dados pessoais</h2>
           <dl style="margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 16px; row-gap: 6px; font-size: 15px">
-            <dt style="color: #5D656A">Nome</dt><dd style="margin: 0">[nome]</dd>
-            <dt style="color: #5D656A">Email</dt><dd style="margin: 0">[email]</dd>
-            <dt style="color: #5D656A">Telemóvel</dt><dd style="margin: 0">[telemóvel]</dd>
-            <dt style="color: #5D656A">Moradas</dt><dd style="margin: 0">2 guardadas</dd>
+            <dt style="color: #5A5F66">Nome</dt><dd style="margin: 0">[nome]</dd>
+            <dt style="color: #5A5F66">Email</dt><dd style="margin: 0">[email]</dd>
+            <dt style="color: #5A5F66">Telemóvel</dt><dd style="margin: 0">[telemóvel]</dd>
+            <dt style="color: #5A5F66">Moradas</dt><dd style="margin: 0">2 guardadas</dd>
           </dl>
           <div style="display: flex; flex-wrap: wrap; gap: 16px; font-size: 15px"><a href="#">Editar dados</a><a href="#">Alterar password</a></div>
         </section>
 
-        <section style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+        <section style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
           <h2 style="margin: 0; font-size: 20px; font-weight: 700">Comunicações</h2>
           <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-size: 15px; line-height: 1.45">
-            <input type="checkbox" checked="{{marketing}}" onChange="{{toggleMarketing}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #2238A8">
+            <input type="checkbox" checked="{{marketing}}" onChange="{{toggleMarketing}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #15171A">
             <span>Receber novidades e lembretes sobre orçamentos guardados</span>
           </label>
-          <p style="margin: 0; font-size: 14px; color: #5D656A">{{consentNote}}</p>
+          <p style="margin: 0; font-size: 14px; color: #5A5F66">{{consentNote}}</p>
         </section>
 
-        <section style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 12px; grid-column: 1 / -1">
+        <section style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; padding: 20px; display: flex; flex-direction: column; gap: 12px; grid-column: 1 / -1">
           <h2 style="margin: 0; font-size: 20px; font-weight: 700">Os seus dados</h2>
-          <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #3F464B; max-width: 70ch">Pode descarregar uma cópia de tudo o que guardamos sobre si, ou pedir que a conta seja apagada. As faturas e os dados das encomendas são guardados durante [prazo legal], como a lei obriga.</p>
+          <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #4A4F56; max-width: 70ch">Pode descarregar uma cópia de tudo o que guardamos sobre si, ou pedir que a conta seja apagada. As faturas e os dados das encomendas são guardados durante [prazo legal], como a lei obriga.</p>
           <div style="display: flex; flex-wrap: wrap; gap: 10px">
-            <button type="button" style="height: 44px; padding: 0 16px; border-radius: 8px; border: 1.5px solid #22262A; background: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer">Descarregar os meus dados</button>
-            <button type="button" onClick="{{askDelete}}" style="height: 44px; padding: 0 16px; border-radius: 8px; border: 1.5px solid #B3261E; background: #FFFFFF; color: #8C1D17; font-size: 15px; font-weight: 700; cursor: pointer">Apagar a conta</button>
+            <button type="button" style="height: 44px; padding: 0 16px; border-radius: 2px; border: 1.5px solid #15171A; background: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer">Descarregar os meus dados</button>
+            <button type="button" onClick="{{askDelete}}" style="height: 44px; padding: 0 16px; border-radius: 2px; border: 1.5px solid #B3261E; background: #FFFFFF; color: #8C1D17; font-size: 15px; font-weight: 700; cursor: pointer">Apagar a conta</button>
           </div>
           <sc-if value="{{confirmDelete}}" hint-placeholder-val="{{ false }}">
-            <div role="alertdialog" aria-label="Confirmar apagamento" style="border-radius: 8px; background: #FBEAE8; padding: 16px; display: flex; flex-direction: column; gap: 10px; max-width: 640px">
+            <div role="alertdialog" aria-label="Confirmar apagamento" style="border-radius: 2px; background: #FBEAE8; padding: 16px; display: flex; flex-direction: column; gap: 10px; max-width: 640px">
               <strong style="color: #8C1D17">Apagar a conta de forma definitiva?</strong>
               <span style="font-size: 15px; line-height: 1.45">Perde o acesso às encomendas e aos orçamentos guardados. Encomendas em curso continuam até serem entregues.</span>
               <div style="display: flex; flex-wrap: wrap; gap: 8px">
-                <button type="button" onClick="{{doDelete}}" style="height: 44px; padding: 0 16px; border-radius: 8px; border: 0; background: #B3261E; color: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer">Apagar a conta</button>
-                <button type="button" onClick="{{cancelDelete}}" style="height: 44px; padding: 0 16px; border-radius: 8px; border: 1.5px solid #22262A; background: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer">Manter a conta</button>
+                <button type="button" onClick="{{doDelete}}" style="height: 44px; padding: 0 16px; border-radius: 2px; border: 0; background: #B3261E; color: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer">Apagar a conta</button>
+                <button type="button" onClick="{{cancelDelete}}" style="height: 44px; padding: 0 16px; border-radius: 2px; border: 1.5px solid #15171A; background: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer">Manter a conta</button>
               </div>
             </div>
           </sc-if>
@@ -153,14 +157,15 @@ h1{text-wrap:balance}
     </sc-if>
   </main>
 
-  <footer style="margin-top: auto; background: #22262A; color: #D5D9DA">
-    <div style="max-width: 1320px; margin: 0 auto; padding: 28px; display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: 14px">
-      <span>[Abinox, NIF, morada em Viana do Castelo]</span>
-      <a href="#" style="color: #D5D9DA">Termos e condições</a>
-      <a href="#" style="color: #D5D9DA">Privacidade</a>
-      <a href="#" style="color: #D5D9DA">Cookies</a>
-      <a href="#" style="color: #D5D9DA">Livro de Reclamações</a>
-      <a href="#" style="color: #D5D9DA">Resolução de litígios</a>
+  <footer class="wrap" style="margin-top: auto; border-top: 1px solid #DAD8D2; padding: 48px 80px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px; font-size: 14px; color: #4A4F56">
+    <div style="display: flex; flex-direction: column; gap: 10px; max-width: 320px">
+      <span style="font-family: Archivo, sans-serif; font-weight: 700; font-size: 18px; color: #15171A">Abinox</span>
+      <span>Bruno Miguel Freitas, Lda · [MORADA], Viana do Castelo</span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 32px 56px">
+      <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-weight: 600; color: #15171A">Produtos</span><a href="Categoria.dc.html">Portões</a><a href="#">Escadas</a><a href="#">Guardas</a><a href="#">Chaminés</a></div>
+      <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-weight: 600; color: #15171A">Contactos</span><span class="mono">[TELEFONE]</span><span>[EMAIL]</span></div>
+      <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-weight: 600; color: #15171A">Legal</span><a href="#">Termos e condições</a><a href="#">Privacidade</a><a href="#">Cookies</a><a href="#">Livro de Reclamações</a><a href="#">Resolução de litígios</a></div>
     </div>
   </footer>
 </div>
@@ -178,16 +183,16 @@ class Component extends DCLogic {
     var STEPS = ['Pagamento', 'Fabrico', 'Pronto', 'Entregue'];
 
     function badge(tone) {
-      var t = { wait: 'background: #FFF4D6; color: #6B4700', work: 'background: #EEF1FB; color: #1A2B85', done: 'background: #E3F1E6; color: #1E5B2C' }[tone];
-      return 'display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 15px; font-size: 14px; font-weight: 700; ' + t;
+      var t = { wait: 'background: #FFF4D6; color: #6B4700', work: 'background: #EDECE8; color: #15171A', done: 'background: #E3F1E6; color: #1E5B2C' }[tone];
+      return 'display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 2px; font-size: 14px; font-weight: 700; ' + t;
     }
     function steps(doneCount) {
       return STEPS.map(function (label, i) {
         var done = i < doneCount;
         return {
           label: label,
-          bar: 'display: block; height: 6px; border-radius: 3px; background: ' + (done ? '#2238A8' : '#E3E6E7'),
-          labelStyle: done ? 'color: #22262A; font-weight: 600' : 'color: #5D656A'
+          bar: 'display: block; height: 6px; border-radius: 2px; background: ' + (done ? '#15171A' : '#EDECE8'),
+          labelStyle: done ? 'color: #15171A; font-weight: 600' : 'color: #5A5F66'
         };
       });
     }
@@ -202,7 +207,7 @@ class Component extends DCLogic {
         return {
           label: t.label, on: on,
           style: 'height: 48px; padding: 0 16px; border: 0; background: transparent; cursor: pointer; font-size: 16px; margin-bottom: -1px; ' +
-            (on ? 'border-bottom: 3px solid #2238A8; color: #22262A; font-weight: 700' : 'border-bottom: 3px solid transparent; color: #3F464B'),
+            (on ? 'border-bottom: 3px solid #15171A; color: #15171A; font-weight: 700' : 'border-bottom: 3px solid transparent; color: #4A4F56'),
           pick: function () { self.setState({ tab: t.id }); }
         };
       }),
@@ -226,7 +231,7 @@ class Component extends DCLogic {
         { title: 'Guarda de varanda', spec: '4 000 × 1 000 mm · inox, escovado', validity: 'Preço garantido até amanhã', tone: 'soon', price: '[preço] €', primary: 'Encomendar', primaryHref: 'Carrinho.dc.html' },
         { title: 'Portão de batente de 2 folhas', spec: '3 000 × 1 600 mm · ferro, galvanizado', validity: 'O prazo terminou em [data]. O preço vai ser recalculado com os custos atuais.', tone: 'expired', price: '[preço antigo] €', primary: 'Ver preço atualizado', primaryHref: 'Main.dc.html' }
       ].map(function (q) {
-        var color = { ok: '#5D656A', soon: '#6B4700', expired: '#8C1D17' }[q.tone];
+        var color = { ok: '#5A5F66', soon: '#6B4700', expired: '#8C1D17' }[q.tone];
         return {
           title: q.title, spec: q.spec, validity: q.validity, price: q.price, primary: q.primary, primaryHref: q.primaryHref,
           validityStyle: 'font-size: 14px; font-weight: 600; color: ' + color

@@ -11,30 +11,34 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
-a{color:#2238A8}a:hover{color:#16257A}
+body{margin:0;background:#F5F4F1;color:#15171A;font-family:'IBM Plex Sans',system-ui,sans-serif}
+a{color:#15171A}a:hover{color:#B8461A}
 button{font-family:inherit}
-:focus-visible{outline:3px solid #2238A8;outline-offset:2px}
-label:has(input:focus-visible){outline:3px solid #2238A8;outline-offset:2px}
+:focus-visible{outline:2px solid #15171A;outline-offset:2px}
+label:has(input:focus-visible){outline:2px solid #15171A;outline-offset:2px}
 footer :focus-visible,nav[aria-label="Backoffice"] :focus-visible,.on-dark :focus-visible{outline-color:#FFFFFF}
 h1{text-wrap:balance}
 button:disabled{cursor:not-allowed}
 th{font-weight:600;text-align:left}
+h1,h2,h3,legend{font-family:'Archivo',system-ui,sans-serif}
+input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+.wrap{padding-left:80px;padding-right:80px}
+@media (max-width: 760px){.wrap{padding-left:16px!important;padding-right:16px!important}}
 </style>
 </helmet>
 <div style="min-height: 100vh; display: flex; flex-wrap: wrap">
 
-  <nav aria-label="Backoffice" style="flex: 1 1 220px; max-width: 100%; box-sizing: border-box; background: #22262A; color: #D5D9DA; padding: 20px 14px; display: flex; flex-direction: column; gap: 4px">
-    <span style="display: flex; align-items: center; justify-content: center; height: 40px; margin-bottom: 16px; border: 1.5px dashed #6B7378; border-radius: 6px; font-size: 13px; color: #B9BEC1">Logótipo Abinox</span>
-    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Painel</a>
-    <a href="Encomendas.dc.html" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Encomendas</a>
-    <a href="Produto.dc.html" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Produtos</a>
-    <a href="Materiais.dc.html" aria-current="page" style="color: #FFFFFF; text-decoration: none; padding: 10px 12px; border-radius: 6px; background: #3A4146; font-weight: 700">Materiais e custos</a>
-    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Opções</a>
-    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Clientes</a>
-    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Definições</a>
+  <nav aria-label="Backoffice" style="flex: 1 1 220px; max-width: 100%; box-sizing: border-box; background: #15171A; color: #C9CDD2; padding: 20px 14px; display: flex; flex-direction: column; gap: 4px">
+    <span style="display: flex; align-items: baseline; gap: 10px; height: 40px; margin-bottom: 16px; padding: 0 12px; font-family: Archivo, sans-serif; font-weight: 700; font-size: 18px; color: #FFFFFF">Abinox <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 400; font-size: 11px; letter-spacing: 0.08em; color: #A9AEB5">BACKOFFICE</span></span>
+    <a href="#" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Painel</a>
+    <a href="Encomendas.dc.html" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Encomendas</a>
+    <a href="Produto.dc.html" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Produtos</a>
+    <a href="Materiais.dc.html" aria-current="page" style="color: #FFFFFF; text-decoration: none; padding: 10px 12px; border-radius: 2px; background: #33373D; font-weight: 700">Materiais e custos</a>
+    <a href="#" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Opções</a>
+    <a href="#" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Clientes</a>
+    <a href="#" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Definições</a>
   </nav>
 
   <main style="flex: 999 1 900px; min-width: 0; box-sizing: border-box; padding: 0 0 48px; display: flex; flex-direction: column; gap: 16px">
@@ -47,41 +51,41 @@ th{font-weight:600;text-align:left}
 
     <div style="padding: 8px 28px 0; display: flex; flex-direction: column; gap: 16px">
       <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
-        <h1 style="margin: 0; font-size: 44px; line-height: 1; font-weight: 800; font-variation-settings: 'wdth' 70">Materiais e custos</h1>
+        <h1 style="margin: 0; font-size: 44px; line-height: 1; font-family: Archivo, sans-serif; font-weight: 600;">Materiais e custos</h1>
         <button type="button" onClick="{{syncNow}}" disabled="{{running}}" style="{{syncStyle}}">{{syncLabel}}</button>
       </div>
 
       <sc-if value="{{failed}}" hint-placeholder-val="{{ false }}">
-        <div role="alert" style="border-radius: 10px; background: #FBEAE8; border: 1px solid #E8B4AE; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; font-size: 15px; line-height: 1.45">
+        <div role="alert" style="border-radius: 2px; background: #FBEAE8; border: 1px solid #E8B4AE; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; font-size: 15px; line-height: 1.45">
           <strong style="color: #8C1D17; font-size: 17px">A sincronização com o PHC falha há 36 horas</strong>
           <span>A última que correu bem foi a [data, hora]. A loja continua a calcular preços com os custos dessa data.</span>
           <span>Erro: o PHC recusou o acesso (token inválido ou expirado). Verifique o token da API do PHC em Definições.</span>
-          <span style="color: #5D656A">Já avisámos o Bruno e o programador por email.</span>
+          <span style="color: #5A5F66">Já avisámos o Bruno e o programador por email.</span>
         </div>
       </sc-if>
 
       <section aria-label="Última sincronização" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px">
         <sc-for list="{{stats}}" as="st" hint-placeholder-count="5">
-          <div style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px">
-            <span style="font-size: 14px; color: #5D656A">{{st.label}}</span>
+          <div style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px">
+            <span style="font-size: 14px; color: #5A5F66">{{st.label}}</span>
             <span style="{{st.valueStyle}}">{{st.value}}</span>
           </div>
         </sc-for>
       </section>
 
       <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
-        <section aria-label="Materiais" style="flex: 999 1 620px; min-width: 0; background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; overflow: hidden">
-          <div style="padding: 14px 16px; border-bottom: 1px solid #E3E6E7; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; align-items: center">
+        <section aria-label="Materiais" style="flex: 999 1 620px; min-width: 0; background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; overflow: hidden">
+          <div style="padding: 14px 16px; border-bottom: 1px solid #EDECE8; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; align-items: center">
             <h2 style="margin: 0; font-size: 20px; font-weight: 700">Artigos do PHC</h2>
             <label style="display: flex; align-items: center; gap: 8px; font-size: 15px; cursor: pointer">
-              <input type="checkbox" checked="{{onlyReview}}" onChange="{{toggleReview}}" style="width: 18px; height: 18px; accent-color: #2238A8">
+              <input type="checkbox" checked="{{onlyReview}}" onChange="{{toggleReview}}" style="width: 18px; height: 18px; accent-color: #15171A">
               Só os que precisam de atenção
             </label>
           </div>
           <div style="overflow-x: auto">
             <table style="width: 100%; min-width: 720px; border-collapse: collapse; font-size: 15px">
               <thead>
-                <tr style="background: #F7F8F8; color: #5D656A; font-size: 13px">
+                <tr style="background: #F5F4F1; color: #5A5F66; font-size: 13px">
                   <th scope="col" style="padding: 10px 14px">Artigo</th>
                   <th scope="col" style="padding: 10px 14px">Custo</th>
                   <th scope="col" style="padding: 10px 14px">Desde a sincronização anterior</th>
@@ -93,10 +97,10 @@ th{font-weight:600;text-align:left}
                 <sc-for list="{{materials}}" as="m" hint-placeholder-count="6">
                   <tr style="{{m.rowStyle}}">
                     <td style="padding: 10px 14px">
-                      <button type="button" onClick="{{m.select}}" style="border: 0; background: transparent; padding: 0; text-align: left; cursor: pointer; color: #2238A8; font-size: 15px; font-weight: 700; text-decoration: underline">{{m.name}}</button>
-                      <span style="display: block; font-size: 13px; color: #5D656A">PHC {{m.code}} · por {{m.unit}}</span>
+                      <button type="button" onClick="{{m.select}}" style="border: 0; background: transparent; padding: 0; text-align: left; cursor: pointer; color: #15171A; font-size: 15px; font-weight: 700; text-decoration: underline">{{m.name}}</button>
+                      <span style="display: block; font-size: 13px; color: #5A5F66">PHC {{m.code}} · por {{m.unit}}</span>
                     </td>
-                    <td style="padding: 10px 14px; font-variant-numeric: tabular-nums">[€]</td>
+                    <td style="padding: 10px 14px; font-family: 'IBM Plex Mono', monospace">[€]</td>
                     <td style="padding: 10px 14px; font-size: 14px">{{m.change}}</td>
                     <td style="padding: 10px 14px; font-size: 14px">{{m.used}}</td>
                     <td style="padding: 10px 14px"><span style="{{m.badgeStyle}}">{{m.status}}</span></td>
@@ -107,33 +111,33 @@ th{font-weight:600;text-align:left}
           </div>
         </section>
 
-        <aside aria-label="Detalhe do artigo" style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; border: 1px solid #D5D9DA; border-top: 4px solid #22262A; border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
-          <h2 style="margin: 0; font-size: 22px; font-weight: 800; font-variation-settings: 'wdth' 80">{{sel.name}}</h2>
-          <span style="font-size: 14px; color: #5D656A">PHC {{sel.code}} · por {{sel.unit}}</span>
+        <aside aria-label="Detalhe do artigo" style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; border: 1px solid #DAD8D2; border-top: 4px solid #15171A; border-radius: 2px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+          <h2 style="margin: 0; font-size: 22px; font-family: Archivo, sans-serif; font-weight: 600;">{{sel.name}}</h2>
+          <span style="font-size: 14px; color: #5A5F66">PHC {{sel.code}} · por {{sel.unit}}</span>
           <sc-if value="{{sel.missing}}" hint-placeholder-val="{{ false }}">
-            <div style="border-radius: 8px; background: #FFF4D6; border: 1px solid #E8D59A; padding: 12px; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 8px">
+            <div style="border-radius: 2px; background: #FFF4D6; border: 1px solid #E8D59A; padding: 12px; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 8px">
               <span><strong>Deixou de aparecer no PHC em [data].</strong> Mantemos o último custo conhecido; nunca fica a zero.</span>
               <div style="display: flex; flex-wrap: wrap; gap: 8px">
-                <button type="button" onClick="{{confirmKeep}}" style="height: 40px; padding: 0 12px; border-radius: 6px; border: 0; background: #2238A8; color: #FFFFFF; font-size: 14px; font-weight: 700; cursor: pointer">Manter este custo</button>
-                <button type="button" style="height: 40px; padding: 0 12px; border-radius: 6px; border: 1px solid #7F878B; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Trocar por outro artigo</button>
+                <button type="button" onClick="{{confirmKeep}}" style="height: 40px; padding: 0 12px; border-radius: 2px; border: 0; background: #15171A; color: #FFFFFF; font-size: 14px; font-weight: 700; cursor: pointer">Manter este custo</button>
+                <button type="button" style="height: 40px; padding: 0 12px; border-radius: 2px; border: 1px solid #85827A; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Trocar por outro artigo</button>
               </div>
             </div>
           </sc-if>
           <sc-if value="{{sel.variation}}" hint-placeholder-val="{{ true }}">
-            <div style="border-radius: 8px; background: #FFF4D6; border: 1px solid #E8D59A; padding: 12px; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 8px">
+            <div style="border-radius: 2px; background: #FFF4D6; border: 1px solid #E8D59A; padding: 12px; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 8px">
               <span><strong>O custo no PHC subiu [%].</strong> Variações acima de [x]% só chegam aos preços da loja depois de aprovadas.</span>
               <span>Impacto num portão de correr de 3,5 × 1,8 m: <strong>[preço atual] €</strong> passa a <strong>[novo preço] €</strong>.</span>
               <div style="display: flex; flex-wrap: wrap; gap: 8px">
-                <button type="button" onClick="{{applyTq}}" style="height: 44px; padding: 0 12px; border-radius: 6px; border: 0; background: #2238A8; color: #FFFFFF; font-size: 14px; font-weight: 700; cursor: pointer">Aplicar aos preços</button>
-                <button type="button" onClick="{{keepTq}}" style="height: 44px; padding: 0 12px; border-radius: 6px; border: 1px solid #7F878B; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Manter o custo anterior</button>
+                <button type="button" onClick="{{applyTq}}" style="height: 44px; padding: 0 12px; border-radius: 2px; border: 0; background: #15171A; color: #FFFFFF; font-size: 14px; font-weight: 700; cursor: pointer">Aplicar aos preços</button>
+                <button type="button" onClick="{{keepTq}}" style="height: 44px; padding: 0 12px; border-radius: 2px; border: 1px solid #85827A; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Manter o custo anterior</button>
               </div>
             </div>
           </sc-if>
           <h3 style="margin: 4px 0 0; font-size: 16px; font-weight: 700">Histórico de custos</h3>
           <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; font-size: 14px">
-            <li style="display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px solid #E3E6E7"><span>[data] (atual)</span><span>[€]</span></li>
-            <li style="display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px solid #E3E6E7"><span>[data]</span><span>[€]</span></li>
-            <li style="display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px solid #E3E6E7"><span>[data]</span><span>[€]</span></li>
+            <li style="display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px solid #EDECE8"><span>[data] (atual)</span><span>[€]</span></li>
+            <li style="display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px solid #EDECE8"><span>[data]</span><span>[€]</span></li>
+            <li style="display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px solid #EDECE8"><span>[data]</span><span>[€]</span></li>
           </ol>
           <h3 style="margin: 4px 0 0; font-size: 16px; font-weight: 700">Usado nas fórmulas de</h3>
           <ul style="margin: 0; padding: 0 0 0 18px; font-size: 14px; display: flex; flex-direction: column; gap: 4px">
@@ -143,13 +147,13 @@ th{font-weight:600;text-align:left}
         </aside>
       </div>
 
-      <section aria-label="Histórico de sincronizações" style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; overflow-x: auto">
-        <h2 style="margin: 0; padding: 14px 16px; font-size: 20px; font-weight: 700; border-bottom: 1px solid #E3E6E7">Sincronizações</h2>
+      <section aria-label="Histórico de sincronizações" style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; overflow-x: auto">
+        <h2 style="margin: 0; padding: 14px 16px; font-size: 20px; font-weight: 700; border-bottom: 1px solid #EDECE8">Sincronizações</h2>
         <table style="width: 100%; min-width: 620px; border-collapse: collapse; font-size: 14px">
-          <thead><tr style="background: #F7F8F8; color: #5D656A; font-size: 13px"><th scope="col" style="padding: 8px 16px">Início</th><th scope="col" style="padding: 8px 16px">Origem</th><th scope="col" style="padding: 8px 16px">Duração</th><th scope="col" style="padding: 8px 16px">Artigos</th><th scope="col" style="padding: 8px 16px">Resultado</th></tr></thead>
+          <thead><tr style="background: #F5F4F1; color: #5A5F66; font-size: 13px"><th scope="col" style="padding: 8px 16px">Início</th><th scope="col" style="padding: 8px 16px">Origem</th><th scope="col" style="padding: 8px 16px">Duração</th><th scope="col" style="padding: 8px 16px">Artigos</th><th scope="col" style="padding: 8px 16px">Resultado</th></tr></thead>
           <tbody>
             <sc-for list="{{runs}}" as="r" hint-placeholder-count="4">
-              <tr style="border-top: 1px solid #E3E6E7"><td style="padding: 8px 16px">{{r.when}}</td><td style="padding: 8px 16px">{{r.source}}</td><td style="padding: 8px 16px">{{r.duration}}</td><td style="padding: 8px 16px">{{r.items}}</td><td style="padding: 8px 16px"><span style="{{r.style}}">{{r.result}}</span></td></tr>
+              <tr style="border-top: 1px solid #EDECE8"><td style="padding: 8px 16px">{{r.when}}</td><td style="padding: 8px 16px">{{r.source}}</td><td style="padding: 8px 16px">{{r.duration}}</td><td style="padding: 8px 16px">{{r.items}}</td><td style="padding: 8px 16px"><span style="{{r.style}}">{{r.result}}</span></td></tr>
             </sc-for>
           </tbody>
         </table>
@@ -172,8 +176,8 @@ class Component extends DCLogic {
     var self = this;
     var failed = s.kase === 'falha';
     function badge(tone) {
-      var t = { ok: 'background: #E3F1E6; color: #1E5B2C', warn: 'background: #FFF4D6; color: #6B4700', bad: 'background: #FBEAE8; color: #8C1D17', info: 'background: #EEF1FB; color: #1A2B85' }[tone];
-      return 'display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: 13px; font-size: 13px; font-weight: 700; white-space: nowrap; ' + t;
+      var t = { ok: 'background: #E3F1E6; color: #1E5B2C', warn: 'background: #FFF4D6; color: #6B4700', bad: 'background: #FBEAE8; color: #8C1D17', info: 'background: #EDECE8; color: #15171A' }[tone];
+      return 'display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: 2px; font-size: 13px; font-weight: 700; white-space: nowrap; ' + t;
     }
     var MATS = [
       { code: 'TQ40', name: 'Tubo quadrado 40×40', unit: 'm', change: 'subiu [%]', used: '[n] produtos', status: { pendente: 'Por aprovar', aplicado: 'Novo custo aplicado', mantido: 'Custo anterior mantido' }[s.tq], tone: s.tq === 'pendente' ? 'warn' : 'info', attention: s.tq === 'pendente', variation: s.tq === 'pendente' },
@@ -198,20 +202,20 @@ class Component extends DCLogic {
       { when: '[data, hora]', source: 'Automática', duration: '[n] s', items: '[n]', result: 'Concluída', tone: 'ok' }
     ]);
 
-    var bigValue = 'font-size: 30px; line-height: 1.1; font-weight: 800; font-variation-settings: \'wdth\' 75; ';
+    var bigValue = 'font-size: 30px; line-height: 1.1; font-family: Archivo, sans-serif; font-weight: 600; ';
     return {
       cases: [{ id: 'ok', label: 'Sincronização a funcionar' }, { id: 'falha', label: 'PHC a falhar há 36 h' }].map(function (c) {
         var on = c.id === s.kase;
         return {
           label: c.label, on: on,
-          style: 'height: 34px; padding: 0 12px; border-radius: 6px; cursor: pointer; font-size: 14px; border: 1px solid #22262A; ' + (on ? 'background: #22262A; color: #FFFFFF; font-weight: 700' : 'background: transparent; color: #22262A'),
+          style: 'height: 34px; padding: 0 12px; border-radius: 2px; cursor: pointer; font-size: 14px; border: 1px solid #15171A; ' + (on ? 'background: #15171A; color: #FFFFFF; font-weight: 700' : 'background: transparent; color: #15171A'),
           pick: function () { self.setState({ kase: c.id }); }
         };
       }),
       failed: failed,
       running: s.running,
       syncLabel: s.running ? 'A sincronizar…' : 'Sincronizar agora',
-      syncStyle: 'height: 46px; padding: 0 18px; border-radius: 8px; border: 0; font-size: 15px; font-weight: 700; ' + (s.running ? 'background: #E3E6E7; color: #5D656A' : 'background: #2238A8; color: #FFFFFF; cursor: pointer'),
+      syncStyle: 'height: 46px; padding: 0 18px; border-radius: 2px; border: 0; font-size: 15px; font-weight: 700; ' + (s.running ? 'background: #EDECE8; color: #5A5F66' : 'background: #15171A; color: #FFFFFF; cursor: pointer'),
       syncNow: function () {
         self.setState({ running: true });
         self.timer = setTimeout(function () { self.setState({ running: false, manualRuns: self.state.manualRuns + 1, kase: 'ok' }); }, 1500);
@@ -223,7 +227,7 @@ class Component extends DCLogic {
         { label: 'Novos no PHC', value: '1' },
         { label: 'Desapareceram', value: s.kept ? '0' : '1', tone: s.kept ? null : 'bad' }
       ].map(function (x) {
-        var color = x.tone === 'bad' ? '#8C1D17' : '#22262A';
+        var color = x.tone === 'bad' ? '#8C1D17' : '#15171A';
         return { label: x.label, value: x.value, valueStyle: bigValue + 'color: ' + color };
       }),
       onlyReview: s.onlyReview,
@@ -232,7 +236,7 @@ class Component extends DCLogic {
         return {
           code: m.code, name: m.name, unit: m.unit, change: m.change, used: m.used, status: m.status,
           badgeStyle: badge(m.tone),
-          rowStyle: 'border-top: 1px solid #E3E6E7; ' + (m.code === s.selected ? 'background: #F3F5FD' : ''),
+          rowStyle: 'border-top: 1px solid #EDECE8; ' + (m.code === s.selected ? 'background: #F5F4F1' : ''),
           select: function () { self.setState({ selected: m.code }); }
         };
       }),

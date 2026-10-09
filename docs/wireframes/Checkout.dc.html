@@ -11,78 +11,82 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
-a{color:#2238A8}a:hover{color:#16257A}
+body{margin:0;background:#F5F4F1;color:#15171A;font-family:'IBM Plex Sans',system-ui,sans-serif}
+a{color:#15171A}a:hover{color:#B8461A}
 input,select,button{font-family:inherit}
-:focus-visible{outline:3px solid #2238A8;outline-offset:2px}
-label:has(input:focus-visible){outline:3px solid #2238A8;outline-offset:2px}
+:focus-visible{outline:2px solid #15171A;outline-offset:2px}
+label:has(input:focus-visible){outline:2px solid #15171A;outline-offset:2px}
 footer :focus-visible,nav[aria-label="Backoffice"] :focus-visible,.on-dark :focus-visible{outline-color:#FFFFFF}
 h1{text-wrap:balance}
 button:disabled{cursor:not-allowed}
+h1,h2,h3,legend{font-family:'Archivo',system-ui,sans-serif}
+input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+.wrap{padding-left:80px;padding-right:80px}
+@media (max-width: 760px){.wrap{padding-left:16px!important;padding-right:16px!important}}
 </style>
 </helmet>
 <div style="min-height: 100vh; display: flex; flex-direction: column">
 
-  <header style="background: #FFFFFF; border-bottom: 1px solid #D5D9DA">
-    <div style="max-width: 1320px; margin: 0 auto; padding: 14px 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px">
-      <a href="Home.dc.html" style="display: flex; align-items: center; justify-content: center; min-width: 132px; height: 44px; padding: 0 12px; border: 1.5px dashed #9AA2A6; border-radius: 6px; text-decoration: none; color: #5D656A; font-size: 14px">Logótipo Abinox</a>
+  <header style="background: #FFFFFF; border-bottom: 1px solid #DAD8D2">
+    <div class="wrap" style="max-width: 1440px; margin: 0 auto; padding: 14px 80px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px">
+      <a href="Home.dc.html" style="display: flex; align-items: center; min-height: 44px; font-family: Archivo, sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 0.02em; color: #15171A; text-decoration: none">Abinox</a>
       <div style="display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center"><span style="font-size: 15px">Dúvidas? <a href="tel:+351000000000">[telefone]</a></span><a href="Carrinho.dc.html" style="font-size: 15px; min-height: 44px; display: inline-flex; align-items: center">Voltar ao carrinho</a></div>
     </div>
   </header>
 
-  <main style="max-width: 1320px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 32px 28px 56px; display: flex; flex-direction: column; gap: 24px">
-    <h1 style="margin: 0; font-size: 56px; line-height: 0.95; font-weight: 800; font-variation-settings: 'wdth' 70">Finalizar encomenda</h1>
+  <main class="wrap" style="max-width: 1440px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 32px 80px 56px; display: flex; flex-direction: column; gap: 24px">
+    <h1 style="margin: 0; font-size: 56px; line-height: 0.95; font-family: Archivo, sans-serif; font-weight: 600;">Finalizar encomenda</h1>
 
     <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
       <form onSubmit="{{noSubmit}}" style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
 
-        <fieldset style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
+        <fieldset style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
           <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px">
-            <span style="font-size: 20px; font-weight: 700"><span style="color: #2238A8; font-variation-settings: 'wdth' 75; margin-right: 8px">1</span>Os seus dados</span>
+            <span style="font-size: 20px; font-weight: 700"><span style="color: #B8461A; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">01</span>Os seus dados</span>
             <span style="font-size: 15px">Já tem conta? <a href="#">Entrar</a></span>
           </legend>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px">
             <div style="display: flex; flex-direction: column; gap: 6px">
               <label for="nome" style="font-size: 15px; font-weight: 600">Nome</label>
-              <input id="nome" type="text" autocomplete="name" value="{{name}}" onChange="{{onName}}" style="height: 48px; padding: 0 12px; border: 1px solid #7F878B; border-radius: 6px; font-size: 16px">
+              <input id="nome" type="text" autocomplete="name" value="{{name}}" onChange="{{onName}}" style="height: 48px; padding: 0 12px; border: 1px solid #85827A; border-radius: 2px; font-size: 16px">
             </div>
             <div style="display: flex; flex-direction: column; gap: 6px">
               <label for="email" style="font-size: 15px; font-weight: 600">Email</label>
-              <input id="email" type="email" autocomplete="email" value="{{email}}" onChange="{{onEmail}}" style="height: 48px; padding: 0 12px; border: 1px solid #7F878B; border-radius: 6px; font-size: 16px">
+              <input id="email" type="email" autocomplete="email" value="{{email}}" onChange="{{onEmail}}" style="height: 48px; padding: 0 12px; border: 1px solid #85827A; border-radius: 2px; font-size: 16px">
             </div>
             <div style="display: flex; flex-direction: column; gap: 6px">
               <label for="telefone" style="font-size: 15px; font-weight: 600">Telemóvel</label>
-              <input id="telefone" type="tel" autocomplete="tel" placeholder="9xx xxx xxx" style="height: 48px; padding: 0 12px; border: 1px solid #7F878B; border-radius: 6px; font-size: 16px">
-              <span style="font-size: 13px; color: #5D656A">Para combinarmos a entrega.</span>
+              <input id="telefone" type="tel" autocomplete="tel" placeholder="9xx xxx xxx" style="height: 48px; padding: 0 12px; border: 1px solid #85827A; border-radius: 2px; font-size: 16px">
+              <span style="font-size: 13px; color: #5A5F66">Para combinarmos a entrega.</span>
             </div>
           </div>
           <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-size: 15px; line-height: 1.45">
-            <input type="checkbox" checked="{{createAccount}}" onChange="{{toggleAccount}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #2238A8">
+            <input type="checkbox" checked="{{createAccount}}" onChange="{{toggleAccount}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #15171A">
             <span>Criar conta para acompanhar a encomenda e guardar orçamentos</span>
           </label>
           <sc-if value="{{createAccount}}" hint-placeholder-val="{{ false }}">
             <div style="display: flex; flex-direction: column; gap: 6px; max-width: 360px">
               <label for="password" style="font-size: 15px; font-weight: 600">Palavra-passe</label>
-              <input id="password" type="password" autocomplete="new-password" style="height: 48px; padding: 0 12px; border: 1px solid #7F878B; border-radius: 6px; font-size: 16px">
-              <span style="font-size: 13px; color: #5D656A">Mínimo de 10 caracteres.</span>
+              <input id="password" type="password" autocomplete="new-password" style="height: 48px; padding: 0 12px; border: 1px solid #85827A; border-radius: 2px; font-size: 16px">
+              <span style="font-size: 13px; color: #5A5F66">Mínimo de 10 caracteres.</span>
             </div>
           </sc-if>
         </fieldset>
 
-        <fieldset style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
-          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #2238A8; font-variation-settings: 'wdth' 75; margin-right: 8px">2</span>Entrega</legend>
+        <fieldset style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #B8461A; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">02</span>Entrega</legend>
           <div role="radiogroup" aria-label="Forma de entrega" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px">
             <sc-for list="{{deliveryOptions}}" as="o" hint-placeholder-count="2">
               <label style="{{o.style}}">
-                <input type="radio" name="entrega" checked="{{o.checked}}" onChange="{{o.pick}}" style="margin: 3px 0 0; width: 18px; height: 18px; flex: none; accent-color: #2238A8">
-                <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 700">{{o.label}}</span><span style="font-size: 14px; color: #5D656A">{{o.detail}}</span></span>
+                <input type="radio" name="entrega" checked="{{o.checked}}" onChange="{{o.pick}}" style="margin: 3px 0 0; width: 18px; height: 18px; flex: none; accent-color: #15171A">
+                <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 700">{{o.label}}</span><span style="font-size: 14px; color: #5A5F66">{{o.detail}}</span></span>
               </label>
             </sc-for>
           </div>
           <sc-if value="{{pickupWithInstall}}" hint-placeholder-val="{{ false }}">
-            <div role="alert" style="border-radius: 8px; background: #FBEAE8; padding: 14px 16px; font-size: 15px; line-height: 1.45">
+            <div role="alert" style="border-radius: 2px; background: #FBEAE8; padding: 14px 16px; font-size: 15px; line-height: 1.45">
               <strong style="color: #8C1D17">O portão tem instalação incluída.</strong> A instalação é feita na morada de entrega. Escolha a entrega na morada ou retire a instalação no carrinho.
             </div>
           </sc-if>
@@ -90,7 +94,7 @@ button:disabled{cursor:not-allowed}
             <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px">
               <div style="grid-column: span 6; display: flex; flex-direction: column; gap: 6px">
                 <label for="morada" style="font-size: 15px; font-weight: 600">Morada</label>
-                <input id="morada" type="text" autocomplete="address-line1" style="height: 48px; padding: 0 12px; border: 1px solid #7F878B; border-radius: 6px; font-size: 16px">
+                <input id="morada" type="text" autocomplete="address-line1" style="height: 48px; padding: 0 12px; border: 1px solid #85827A; border-radius: 2px; font-size: 16px">
               </div>
               <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 6px">
                 <label for="cp" style="font-size: 15px; font-weight: 600">Código postal</label>
@@ -98,127 +102,128 @@ button:disabled{cursor:not-allowed}
               </div>
               <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 6px">
                 <label for="localidade" style="font-size: 15px; font-weight: 600">Localidade</label>
-                <input id="localidade" type="text" autocomplete="address-level2" style="height: 48px; padding: 0 12px; border: 1px solid #7F878B; border-radius: 6px; font-size: 16px">
+                <input id="localidade" type="text" autocomplete="address-level2" style="height: 48px; padding: 0 12px; border: 1px solid #85827A; border-radius: 2px; font-size: 16px">
               </div>
               <span id="cp-ajuda" style="{{postalHintStyle}}">{{postalHint}}</span>
             </div>
           </sc-if>
         </fieldset>
 
-        <fieldset style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
-          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #2238A8; font-variation-settings: 'wdth' 75; margin-right: 8px">3</span>Faturação</legend>
+        <fieldset style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #B8461A; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">03</span>Faturação</legend>
           <div style="display: flex; flex-direction: column; gap: 6px; max-width: 360px">
             <label for="nif" style="font-size: 15px; font-weight: 600">NIF (opcional)</label>
-            <input id="nif" type="text" inputmode="numeric" maxlength="9" style="height: 48px; padding: 0 12px; border: 1px solid #7F878B; border-radius: 6px; font-size: 16px">
-            <span style="font-size: 13px; color: #5D656A">Sem NIF, a fatura é emitida como consumidor final.</span>
+            <input id="nif" type="text" inputmode="numeric" maxlength="9" style="height: 48px; padding: 0 12px; border: 1px solid #85827A; border-radius: 2px; font-size: 16px">
+            <span style="font-size: 13px; color: #5A5F66">Sem NIF, a fatura é emitida como consumidor final.</span>
           </div>
           <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-size: 15px">
-            <input type="checkbox" checked="{{sameBilling}}" onChange="{{toggleBilling}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #2238A8">
+            <input type="checkbox" checked="{{sameBilling}}" onChange="{{toggleBilling}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #15171A">
             <span>{{sameBillingLabel}}</span>
           </label>
           <sc-if value="{{showBilling}}" hint-placeholder-val="{{ false }}">
             <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px">
               <div style="grid-column: span 6; display: flex; flex-direction: column; gap: 6px">
                 <label for="fat-nome" style="font-size: 15px; font-weight: 600">Nome ou empresa</label>
-                <input id="fat-nome" type="text" autocomplete="billing organization" style="height: 48px; padding: 0 12px; border: 1px solid #7F878B; border-radius: 6px; font-size: 16px">
+                <input id="fat-nome" type="text" autocomplete="billing organization" style="height: 48px; padding: 0 12px; border: 1px solid #85827A; border-radius: 2px; font-size: 16px">
               </div>
               <div style="grid-column: span 6; display: flex; flex-direction: column; gap: 6px">
                 <label for="fat-morada" style="font-size: 15px; font-weight: 600">Morada de faturação</label>
-                <input id="fat-morada" type="text" autocomplete="billing address-line1" style="height: 48px; padding: 0 12px; border: 1px solid #7F878B; border-radius: 6px; font-size: 16px">
+                <input id="fat-morada" type="text" autocomplete="billing address-line1" style="height: 48px; padding: 0 12px; border: 1px solid #85827A; border-radius: 2px; font-size: 16px">
               </div>
               <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 6px">
                 <label for="fat-cp" style="font-size: 15px; font-weight: 600">Código postal</label>
-                <input id="fat-cp" type="text" inputmode="numeric" autocomplete="billing postal-code" style="height: 48px; padding: 0 12px; border: 1px solid #7F878B; border-radius: 6px; font-size: 16px">
+                <input id="fat-cp" type="text" inputmode="numeric" autocomplete="billing postal-code" style="height: 48px; padding: 0 12px; border: 1px solid #85827A; border-radius: 2px; font-size: 16px">
               </div>
               <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 6px">
                 <label for="fat-localidade" style="font-size: 15px; font-weight: 600">Localidade</label>
-                <input id="fat-localidade" type="text" autocomplete="billing address-level2" style="height: 48px; padding: 0 12px; border: 1px solid #7F878B; border-radius: 6px; font-size: 16px">
+                <input id="fat-localidade" type="text" autocomplete="billing address-level2" style="height: 48px; padding: 0 12px; border: 1px solid #85827A; border-radius: 2px; font-size: 16px">
               </div>
             </div>
           </sc-if>
         </fieldset>
 
-        <fieldset style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
-          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #2238A8; font-variation-settings: 'wdth' 75; margin-right: 8px">4</span>Pagamento</legend>
+        <fieldset style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #B8461A; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">04</span>Pagamento</legend>
           <div role="radiogroup" aria-label="Meio de pagamento" style="display: flex; flex-direction: column; gap: 8px">
             <sc-for list="{{payOptions}}" as="p" hint-placeholder-count="3">
               <label style="{{p.style}}">
-                <input type="radio" name="pagamento" checked="{{p.checked}}" onChange="{{p.pick}}" style="margin: 3px 0 0; width: 18px; height: 18px; flex: none; accent-color: #2238A8">
-                <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 700">{{p.label}}</span><span style="font-size: 14px; color: #5D656A; line-height: 1.45">{{p.detail}}</span></span>
+                <input type="radio" name="pagamento" checked="{{p.checked}}" onChange="{{p.pick}}" style="margin: 3px 0 0; width: 18px; height: 18px; flex: none; accent-color: #15171A">
+                <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 700">{{p.label}}</span><span style="font-size: 14px; color: #5A5F66; line-height: 1.45">{{p.detail}}</span></span>
               </label>
             </sc-for>
           </div>
           <sc-if value="{{isMbway}}" hint-placeholder-val="{{ false }}">
             <div style="display: flex; flex-direction: column; gap: 6px; max-width: 360px">
               <label for="mbway" style="font-size: 15px; font-weight: 600">Número MB WAY</label>
-              <input id="mbway" type="tel" placeholder="9xx xxx xxx" style="height: 48px; padding: 0 12px; border: 1px solid #7F878B; border-radius: 6px; font-size: 16px">
-              <span style="font-size: 13px; color: #5D656A">Vai receber um pedido de pagamento na app MB WAY. Tem [n] minutos para aceitar.</span>
+              <input id="mbway" type="tel" placeholder="9xx xxx xxx" style="height: 48px; padding: 0 12px; border: 1px solid #85827A; border-radius: 2px; font-size: 16px">
+              <span style="font-size: 13px; color: #5A5F66">Vai receber um pedido de pagamento na app MB WAY. Tem [n] minutos para aceitar.</span>
             </div>
           </sc-if>
         </fieldset>
 
         <div style="display: flex; flex-direction: column; gap: 12px; padding: 4px 2px">
-          <fieldset style="margin: 0; padding: 16px 18px; border: 1px solid #7F878B; border-radius: 10px; background: #FFFFFF; display: flex; flex-direction: column; gap: 10px">
+          <fieldset style="margin: 0; padding: 16px 18px; border: 1px solid #85827A; border-radius: 2px; background: #FFFFFF; display: flex; flex-direction: column; gap: 10px">
             <legend style="padding: 0 6px; font-size: 16px; font-weight: 700">Confirme as medidas de cada produto</legend>
             <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-size: 15px; line-height: 1.45">
-              <input type="checkbox" name="medidas-1" checked="{{measA}}" onChange="{{toggleMeasA}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #2238A8">
+              <input type="checkbox" name="medidas-1" checked="{{measA}}" onChange="{{toggleMeasA}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #15171A">
               <span><strong>Portão de correr:</strong> 3 500 × 1 800 mm, a recolher para a direita, com pelo menos 3 500 mm livres desse lado.</span>
             </label>
             <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-size: 15px; line-height: 1.45">
-              <input type="checkbox" name="medidas-2" checked="{{measB}}" onChange="{{toggleMeasB}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #2238A8">
+              <input type="checkbox" name="medidas-2" checked="{{measB}}" onChange="{{toggleMeasB}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #15171A">
               <span><strong>Caixa de correio:</strong> 400 × 300 × 120 mm.</span>
             </label>
-            <p style="margin: 0; font-size: 14px; color: #3F464B">As medidas são da sua responsabilidade. Pode alterá-las no <a href="Carrinho.dc.html">carrinho</a> antes de pagar.</p>
+            <p style="margin: 0; font-size: 14px; color: #4A4F56">As medidas são da sua responsabilidade. Pode alterá-las no <a href="Carrinho.dc.html">carrinho</a> antes de pagar.</p>
           </fieldset>
           <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-size: 15px; line-height: 1.45">
-            <input type="checkbox" name="condicoes" checked="{{terms}}" onChange="{{toggleTerms}}" aria-describedby="condicoes-nota" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #2238A8">
+            <input type="checkbox" name="condicoes" checked="{{terms}}" onChange="{{toggleTerms}}" aria-describedby="condicoes-nota" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #15171A">
             <span>Aceito as condições de venda.</span>
           </label>
-          <p id="condicoes-nota" style="margin: -6px 0 0 32px; font-size: 14px; color: #3F464B; line-height: 1.45">Os produtos feitos por medida não podem ser devolvidos [confirmar redação com jurista]. <a href="#">Ler as condições de venda</a></p>
+          <p id="condicoes-nota" style="margin: -6px 0 0 32px; font-size: 14px; color: #4A4F56; line-height: 1.45">Os produtos feitos por medida não podem ser devolvidos [confirmar redação com jurista]. <a href="#">Ler as condições de venda</a></p>
           <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-size: 15px; line-height: 1.45">
-            <input type="checkbox" checked="{{marketing}}" onChange="{{toggleMarketing}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #2238A8">
+            <input type="checkbox" checked="{{marketing}}" onChange="{{toggleMarketing}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #15171A">
             <span>Quero receber da Abinox novidades e lembretes sobre orçamentos guardados (opcional).</span>
           </label>
-          <p style="margin: 0; font-size: 14px; color: #3F464B">Tratamos os seus dados como explicado na <a href="#">política de privacidade</a>.</p>
+          <p style="margin: 0; font-size: 14px; color: #4A4F56">Tratamos os seus dados como explicado na <a href="#">política de privacidade</a>.</p>
         </div>
       </form>
 
-      <aside aria-label="Resumo da encomenda" style="flex: 1 1 360px; min-width: 0; background: #FFFFFF; border: 1px solid #D5D9DA; border-top: 4px solid #22262A; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 16px">
-        <h2 style="margin: 0; font-size: 22px; font-weight: 700; font-variation-settings: 'wdth' 85">A sua encomenda</h2>
+      <aside aria-label="Resumo da encomenda" style="flex: 1 1 360px; min-width: 0; background: #FFFFFF; border: 1px solid #DAD8D2; border-top: 4px solid #15171A; border-radius: 2px; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+        <h2 style="margin: 0; font-size: 22px; font-weight: 700;">A sua encomenda</h2>
         <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px">
-          <li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px"><span><strong>Portão de correr</strong><br><span style="color: #5D656A">3 500 × 1 800 mm, ferro RAL 7016, com motor</span></span><span style="font-variant-numeric: tabular-nums; white-space: nowrap">[preço] €</span></li>
-          <li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px"><span><strong>Caixa de correio</strong><br><span style="color: #5D656A">400 × 300 × 120 mm, inox escovado</span></span><span style="font-variant-numeric: tabular-nums; white-space: nowrap">[preço] €</span></li>
+          <li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px"><span><strong>Portão de correr</strong><br><span style="color: #5A5F66">3 500 × 1 800 mm, ferro RAL 7016, com motor</span></span><span style="font-family: 'IBM Plex Mono', monospace; white-space: nowrap">[preço] €</span></li>
+          <li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px"><span><strong>Caixa de correio</strong><br><span style="color: #5A5F66">400 × 300 × 120 mm, inox escovado</span></span><span style="font-family: 'IBM Plex Mono', monospace; white-space: nowrap">[preço] €</span></li>
         </ul>
-        <dl style="margin: 0; padding-top: 14px; border-top: 1px solid #E3E6E7; display: grid; grid-template-columns: minmax(0, 1fr) max-content; row-gap: 10px; font-size: 16px">
-          <dt style="color: #5D656A">Produtos</dt><dd style="margin: 0; text-align: right; font-variant-numeric: tabular-nums">[subtotal] €</dd>
-          <dt style="color: #5D656A">Instalação</dt><dd style="margin: 0; text-align: right; font-variant-numeric: tabular-nums">[instalação] €</dd>
-          <dt style="color: #5D656A">Portes</dt><dd style="{{shippingStyle}}">{{shipping}}</dd>
+        <dl style="margin: 0; padding-top: 14px; border-top: 1px solid #EDECE8; display: grid; grid-template-columns: minmax(0, 1fr) max-content; row-gap: 10px; font-size: 16px">
+          <dt style="color: #5A5F66">Produtos</dt><dd style="margin: 0; text-align: right; font-family: 'IBM Plex Mono', monospace">[subtotal] €</dd>
+          <dt style="color: #5A5F66">Instalação</dt><dd style="margin: 0; text-align: right; font-family: 'IBM Plex Mono', monospace">[instalação] €</dd>
+          <dt style="color: #5A5F66">Portes</dt><dd style="{{shippingStyle}}">{{shipping}}</dd>
         </dl>
-        <div style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 14px; border-top: 1px solid #E3E6E7">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 14px; border-top: 1px solid #EDECE8">
           <span style="font-size: 16px; font-weight: 600">Total com IVA</span>
-          <span style="font-size: 40px; line-height: 1; font-weight: 800; font-variation-settings: 'wdth' 72; font-variant-numeric: tabular-nums">[total] €</span>
+          <span style="font-size: 40px; line-height: 1; font-family: Archivo, sans-serif; font-weight: 600; font-variant-numeric: tabular-nums">[total] €</span>
         </div>
-        <p style="margin: 0; font-size: 14px; color: #5D656A; line-height: 1.45">Pagamento agora: [total ou sinal] €. Sem custos adicionais pelo meio de pagamento.</p>
+        <p style="margin: 0; font-size: 14px; color: #5A5F66; line-height: 1.45">Pagamento agora: [total ou sinal] €. Sem custos adicionais pelo meio de pagamento.</p>
 
         <sc-if value="{{canPay}}" hint-placeholder-val="{{ false }}">
-          <a href="Confirmacao.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 8px; background: #2238A8; color: #FFFFFF; font-size: 17px; font-weight: 700; text-decoration: none">{{payCta}}</a>
+          <a href="Confirmacao.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 2px; background: #B8461A; color: #FFFFFF; font-size: 17px; font-weight: 700; text-decoration: none">{{payCta}}</a>
         </sc-if>
         <sc-if value="{{cannotPay}}" hint-placeholder-val="{{ true }}">
-          <button type="button" disabled="{{ true }}" style="height: 56px; border: 0; border-radius: 8px; background: #E3E6E7; color: #5D656A; font-size: 17px; font-weight: 700">{{payCta}}</button>
-          <p style="margin: 0; font-size: 14px; color: #5D656A; line-height: 1.45">{{missing}}</p>
+          <button type="button" disabled="{{ true }}" style="height: 56px; border: 0; border-radius: 2px; background: #EDECE8; color: #5A5F66; font-size: 17px; font-weight: 700">{{payCta}}</button>
+          <p style="margin: 0; font-size: 14px; color: #5A5F66; line-height: 1.45">{{missing}}</p>
         </sc-if>
       </aside>
     </div>
   </main>
 
-  <footer style="margin-top: auto; background: #22262A; color: #D5D9DA">
-    <div style="max-width: 1320px; margin: 0 auto; padding: 28px; display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: 14px">
-      <span>[Abinox, NIF, morada em Viana do Castelo]</span>
-      <a href="#" style="color: #D5D9DA">Termos e condições</a>
-      <a href="#" style="color: #D5D9DA">Privacidade</a>
-      <a href="#" style="color: #D5D9DA">Cookies</a>
-      <a href="#" style="color: #D5D9DA">Livro de Reclamações</a>
-      <a href="#" style="color: #D5D9DA">Resolução de litígios</a>
+  <footer class="wrap" style="margin-top: auto; border-top: 1px solid #DAD8D2; padding: 48px 80px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px; font-size: 14px; color: #4A4F56">
+    <div style="display: flex; flex-direction: column; gap: 10px; max-width: 320px">
+      <span style="font-family: Archivo, sans-serif; font-weight: 700; font-size: 18px; color: #15171A">Abinox</span>
+      <span>Bruno Miguel Freitas, Lda · [MORADA], Viana do Castelo</span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 32px 56px">
+      <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-weight: 600; color: #15171A">Produtos</span><a href="Categoria.dc.html">Portões</a><a href="#">Escadas</a><a href="#">Guardas</a><a href="#">Chaminés</a></div>
+      <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-weight: 600; color: #15171A">Contactos</span><span class="mono">[TELEFONE]</span><span>[EMAIL]</span></div>
+      <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-weight: 600; color: #15171A">Legal</span><a href="#">Termos e condições</a><a href="#">Privacidade</a><a href="#">Cookies</a><a href="#">Livro de Reclamações</a><a href="#">Resolução de litígios</a></div>
     </div>
   </footer>
 </div>
@@ -242,8 +247,8 @@ class Component extends DCLogic {
     var cartHasInstall = true; // o carrinho de exemplo tem um portão com instalação
 
     function card(on) {
-      return 'display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: 8px; cursor: pointer; ' +
-        (on ? 'border: 2px solid #2238A8; background: #F3F5FD' : 'border: 1px solid #7F878B; background: #FFFFFF');
+      return 'display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: 2px; cursor: pointer; ' +
+        (on ? 'border: 2px solid #15171A; background: #F5F4F1' : 'border: 1px solid #85827A; background: #FFFFFF');
     }
 
     var isDelivery = s.delivery === 'morada';
@@ -295,9 +300,9 @@ class Component extends DCLogic {
       postal: s.postal,
       onPostal: function (e) { self.setState({ postal: e.target.value }); },
       postalBad: postalBad,
-      postalStyle: 'height: 48px; padding: 0 12px; border-radius: 6px; font-size: 16px; font-variant-numeric: tabular-nums; border: ' + (postalBad || islands ? '2px solid #B3261E' : '1px solid #7F878B'),
+      postalStyle: 'height: 48px; padding: 0 12px; border-radius: 2px; font-size: 16px; font-variant-numeric: tabular-nums; border: ' + (postalBad || islands ? '2px solid #B3261E' : '1px solid #85827A'),
       postalHint: postalBad ? 'Use o formato 0000-000.' : islands ? 'Ainda não entregamos nos Açores e na Madeira.' : 'Os portes dependem do código postal.',
-      postalHintStyle: 'grid-column: span 6; font-size: 13px; color: ' + (postalBad || islands ? '#8C1D17' : '#5D656A'),
+      postalHintStyle: 'grid-column: span 6; font-size: 13px; color: ' + (postalBad || islands ? '#8C1D17' : '#5A5F66'),
 
       sameBilling: s.sameBilling,
       sameBillingLabel: isDelivery ? 'A morada de faturação é a mesma da entrega' : 'Usar os dados acima na fatura',
@@ -323,7 +328,7 @@ class Component extends DCLogic {
       toggleMarketing: function () { self.setState({ marketing: !s.marketing }); },
 
       shipping: shipping,
-      shippingStyle: 'margin: 0; text-align: right; font-variant-numeric: tabular-nums; color: ' + (shippingMuted ? '#5D656A' : '#22262A'),
+      shippingStyle: 'margin: 0; text-align: right; font-variant-numeric: tabular-nums; color: ' + (shippingMuted ? '#5A5F66' : '#15171A'),
       canPay: canPay,
       cannotPay: !canPay,
       payCta: payCta,
