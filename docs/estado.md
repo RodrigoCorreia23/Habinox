@@ -196,6 +196,7 @@ Notas:
 - `NextIntlClientProvider` envia todas as mensagens para o cliente; filtrar por namespace quando o ficheiro crescer.
 - Emails só em texto simples; falta template HTML com a marca.
 - Sem página de erro/404 personalizada.
+- O build descarrega as fontes do Google (`next/font/google`); a 2026-10-09 o CI falhou uma vez a obter a IBM Plex Sans e passou ao repetir. Se voltar a acontecer (ou na Vercel), passar a fontes locais (`next/font/local` com os ficheiros no repositório).
 - Página `/admin` não tem login próprio: usa `/pt/entrar?next=/admin`.
 
 ---
