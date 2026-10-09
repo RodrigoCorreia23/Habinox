@@ -114,6 +114,7 @@ docker-compose.yml, docker/postgres-init/   Postgres local + BD abinox_test
 - **i18n:** textos da loja em `messages/pt.json`; usar `Link`/`redirect` de `@/i18n/navigation` nas páginas com locale. Backoffice com texto direto em PT.
 - **Logs:** `log.child({ jobId })` / `{ correlationId }`; uma linha JSON por evento.
 - **Emails em dev:** sem `RESEND_API_KEY` aparecem no terminal do `pnpm dev` como `email.dev`, com o link.
+- **Skills do agente:** `find-skills` (vercel-labs/skills) instalada no projeto em `.agents/skills/` com atalho em `.claude/skills/` (versão em `skills-lock.json`). Atualizar com `npx skills update`. `.agents/` está fora do Prettier.
 - **Commits:** em português, um por passo lógico, autor "Rodrigo Correia".
 
 ---

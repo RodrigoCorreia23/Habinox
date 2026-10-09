@@ -7,3 +7,5 @@ AGENTS.md
 test-results
 playwright-report
 docs/wireframes
+.agents
+skills-lock.json
