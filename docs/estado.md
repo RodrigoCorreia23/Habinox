@@ -114,7 +114,12 @@ docker-compose.yml, docker/postgres-init/   Postgres local + BD abinox_test
 - **i18n:** textos da loja em `messages/pt.json`; usar `Link`/`redirect` de `@/i18n/navigation` nas páginas com locale. Backoffice com texto direto em PT.
 - **Logs:** `log.child({ jobId })` / `{ correlationId }`; uma linha JSON por evento.
 - **Emails em dev:** sem `RESEND_API_KEY` aparecem no terminal do `pnpm dev` como `email.dev`, com o link.
-- **Skills do agente:** `find-skills` (vercel-labs/skills) instalada no projeto em `.agents/skills/` com atalho em `.claude/skills/` (versão em `skills-lock.json`). Atualizar com `npx skills update`. `.agents/` está fora do Prettier.
+- **Skills do agente** (instaladas no projeto em `.agents/skills/`, atalhos em `.claude/skills/`, versões em `skills-lock.json`; também instaladas globalmente no PC principal). Atualizar com `npx skills update`. `.agents/` está fora do Prettier.
+  - Pesquisa: `find-skills`.
+  - Backend: `better-auth-best-practices`, `better-auth-security-best-practices`, `neon-postgres`, `vitest`, `resend`.
+  - Frontend: `web-design-guidelines`, `impeccable` (inclui a antiga `audit`), `emil-design-eng`, `tailwind-design-system`, `web-perf`.
+  - Em conflito, o `CLAUDE.md` prevalece (ex.: a skill do Better Auth sugere `drizzle-kit push`; aqui só `generate` + `migrate`). Comandos `npx impeccable …` descarregam um pacote npm: pedir autorização antes.
+  - Noutro PC, para as ter em todos os projetos: `npx skills add <owner/repo@skill> -g -y` (lista em `skills-lock.json`).
 - **Commits:** em português, um por passo lógico, autor "Rodrigo Correia".
 
 ---
