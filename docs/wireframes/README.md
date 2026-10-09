@@ -25,7 +25,9 @@ Protótipos clicáveis da fase 0, para validar com o Bruno antes de programar.
 
 Os ficheiros `.dc.html` são do formato *Design Component* do canvas (precisam do runtime do canvas para correr; não abrem diretamente no browser).
 
-## Direção visual ("ficha de fabrico")
+> **Atenção:** a direção visual abaixo foi **substituída** pela identidade do [`DESIGN.md`](../../DESIGN.md) (catálogo técnico: acento `#B8461A`, Archivo + IBM Plex, raio de 2px). Os wireframes valem pela **estrutura, fluxos e regras**; o aspeto final segue o `DESIGN.md`.
+
+## Direção visual antiga ("ficha de fabrico")
 
 - Fundo `#F2F3F2`, superfícies `#FFFFFF`, texto `#22262A`, secundário `#5D656A`, acento único `#2238A8` (azul de traçagem), erro `#B3261E`.
 - Tipografia: Archivo (largura variável): títulos e preços comprimidos e pesados; algarismos tabulares nas medidas.

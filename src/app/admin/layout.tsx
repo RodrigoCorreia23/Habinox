@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { geistMono, geistSans } from "@/lib/fonts";
+import { fontVariables } from "@/lib/fonts";
 import { requireAdmin } from "@/server/auth/session";
 import "../globals.css";
 
@@ -14,7 +14,7 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
   const session = await requireAdmin();
 
   return (
-    <html lang="pt" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="pt" className={`${fontVariables} h-full antialiased`}>
       <body className="flex min-h-full">
         <aside className="w-56 shrink-0 border-r px-4 py-4">
           <p className="font-semibold tracking-tight">Backoffice</p>

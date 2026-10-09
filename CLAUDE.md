@@ -1,5 +1,6 @@
 @AGENTS.md
 @docs/estado.md
+@DESIGN.md
 
 # Abinox — Plataforma digital de vendas
 
@@ -15,7 +16,7 @@ Hoje vende sobretudo por recomendação, com um site com mais de 15 anos. Capta 
 
 **O problema a resolver:** cada pedido passa hoje por orçamento manual. A plataforma deve permitir ao cliente configurar o produto (medidas, material, cor) e **receber o preço de imediato**, sem intervenção humana.
 
-**Cliente:** Bruno Freitas (Abinox). **Prestador:** Rodrigo Correia (freelancer, trabalha sozinho).
+**Cliente:** Bruno Miguel Freitas, Lda (marca Abinox), representada por Bruno Freitas. **Prestador:** Rodrigo Correia (freelancer, trabalha sozinho).
 
 ### Restrições comerciais (importantes para decisões técnicas)
 
@@ -94,7 +95,7 @@ Escolhida para um programador sozinho, com manutenção baixa e muito trabalho f
 **Aplicação**
 - **Next.js (App Router) + TypeScript** — site, backoffice e API no mesmo projeto.
 - **Uma única app, sem monorepo** (sem Turborepo/pacotes separados). Módulos de domínio com fronteiras claras.
-- **Tailwind CSS** + **shadcn/ui**. Design: técnico e minimalista (ver mockup).
+- **Tailwind CSS** + **shadcn/ui**. Design: "catálogo técnico" — **toda a UI segue o `DESIGN.md`** (paleta, Archivo + IBM Plex Sans/Mono, raio de 2px, sem sombras, números e medidas em mono). Os tokens estão em `src/app/globals.css` (`ink`, `steel`, `canvas`, `line-strong`, `brand`…); não usar hex soltos nos componentes.
 - **Backoffice próprio** com shadcn/ui + TanStack Table (não Payload nem outro CMS).
 - **Drizzle ORM** sobre **PostgreSQL**.
 - **Better Auth** (adaptador Drizzle) para autenticação. Dados na nossa BD (RGPD, apagamento), papéis `cliente|pro|admin`, convites Pro. Não usar Clerk.
@@ -272,6 +273,7 @@ Requisito do cliente: **as IAs têm de falar umas com as outras para perceber se
 13. Backoffice próprio (shadcn/ui + TanStack Table), sem CMS.
 14. IVA: 23% PT no beta, parametrizado em `settings`; OSS só na expansão.
 15. Integrações externas atrás de interfaces com adaptador fake.
+16. Identidade visual definida no `DESIGN.md` (mockup de referência em `docs/design/`). Substitui a direção visual "ficha de fabrico" dos wireframes; os wireframes continuam válidos para estrutura e fluxos.
 
 ### Ordem de trabalho
 
