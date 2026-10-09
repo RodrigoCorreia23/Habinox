@@ -11,6 +11,7 @@ Protótipos clicáveis da fase 0, para validar com o Bruno antes de programar.
 | `Carrinho.dc.html` | Carrinho (ficha de cada artigo, quantidade, remover, carrinho vazio) |
 | `Checkout.dc.html` | Dados, entrega/levantamento, faturação com NIF, pagamento (cartão, MB WAY, Multibanco), consentimentos |
 | `Confirmacao.dc.html` | Confirmação: pago na hora ou referência Multibanco por pagar |
+| `Formulas.dc.html` | Backoffice: fórmula de preço (linhas de custo com expressões, condições por opção, teste ao vivo, comparação com orçamentos reais, rascunho → validada → publicada) |
 | `canvas.json` | Disposição no canvas e notas com as perguntas para o Bruno |
 
 Os ficheiros `.dc.html` são do formato *Design Component* do canvas (precisam do runtime do canvas para correr; não abrem diretamente no browser).

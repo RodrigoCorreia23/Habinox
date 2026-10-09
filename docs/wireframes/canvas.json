@@ -45,13 +45,23 @@
       "title": "Confirmação da encomenda",
       "expand": "fill",
       "is_interactive": true
+    },
+    "Formulas.dc.html": {
+      "x": 0,
+      "y": 4620,
+      "w": 1440,
+      "h": 1560,
+      "title": "Backoffice — Fórmula de preço",
+      "expand": "fill",
+      "is_interactive": true
     }
   },
   "order": [
     "Main.dc.html",
     "Carrinho.dc.html",
     "Checkout.dc.html",
-    "Confirmacao.dc.html"
+    "Confirmacao.dc.html",
+    "Formulas.dc.html"
   ],
   "notes": {
     "n1": {
@@ -141,6 +151,30 @@
       "maxH": 420,
       "fill": "orange",
       "text": "Confirmação\n• Dois casos: pagamento imediato (cartão/MB WAY) e referência Multibanco por pagar.\n• A encomenda Multibanco fica \"a aguardar pagamento\"; a produção só começa depois do pagamento.\n\nPerguntar ao Bruno:\n• Quantos dias para pagar a referência?\n• O que acontece se não for paga (cancela ou fica para revisão)?"
+    },
+    "b1": {
+      "x": 1520,
+      "y": 4620,
+      "w": 420,
+      "maxH": 460,
+      "fill": "blue",
+      "text": "Fórmula de preço — como funciona\n• Preço = soma das linhas de custo (quantidade × custo unitário) + margem, arredondado, + IVA.\n• Só as quantidades são expressões: L e H (em metros), + − × ÷, parênteses, ceil, floor, min, max (argumentos separados por ; porque a vírgula é decimal, ex.: max(L; 2,5)). Nunca eval.\n• Cada linha pode aplicar-se só a certas opções (ex.: pintura só se acabamento = lacado).\n• Custos dos materiais vêm do PHC (cópia local); a mão de obra e a margem são definidas aqui."
+    },
+    "b2": {
+      "x": 1520,
+      "y": 5120,
+      "w": 420,
+      "maxH": 420,
+      "fill": "blue",
+      "text": "Versões e validação\n• Cada alteração cria uma nova versão em rascunho.\n• Rascunho → validada (o Bruno compara com orçamentos reais) → publicada.\n• Publicar só afeta novos orçamentos; os já guardados e as encomendas mantêm o preço (snapshot).\n• Material que desaparece do PHC fica marcado para revisão, nunca a zero."
+    },
+    "b3": {
+      "x": 1980,
+      "y": 4620,
+      "w": 420,
+      "maxH": 520,
+      "fill": "orange",
+      "text": "Perguntar ao Bruno (com um orçamento real à frente)\n• Que linhas de custo entram num portão de correr?\n• Como estima a quantidade de cada material a partir das medidas?\n• Desperdício: por material ou geral?\n• Custo/hora: um só ou por tipo de trabalho (corte, soldadura, pintura, montagem)?\n• Margem: por produto ou por categoria?\n• Arredondamento: para cima, a múltiplos de quanto?\n• Que diferença aceita entre a fórmula e os orçamentos reais (ex.: ±3%)?"
     }
   },
   "designSystems": []

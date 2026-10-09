@@ -135,5 +135,6 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
   - [x] Carrinho, checkout e confirmação
   - [ ] Home e página de categoria
   - [ ] Área de cliente (encomendas, orçamentos guardados)
-  - [ ] Backoffice: produtos/opções, fórmulas com pré-visualização, encomendas, sincronização PHC
+  - [x] Backoffice: fórmula de preço com pré-visualização
+  - [ ] Backoffice: produtos/opções, encomendas, sincronização PHC
 - [ ] Mockup visual a partir dos wireframes e do logótipo

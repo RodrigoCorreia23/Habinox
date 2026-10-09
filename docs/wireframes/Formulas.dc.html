@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<title>Backoffice — Fórmula de preço</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F2F3F2;color:#22262A;font-family:'Archivo',system-ui,sans-serif}
+a{color:#2238A8}a:hover{color:#16257A}
+input,select,button{font-family:inherit}
+:focus-visible{outline:3px solid #2238A8;outline-offset:2px}
+button:disabled{cursor:not-allowed}
+th{font-weight:600;text-align:left}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-wrap: wrap">
+
+  <nav aria-label="Backoffice" style="flex: 1 1 220px; max-width: 100%; box-sizing: border-box; background: #22262A; color: #D5D9DA; padding: 20px 14px; display: flex; flex-direction: column; gap: 4px">
+    <span style="display: flex; align-items: center; justify-content: center; height: 40px; margin-bottom: 16px; border: 1.5px dashed #6B7378; border-radius: 6px; font-size: 13px; color: #B9BEC1">Logótipo Abinox</span>
+    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Painel</a>
+    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Encomendas</a>
+    <a href="#" aria-current="page" style="color: #FFFFFF; text-decoration: none; padding: 10px 12px; border-radius: 6px; background: #3A4146; font-weight: 700">Produtos</a>
+    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Materiais e custos</a>
+    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Opções</a>
+    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Clientes</a>
+    <a href="#" style="color: #D5D9DA; text-decoration: none; padding: 10px 12px; border-radius: 6px">Definições</a>
+    <div style="margin-top: auto; padding: 12px; border-radius: 6px; background: #2E3439; font-size: 13px; line-height: 1.45; color: #B9BEC1">
+      <span style="display: block; color: #FFFFFF; font-weight: 600">Sincronização PHC</span>
+      Última: hoje às [hora]. 1 artigo para rever.
+    </div>
+  </nav>
+
+  <main style="flex: 999 1 900px; min-width: 0; box-sizing: border-box; padding: 24px 28px 48px; display: flex; flex-direction: column; gap: 20px">
+
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <nav aria-label="Caminho" style="font-size: 14px; color: #5D656A; display: flex; flex-wrap: wrap; gap: 8px">
+        <a href="#" style="color: #5D656A">Produtos</a><span aria-hidden="true">/</span>
+        <a href="#" style="color: #5D656A">Portões</a><span aria-hidden="true">/</span>
+        <a href="#" style="color: #5D656A">Portão de correr</a><span aria-hidden="true">/</span>
+        <span style="color: #22262A">Fórmula de preço</span>
+      </nav>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px">
+          <h1 style="margin: 0; font-size: 44px; line-height: 1; font-weight: 800; font-variation-settings: 'wdth' 70">Fórmula de preço</h1>
+          <span style="{{statusStyle}}">{{statusLabel}}</span>
+          <a href="#" style="font-size: 14px">Versões anteriores (v2 publicada a [data])</a>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <button type="button" onClick="{{saveDraft}}" style="height: 44px; padding: 0 16px; border-radius: 8px; border: 1.5px solid #22262A; background: #FFFFFF; color: #22262A; font-size: 15px; font-weight: 700; cursor: pointer">Guardar rascunho</button>
+          <button type="button" onClick="{{validate}}" disabled="{{cannotValidate}}" style="{{validateStyle}}">Marcar como validada</button>
+          <button type="button" onClick="{{publish}}" disabled="{{cannotPublish}}" style="{{publishStyle}}">Publicar</button>
+        </div>
+      </div>
+      <sc-if value="{{banner}}" hint-placeholder-val="{{ false }}">
+        <p role="status" style="{{bannerStyle}}">{{bannerText}}</p>
+      </sc-if>
+    </div>
+
+    <div role="alert" style="display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; background: #FFF4D6; border: 1px solid #E8D59A; border-radius: 8px; padding: 12px 16px; font-size: 15px">
+      <strong>Kit de rodízios (PHC KR02) desapareceu do PHC em [data].</strong>
+      <span>A fórmula continua a usar o último custo conhecido ([€/un]). Escolha outro artigo ou confirme que se mantém.</span>
+      <a href="#">Rever artigo</a>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+
+      <section aria-label="Linhas de custo" style="flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+        <div style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; overflow: hidden">
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; padding: 16px 18px; border-bottom: 1px solid #E3E6E7">
+            <h2 style="margin: 0; font-size: 20px; font-weight: 700">Linhas de custo</h2>
+            <span style="font-size: 14px; color: #5D656A">Quantidades em função de <strong style="color: #22262A">L</strong> (largura) e <strong style="color: #22262A">H</strong> (altura), em metros. Linhas e expressões de exemplo.</span>
+          </div>
+          <div style="overflow-x: auto">
+            <table style="width: 100%; min-width: 860px; border-collapse: collapse; font-size: 15px">
+              <thead>
+                <tr style="background: #F7F8F8; color: #5D656A; font-size: 13px">
+                  <th scope="col" style="padding: 10px 14px">Linha</th>
+                  <th scope="col" style="padding: 10px 14px">Aplica-se</th>
+                  <th scope="col" style="padding: 10px 14px; width: 260px">Quantidade</th>
+                  <th scope="col" style="padding: 10px 14px; text-align: right">No teste</th>
+                  <th scope="col" style="padding: 10px 14px">Custo unitário</th>
+                  <th scope="col" style="padding: 10px 8px"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Ações</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+                  <tr style="{{r.rowStyle}}">
+                    <td style="padding: 12px 14px; vertical-align: top">
+                      <span style="display: block; font-weight: 700">{{r.label}}</span>
+                      <span style="display: block; font-size: 13px; color: #5D656A">{{r.kind}}</span>
+                    </td>
+                    <td style="padding: 12px 14px; vertical-align: top; font-size: 14px">
+                      <span style="{{r.condStyle}}">{{r.condText}}</span>
+                    </td>
+                    <td style="padding: 8px 14px; vertical-align: top">
+                      <label style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)" for="{{r.inputId}}">{{r.inputLabel}}</label>
+                      <div style="{{r.exprBoxStyle}}">
+                        <input id="{{r.inputId}}" type="text" value="{{r.expr}}" onChange="{{r.onExpr}}" aria-invalid="{{r.invalid}}" spellcheck="false" style="flex: 1; min-width: 0; height: 40px; padding: 0 10px; border: 0; background: transparent; font-size: 15px; font-variant-numeric: tabular-nums; color: #22262A">
+                        <span style="padding: 0 10px; font-size: 13px; color: #5D656A">{{r.unit}}</span>
+                      </div>
+                      <sc-if value="{{r.invalid}}" hint-placeholder-val="{{ false }}">
+                        <span style="display: block; margin-top: 4px; font-size: 13px; color: #8C1D17">{{r.error}}</span>
+                      </sc-if>
+                    </td>
+                    <td style="padding: 12px 14px; vertical-align: top; text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap">{{r.qtyText}}</td>
+                    <td style="padding: 12px 14px; vertical-align: top; font-size: 14px">
+                      <span style="display: block">{{r.cost}}</span>
+                      <span style="{{r.sourceStyle}}">{{r.source}}</span>
+                    </td>
+                    <td style="padding: 8px; vertical-align: top">
+                      <button type="button" onClick="{{r.remove}}" aria-label="{{r.removeLabel}}" style="width: 40px; height: 40px; border: 0; border-radius: 6px; background: transparent; color: #5D656A; cursor: pointer">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg>
+                      </button>
+                    </td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+          <div style="padding: 12px 18px; border-top: 1px solid #E3E6E7; display: flex; flex-wrap: wrap; gap: 8px">
+            <button type="button" onClick="{{addMaterial}}" style="height: 40px; padding: 0 14px; border-radius: 6px; border: 1px solid #C3C9CB; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar material</button>
+            <button type="button" onClick="{{addLabour}}" style="height: 40px; padding: 0 14px; border-radius: 6px; border: 1px solid #C3C9CB; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar mão de obra</button>
+            <button type="button" onClick="{{addFixed}}" style="height: 40px; padding: 0 14px; border-radius: 6px; border: 1px solid #C3C9CB; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar custo fixo</button>
+          </div>
+        </div>
+
+        <div style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 16px 18px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="margem" style="font-size: 15px; font-weight: 600">Margem</label>
+            <div style="display: flex; align-items: center; border: 1px solid #C3C9CB; border-radius: 6px">
+              <input id="margem" type="text" inputmode="decimal" placeholder="[%]" style="flex: 1; min-width: 0; height: 44px; padding: 0 10px; border: 0; background: transparent; font-size: 16px">
+              <span style="padding: 0 10px; color: #5D656A">%</span>
+            </div>
+            <span style="font-size: 13px; color: #5D656A">Sobre o custo total.</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="arredondar" style="font-size: 15px; font-weight: 600">Arredondamento</label>
+            <select id="arredondar" style="height: 46px; padding: 0 10px; border: 1px solid #C3C9CB; border-radius: 6px; background: #FFFFFF; font-size: 16px">
+              <option>Para cima, a 1 €</option>
+              <option>Para cima, a 5 €</option>
+              <option>Para cima, a 10 €</option>
+            </select>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <span style="font-size: 15px; font-weight: 600">IVA</span>
+            <span style="height: 46px; display: flex; align-items: center; font-size: 16px">23% <a href="#" style="margin-left: 8px; font-size: 14px">em Definições</a></span>
+          </div>
+        </div>
+      </section>
+
+      <aside aria-label="Pré-visualização do preço" style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+        <div style="background: #FFFFFF; border: 1px solid #D5D9DA; border-top: 4px solid #2238A8; border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 14px">
+          <h2 style="margin: 0; font-size: 20px; font-weight: 700">Testar com uma configuração</h2>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+            <div style="display: flex; flex-direction: column; gap: 4px">
+              <label for="tL" style="font-size: 14px; font-weight: 600">Largura (L)</label>
+              <div style="display: flex; align-items: center; border: 1px solid #C3C9CB; border-radius: 6px">
+                <input id="tL" type="text" inputmode="decimal" value="{{tL}}" onChange="{{onL}}" style="flex: 1; min-width: 0; height: 42px; padding: 0 10px; border: 0; background: transparent; font-size: 16px; font-variant-numeric: tabular-nums">
+                <span style="padding: 0 10px; color: #5D656A">m</span>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px">
+              <label for="tH" style="font-size: 14px; font-weight: 600">Altura (H)</label>
+              <div style="display: flex; align-items: center; border: 1px solid #C3C9CB; border-radius: 6px">
+                <input id="tH" type="text" inputmode="decimal" value="{{tH}}" onChange="{{onH}}" style="flex: 1; min-width: 0; height: 42px; padding: 0 10px; border: 0; background: transparent; font-size: 16px; font-variant-numeric: tabular-nums">
+                <span style="padding: 0 10px; color: #5D656A">m</span>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px">
+              <label for="tAc" style="font-size: 14px; font-weight: 600">Acabamento</label>
+              <select id="tAc" value="{{tAc}}" onChange="{{onAc}}" style="height: 44px; padding: 0 8px; border: 1px solid #C3C9CB; border-radius: 6px; background: #FFFFFF; font-size: 15px">
+                <option value="galvanizado">Galvanizado</option>
+                <option value="lacado">Lacado</option>
+              </select>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px">
+              <label for="tMot" style="font-size: 14px; font-weight: 600">Motorização</label>
+              <select id="tMot" value="{{tMot}}" onChange="{{onMot}}" style="height: 44px; padding: 0 8px; border: 1px solid #C3C9CB; border-radius: 6px; background: #FFFFFF; font-size: 15px">
+                <option value="sem">Sem motor</option>
+                <option value="com">Com motor</option>
+              </select>
+            </div>
+          </div>
+          <label style="display: flex; align-items: center; gap: 10px; font-size: 15px; cursor: pointer">
+            <input type="checkbox" checked="{{tInst}}" onChange="{{onInst}}" style="width: 20px; height: 20px; accent-color: #2238A8">
+            Com instalação
+          </label>
+
+          <dl style="margin: 0; padding-top: 12px; border-top: 1px solid #E3E6E7; display: grid; grid-template-columns: minmax(0, 1fr) max-content; row-gap: 8px; font-size: 15px">
+            <dt style="color: #5D656A">Materiais</dt><dd style="margin: 0; text-align: right">[€]</dd>
+            <dt style="color: #5D656A">Mão de obra ({{hoursText}})</dt><dd style="margin: 0; text-align: right">[€]</dd>
+            <dt style="color: #5D656A">Acabamento e opções</dt><dd style="margin: 0; text-align: right">[€]</dd>
+            <dt style="font-weight: 600">Custo total</dt><dd style="margin: 0; text-align: right; font-weight: 600">[€]</dd>
+            <dt style="color: #5D656A">Margem ([%])</dt><dd style="margin: 0; text-align: right">[€]</dd>
+            <dt style="color: #5D656A">IVA 23%</dt><dd style="margin: 0; text-align: right">[€]</dd>
+          </dl>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 12px; border-top: 1px solid #E3E6E7">
+            <span style="font-size: 15px; font-weight: 600">Preço ao cliente</span>
+            <span style="font-size: 36px; line-height: 1; font-weight: 800; font-variation-settings: 'wdth' 72">[preço] €</span>
+          </div>
+          <sc-if value="{{hasErrors}}" hint-placeholder-val="{{ false }}">
+            <p role="alert" style="margin: 0; font-size: 14px; color: #8C1D17">Há linhas com erros. Corrija-as para calcular o preço.</p>
+          </sc-if>
+          <p style="margin: 0; font-size: 13px; color: #5D656A">{{activeText}}</p>
+        </div>
+
+        <div style="background: #FFFFFF; border: 1px solid #D5D9DA; border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+          <h2 style="margin: 0; font-size: 20px; font-weight: 700">Comparar com orçamentos reais</h2>
+          <p style="margin: 0; font-size: 14px; color: #5D656A; line-height: 1.45">Antes de validar, a fórmula tem de dar valores próximos de orçamentos que a Abinox já fez.</p>
+          <div style="overflow-x: auto">
+            <table style="width: 100%; border-collapse: collapse; font-size: 14px">
+              <thead>
+                <tr style="color: #5D656A; font-size: 13px">
+                  <th scope="col" style="padding: 6px 4px">Orçamento</th>
+                  <th scope="col" style="padding: 6px 4px; text-align: right">Real</th>
+                  <th scope="col" style="padding: 6px 4px; text-align: right">Fórmula</th>
+                  <th scope="col" style="padding: 6px 4px; text-align: right">Dif.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-top: 1px solid #E3E6E7"><td style="padding: 8px 4px">3,5 × 1,8 m, lacado, motor</td><td style="padding: 8px 4px; text-align: right">[€]</td><td style="padding: 8px 4px; text-align: right">[€]</td><td style="padding: 8px 4px; text-align: right">[%]</td></tr>
+                <tr style="border-top: 1px solid #E3E6E7"><td style="padding: 8px 4px">5 × 2 m, galvanizado</td><td style="padding: 8px 4px; text-align: right">[€]</td><td style="padding: 8px 4px; text-align: right">[€]</td><td style="padding: 8px 4px; text-align: right">[%]</td></tr>
+                <tr style="border-top: 1px solid #E3E6E7"><td style="padding: 8px 4px">2,5 × 1,5 m, lacado</td><td style="padding: 8px 4px; text-align: right">[€]</td><td style="padding: 8px 4px; text-align: right">[€]</td><td style="padding: 8px 4px; text-align: right">[%]</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <button type="button" style="align-self: flex-start; height: 40px; padding: 0 14px; border-radius: 6px; border: 1px solid #C3C9CB; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar orçamento real</button>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1560}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.nextId = 9;
+    this.state = {
+      status: 'rascunho',
+      notice: null,
+      tL: '3,5', tH: '1,8', tAc: 'lacado', tMot: 'com', tInst: false,
+      rows: [
+        { id: 1, label: 'Tubo 40×40 (quadro)', kind: 'Material', expr: '2*L + 2*H', unit: 'm', cost: '[€/m]', source: 'PHC TQ40 · atualizado [data]' },
+        { id: 2, label: 'Barras verticais 20×20', kind: 'Material', expr: 'ceil(L / 0,12) * H', unit: 'm', cost: '[€/m]', source: 'PHC TQ20 · atualizado [data]' },
+        { id: 3, label: 'Calha de chão', kind: 'Material', expr: '2 * L', unit: 'm', cost: '[€/m]', source: 'PHC CAL01 · atualizado [data]' },
+        { id: 4, label: 'Kit de rodízios e guias', kind: 'Material', expr: '1', unit: 'un', cost: '[€/un]', source: 'PHC KR02 · para rever', review: true },
+        { id: 5, label: 'Corte e soldadura', kind: 'Mão de obra', expr: '2 + 0,8 * L', unit: 'h', cost: '[€/h]', source: 'Custo/hora da oficina' },
+        { id: 6, label: 'Lacagem', kind: 'Acabamento', expr: '2 * L * H', unit: 'm²', cost: '[€/m²]', source: 'Fornecedor de pintura', cond: { k: 'tAc', v: 'lacado', t: 'Acabamento lacado' } },
+        { id: 7, label: 'Motor de correr', kind: 'Opção', expr: '1', unit: 'un', cost: '[€/un]', source: 'PHC MOT1 · atualizado [data]', cond: { k: 'tMot', v: 'com', t: 'Com motor' } },
+        { id: 8, label: 'Montagem em obra', kind: 'Mão de obra', expr: '3 + 0,5 * L', unit: 'h', cost: '[€/h]', source: 'Custo/hora de instalação', cond: { k: 'tInst', v: true, t: 'Com instalação' } }
+      ]
+    };
+  }
+
+  // Avaliador seguro: números (vírgula decimal), L, H, + - * /, parênteses e ceil/floor/round/min/max (argumentos separados por ;). Sem eval.
+  evaluate(src, vars) {
+    var tokens = [];
+    var re = /\s*(\d+(?:[.,]\d+)?|[A-Za-z_]+|[()+\-*\/;])\s*/y;
+    var text = String(src).replace(/,(?=\d)/g, '.');
+    var pos = 0, m;
+    re.lastIndex = 0;
+    while (pos < text.length) {
+      re.lastIndex = pos;
+      m = re.exec(text);
+      if (!m) return { error: 'Carácter inválido: "' + text.charAt(pos) + '".' };
+      tokens.push(m[1]);
+      pos = re.lastIndex;
+    }
+    if (!tokens.length) return { error: 'Escreva uma expressão.' };
+    var i = 0;
+    var FUN = { ceil: Math.ceil, floor: Math.floor, round: Math.round, min: Math.min, max: Math.max };
+    function peek() { return tokens[i]; }
+    function next() { return tokens[i++]; }
+    function expr() {
+      var v = term();
+      while (peek() === '+' || peek() === '-') { var op = next(); var r = term(); v = op === '+' ? v + r : v - r; }
+      return v;
+    }
+    function term() {
+      var v = unary();
+      while (peek() === '*' || peek() === '/') {
+        var op = next(); var r = unary();
+        if (op === '/' && r === 0) throw new Error('Divisão por zero.');
+        v = op === '*' ? v * r : v / r;
+      }
+      return v;
+    }
+    function unary() {
+      if (peek() === '-') { next(); return -unary(); }
+      return atom();
+    }
+    function atom() {
+      var t = next();
+      if (t === undefined) throw new Error('A expressão está incompleta.');
+      if (/^\d/.test(t)) return Number(t);
+      if (t === '(') { var v = expr(); if (next() !== ')') throw new Error('Falta fechar um parêntese.'); return v; }
+      if (/^[A-Za-z_]+$/.test(t)) {
+        if (Object.prototype.hasOwnProperty.call(vars, t)) return vars[t];
+        var f = FUN[t.toLowerCase()];
+        if (f) {
+          if (next() !== '(') throw new Error('Use ' + t + '( … ).');
+          var args = [expr()];
+          while (peek() === ';' ) { next(); args.push(expr()); }
+          if (next() !== ')') throw new Error('Falta fechar um parêntese.');
+          return f.apply(null, args);
+        }
+        throw new Error('"' + t + '" não existe. Use L, H ou ceil, floor, min, max.');
+      }
+      throw new Error('"' + t + '" fora do sítio.');
+    }
+    try {
+      var value = expr();
+      if (i < tokens.length) return { error: '"' + tokens[i] + '" fora do sítio.' };
+      if (!isFinite(value)) return { error: 'O resultado não é um número.' };
+      return { value: value };
+    } catch (e) {
+      return { error: e.message };
+    }
+  }
+
+  renderVals() {
+    var s = this.state;
+    var self = this;
+    function num(t) { var n = Number(String(t).trim().replace(',', '.')); return isNaN(n) ? 0 : n; }
+    function fmt(n) { return (Math.round(n * 100) / 100).toLocaleString('pt-PT', { minimumFractionDigits: 0, maximumFractionDigits: 2 }); }
+    var vars = { L: num(s.tL), H: num(s.tH) };
+
+    function touched(patch) {
+      var back = s.status === 'rascunho' ? {} : { status: 'rascunho', notice: 'Alterou a fórmula: voltou a rascunho e precisa de nova validação.' };
+      self.setState(Object.assign({}, patch, back));
+    }
+    function updateRow(id, patch) {
+      touched({ rows: s.rows.map(function (r) { return r.id === id ? Object.assign({}, r, patch) : r; }) });
+    }
+
+    var errors = 0, hours = 0, active = 0;
+    var rows = s.rows.map(function (r) {
+      var res = self.evaluate(r.expr, vars);
+      var applies = !r.cond || s[r.cond.k] === r.cond.v;
+      if (res.error) errors++;
+      if (applies && !res.error) { active++; if (r.unit === 'h') hours += res.value; }
+      return {
+        label: r.label,
+        kind: r.kind,
+        expr: r.expr,
+        unit: r.unit,
+        cost: r.cost,
+        source: r.source,
+        sourceStyle: 'display: block; font-size: 13px; ' + (r.review ? 'color: #8A5A00; font-weight: 700' : 'color: #5D656A'),
+        inputId: 'expr-' + r.id,
+        inputLabel: 'Quantidade de ' + r.label,
+        invalid: Boolean(res.error),
+        error: res.error || '',
+        exprBoxStyle: 'display: flex; align-items: center; border-radius: 6px; background: #FFFFFF; border: ' + (res.error ? '2px solid #B3261E' : '1px solid #C3C9CB'),
+        qtyText: res.error ? '—' : (applies ? fmt(res.value) + ' ' + r.unit : 'não se aplica'),
+        condText: r.cond ? 'Só se: ' + r.cond.t : 'Sempre',
+        condStyle: r.cond ? 'display: inline-block; padding: 3px 8px; border-radius: 4px; background: #EEF1FB; color: #1A2B85' : 'color: #5D656A',
+        rowStyle: 'border-top: 1px solid #E3E6E7; ' + (applies ? '' : 'background: #F7F8F8; color: #5D656A'),
+        onExpr: function (e) { updateRow(r.id, { expr: e.target.value }); },
+        remove: function () { touched({ rows: s.rows.filter(function (x) { return x.id !== r.id; }) }); },
+        removeLabel: 'Remover ' + r.label
+      };
+    });
+
+    function add(kind, unit, label, cost, source) {
+      var id = self.nextId++;
+      touched({ rows: s.rows.concat([{ id: id, label: label, kind: kind, expr: '', unit: unit, cost: cost, source: source }]) });
+    }
+
+    var statusMap = {
+      rascunho: { label: 'Rascunho v3', style: 'background: #E3E6E7; color: #22262A' },
+      validada: { label: 'Validada v3', style: 'background: #EEF1FB; color: #1A2B85' },
+      publicada: { label: 'Publicada v3', style: 'background: #E3F1E6; color: #1E5B2C' }
+    };
+    var st = statusMap[s.status];
+    var canValidate = s.status === 'rascunho' && errors === 0;
+    var canPublish = s.status === 'validada';
+    var btn = 'height: 44px; padding: 0 16px; border-radius: 8px; font-size: 15px; font-weight: 700; ';
+
+    return {
+      rows: rows,
+      hasErrors: errors > 0,
+      hoursText: fmt(hours) + ' h',
+      activeText: active + ' de ' + s.rows.length + ' linhas aplicam-se a esta configuração.',
+      tL: s.tL, tH: s.tH, tAc: s.tAc, tMot: s.tMot, tInst: s.tInst,
+      onL: function (e) { self.setState({ tL: e.target.value }); },
+      onH: function (e) { self.setState({ tH: e.target.value }); },
+      onAc: function (e) { self.setState({ tAc: e.target.value }); },
+      onMot: function (e) { self.setState({ tMot: e.target.value }); },
+      onInst: function () { self.setState({ tInst: !s.tInst }); },
+
+      addMaterial: function () { add('Material', 'm', 'Novo material', '[€/m]', 'Escolher artigo do PHC'); },
+      addLabour: function () { add('Mão de obra', 'h', 'Nova mão de obra', '[€/h]', 'Custo/hora da oficina'); },
+      addFixed: function () { add('Custo fixo', 'un', 'Novo custo fixo', '[€]', 'Valor fixo'); },
+
+      statusLabel: st.label,
+      statusStyle: 'display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 15px; font-size: 14px; font-weight: 700; ' + st.style,
+      saveDraft: function () { self.setState({ notice: 'Rascunho guardado.' }); },
+      validate: function () { self.setState({ status: 'validada', notice: 'Fórmula validada. Pode publicar quando quiser.' }); },
+      publish: function () { self.setState({ status: 'publicada', notice: 'Publicada. Os novos orçamentos usam a v3. Orçamentos guardados e encomendas mantêm o preço que tinham.' }); },
+      cannotValidate: !canValidate,
+      cannotPublish: !canPublish,
+      validateStyle: btn + (canValidate ? 'border: 1.5px solid #2238A8; background: #FFFFFF; color: #2238A8; cursor: pointer' : 'border: 1px solid #D5D9DA; background: #FFFFFF; color: #5D656A'),
+      publishStyle: btn + 'border: 0; ' + (canPublish ? 'background: #2238A8; color: #FFFFFF; cursor: pointer' : 'background: #E3E6E7; color: #5D656A'),
+      banner: Boolean(s.notice),
+      bannerText: s.notice || '',
+      bannerStyle: 'margin: 0; padding: 10px 14px; border-radius: 8px; font-size: 15px; ' + (s.status === 'publicada' ? 'background: #E3F1E6; color: #1E5B2C' : 'background: #EEF1FB; color: #1A2B85')
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -170,8 +170,8 @@ Notas:
 
 - **Ver `docs/fase-0.md`**: decisões já tomadas, perguntas para o Bruno (blocos A–I) e checklist de entregáveis.
 - Em curso: o Rodrigo vai reunir com o Bruno (blocos A–C: produtos, preço, responsabilidade/instalação) e contactar o privado que aloja o site atual (bloco H: domínio, DNS, email, conteúdo).
-- Wireframes feitos: configurador, carrinho, checkout e confirmação — ver `docs/wireframes/README.md` (canvas online + cópia do código). Direção visual "ficha de fabrico" com desenho cotado do portão.
-- Por fazer do nosso lado: wireframes de home/categoria, área de cliente e backoffice; desenhar o modelo de opções reutilizáveis entre categorias; mockup final com o logótipo.
+- Wireframes feitos: configurador, carrinho, checkout, confirmação e backoffice da fórmula de preço — ver `docs/wireframes/README.md` (canvas online + cópia do código). Direção visual "ficha de fabrico" com desenho cotado do portão.
+- Por fazer do nosso lado: wireframes de home/categoria, área de cliente e restante backoffice (produtos/opções, encomendas, sync PHC); desenhar o modelo de opções reutilizáveis entre categorias; mockup final com o logótipo.
 
 ### Fase 1 (depois da fase 0), pela ordem do CLAUDE.md
 
