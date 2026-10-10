@@ -2,13 +2,13 @@
 
 > Documento vivo. **Atualizar no fim de cada sessão de trabalho** (secções 2, 6 e 7).
 > O `CLAUDE.md` tem o contexto de negócio, as decisões e as regras; este ficheiro tem
-> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-10-09.
+> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-10-10.
 
 ---
 
 ## 1. Resumo rápido
 
-- **Fase atual:** esqueleto técnico feito (passos 1–6 de 7). Falta o deploy (passo 7) e a **fase 0** (fórmulas reais de produtos-piloto).
+- **Fase atual:** esqueleto técnico feito (passos 1–6 de 7). **Fase 0 em curso**: decisões e perguntas para o Bruno (`docs/fase-0.md`), 14 wireframes revistos (`docs/wireframes/`) e identidade visual fechada (`DESIGN.md`). Falta a reunião com o Bruno (fórmulas reais dos produtos-piloto) e o deploy (passo 7).
 - **Repositório:** `github.com/RodrigoCorreia23/Habinox`, ramo `main`. CI no GitHub Actions verde.
 - **Nada de lógica de negócio ainda** (catálogo, preços, PHC, encomendas): só infraestrutura, autenticação e páginas placeholder.
 
@@ -24,6 +24,28 @@
 | `ee4cbf8` test: Vitest, Playwright, CI | Testes unitários e e2e; workflow `.github/workflows/ci.yml`                                                                                                      |
 | `c0918c1` feat: base de dados          | Postgres 17 em Docker (porta **5433**), Drizzle, migração inicial (auth + `settings`), scripts `db:*`                                                            |
 | `38dd910` feat: autenticação           | Better Auth: registo com verificação de email, login, recuperação de password, papéis, rate limit na BD, proteção de `/admin` e `/[locale]/conta`, seed do admin |
+
+### Fase 0 — documentação, design e ferramentas (2026-10-08 e 2026-10-09)
+
+| Commit                                           | Conteúdo                                                                                                                                                              |
+| ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `db9671a` docs: estado do projeto                | Este ficheiro (passagem de contexto para outro PC)                                                                                                                    |
+| `325b7ca` docs: fase 0                           | `docs/fase-0.md`: decisões já tomadas com o Rodrigo, perguntas para o Bruno (blocos A–I) e checklist de entregáveis                                                   |
+| `b4415cb` docs: wireframes da loja               | Configurador do portão de correr, carrinho, checkout e confirmação                                                                                                    |
+| `68fa6fa` docs: wireframe do editor de fórmulas  | Backoffice: fórmula por linhas de custo, pré-visualização com valores de exemplo, versões                                                                             |
+| `f46bfe7` docs: restantes wireframes             | Home, categoria, área de cliente; backoffice de produto/opções, encomendas, materiais/sincronização PHC                                                               |
+| `2c22b11` / `60cd4fd` / `8a1d165` chore: skills  | `find-skills` + 10 skills de backend e frontend em `.agents/skills/` (ver secção 4); `.agents/` fora do ESLint e do Prettier                                          |
+| `99e30fb` docs: revisão dos wireframes           | Revisão com `impeccable` + `web-design-guidelines` (`docs/revisao-wireframes.md`), P1 corrigidos, 3 ecrãs de telemóvel, perguntas novas 40–50 (bloco J)               |
+| `ac8a01a` feat: identidade visual                | `DESIGN.md` ("catálogo técnico"), mockup de referência em `docs/design/`, tokens em `globals.css`, fontes Archivo + IBM Plex Sans/Mono, raio 2px; regras no CLAUDE.md |
+| `458635d` docs: nota sobre fontes no build       | Falha intermitente do CI a descarregar a IBM Plex Sans (ver secção 6)                                                                                                 |
+| `f856dfc` docs: wireframes com a nova identidade | Os 14 wireframes reestilizados segundo o `DESIGN.md`; home refeita a partir do mockup                                                                                 |
+
+Pontos principais dos wireframes (detalhe em `docs/wireframes/README.md` e `docs/revisao-wireframes.md`):
+
+- **Configurador:** desenho técnico cotado que acompanha as medidas; aceita "3 500" e sugere a unidade certa; lado de recolha obrigatório com espaço livre cotado; ajuda "Como medir" + "Pedir medição no local"; confirmação das medidas presa às medidas (anula-se se mudarem); preço sempre visível (faixa fixa em desktop, barra em baixo em telemóvel); o botão de adicionar diz o que falta.
+- **Checkout:** confirmação das medidas por produto, separada das condições; telefone visível. **Confirmação:** 4 casos (pago, à espera do MB WAY, Multibanco por pagar, pagamento falhou).
+- **Backoffice:** validar uma fórmula exige linhas sem erros + orçamentos reais dentro de ±[x]% + artigos PHC revistos; produto com fluxo único guardar → publicar; variações de custo do PHC acima de [x]% ficam "por aprovar"; cancelar/devolver encomenda pede confirmação com motivo e valor.
+- Canvas online (privado, partilhar pelo menu Share): https://claude.ai/artifact/Vi61zk6137BkzVVcppTCc6 — cópia do código em `docs/wireframes/`.
 
 ### Verificado manualmente
 
@@ -81,12 +103,16 @@ src/
   db/migrations/                  SQL versionado (drizzle-kit)
   env.ts                          validação Zod de TODAS as env vars do servidor
   i18n/                           routing.ts, request.ts, navigation.ts
-  lib/                            log, safe-redirect, auth-client, sentry-options, fonts, utils
+  lib/                            log, safe-redirect, auth-client, sentry-options, fonts (Archivo + Plex), utils
   server/auth/                    auth.ts (config Better Auth), session.ts, roles.ts
   server/email/                   send.ts (Resend ou log em dev), templates.ts
   server/jobs/                    registry.ts, cron-auth.ts
   proxy.ts                        (ex-middleware no Next 16) next-intl + verificação otimista de sessão
   instrumentation*.ts, sentry.*.config.ts
+DESIGN.md                         identidade visual (fonte da verdade; importado pelo CLAUDE.md)
+docs/estado.md, docs/fase-0.md, docs/revisao-wireframes.md
+docs/wireframes/                  14 ecrãs .dc.html + canvas.json + README
+docs/design/                      mockup de referência da home (fora do Prettier)
 messages/pt.json                  textos da loja (namespaces Metadata, Nav, Home, Account, Auth)
 scripts/seed.ts                   cria/promove admin (idempotente)
 tests/unit, tests/e2e
@@ -110,7 +136,9 @@ docker-compose.yml, docker/postgres-init/   Postgres local + BD abinox_test
 - **Sentry 11:** o `sendDefaultPii` deixou de existir; usa-se `dataCollection` (tudo desligado em `src/lib/sentry-options.ts`, por RGPD). `withSentryConfig` importa-se de `@sentry/nextjs/config`. Sem `NEXT_PUBLIC_SENTRY_DSN` fica desligado.
 - **pnpm 12** exige aprovar scripts de build de dependências. Os que não são precisos estão em `pnpm-workspace.yaml` com `false` (sharp, unrs-resolver, @parcel/watcher, @swc/core, esbuild). Se um `pnpm add` falhar com `ERR_PNPM_IGNORED_BUILDS`, decidir e acrescentar lá.
 - **shadcn:** `pnpm dlx shadcn@latest add <componente>`. O pacote `cn` é o utilitário oficial do shadcn (substitui clsx + tailwind-merge).
-- **Fonte:** Geist com variável `--font-sans` (o tema shadcn espera esse nome).
+- **Identidade visual:** o `DESIGN.md` é a fonte da verdade (ganha aos wireframes, que valem pela estrutura e fluxos). Cores só por tokens (`--color-ink`, `steel`, `canvas`, `line-strong`, `brand`, `brand-text`, …) em `src/app/globals.css`; **nada de hex soltos** nos componentes. Variáveis do shadcn mapeadas para a paleta, `--radius: 0.125rem` (2px), sem sombras. Acento (`brand`, `#B8461A`) raro: 2–3 vezes por ecrã.
+- **Fontes:** `src/lib/fonts.ts` (`next/font/google`) — Archivo (`--font-heading`, títulos e preços), IBM Plex Sans (`--font-sans`, corpo) e IBM Plex Mono (`--font-mono`, medidas, códigos, numeração). `fontVariables` é usado nos dois root layouts.
+- **Números:** sempre `Intl.NumberFormat('pt-PT', { useGrouping: 'always' })` ("3 500"); nunca formatação à mão.
 - **i18n:** textos da loja em `messages/pt.json`; usar `Link`/`redirect` de `@/i18n/navigation` nas páginas com locale. Backoffice com texto direto em PT.
 - **Logs:** `log.child({ jobId })` / `{ correlationId }`; uma linha JSON por evento.
 - **Emails em dev:** sem `RESEND_API_KEY` aparecem no terminal do `pnpm dev` como `email.dev`, com o link.
@@ -118,7 +146,7 @@ docker-compose.yml, docker/postgres-init/   Postgres local + BD abinox_test
   - Pesquisa: `find-skills`.
   - Backend: `better-auth-best-practices`, `better-auth-security-best-practices`, `neon-postgres`, `vitest`, `resend`.
   - Frontend: `web-design-guidelines`, `impeccable` (inclui a antiga `audit`), `emil-design-eng`, `tailwind-design-system`, `web-perf`.
-  - Em conflito, o `CLAUDE.md` prevalece (ex.: a skill do Better Auth sugere `drizzle-kit push`; aqui só `generate` + `migrate`). Comandos `npx impeccable …` descarregam um pacote npm: pedir autorização antes.
+  - Em conflito, o `CLAUDE.md` prevalece (ex.: a skill do Better Auth sugere `drizzle-kit push`; aqui só `generate` + `migrate`). Comandos `npx impeccable …` e o launcher da `impeccable` descarregam um binário/pacote: pedir autorização antes (na revisão de 2026-10-09 o detetor **não correu**; a revisão foi feita lendo o código).
   - Noutro PC, para as ter em todos os projetos: `npx skills add <owner/repo@skill> -g -y` (lista em `skills-lock.json`).
 - **Commits:** em português, um por passo lógico, autor "Rodrigo Correia".
 
@@ -174,13 +202,15 @@ Notas:
 
 ### Fase 0 (próximo trabalho real; não depende do deploy)
 
-- **Ver `docs/fase-0.md`**: decisões já tomadas, perguntas para o Bruno (blocos A–I) e checklist de entregáveis.
+- **Ver `docs/fase-0.md`**: decisões já tomadas, perguntas para o Bruno (blocos A–J, perguntas 1–50) e checklist de entregáveis.
 - Em curso: o Rodrigo vai reunir com o Bruno (blocos A–C: produtos, preço, responsabilidade/instalação) e contactar o privado que aloja o site atual (bloco H: domínio, DNS, email, conteúdo).
 - Wireframes feitos (11 ecrãs, todos ligados entre si): home, categoria, configurador, carrinho, checkout, confirmação, área de cliente; backoffice de produto/opções, fórmula de preço, encomendas, materiais/sincronização PHC — ver `docs/wireframes/README.md` (canvas online + cópia do código). Direção visual "ficha de fabrico" com desenho cotado do portão.
 - Revisão dos wireframes com `impeccable` + `web-design-guidelines` feita e P1 corrigidos (ver `docs/revisao-wireframes.md`); 3 ecrãs de telemóvel acrescentados (14 no total). Perguntas novas 40–50 na `docs/fase-0.md`.
 - **Identidade visual fechada:** `DESIGN.md` (catálogo técnico) + mockup de referência em `docs/design/Loja_Pagina_Inicial_mockup.html`. Tokens aplicados em `src/app/globals.css` e fontes em `src/lib/fonts.ts` (Archivo, IBM Plex Sans, IBM Plex Mono). Ajustes de contraste: `line-strong #85827A` para bordas de campos e `accent-text #A83F17` para cotas sobre `surface-alt`. Os 14 wireframes já seguem a nova identidade.
 - **Decisões técnicas da revisão:** números com `Intl.NumberFormat('pt-PT', { useGrouping: 'always' })`; tokens de design em variáveis CSS; linhas de fórmula com artigo PHC por material (rever modelo antes de `lib/pricing`).
-- Por fazer do nosso lado: validar os wireframes com o Bruno (partilhar o canvas); fechar o modelo de opções reutilizáveis com produtos reais; mockup final com o logótipo.
+- Por fazer do nosso lado: validar os wireframes com o Bruno (partilhar o canvas); fechar o modelo de opções reutilizáveis com produtos reais; mockup final com o logótipo; preencher os marcadores `[MARCA]`, `[PREÇO]`, `[MORADA]`, `[TELEFONE]`, `[EMAIL]` e os `[x]%` / `[a definir com a Abinox]` dos wireframes.
+- **P2 da revisão por fazer** (na implementação): dicionário único de estados da encomenda (rótulo cliente + interno); "Removido. Desfazer" no carrinho e nas linhas da fórmula; separadores/filtros com `tablist`/radio e estado no URL; pesquisa e ordenação em Encomendas e Materiais; ajuda de sintaxe junto às expressões das fórmulas.
+- Ideias a discutir com o Bruno: ficha de fabrico "assinada" em PDF na encomenda; medição no local com preço descontado; etiquetas tipo carimbo.
 
 ### Fase 1 (depois da fase 0), pela ordem do CLAUDE.md
 
