@@ -192,7 +192,8 @@ categories       (id, parent_id, slug, name, position)                 -- árvor
 products         (id, category_id, slug, name, model_glb_url, status: draft|validated|published)
 product_options  (id, product_id, key, type, min, max, step, unit, required)  -- medidas sempre em mm; modelo de opções reutilizáveis por desenhar (docs/fase-0.md)
 formula_versions (id, product_id, version, margin, rounding, active, created_at, created_by)
-formula_lines    (id, formula_version_id, label, kind: material|labour|finish, material_id, quantity_expr, unit, position)
+formula_lines    (id, formula_version_id, label, kind: material|labour|finish, quantity_expr, unit, position)
+formula_line_materials (formula_line_id, material_option_value, material_id)  -- o artigo/custo depende do material escolhido
 finishes         (id, name, type: material|cor, ral, price_modifier)
 quotes           (id, user_id, product_id, config_json, price_cents, pricing_snapshot jsonb, valid_until)
 orders           (id, user_id, status, total_cents, vat_rate, billing_address, shipping_address)

@@ -8,6 +8,10 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 
 ## 1. Decisões já tomadas
 
+### Princípio geral
+
+- ✅ **O Bruno cria o que quiser no backoffice:** categorias, subcategorias, produtos, opções, materiais, cores, limites de medidas e regras de compatibilidade. A plataforma não fixa nenhuma lista; nada disto fica no código. As perguntas ao Bruno são sobre **como calcula o preço**, não sobre que catálogo vai ter.
+
 ### Catálogo
 
 - ✅ **Categorias com subcategorias.** Ex.: categoria _Portões_ → subcategorias _Portão de 2 folhas_, _Portão de correr_. O produto configurável vive na subcategoria.
@@ -26,6 +30,7 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 ### Opções configuráveis
 
 - ✅ As opções (motorização, fechadura, enchimento, perfil, …) **repetem-se entre categorias** (portões, portas, …). Têm de ser definidas uma vez e reutilizadas.
+- ✅ **O Bruno cria as opções e os valores que quiser** (biblioteca de opções no backoffice); não há opções pré-definidas.
 - 📝 **Por desenhar** — proposta inicial para discutir:
   - **Biblioteca de opções** (`option_definitions`): definida uma vez no backoffice. Ex.: "Motorização" com valores _Sem / Batente / Correr_; "Largura" numérica.
   - **Ligação ao produto** (`product_options`): cada produto escolhe que opções usa e pode **sobrepor** limites e valores permitidos (ex.: largura de 1–6 m num portão de correr, 0,8–1,2 m numa porta).
@@ -34,6 +39,9 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
   - Rever este desenho quando houver 2–3 produtos reais descritos.
 
 ### Preço e responsabilidade
+
+- ✅ **O custo depende do material escolhido.** Uma linha de custo (ex.: "tubo 40×40") não aponta para um artigo fixo: aponta para um **papel** ("tubo 40×40") e o artigo PHC (e o custo) resolve-se pelo material que o cliente escolheu (ferro, inox, alumínio).
+  - 📝 Proposta técnica: `formula_lines` deixa de ter `material_id` único; nova tabela `formula_line_materials (formula_line_id, material_option_value, material_id)`. Material sem artigo associado = combinação "não é possível". O snapshot guarda o artigo e o custo efetivamente usados.
 
 - ✅ O preço mostrado online **é final**. Antes de um produto ficar visível, a fórmula tem de ser **validada pelo Bruno** com orçamentos reais.
 - ✅ **O cliente é responsável pelas medidas** que indica. Tem de estar **escrito nos termos** e ser **aceite explicitamente** na encomenda (checkbox com registo de data/hora).
@@ -55,13 +63,11 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 
 > Sugestão: reunião de 1–2 h sobre os blocos A–C, fazendo **um orçamento real do portão de correr do princípio ao fim**. O resto pode ir por email.
 
-### A. Produtos 🔴
+### A. Produtos
 
-1. Que categorias e subcategorias entram no **beta**? (Recomendação: 3–5 subcategorias, não o catálogo todo.)
-2. Para cada uma: que **medidas** o cliente escolhe e com que **mínimo e máximo**?
-3. Que **opções** existem (motorização, fechadura, enchimento, perfis…) e que valores tem cada uma?
-4. Que **materiais e cores** são possíveis por produto? Lista fechada de RAL ou qualquer RAL?
-5. Que **combinações não são possíveis**? (Ex.: inox lacado; motorização em portão de batente de 1 folha.)
+> O catálogo (categorias, opções, materiais, cores, limites, combinações impossíveis) é o Bruno que o cria no backoffice — não é pergunta. Basta escolher **por que produto começamos** a fechar fórmulas (proposta: portão de correr, guarda, caixa de correio).
+
+1. Concorda com os produtos-piloto para validar as fórmulas primeiro?
 
 ### B. Preço 🔴
 
@@ -128,7 +134,7 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 40. 🔴 **Medição:** o cliente indica o **lado de recolha** do portão de correr? Que espaço livre é preciso desse lado (a largura do vão + quanto)? Há mais medidas a pedir?
 41. 🔴 **Guia "Como medir":** texto e ilustrações — onde medir a largura e a altura, o que fazer com chão desnivelado.
 42. **Medição no local:** a Abinox faz? Em que zonas? Com que preço, e é descontado na encomenda?
-43. 🔴 **Fórmulas por material:** uma linha de custo (ex.: "tubo 40×40") usa artigos PHC diferentes conforme o material (ferro, inox, alumínio)? Lista dos artigos por material.
+43. 🔴 **Artigos PHC por material:** para cada linha de custo dos produtos-piloto, qual é o artigo PHC em ferro, em inox e em alumínio? (Já decidido que o custo muda com o material; falta a lista.)
 44. **Tolerância de validação:** que diferença aceita entre a fórmula e os orçamentos reais (±3%? ±5%)? Quantos orçamentos reais por produto?
 45. **Variações de custo do PHC:** acima de que percentagem uma subida/descida de custo deve esperar aprovação antes de mudar os preços da loja?
 46. **Multibanco não pago:** quantos dias para pagar? Passado o prazo, a encomenda cancela ou fica para revisão? (Hoje a confirmação diz "[a definir]".)

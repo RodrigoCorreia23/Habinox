@@ -43,7 +43,7 @@ Parcialmente autoral. **O desenho cotado é a assinatura forte** (instrumento de
 
 - **Formatação de números:** usar `Intl.NumberFormat('pt-PT', { useGrouping: 'always' })` (dá "3 500" com espaço não separável; sem a opção, pt-PT escreve "3500"). Nada de formatação à mão.
 - **Tokens de design:** na implementação, as cores e medidas passam a variáveis CSS (os wireframes têm cerca de 40 hex soltos e quase-duplicados).
-- **Modelo de fórmulas:** uma linha de custo tem de poder usar **artigos PHC diferentes conforme o material** (ex.: tubo 40×40 em ferro vs inox). O modelo atual (`formula_lines.material_id` único) não chega — rever antes de programar `lib/pricing`.
+- **Modelo de fórmulas:** uma linha de custo tem de poder usar **artigos PHC diferentes conforme o material** (ex.: tubo 40×40 em ferro vs inox). O modelo atual (`formula_lines.material_id` único) não chega. **Confirmado pelo Rodrigo (2026-10-10):** o custo muda com o material; modelo revisto em `docs/fase-0.md` e no `CLAUDE.md` (`formula_line_materials`).
 
 ## Ideias a discutir
 
