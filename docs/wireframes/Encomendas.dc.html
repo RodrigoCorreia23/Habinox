@@ -30,7 +30,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
 <div style="min-height: 100vh; display: flex; flex-wrap: wrap">
 
   <nav aria-label="Backoffice" style="flex: 1 1 220px; max-width: 100%; box-sizing: border-box; background: #15171A; color: #C9CDD2; padding: 20px 14px; display: flex; flex-direction: column; gap: 4px">
-    <span style="display: flex; align-items: baseline; gap: 10px; height: 40px; margin-bottom: 16px; padding: 0 12px; font-family: Archivo, sans-serif; font-weight: 700; font-size: 18px; color: #FFFFFF">Abinox <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 400; font-size: 11px; letter-spacing: 0.08em; color: #A9AEB5">BACKOFFICE</span></span>
+    <span style="display: flex; align-items: baseline; gap: 10px; height: 40px; margin-bottom: 16px; padding: 0 12px; font-family: Archivo, sans-serif; font-weight: 700; font-size: 18px; color: #FFFFFF">Habinox <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 400; font-size: 11px; letter-spacing: 0.08em; color: #A9AEB5">BACKOFFICE</span></span>
     <a href="#" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Painel</a>
     <a href="Encomendas.dc.html" aria-current="page" style="color: #FFFFFF; text-decoration: none; padding: 10px 12px; border-radius: 2px; background: #33373D; font-weight: 700">Encomendas</a>
     <a href="Produto.dc.html" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Produtos</a>
@@ -159,10 +159,10 @@ class Component extends DCLogic {
     super(props);
     this.state = {
       filter: 'todas',
-      selected: 'ABX-0044',
+      selected: 'HBX-0044',
       status: {
-        'ABX-0045': 'aguarda', 'ABX-0044': 'paga', 'ABX-0042': 'rever',
-        'ABX-0038': 'fabrico', 'ABX-0036': 'pronta', 'ABX-0021': 'concluida'
+        'HBX-0045': 'aguarda', 'HBX-0044': 'paga', 'HBX-0042': 'rever',
+        'HBX-0038': 'fabrico', 'HBX-0036': 'pronta', 'HBX-0021': 'concluida'
       },
       log: {},
       pending: null
@@ -193,12 +193,12 @@ class Component extends DCLogic {
       concluida: [], cancelada: []
     };
     var ORDERS = [
-      { id: 'ABX-0045', date: 'hoje', client: 'Cliente particular', payment: 'Multibanco, por pagar', shipping: '[morada do cliente]' },
-      { id: 'ABX-0044', date: 'ontem', client: 'Instalador (Pro)', payment: 'Cartão, pago', shipping: '[morada do cliente final], diferente da faturação' },
-      { id: 'ABX-0042', date: '[data]', client: 'Cliente particular', payment: 'Multibanco, pago após expirar', shipping: '[morada do cliente]' },
-      { id: 'ABX-0038', date: '[data]', client: 'Cliente particular', payment: 'MB WAY, pago', shipping: 'Levantamento na oficina' },
-      { id: 'ABX-0036', date: '[data]', client: 'Cliente particular', payment: 'Cartão, pago', shipping: '[morada do cliente]' },
-      { id: 'ABX-0021', date: '[data]', client: 'Instalador (Pro)', payment: 'Cartão, pago', shipping: '[morada do cliente final]' }
+      { id: 'HBX-0045', date: 'hoje', client: 'Cliente particular', payment: 'Multibanco, por pagar', shipping: '[morada do cliente]' },
+      { id: 'HBX-0044', date: 'ontem', client: 'Instalador (Pro)', payment: 'Cartão, pago', shipping: '[morada do cliente final], diferente da faturação' },
+      { id: 'HBX-0042', date: '[data]', client: 'Cliente particular', payment: 'Multibanco, pago após expirar', shipping: '[morada do cliente]' },
+      { id: 'HBX-0038', date: '[data]', client: 'Cliente particular', payment: 'MB WAY, pago', shipping: 'Levantamento na oficina' },
+      { id: 'HBX-0036', date: '[data]', client: 'Cliente particular', payment: 'Cartão, pago', shipping: '[morada do cliente]' },
+      { id: 'HBX-0021', date: '[data]', client: 'Instalador (Pro)', payment: 'Cartão, pago', shipping: '[morada do cliente final]' }
     ];
     var FILTERS = [
       ['todas', 'Todas', null], ['aguarda', 'A aguardar pagamento', ['aguarda']], ['rever', 'Para rever', ['rever']],
@@ -213,12 +213,12 @@ class Component extends DCLogic {
     var selOrder = ORDERS.filter(function (o) { return o.id === s.selected; })[0];
     var selStatus = s.status[selOrder.id];
     var baseHistory = {
-      'ABX-0045': ['[data, hora] Encomenda criada', '[data, hora] Referência Multibanco gerada'],
-      'ABX-0044': ['[data, hora] Encomenda criada', '[data, hora] Pagamento confirmado (cartão)'],
-      'ABX-0042': ['[data, hora] Encomenda criada', '[data] Referência expirou', '[data, hora] Pagamento recebido (Multibanco)'],
-      'ABX-0038': ['[data, hora] Encomenda criada', '[data, hora] Pagamento confirmado (MB WAY)', '[data] Em fabrico'],
-      'ABX-0036': ['[data, hora] Encomenda criada', '[data, hora] Pagamento confirmado', '[data] Em fabrico', '[data] Pronta'],
-      'ABX-0021': ['[data, hora] Encomenda criada', '[data] Concluída']
+      'HBX-0045': ['[data, hora] Encomenda criada', '[data, hora] Referência Multibanco gerada'],
+      'HBX-0044': ['[data, hora] Encomenda criada', '[data, hora] Pagamento confirmado (cartão)'],
+      'HBX-0042': ['[data, hora] Encomenda criada', '[data] Referência expirou', '[data, hora] Pagamento recebido (Multibanco)'],
+      'HBX-0038': ['[data, hora] Encomenda criada', '[data, hora] Pagamento confirmado (MB WAY)', '[data] Em fabrico'],
+      'HBX-0036': ['[data, hora] Encomenda criada', '[data, hora] Pagamento confirmado', '[data] Em fabrico', '[data] Pronta'],
+      'HBX-0021': ['[data, hora] Encomenda criada', '[data] Concluída']
     }[selOrder.id].concat(s.log[selOrder.id] || []);
 
     var pend = s.pending && s.pending.order === selOrder.id ? s.pending : null;

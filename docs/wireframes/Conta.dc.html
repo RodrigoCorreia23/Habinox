@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>A minha conta — Abinox</title>
+<title>A minha conta — Habinox</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -30,7 +30,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
 
   <header style="background: #FFFFFF; border-bottom: 1px solid #DAD8D2">
     <div class="wrap" style="max-width: 1440px; margin: 0 auto; padding: 14px 80px; display: flex; flex-wrap: wrap; align-items: center; gap: 28px">
-      <a href="Home.dc.html" style="display: flex; align-items: center; min-height: 44px; font-family: Archivo, sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 0.02em; color: #15171A; text-decoration: none">Abinox</a>
+      <a href="Home.dc.html" style="display: flex; align-items: center; min-height: 44px; font-family: Archivo, sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 0.02em; color: #15171A; text-decoration: none">Habinox</a>
       <nav aria-label="Categorias" style="display: flex; flex-wrap: wrap; gap: 4px; flex: 1 1 420px">
         <a href="Categoria.dc.html" style="text-decoration: none; color: #15171A; padding: 12px 12px">Portões</a>
         <a href="#" style="text-decoration: none; color: #15171A; padding: 12px 12px">Escadas</a>
@@ -159,8 +159,8 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
 
   <footer class="wrap" style="margin-top: auto; border-top: 1px solid #DAD8D2; padding: 48px 80px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px; font-size: 14px; color: #4A4F56">
     <div style="display: flex; flex-direction: column; gap: 10px; max-width: 320px">
-      <span style="font-family: Archivo, sans-serif; font-weight: 700; font-size: 18px; color: #15171A">Abinox</span>
-      <span>Bruno Miguel Freitas, Lda · [MORADA], Viana do Castelo</span>
+      <span style="font-family: Archivo, sans-serif; font-weight: 700; font-size: 18px; color: #15171A">Habinox</span>
+      <span>Bruno Miguel Freitas, Lda · Núcleo Industrial de Antas, 4740-016 Antas, Esposende</span>
     </div>
     <div style="display: flex; flex-wrap: wrap; gap: 32px 56px">
       <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-weight: 600; color: #15171A">Produtos</span><a href="Categoria.dc.html">Portões</a><a href="#">Escadas</a><a href="#">Guardas</a><a href="#">Chaminés</a></div>
@@ -216,11 +216,11 @@ class Component extends DCLogic {
       showPrivacy: s.tab === 'dados',
 
       orders: [
-        { title: 'Portão de correr e caixa de correio', meta: 'Encomenda ABX-[ano]-0042 · [data] · [total] €', status: 'A aguardar pagamento', tone: 'wait', done: 0,
+        { title: 'Portão de correr e caixa de correio', meta: 'Encomenda HBX-[ano]-0042 · [data] · [total] €', status: 'A aguardar pagamento', tone: 'wait', done: 0,
           next: 'Pague a referência Multibanco até [data] para começarmos o fabrico.', action: 'Ver referência', href: 'Confirmacao.dc.html' },
-        { title: 'Guarda de varanda', meta: 'Encomenda ABX-[ano]-0038 · [data] · [total] €', status: 'Em fabrico', tone: 'work', done: 1,
+        { title: 'Guarda de varanda', meta: 'Encomenda HBX-[ano]-0038 · [data] · [total] €', status: 'Em fabrico', tone: 'work', done: 1,
           next: 'Previsão: pronto em [data].', action: 'Ver detalhe', href: '#' },
-        { title: 'Chapéu de chaminé', meta: 'Encomenda ABX-[ano]-0021 · [data] · [total] €', status: 'Entregue', tone: 'done', done: 4,
+        { title: 'Chapéu de chaminé', meta: 'Encomenda HBX-[ano]-0021 · [data] · [total] €', status: 'Entregue', tone: 'done', done: 4,
           next: 'Entregue em [data].', action: 'Ver fatura', href: '#' }
       ].map(function (o) {
         return { title: o.title, meta: o.meta, status: o.status, badgeStyle: badge(o.tone), steps: steps(o.done), next: o.next, action: o.action, href: o.href };
