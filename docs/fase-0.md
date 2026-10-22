@@ -31,6 +31,11 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 
 - ✅ As opções (motorização, fechadura, enchimento, perfil, …) **repetem-se entre categorias** (portões, portas, …). Têm de ser definidas uma vez e reutilizadas.
 - ✅ **O Bruno cria as opções e os valores que quiser** (biblioteca de opções no backoffice); não há opções pré-definidas.
+- ✅ **Componentes comprados** (motores, reguladores, iluminação, fechaduras, …): o Bruno cria-os numa zona própria do backoffice e indica o preço de cada um. Não são perguntas da fase 0.
+  - ✅ O preço indicado é **preço de venda (sem IVA)**: entra no total **depois** da margem, sem margem por cima.
+  - 📝 Tabela `components (id, name, price_cents, active)`, usada por valores de opção ou por linhas da fórmula com quantidade fixa. No motor: `preço = custo / (1 − margem) + Σ componentes`. O snapshot guarda o preço de cada componente usado.
+- ✅ **IVA no fim:** todas as linhas, margem, componentes, instalação e portes são **sem IVA**; o IVA aplica-se **uma vez ao total** do orçamento/encomenda (taxa em `settings`, com snapshot).
+  - 📝 `total s/ IVA = custo / (1 − margem) + Σ componentes + instalação + portes`; `IVA = round(total s/ IVA × taxa)` em cêntimos; `total c/ IVA = total s/ IVA + IVA`. Os preços por linha na loja mostram-se com IVA só para apresentação.
 - 📝 **Por desenhar** — proposta inicial para discutir:
   - **Biblioteca de opções** (`option_definitions`): definida uma vez no backoffice. Ex.: "Motorização" com valores _Sem / Batente / Correr_; "Largura" numérica.
   - **Ligação ao produto** (`product_options`): cada produto escolhe que opções usa e pode **sobrepor** limites e valores permitidos (ex.: largura de 1–6 m num portão de correr, 0,8–1,2 m numa porta).

@@ -54,4 +54,4 @@ São erros pequenos, mas o site vai reproduzir a fórmula à letra e a validaç�
 1. **A:** o total de materiais é `SUM(E5:E9)` e deixa de fora a linha 10 (metal distendido, 13,80 €). Com a margem, o orçamento sai **27,60 € abaixo**. O mesmo intervalo existe nas 4 folhas: qualquer material na linha 10 é ignorado.
 2. **A e B:** o resumo diz "Material consumível (15%)" mas a fórmula usa **10%**. Em D usa 15%. Em C o valor está **escrito à mão** (352,51 €, ≈ 7,6%). → Qual é a regra: 10%, 15%, ou depende do produto?
 3. **Todas:** o resumo diz "Mão de obra total (5 sectores)" mas A, B e C têm 4.
-4. **A:** a lista inclui motor, regulador e projetores LED — componentes comprados, não matéria-prima. No site são **opções com preço fixo** (ou artigos PHC), não quantidades em função das medidas.
+4. **A:** a lista inclui motor, regulador e projetores LED — componentes comprados. **Decidido:** são criados pelo Bruno no backoffice (zona de componentes, com preço), não entram nas fórmulas como quantidades em função das medidas.
