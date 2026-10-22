@@ -2,13 +2,14 @@
 
 > Documento vivo. **Atualizar no fim de cada sessão de trabalho** (secções 2, 6 e 7).
 > O `CLAUDE.md` tem o contexto de negócio, as decisões e as regras; este ficheiro tem
-> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-10-10.
+> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-10-22.
 
 ---
 
 ## 1. Resumo rápido
 
-- **Fase atual:** esqueleto técnico feito (passos 1–6 de 7). **Fase 0 em curso**: decisões e perguntas para o Bruno (`docs/fase-0.md`), 14 wireframes revistos (`docs/wireframes/`) e identidade visual fechada (`DESIGN.md`). Falta a reunião com o Bruno (fórmulas reais dos produtos-piloto) e o deploy (passo 7).
+- **Fase atual:** esqueleto técnico feito (passos 1–6 de 7). **Fase 0 em curso**: o Bruno já respondeu às regras comerciais e enviou 4 orçamentos reais (`docs/fase-0.md`, `docs/orcamentos-analise.md`); 14 wireframes com a marca **Habinox** e o azul do logótipo. Falta: como o Bruno faz o preço de cada produto-piloto (guarda, escada, chaminé), zonas/preços de instalação e transporte, capacidade de produção, logótipo em vetor, validação dos wireframes; e o deploy (passo 7).
+- **Cliente:** marca **HABINOX®** (não "Abinox"), Bruno Miguel Freitas, Lda, Núcleo Industrial de Antas, 4740-016 Antas, **Esposende**. Domínio `habinox.pt`, email `geral@habinox.pt`.
 - **Repositório:** `github.com/RodrigoCorreia23/Habinox`, ramo `main`. CI no GitHub Actions verde.
 - **Nada de lógica de negócio ainda** (catálogo, preços, PHC, encomendas): só infraestrutura, autenticação e páginas placeholder.
 
@@ -39,6 +40,30 @@
 | `ac8a01a` feat: identidade visual                | `DESIGN.md` ("catálogo técnico"), mockup de referência em `docs/design/`, tokens em `globals.css`, fontes Archivo + IBM Plex Sans/Mono, raio 2px; regras no CLAUDE.md |
 | `458635d` docs: nota sobre fontes no build       | Falha intermitente do CI a descarregar a IBM Plex Sans (ver secção 6)                                                                                                 |
 | `f856dfc` docs: wireframes com a nova identidade | Os 14 wireframes reestilizados segundo o `DESIGN.md`; home refeita a partir do mockup                                                                                 |
+
+### Fase 0 — respostas do Bruno, orçamentos e marca (2026-10-10 a 2026-10-22)
+
+| Commit                                       | Conteúdo                                                                                                                                                                        |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `554a06e` docs: estado do projeto            | Atualização deste ficheiro com o trabalho de 8–9 de outubro                                                                                                                     |
+| `50f6e38` docs: catálogo e opções pelo Bruno | O Bruno cria no backoffice categorias, opções, materiais, cores, limites e regras (não são perguntas); custo da linha de fórmula depende do material (`formula_line_materials`) |
+| `04a0025` docs: respostas e orçamentos       | Respostas do Bruno em `docs/fase-0.md`; análise dos 4 orçamentos Excel em `docs/orcamentos-analise.md` (os `.xlsx` **não** entram no git: nomes de clientes e custos)           |
+| `cc6ade3` docs: componentes e IVA            | Componentes comprados criados pelo Bruno a **preço de venda** (sem margem); IVA aplicado **uma vez ao total**                                                                   |
+| `611d95f` docs: wireframes Habinox           | Wireframes com a marca Habinox, morada em Esposende e números de encomenda `HBX-`                                                                                               |
+| `9069d3f` chore: marca Habinox               | "Abinox" → "Habinox" e Viana do Castelo → Esposende na documentação e nos textos da app (título, backoffice, Better Auth, emails, teste e2e)                                    |
+| `2001c57` feat: acento azul                  | Acento = azul do logótipo `#2005A2` em `DESIGN.md`, `globals.css` (token `brand`; `brand-text` removido) e wireframes; links com sublinhado no hover                            |
+
+Regras do motor de preços que saíram dos orçamentos e das respostas (detalhe em `docs/fase-0.md` e `docs/orcamentos-analise.md`):
+
+```
+custo direto  = Σ materiais (qtd × custo, por material escolhido) + consumíveis (% dos materiais) + Σ horas × taxa do sector
+preço s/ IVA  = custo direto / (1 − margem)  + Σ componentes (preço de venda)  + instalação (zona + horas)  + portes
+IVA           = round(preço s/ IVA × taxa)   (uma vez, ao total; taxa em settings com snapshot)
+```
+
+- **Margem sobre o preço de venda** (50% → preço = 2 × custo), não markup.
+- **Taxa horária por sector** (23,50 €/h geral; corte laser 120 €/h).
+- Pagamento: > 1 000 € → 40% na encomenda + 60% no despacho; ≤ 1 000 € → total. Validade dos orçamentos: 30 dias. Transporte: próprio, transportadora (por zona no beta) ou levantamento. Prazo de produção pela capacidade mensal (fora do âmbito original — estimar antes de prometer). Cliente envia foto ou rascunho do espaço (upload).
 
 Pontos principais dos wireframes (detalhe em `docs/wireframes/README.md` e `docs/revisao-wireframes.md`):
 
@@ -203,19 +228,29 @@ Notas:
 ### Fase 0 (próximo trabalho real; não depende do deploy)
 
 - **Ver `docs/fase-0.md`**: decisões já tomadas, perguntas para o Bruno (blocos A–J, perguntas 1–50) e checklist de entregáveis.
-- Em curso: o Rodrigo vai reunir com o Bruno (blocos A–C: produtos, preço, responsabilidade/instalação) e contactar o privado que aloja o site atual (bloco H: domínio, DNS, email, conteúdo).
-- Wireframes feitos (11 ecrãs, todos ligados entre si): home, categoria, configurador, carrinho, checkout, confirmação, área de cliente; backoffice de produto/opções, fórmula de preço, encomendas, materiais/sincronização PHC — ver `docs/wireframes/README.md` (canvas online + cópia do código). Direção visual "ficha de fabrico" com desenho cotado do portão.
+- **Respostas do Bruno (2026-10-14)** registadas em `docs/fase-0.md`; 4 orçamentos reais analisados em `docs/orcamentos-analise.md` (chaminé, escada, 2 guardas → passam a ser os produtos-piloto). Os Excel estão com o Rodrigo, fora do git.
+- **Email enviado ao Bruno (2026-10-22)** com o que falta (à espera de resposta):
+  1. como faz o preço de cada produto-piloto (por metro / degrau / peça), o que leva uma unidade (materiais, quantidades, horas) e o que faz o preço mudar — pede-se a **composição de uma unidade**, não preço fixo por metro, para os custos continuarem a vir do PHC;
+  2. regra dos consumíveis (10% ou 15%?), margem fixa ou por produto, arredondamento, limite dos 1 000 € com ou sem IVA e se inclui instalação;
+  3. tabela de zonas com preço para instalação e transporte;
+  4. capacidade de produção mensal por produto;
+  5. logótipo em vetor (só há JPEG).
+- Erros nas folhas Excel do Bruno (soma que ignora a linha 10, títulos "15%"/"5 sectores" que não batem) **não** foram incluídos no email; estão em `docs/orcamentos-analise.md`.
+- ✅ Fatura dos **50% da fase 0** enviada para `geral@habinox.pt` (2026-10-22). ⏳ **Contrato por assinar** (vai ser assinado pessoalmente).
+- Falta contactar o privado que aloja o site atual (bloco H: domínio, DNS, email, conteúdo).
+- Wireframes feitos (14 ecrãs, todos ligados entre si): home, categoria, configurador, carrinho, checkout, confirmação, área de cliente; backoffice de produto/opções, fórmula de preço, encomendas, materiais/sincronização PHC — ver `docs/wireframes/README.md` (canvas online + cópia do código). Direção visual "ficha de fabrico" com desenho cotado do portão.
 - Revisão dos wireframes com `impeccable` + `web-design-guidelines` feita e P1 corrigidos (ver `docs/revisao-wireframes.md`); 3 ecrãs de telemóvel acrescentados (14 no total). Perguntas novas 40–50 na `docs/fase-0.md`.
 - **Identidade visual fechada:** `DESIGN.md` (catálogo técnico) + mockup de referência em `docs/design/Loja_Pagina_Inicial_mockup.html`. Tokens aplicados em `src/app/globals.css` e fontes em `src/lib/fonts.ts` (Archivo, IBM Plex Sans, IBM Plex Mono). Ajustes de contraste: `line-strong #85827A` para bordas de campos. Acento = azul do logótipo `#2005A2` (2026-10-22, substituiu o laranja `#B8461A` do mockup). Os 14 wireframes já seguem a nova identidade.
-- **Decisões técnicas da revisão:** números com `Intl.NumberFormat('pt-PT', { useGrouping: 'always' })`; tokens de design em variáveis CSS; linhas de fórmula com artigo PHC por material (rever modelo antes de `lib/pricing`).
-- Por fazer do nosso lado: validar os wireframes com o Bruno (partilhar o canvas); fechar o modelo de opções reutilizáveis com produtos reais; mockup final com o logótipo; preencher os marcadores `[MARCA]`, `[PREÇO]`, `[MORADA]`, `[TELEFONE]`, `[EMAIL]` e os `[x]%` / `[a definir com a Habinox]` dos wireframes.
+- **Decisões técnicas da revisão:** números com `Intl.NumberFormat('pt-PT', { useGrouping: 'always' })`; tokens de design em variáveis CSS; linhas de fórmula com artigo PHC por material (decidido: `formula_line_materials`, já no `CLAUDE.md`).
+- **Nomes técnicos internos** (`abinox` na BD, utilizador do Postgres, `package.json`, CI) ficaram de propósito com o nome antigo: invisíveis e mudá-los obriga a recriar a BD local. Mudar só se houver motivo.
+- Por fazer do nosso lado: validar os wireframes com o Bruno (o canvas está **privado**: partilhar pelo botão Share antes de enviar o link); fechar o modelo de opções reutilizáveis com produtos reais; mockup final com o logótipo; preencher os marcadores `[MARCA]`, `[PREÇO]`, `[MORADA]`, `[TELEFONE]`, `[EMAIL]` e os `[x]%` / `[a definir com a Habinox]` dos wireframes.
 - **P2 da revisão por fazer** (na implementação): dicionário único de estados da encomenda (rótulo cliente + interno); "Removido. Desfazer" no carrinho e nas linhas da fórmula; separadores/filtros com `tablist`/radio e estado no URL; pesquisa e ordenação em Encomendas e Materiais; ajuda de sintaxe junto às expressões das fórmulas.
 - Ideias a discutir com o Bruno: ficha de fabrico "assinada" em PDF na encomenda; medição no local com preço descontado; etiquetas tipo carimbo.
 
 ### Fase 1 (depois da fase 0), pela ordem do CLAUDE.md
 
 1. `lib/money` + `lib/pricing` (puro, sem BD) com testes — **antes de qualquer UI**. Fórmulas por linhas de custo, versionadas, parser seguro (nunca `eval`).
-2. Schema: `materials`, `material_costs`, `categories`, `products`, `product_options`, `formula_versions`, `formula_lines`, `finishes`, `quotes`, `orders`, `order_items`, `payments`, `webhook_events`, `discount_groups`, `consents`, … (ver secção 4 do CLAUDE.md).
+2. Schema: `materials`, `material_costs`, `categories`, `products`, `product_options`, `formula_versions`, `formula_lines`, `formula_line_materials`, `components`, sectores/taxas horárias, zonas (instalação e transporte), `finishes`, `quotes`, `orders`, `order_items`, `payments`, `webhook_events`, `discount_groups`, `consents`, … (ver secção 4 do CLAUDE.md).
 3. Catálogo, configurador, carrinho, pedido; backoffice (shadcn + TanStack Table).
 4. Sincronização PHC: interface `PhcClient` + adaptador fake primeiro; real quando houver AppID/token.
 5. RGPD: tabela `consents` e checkbox de termos/privacidade no registo (ainda **não** existe); apagamento de conta no backoffice; cookies.
