@@ -27,7 +27,7 @@ Os ficheiros `.dc.html` são do formato *Design Component* do canvas (precisam d
 
 ## Aspeto
 
-Desde 2026-10-09 os wireframes seguem a identidade do [`DESIGN.md`](../../DESIGN.md) ("catálogo técnico": Archivo + IBM Plex Sans + IBM Plex Mono, raio de 2px, sem sombras, linhas finas, medidas e códigos em mono, acento `#B8461A` só nas cotas, numeração dos passos e um botão principal por ecrã). A página inicial (`Home.dc.html`) é a versão fluida do mockup de referência em `docs/design/`.
+Desde 2026-10-09 os wireframes seguem a identidade do [`DESIGN.md`](../../DESIGN.md) ("catálogo técnico": Archivo + IBM Plex Sans + IBM Plex Mono, raio de 2px, sem sombras, linhas finas, medidas e códigos em mono, acento `#2005A2` (azul do logótipo; até 2026-10-22 era `#B8461A`) só nas cotas, numeração dos passos e um botão principal por ecrã). A página inicial (`Home.dc.html`) é a versão fluida do mockup de referência em `docs/design/`.
 
 Revisão de UX e acessibilidade: ver `docs/revisao-wireframes.md`.
 

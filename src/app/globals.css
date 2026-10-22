@@ -23,8 +23,7 @@
   --color-line: #dad8d2;
   --color-line-soft: #edece8;
   --color-line-strong: #85827a;
-  --color-brand: #b8461a;
-  --color-brand-text: #a83f17;
+  --color-brand: #2005a2;
   --color-graphite: #383e42;
   --color-error: #b3261e;
   --color-sidebar-ring: var(--sidebar-ring);
@@ -86,7 +85,7 @@
   --input: #85827a;
   --ring: #15171a;
   --chart-1: #15171a;
-  --chart-2: #b8461a;
+  --chart-2: #2005a2;
   --chart-3: #5a5f66;
   --chart-4: #a9aeb5;
   --chart-5: #dad8d2;
@@ -155,6 +154,6 @@
     @apply font-heading;
   }
   a:hover {
-    @apply text-brand;
+    @apply text-brand underline;
   }
 }

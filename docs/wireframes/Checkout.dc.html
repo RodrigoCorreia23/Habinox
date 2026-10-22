@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#F5F4F1;color:#15171A;font-family:'IBM Plex Sans',system-ui,sans-serif}
-a{color:#15171A}a:hover{color:#B8461A}
+a{color:#15171A}a:hover{color:#2005A2}
 input,select,button{font-family:inherit}
 :focus-visible{outline:2px solid #15171A;outline-offset:2px}
 label:has(input:focus-visible){outline:2px solid #15171A;outline-offset:2px}
@@ -44,7 +44,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
 
         <fieldset style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
           <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px">
-            <span style="font-size: 20px; font-weight: 700"><span style="color: #B8461A; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">01</span>Os seus dados</span>
+            <span style="font-size: 20px; font-weight: 700"><span style="color: #2005A2; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">01</span>Os seus dados</span>
             <span style="font-size: 15px">Já tem conta? <a href="#">Entrar</a></span>
           </legend>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px">
@@ -76,7 +76,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
         </fieldset>
 
         <fieldset style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
-          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #B8461A; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">02</span>Entrega</legend>
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #2005A2; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">02</span>Entrega</legend>
           <div role="radiogroup" aria-label="Forma de entrega" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px">
             <sc-for list="{{deliveryOptions}}" as="o" hint-placeholder-count="2">
               <label style="{{o.style}}">
@@ -110,7 +110,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
         </fieldset>
 
         <fieldset style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
-          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #B8461A; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">03</span>Faturação</legend>
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #2005A2; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">03</span>Faturação</legend>
           <div style="display: flex; flex-direction: column; gap: 6px; max-width: 360px">
             <label for="nif" style="font-size: 15px; font-weight: 600">NIF (opcional)</label>
             <input id="nif" type="text" inputmode="numeric" maxlength="9" style="height: 48px; padding: 0 12px; border: 1px solid #85827A; border-radius: 2px; font-size: 16px">
@@ -143,7 +143,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
         </fieldset>
 
         <fieldset style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
-          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #B8461A; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">04</span>Pagamento</legend>
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #2005A2; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">04</span>Pagamento</legend>
           <div role="radiogroup" aria-label="Meio de pagamento" style="display: flex; flex-direction: column; gap: 8px">
             <sc-for list="{{payOptions}}" as="p" hint-placeholder-count="3">
               <label style="{{p.style}}">
@@ -205,7 +205,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
         <p style="margin: 0; font-size: 14px; color: #5A5F66; line-height: 1.45">Pagamento agora: [total ou sinal] €. Sem custos adicionais pelo meio de pagamento.</p>
 
         <sc-if value="{{canPay}}" hint-placeholder-val="{{ false }}">
-          <a href="Confirmacao.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 2px; background: #B8461A; color: #FFFFFF; font-size: 17px; font-weight: 700; text-decoration: none">{{payCta}}</a>
+          <a href="Confirmacao.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 2px; background: #2005A2; color: #FFFFFF; font-size: 17px; font-weight: 700; text-decoration: none">{{payCta}}</a>
         </sc-if>
         <sc-if value="{{cannotPay}}" hint-placeholder-val="{{ true }}">
           <button type="button" disabled="{{ true }}" style="height: 56px; border: 0; border-radius: 2px; background: #EDECE8; color: #5A5F66; font-size: 17px; font-weight: 700">{{payCta}}</button>

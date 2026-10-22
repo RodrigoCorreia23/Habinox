@@ -23,45 +23,46 @@ Dois públicos, o mesmo sistema: o **particular** (chega por pesquisa, precisa d
 
 ## Paleta
 
-Neutros quentes acinzentados e um único acento.
+Neutros quentes acinzentados e um único acento: o **azul do logótipo HABINOX**.
 
-| Token         | Hex       | Uso                                                                     |
-| ------------- | --------- | ----------------------------------------------------------------------- |
-| `ink`         | `#15171A` | Texto principal, fundos escuros (faixa Pro), botões primários           |
-| `ink-soft`    | `#33373D` | Separadores sobre fundo escuro                                          |
-| `steel`       | `#4A4F56` | Texto secundário, descrições                                            |
-| `steel-light` | `#5A5F66` | Etiquetas, metadados, texto de apoio                                    |
-| `mist`        | `#A9AEB5` | Texto de apoio sobre fundo escuro                                       |
-| `mist-light`  | `#C9CDD2` | Parágrafos sobre fundo escuro                                           |
-| `canvas`      | `#F5F4F1` | Fundo da página                                                         |
-| `surface`     | `#FFFFFF` | Cartões de produto, painéis                                             |
-| `surface-alt` | `#EAE8E3` | Área de imagem dos produtos, blocos neutros                             |
-| `line`        | `#DAD8D2` | Bordas e separadores **decorativos**                                    |
-| `line-soft`   | `#EDECE8` | Separadores internos de cartões                                         |
-| `line-strong` | `#85827A` | Bordas de **campos e controlos** (precisam de ≥ 3:1)                    |
-| `accent`      | `#B8461A` | Acento único: CTA principal, cotas, numeração de passos, estados ativos |
-| `accent-text` | `#A83F17` | Texto de acento **pequeno sobre `surface-alt`** (cotas dos desenhos)    |
-| `graphite`    | `#383E42` | Amostra RAL 7016 (exemplo de acabamento)                                |
-| `error`       | `#B3261E` | Erros (sempre com texto)                                                |
+| Token         | Hex       | Uso                                                                                        |
+| ------------- | --------- | ------------------------------------------------------------------------------------------ |
+| `ink`         | `#15171A` | Texto principal, fundos escuros (faixa Pro), botões primários                              |
+| `ink-soft`    | `#33373D` | Separadores sobre fundo escuro                                                             |
+| `steel`       | `#4A4F56` | Texto secundário, descrições                                                               |
+| `steel-light` | `#5A5F66` | Etiquetas, metadados, texto de apoio                                                       |
+| `mist`        | `#A9AEB5` | Texto de apoio sobre fundo escuro                                                          |
+| `mist-light`  | `#C9CDD2` | Parágrafos sobre fundo escuro                                                              |
+| `canvas`      | `#F5F4F1` | Fundo da página                                                                            |
+| `surface`     | `#FFFFFF` | Cartões de produto, painéis                                                                |
+| `surface-alt` | `#EAE8E3` | Área de imagem dos produtos, blocos neutros                                                |
+| `line`        | `#DAD8D2` | Bordas e separadores **decorativos**                                                       |
+| `line-soft`   | `#EDECE8` | Separadores internos de cartões                                                            |
+| `line-strong` | `#85827A` | Bordas de **campos e controlos** (precisam de ≥ 3:1)                                       |
+| `accent`      | `#2005A2` | Acento único (azul do logótipo): CTA principal, cotas, numeração de passos, estados ativos |
+| `graphite`    | `#383E42` | Amostra RAL 7016 (exemplo de acabamento)                                                   |
+| `error`       | `#B3261E` | Erros (sempre com texto)                                                                   |
 
 Regras:
 
 - O acento é **raro**: 2–3 vezes por ecrã, não em cada elemento.
 - Nunca transmitir estado só com cor; juntar sempre texto ou ícone.
-- Acentos alternativos aceites (decisão do cliente): azul técnico `#1F4E79`, ou o próprio `ink` para um registo mais sóbrio.
+- O acento é o azul do logótipo (`#2005A2`, decisão de 2026-10-22; substituiu o laranja `#B8461A` do mockup). O cinzento do logótipo (`#8D8F8C`) não entra na interface: falha o contraste para texto.
+- O azul e o `ink` são ambos escuros (1,37:1 entre si): o CTA distingue-se do botão primário pela cor e por ser o único no ecrã; links em hover ganham também sublinhado.
 
 ### Contrastes verificados (WCAG)
 
-| Par                                                | Rácio              | Nota                                                     |
-| -------------------------------------------------- | ------------------ | -------------------------------------------------------- |
-| `accent` / `surface`                               | 5,34               | OK texto                                                 |
-| `accent` / `canvas`                                | 4,86               | OK texto (hover de links)                                |
-| `accent` / `surface-alt`                           | 4,37               | **Falha para texto pequeno** → usar `accent-text` (5,06) |
-| branco / `accent`                                  | 5,34               | OK (CTA)                                                 |
-| `steel-light` / `canvas`, `surface`, `surface-alt` | 5,85 / 6,43 / 5,26 | OK                                                       |
-| `mist` / `ink`                                     | 8,05               | OK                                                       |
-| `line` / `surface`                                 | 1,43               | **Só decorativo**; nunca como borda de campo             |
-| `line-strong` / `surface`                          | 3,84               | OK para bordas de campos e controlos                     |
+| Par                                                | Rácio              | Nota                                         |
+| -------------------------------------------------- | ------------------ | -------------------------------------------- |
+| `accent` / `surface`                               | 13,09              | OK texto                                     |
+| `accent` / `canvas`                                | 11,90              | OK texto (hover de links)                    |
+| `accent` / `surface-alt`                           | 10,69              | OK texto pequeno (cotas dos desenhos)        |
+| branco / `accent`                                  | 13,09              | OK (CTA)                                     |
+| `accent` / `ink`                                   | 1,37               | **Nunca** acento sobre fundo escuro          |
+| `steel-light` / `canvas`, `surface`, `surface-alt` | 5,85 / 6,43 / 5,26 | OK                                           |
+| `mist` / `ink`                                     | 8,05               | OK                                           |
+| `line` / `surface`                                 | 1,43               | **Só decorativo**; nunca como borda de campo |
+| `line-strong` / `surface`                          | 3,84               | OK para bordas de campos e controlos         |
 
 ---
 
@@ -111,7 +112,7 @@ Em mobile, os títulos de 64/44/40px descem (usar `clamp()`), nunca ficam fixos.
 - **Cabeçalho:** 76px, fundo claro, borda inferior 1px. Logótipo em Archivo 700 à esquerda, navegação ao lado, ações à direita. O botão de pedido é o único elemento escuro.
 - **Barra de categorias:** faixa de largura total, colunas iguais separadas por linhas verticais de 1px, nome + número de ordem em mono (01, 02…). Em mobile vira lista ou carrossel horizontal.
 - **Cartão de produto:** branco, borda 1px, sem sombra. Topo de 280px em `surface-alt` com o desenho técnico centrado. Depois: etiqueta de categoria (mono, maiúsculas), nome (Archivo 600), características em `steel-light`, rodapé separado por linha com preço à esquerda e botão escuro à direita.
-- **Desenhos técnicos:** linha em `ink`, traço 1,5–1,6px, sem preenchimento. Cotas e linhas de dimensão em `accent`; valores em mono (`accent-text` sobre `surface-alt`). É o detalhe que mostra que o site é feito por quem percebe do produto.
+- **Desenhos técnicos:** linha em `ink`, traço 1,5–1,6px, sem preenchimento. Cotas e linhas de dimensão em `accent`; valores em mono, também em `accent`. É o detalhe que mostra que o site é feito por quem percebe do produto.
 - **Botões:** primário = fundo `ink`, texto branco; CTA principal = fundo `accent`, texto branco (só um por ecrã); secundário = transparente com borda 1px `ink`. Em fundo escuro inverte (fundo branco, texto `ink`). Raio 2px.
 - **Faixa escura (Área Pro):** largura total em `ink`, texto branco, etiqueta em `mist`, parágrafos em `mist-light`, lista numerada separada por linhas `ink-soft`.
 - **Passos numerados:** borda superior 2px `ink`, número em mono na cor `accent`, título Archivo 600, descrição em `steel`.
@@ -122,8 +123,8 @@ Em mobile, os títulos de 64/44/40px descem (usar `clamp()`), nunca ficam fixos.
 
 ## Comportamento
 
-- Hover em links: de `ink` para `accent`.
-- **Foco visível sempre:** anel de 2px em `ink` sobre fundos claros, branco sobre fundos escuros (o `accent` sobre `ink` fica em 3,36:1 — só como alternativa).
+- Hover em links: de `ink` para `accent`, com sublinhado (a cor sozinha muda pouco).
+- **Foco visível sempre:** anel de 2px em `ink` sobre fundos claros, branco sobre fundos escuros (o `accent` sobre `ink` fica em 1,37:1 — nunca usar).
 - Interativos são sempre `<button>`, `<a href>` ou `<input>` com `<label>`; nunca `div` com clique.
 - Ícones: traço fino (1,6px), em linha, da mesma família dos desenhos técnicos. Sem ícones preenchidos nem emojis.
 - Mobile: grelha de 3 colunas de produtos passa a 1; margem lateral 16–24px.

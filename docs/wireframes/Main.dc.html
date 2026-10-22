@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#F5F4F1;color:#15171A;font-family:'IBM Plex Sans',system-ui,sans-serif;}
-a{color:#15171A}a:hover{color:#B8461A}
+a{color:#15171A}a:hover{color:#2005A2}
 input,select,button{font-family:inherit}
 :focus-visible{outline:2px solid #15171A;outline-offset:2px}
 label:has(input:focus-visible){outline:2px solid #15171A;outline-offset:2px}
@@ -96,8 +96,8 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
               <path class="leaf" d="{{d.bars}}" stroke="{{d.fill}}" stroke-width="5" fill="none"></path>
               <rect x="{{d.x}}" y="{{d.y}}" width="{{d.w}}" height="{{d.h}}" fill="none" stroke="#15171A" stroke-width="12"></rect>
               <rect class="leaf" x="{{d.x}}" y="{{d.y}}" width="{{d.w}}" height="{{d.h}}" fill="none" stroke="{{d.fill}}" stroke-width="10"></rect>
-              <path d="{{d.arrow}}" stroke="#B8461A" stroke-width="2" fill="none"></path>
-              <path d="{{d.ext}}" stroke="#B8461A" stroke-width="1" fill="none"></path>
+              <path d="{{d.arrow}}" stroke="#2005A2" stroke-width="2" fill="none"></path>
+              <path d="{{d.ext}}" stroke="#2005A2" stroke-width="1" fill="none"></path>
               <path d="{{d.dims}}" stroke="{{d.dimColorW}}" stroke-width="1.5" fill="none"></path>
               <path d="{{d.dimsV}}" stroke="{{d.dimColorH}}" stroke-width="1.5" fill="none"></path>
               <text x="{{d.wLabelX}}" y="{{d.wLabelY}}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="14" font-weight="500" fill="{{d.dimColorW}}" style="font-family: 'IBM Plex Mono', monospace">{{d.wLabel}}</text>
@@ -126,7 +126,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
         </div>
 
         <fieldset style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 16px">
-          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #B8461A; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">01</span>Medidas do vão</legend>
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #2005A2; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">01</span>Medidas do vão</legend>
           <div role="group" aria-label="Unidade das medidas" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
             <span style="font-size: 15px; color: #4A4F56">Escrever em</span>
             <span style="display: inline-flex; border: 1px solid #85827A; border-radius: 2px; overflow: hidden">
@@ -185,7 +185,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
         </fieldset>
 
         <fieldset style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
-          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #B8461A; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">02</span>Material e acabamento</legend>
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #2005A2; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">02</span>Material e acabamento</legend>
           <div role="radiogroup" aria-label="Material" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
             <sc-for list="{{materials}}" as="m" hint-placeholder-count="3">
               <label style="{{m.style}}">
@@ -220,7 +220,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
         </fieldset>
 
         <fieldset style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px">
-          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #B8461A; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">03</span>Opções</legend>
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #2005A2; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">03</span>Opções</legend>
           <div style="display: flex; flex-direction: column; gap: 6px">
             <label for="motor" style="font-size: 15px; font-weight: 600">Motorização</label>
             <select id="motor" name="motor" value="{{motor}}" onChange="{{onMotor}}" style="height: 48px; padding: 0 12px; border: 1px solid #85827A; border-radius: 2px; background: #FFFFFF; font-size: 16px; color: #15171A">
@@ -233,7 +233,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
         </fieldset>
 
         <fieldset style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; margin: 0; padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 8px">
-          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #B8461A; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">04</span>Instalação</legend>
+          <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 700"><span style="color: #2005A2; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; font-weight: 500; margin-right: 12px">04</span>Instalação</legend>
           <label style="display: flex; align-items: flex-start; gap: 12px; min-height: 44px; cursor: pointer">
             <input type="checkbox" name="instalacao" checked="{{install}}" onChange="{{toggleInstall}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #15171A">
             <span style="display: flex; flex-direction: column; gap: 4px">
@@ -451,8 +451,8 @@ class Component extends DCLogic {
         'M' + (Math.min(gx, fx) - 22).toFixed(1) + ' ' + ground + 'H' + (dimX - 10),
       dims: 'M' + gx.toFixed(1) + ' ' + dimY + 'H' + (gx + gw).toFixed(1) + ' ' + tick(gx, dimY) + tick(gx + gw, dimY),
       dimsV: 'M' + dimX + ' ' + gy.toFixed(1) + 'V' + ground + ' ' + tick(dimX, gy) + tick(dimX, ground),
-      dimColorW: widthBad ? '#B3261E' : '#A83F17',
-      dimColorH: heightBad ? '#B3261E' : '#A83F17',
+      dimColorW: widthBad ? '#B3261E' : '#2005A2',
+      dimColorH: heightBad ? '#B3261E' : '#2005A2',
       wLabel: widthOk || widthBad && !widthNaN ? grp(widthMm) + ' mm' : 'largura ?',
       wLabelX: (gx + gw / 2).toFixed(1), wLabelY: dimY - 10,
       hLabel: heightOk || heightBad && !heightNaN ? grp(heightMm) + ' mm' : 'altura ?',
@@ -631,7 +631,7 @@ class Component extends DCLogic {
       missingText: missingText,
       missingStyle: 'margin: 0; font-size: 14px; line-height: 1.45; color: ' + (s.tried && !canAdd ? '#8C1D17' : '#5A5F66') + (canAdd ? '; display: none' : ''),
       cannotSave: !canPrice,
-      addStyle: btn + 'flex: 1 1 220px; border: 0; cursor: pointer; ' + (canAdd ? 'background: #B8461A; color: #FFFFFF' : 'background: #EDECE8; color: #4A4F56'),
+      addStyle: btn + 'flex: 1 1 220px; border: 0; cursor: pointer; ' + (canAdd ? 'background: #2005A2; color: #FFFFFF' : 'background: #EDECE8; color: #4A4F56'),
       saveStyle: btn + 'flex: 1 1 160px; background: #FFFFFF; ' + (canPrice ? 'border: 1.5px solid #15171A; color: #15171A; cursor: pointer' : 'border: 1px solid #DAD8D2; color: #5A5F66'),
       addToCart: function () {
         if (!canAdd) { self.setState({ tried: true }); return; }
