@@ -2,7 +2,7 @@
 @docs/estado.md
 @DESIGN.md
 
-# Abinox — Plataforma digital de vendas
+# Habinox — Plataforma digital de vendas
 
 Contexto do projeto para desenvolvimento assistido. Lê este ficheiro antes de propor arquitetura, escrever código ou tomar decisões de produto.
 
@@ -10,20 +10,20 @@ Contexto do projeto para desenvolvimento assistido. Lê este ficheiro antes de p
 
 ## 1. Contexto de negócio
 
-A **Abinox** é uma serralharia em Viana do Castelo (inox, ferro, alumínio). Produz portões (batente e correr), escadas, guardas/guarda-corpos, chaminés, chapéus de chaminé e caixas de correio. Quase tudo é feito **por medida**.
+A **Habinox** é uma serralharia em Esposende (Núcleo Industrial de Antas) (inox, ferro, alumínio). Produz portões (batente e correr), escadas, guardas/guarda-corpos, chaminés, chapéus de chaminé e caixas de correio. Quase tudo é feito **por medida**.
 
 Hoje vende sobretudo por recomendação, com um site com mais de 15 anos. Capta cerca de 3% do mercado no raio regional e cerca de 0,02% a nível nacional. O objetivo é chegar a 1% nacional e, mais tarde, expandir para Espanha e França.
 
 **O problema a resolver:** cada pedido passa hoje por orçamento manual. A plataforma deve permitir ao cliente configurar o produto (medidas, material, cor) e **receber o preço de imediato**, sem intervenção humana.
 
-**Cliente:** Bruno Miguel Freitas, Lda (marca Abinox), representada por Bruno Freitas. **Prestador:** Rodrigo Correia (freelancer, trabalha sozinho).
+**Cliente:** Bruno Miguel Freitas, Lda (marca Habinox), representada por Bruno Freitas. **Prestador:** Rodrigo Correia (freelancer, trabalha sozinho).
 
 ### Restrições comerciais (importantes para decisões técnicas)
 
 - Preço **fechado por fase**. Derrapagem de horas é custo do prestador → preferir soluções simples e provadas a soluções elegantes e demoradas.
 - Plano base: ~520h, 7 800 € + IVA. Disponibilidade ~15h/semana.
 - Manutenção posterior: 75 €/mês, limitada a 5h/mês → **código que exija pouca manutenção é um requisito de negócio**, não um luxo.
-- O código é propriedade do prestador; o cliente recebe licença de utilização. Pode haver reutilização futura noutros clientes → **evitar hard-coding de regras específicas da Abinox**; parametrizar.
+- O código é propriedade do prestador; o cliente recebe licença de utilização. Pode haver reutilização futura noutros clientes → **evitar hard-coding de regras específicas da Habinox**; parametrizar.
 
 ---
 

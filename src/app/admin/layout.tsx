@@ -5,7 +5,7 @@ import "../globals.css";
 
 // Backoffice: só em PT, fora do routing de locale.
 export const metadata: Metadata = {
-  title: "Abinox · Backoffice",
+  title: "Habinox · Backoffice",
   robots: { index: false, follow: false },
 };
 

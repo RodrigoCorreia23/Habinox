@@ -1,4 +1,4 @@
-# Abinox — identidade visual
+# Habinox — identidade visual
 
 Fonte da verdade visual da plataforma (loja e backoffice). Referência estática: [`docs/design/Loja_Pagina_Inicial_mockup.html`](docs/design/Loja_Pagina_Inicial_mockup.html) (página inicial, desktop 1440px). Em caso de conflito com os wireframes de `docs/wireframes/`, **este documento ganha**: os wireframes valem pela estrutura e pelos fluxos, não pelo aspeto.
 
@@ -133,6 +133,6 @@ Em mobile, os títulos de 64/44/40px descem (usar `clamp()`), nunca ficam fixos.
 
 ## Contexto
 
-Cliente: **Bruno Miguel Freitas, Lda** (Abinox), serralharia em Viana do Castelo. Portões, escadas, guardas, chaminés, chapéus de chaminé e caixas de correio, quase tudo por medida, em inox, ferro e alumínio.
+Cliente: **Bruno Miguel Freitas, Lda** (Habinox), serralharia em Esposende (Núcleo Industrial de Antas). Portões, escadas, guardas, chaminés, chapéus de chaminé e caixas de correio, quase tudo por medida, em inox, ferro e alumínio.
 
 Marcadores por preencher no mockup: `[MARCA]`, `[PREÇO]`, `[MORADA]`, `[TELEFONE]`, `[EMAIL]`.

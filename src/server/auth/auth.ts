@@ -8,7 +8,7 @@ import { sendEmail } from "@/server/email/send";
 import { resetPasswordMessage, verifyEmailMessage } from "@/server/email/templates";
 
 export const auth = betterAuth({
-  appName: "Abinox",
+  appName: "Habinox",
   baseURL: env.BETTER_AUTH_URL,
   secret: env.BETTER_AUTH_SECRET,
   database: drizzleAdapter(db, { provider: "pg", schema }),

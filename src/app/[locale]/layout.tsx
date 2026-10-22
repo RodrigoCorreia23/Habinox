@@ -32,7 +32,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
           <header className="border-b">
             <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
               <Link href="/" className="font-semibold tracking-tight">
-                Abinox
+                Habinox
               </Link>
               <Link href="/conta" className="text-sm">
                 {t("account")}

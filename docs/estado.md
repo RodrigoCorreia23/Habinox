@@ -170,7 +170,7 @@ cp .env.example .env.local
 # Preencher em .env.local:
 #   BETTER_AUTH_SECRET=$(openssl rand -hex 32)
 #   CRON_SECRET=$(openssl rand -hex 32)
-#   SEED_ADMIN_EMAIL=admin@abinox.local
+#   SEED_ADMIN_EMAIL=admin@habinox.local
 #   SEED_ADMIN_PASSWORD=<mín. 10 caracteres>
 #   (DATABASE_URL e BETTER_AUTH_URL já vêm com os valores locais)
 
@@ -193,7 +193,7 @@ Notas:
 
 ### Passo 7 do esqueleto — deploy (bloqueado pelo cliente)
 
-- Contas **Vercel** e **Neon** em nome da Abinox, com o Rodrigo como membro/admin. Domínio e DNS por decidir.
+- Contas **Vercel** e **Neon** em nome da Habinox, com o Rodrigo como membro/admin. Domínio e DNS por decidir.
 - Ligar Neon ↔ Vercel (branch de BD por preview). Ramos git: `main` → produção, `staging` → staging.
 - Build de staging/prod: `pnpm db:migrate && next build`.
 - **Resend** com domínio verificado (obrigatório fora de dev). **Sentry** opcional por agora.
@@ -208,7 +208,7 @@ Notas:
 - Revisão dos wireframes com `impeccable` + `web-design-guidelines` feita e P1 corrigidos (ver `docs/revisao-wireframes.md`); 3 ecrãs de telemóvel acrescentados (14 no total). Perguntas novas 40–50 na `docs/fase-0.md`.
 - **Identidade visual fechada:** `DESIGN.md` (catálogo técnico) + mockup de referência em `docs/design/Loja_Pagina_Inicial_mockup.html`. Tokens aplicados em `src/app/globals.css` e fontes em `src/lib/fonts.ts` (Archivo, IBM Plex Sans, IBM Plex Mono). Ajustes de contraste: `line-strong #85827A` para bordas de campos e `accent-text #A83F17` para cotas sobre `surface-alt`. Os 14 wireframes já seguem a nova identidade.
 - **Decisões técnicas da revisão:** números com `Intl.NumberFormat('pt-PT', { useGrouping: 'always' })`; tokens de design em variáveis CSS; linhas de fórmula com artigo PHC por material (rever modelo antes de `lib/pricing`).
-- Por fazer do nosso lado: validar os wireframes com o Bruno (partilhar o canvas); fechar o modelo de opções reutilizáveis com produtos reais; mockup final com o logótipo; preencher os marcadores `[MARCA]`, `[PREÇO]`, `[MORADA]`, `[TELEFONE]`, `[EMAIL]` e os `[x]%` / `[a definir com a Abinox]` dos wireframes.
+- Por fazer do nosso lado: validar os wireframes com o Bruno (partilhar o canvas); fechar o modelo de opções reutilizáveis com produtos reais; mockup final com o logótipo; preencher os marcadores `[MARCA]`, `[PREÇO]`, `[MORADA]`, `[TELEFONE]`, `[EMAIL]` e os `[x]%` / `[a definir com a Habinox]` dos wireframes.
 - **P2 da revisão por fazer** (na implementação): dicionário único de estados da encomenda (rótulo cliente + interno); "Removido. Desfazer" no carrinho e nas linhas da fórmula; separadores/filtros com `tablist`/radio e estado no URL; pesquisa e ordenação em Encomendas e Materiais; ajuda de sintaxe junto às expressões das fórmulas.
 - Ideias a discutir com o Bruno: ficha de fabrico "assinada" em PDF na encomenda; medição no local com preço descontado; etiquetas tipo carimbo.
 
@@ -235,5 +235,5 @@ Notas:
 
 Ver secção 8 do `CLAUDE.md`. Além disso:
 
-- Titularidade das contas: **decidido — ficam em nome da Abinox** (Vercel, Neon, Sentry, Resend). Falta criá-las.
+- Titularidade das contas: **decidido — ficam em nome da Habinox** (Vercel, Neon, Sentry, Resend). Falta criá-las.
 - Domínio: **`habinox.pt`** (site atual em WordPress, email `geral@habinox.pt` no mesmo domínio). Falta saber quem gere o DNS e se a loja fica no domínio principal ou num subdomínio.

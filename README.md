@@ -1,4 +1,4 @@
-# Abinox — Plataforma digital de vendas
+# Habinox — Plataforma digital de vendas
 
 Contexto, decisões e regras do projeto: ver [`CLAUDE.md`](./CLAUDE.md).
 

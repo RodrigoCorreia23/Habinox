@@ -59,7 +59,7 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 - ✅ **Logótipo** existe.
 - ✅ **Mockup não existe** — construí-lo faz parte da fase 0 (wireframes → mockup).
 - ✅ **Staging** é necessário (ambiente para o Bruno testar antes de cada lançamento).
-- ✅ **Stack, alojamento e serviços:** escolha do prestador (Vercel, Neon, Cloudflare R2, Resend, Sentry — ver CLAUDE.md). Contas em nome da Abinox.
+- ✅ **Stack, alojamento e serviços:** escolha do prestador (Vercel, Neon, Cloudflare R2, Resend, Sentry — ver CLAUDE.md). Contas em nome da Habinox.
 - ✅ **Domínio:** `habinox.pt` (site atual em https://habinox.pt/pt/, WordPress). O Bruno dá acesso. O site atual está alojado por um **privado** (terceiro), que tem de ser contactado.
   - O email da empresa (`geral@habinox.pt`) usa o domínio → ao mudar o DNS, os registos MX têm de se manter (pergunta 35).
 
@@ -132,7 +132,7 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 25. **Termos e condições e política de privacidade:** quem redige? (Recomendação: advogado.)
 26. Informar o Bruno: bens **feitos por medida** podem estar excluídos do direito de livre resolução de 14 dias — **confirmar com jurista** e escrever nos termos.
 27. Informar o Bruno: são obrigatórios o **Livro de Reclamações Eletrónico** e a indicação de uma **entidade de resolução alternativa de litígios**.
-28. Assinar **contrato de subcontratação RGPD** (Abinox responsável, prestador subcontratante).
+28. Assinar **contrato de subcontratação RGPD** (Habinox responsável, prestador subcontratante).
 
 ### G. Conteúdo
 
@@ -149,7 +149,7 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 36. Exportar o **conteúdo** do site atual (textos, imagens, lista de materiais/acabamentos) e a **lista de URLs** (para redirecionamentos 301 e não perder posição no Google).
 37. O site atual mantém-se online até ao lançamento? Até quando está pago o alojamento?
 
-### I. Contas a criar (em nome da Abinox)
+### I. Contas a criar (em nome da Habinox)
 
 38. **Cartão da empresa** para os serviços pagos. Dar ao Bruno uma estimativa de custo mensal antes de criar (confirmar preços atuais de Vercel, Neon, Cloudflare, Resend, Sentry).
 39. Criar contas e adicionar o Rodrigo como admin: Vercel, Neon, Cloudflare, Resend, Sentry, gateway de pagamento.
@@ -160,7 +160,7 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 
 40. 🔴 **Medição:** o cliente indica o **lado de recolha** do portão de correr? Que espaço livre é preciso desse lado (a largura do vão + quanto)? Há mais medidas a pedir?
 41. 🔴 **Guia "Como medir":** texto e ilustrações — onde medir a largura e a altura, o que fazer com chão desnivelado.
-42. **Medição no local:** a Abinox faz? Em que zonas? Com que preço, e é descontado na encomenda?
+42. **Medição no local:** a Habinox faz? Em que zonas? Com que preço, e é descontado na encomenda?
 43. 🔴 **Artigos PHC por material:** para cada linha de custo dos produtos-piloto, qual é o artigo PHC em ferro, em inox e em alumínio? (Já decidido que o custo muda com o material; falta a lista.)
 44. **Tolerância de validação:** que diferença aceita entre a fórmula e os orçamentos reais (±3%? ±5%)? Quantos orçamentos reais por produto?
 45. **Variações de custo do PHC:** acima de que percentagem uma subida/descida de custo deve esperar aprovação antes de mudar os preços da loja?
