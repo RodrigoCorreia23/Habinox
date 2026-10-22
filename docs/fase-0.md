@@ -55,7 +55,29 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 - ✅ **Mockup não existe** — construí-lo faz parte da fase 0 (wireframes → mockup).
 - ✅ **Staging** é necessário (ambiente para o Bruno testar antes de cada lançamento).
 - ✅ **Stack, alojamento e serviços:** escolha do prestador (Vercel, Neon, Cloudflare R2, Resend, Sentry — ver CLAUDE.md). Contas em nome da Abinox.
-- ✅ **Domínio:** o Bruno dá acesso. O site atual está alojado por um **privado** (terceiro), que tem de ser contactado.
+- ✅ **Domínio:** `habinox.pt` (site atual em https://habinox.pt/pt/, WordPress). O Bruno dá acesso. O site atual está alojado por um **privado** (terceiro), que tem de ser contactado.
+  - O email da empresa (`geral@habinox.pt`) usa o domínio → ao mudar o DNS, os registos MX têm de se manter (pergunta 35).
+
+### Respostas do Bruno (email de 2026-10-14)
+
+- ✅ **Marca: HABINOX®** (logótipo recebido em JPEG: azul `#2005A2` e cinzento `#8D8F8C`; falta o vetor). Morada no site: Núcleo Industrial de Antas, 4740-016 Antas, **Esposende**.
+- ✅ **Medidas:** o cliente é responsável e fica escrito nos termos (perguntas 11 e 40-J).
+- ✅ **Além das medidas:** o cliente envia **uma foto do espaço ou um rascunho**.
+  - 📝 Upload de ficheiros no configurador/checkout (imagens e PDF, para R2, com limite de tamanho). Obrigatório ou opcional: decidir.
+- ✅ **Instalação:** preço da **zona** + **horas** (as horas vêm da fórmula do produto).
+  - 📝 Tabela de zonas (por código postal ou distrito) com preço fixo + taxa horária. Falta: lista de zonas e preços.
+- ✅ **Validade dos orçamentos: 30 dias** (em `settings`).
+- ✅ **Pagamento:**
+  - acima de **1 000 €**: **40% na encomenda e 60% no despacho**;
+  - até 1 000 €: pagamento total na encomenda;
+  - o cliente acompanha o estado da encomenda na área de cliente.
+  - 📝 Grande impacto na fase 1B e na máquina de estados: uma encomenda pode ter **dois pagamentos**; o segundo é pedido quando a encomenda fica pronta e o despacho só acontece depois de pago. Limiar (1 000 €) e percentagens em `settings`. Falta: o limiar é com ou sem IVA? E a instalação conta?
+- ✅ **Transporte, três modos:** transporte próprio, transportadora (preço **por km ou por zona**) ou por conta do cliente (levantamento).
+  - 📝 Recomendação para o beta: **por zona** (código postal/distrito). Por km obriga a um serviço de distâncias (custo e dependência externa).
+- ✅ **Prazo de produção pela capacidade:** ex.: capacidade de 8 portões/mês; o site conta as encomendas em produção e calcula o prazo.
+  - 📝 Capacidade por categoria/mês no backoffice; prazo estimado = fila em produção ÷ capacidade. **Não estava no âmbito original** → estimar horas e confirmar com o Bruno antes de prometer.
+- ✅ **Orçamentos reais:** chegaram 4 em Excel (chaminé, escada, 2 guardas). Análise em `docs/orcamentos-analise.md`. Os produtos-piloto passam a ser estes.
+- ✅ **Fatura da fase 0** (50%) para `geral@habinox.pt`; contrato assinado pessoalmente.
 
 ---
 
@@ -149,7 +171,8 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 - [ ] Por subcategoria: medidas (mín./máx.), opções e valores, materiais, cores, combinações impossíveis
 - [ ] Desenho final do modelo de opções reutilizáveis (ver proposta acima)
 - [ ] Fórmula de preço por produto, validada contra orçamentos reais
-- [ ] Regras de instalação, portes, pagamento (sinal/total) e validade de orçamentos
+- [x] Regras de instalação, portes, pagamento (sinal/total) e validade de orçamentos (princípios; faltam zonas e preços)
+- [x] Orçamentos reais recebidos (4) — faltam as medidas de cada um para escrever as fórmulas
 - [ ] Wireframes das páginas principais (ver `docs/wireframes/`):
   - [x] Configurador (portão de correr)
   - [x] Carrinho, checkout e confirmação

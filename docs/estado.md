@@ -236,4 +236,4 @@ Notas:
 Ver secção 8 do `CLAUDE.md`. Além disso:
 
 - Titularidade das contas: **decidido — ficam em nome da Abinox** (Vercel, Neon, Sentry, Resend). Falta criá-las.
-- Domínio do beta e quem gere o DNS.
+- Domínio: **`habinox.pt`** (site atual em WordPress, email `geral@habinox.pt` no mesmo domínio). Falta saber quem gere o DNS e se a loja fica no domínio principal ou num subdomínio.
