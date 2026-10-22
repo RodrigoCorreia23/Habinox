@@ -170,7 +170,7 @@ docker-compose.yml, docker/postgres-init/   Postgres local + BD abinox_test
 - **Skills do agente** (instaladas no projeto em `.agents/skills/`, atalhos em `.claude/skills/`, versões em `skills-lock.json`; também instaladas globalmente no PC principal). Atualizar com `npx skills update`. `.agents/` está fora do Prettier.
   - Pesquisa: `find-skills`.
   - Backend: `better-auth-best-practices`, `better-auth-security-best-practices`, `neon-postgres`, `vitest`, `resend`.
-  - Frontend: `web-design-guidelines`, `impeccable` (inclui a antiga `audit`), `emil-design-eng`, `tailwind-design-system`, `web-perf`.
+  - Frontend: `web-design-guidelines`, `impeccable` (inclui a antiga `audit`), `emil-design-eng`, `tailwind-design-system`, `web-perf`, `design-taste-frontend` (leonxlnx/taste-skill, 2026-10-22; o `scripts/assets.mjs` descarrega imagens de bancos externos — pedir autorização antes de o correr; o `DESIGN.md` prevalece sobre as direções que ela sugere).
   - Em conflito, o `CLAUDE.md` prevalece (ex.: a skill do Better Auth sugere `drizzle-kit push`; aqui só `generate` + `migrate`). Comandos `npx impeccable …` e o launcher da `impeccable` descarregam um binário/pacote: pedir autorização antes (na revisão de 2026-10-09 o detetor **não correu**; a revisão foi feita lendo o código).
   - Noutro PC, para as ter em todos os projetos: `npx skills add <owner/repo@skill> -g -y` (lista em `skills-lock.json`).
 - **Commits:** em português, um por passo lógico, autor "Rodrigo Correia".
