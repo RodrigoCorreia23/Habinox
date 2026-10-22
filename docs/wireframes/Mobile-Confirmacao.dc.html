@@ -29,7 +29,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
 <div style="min-height: 100vh; display: flex; flex-direction: column">
 
   <div style="background: #FFF4D6; border-bottom: 1px solid #E8D59A">
-    <div class="wrap" style="max-width: 1440px; margin: 0 auto; padding: 10px 80px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: 14px">
+    <div class="wrap" style="max-width: 1440px; margin: 0 auto; padding: 10px 80px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: 15px">
       <span>Protótipo: ver o caso</span>
       <sc-for list="{{cases}}" as="c" hint-placeholder-count="4">
         <button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="{{c.style}}">{{c.label}}</button>
@@ -66,8 +66,8 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
             <dt style="color: #5A5F66">Pagar até</dt><dd style="margin: 0; font-weight: 700">[data]</dd>
           </dl>
           <button type="button" onClick="{{copy}}" style="align-self: flex-start; height: 44px; padding: 0 18px; border-radius: 2px; border: 1.5px solid #15171A; background: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer">{{copyLabel}}</button>
-          <p aria-live="polite" style="margin: 0; font-size: 14px; color: #1E5B2C; font-weight: 600">{{copyStatus}}</p>
-          <p style="margin: 0; font-size: 14px; color: #4A4F56; line-height: 1.45">Enviámos estes dados para [email]. Se não for paga até à data indicada, [o que acontece à encomenda — a definir com a Habinox].</p>
+          <p aria-live="polite" style="margin: 0; font-size: 15px; color: #1E5B2C; font-weight: 600">{{copyStatus}}</p>
+          <p style="margin: 0; font-size: 15px; color: #4A4F56; line-height: 1.45">Enviámos estes dados para [email]. Se não for paga até à data indicada, [o que acontece à encomenda — a definir com a Habinox].</p>
         </div>
       </sc-if>
 
@@ -76,7 +76,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
           <h2 style="margin: 0; font-size: 20px; font-weight: 700">Abra a app MB WAY no telemóvel [9xx xxx xxx]</h2>
           <p style="margin: 0; font-size: 16px; line-height: 1.5">Aceite o pedido de pagamento de <strong>[valor] €</strong> da Habinox. Esta página atualiza sozinha.</p>
           <p style="margin: 0; font-size: 40px; font-family: Archivo, sans-serif; font-weight: 600; font-variant-numeric: tabular-nums">[3:42]</p>
-          <span style="font-size: 14px; color: #4A4F56">Tempo restante para aceitar.</span>
+          <span style="font-size: 15px; color: #4A4F56">Tempo restante para aceitar.</span>
           <a href="#" style="font-size: 15px">Não recebeu o pedido? Enviar de novo</a>
         </div>
       </sc-if>
@@ -132,9 +132,9 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
     </aside>
   </main>
 
-  <footer class="wrap" style="margin-top: auto; border-top: 1px solid #DAD8D2; padding: 48px 80px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px; font-size: 14px; color: #4A4F56">
+  <footer class="wrap" style="margin-top: auto; border-top: 1px solid #DAD8D2; padding: 48px 80px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px; font-size: 15px; color: #4A4F56">
     <div style="display: flex; flex-direction: column; gap: 10px; max-width: 320px">
-      <span style="font-family: Archivo, sans-serif; font-weight: 700; font-size: 18px; color: #15171A">Habinox</span>
+      <span style="font-family: Archivo, sans-serif; font-weight: 700; font-size: 17px; color: #15171A">Habinox</span>
       <span>Bruno Miguel Freitas, Lda · Núcleo Industrial de Antas, 4740-016 Antas, Esposende</span>
     </div>
     <div style="display: flex; flex-wrap: wrap; gap: 32px 56px">
@@ -193,7 +193,7 @@ class Component extends DCLogic {
         var on = c.id === k;
         return {
           label: c.label, pressed: on,
-          style: 'height: 40px; padding: 0 14px; border-radius: 2px; cursor: pointer; font-size: 14px; border: 1px solid #15171A; ' +
+          style: 'height: 40px; padding: 0 14px; border-radius: 2px; cursor: pointer; font-size: 15px; border: 1px solid #15171A; ' +
             (on ? 'background: #15171A; color: #FFFFFF; font-weight: 700' : 'background: transparent; color: #15171A'),
           pick: function () { self.setState({ kase: c.id, copied: false }); }
         };

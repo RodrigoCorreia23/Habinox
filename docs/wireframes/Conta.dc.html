@@ -24,6 +24,7 @@ h1,h2,h3,legend{font-family:'Archivo',system-ui,sans-serif}
 input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
 .wrap{padding-left:80px;padding-right:80px}
 @media (max-width: 760px){.wrap{padding-left:16px!important;padding-right:16px!important}}
+@media (max-width: 760px){.cat-nav{display:none!important}.menu-btn{display:flex!important}}
 </style>
 </helmet>
 <div style="min-height: 100vh; display: flex; flex-direction: column">
@@ -31,7 +32,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
   <header style="background: #FFFFFF; border-bottom: 1px solid #DAD8D2">
     <div class="wrap" style="max-width: 1440px; margin: 0 auto; padding: 14px 80px; display: flex; flex-wrap: wrap; align-items: center; gap: 28px">
       <a href="Home.dc.html" style="display: flex; align-items: center; min-height: 44px; font-family: Archivo, sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 0.02em; color: #15171A; text-decoration: none">Habinox</a>
-      <nav aria-label="Categorias" style="display: flex; flex-wrap: wrap; gap: 4px; flex: 1 1 420px">
+      <nav class="cat-nav" aria-label="Categorias" style="display: flex; flex-wrap: wrap; gap: 4px; flex: 1 1 420px">
         <a href="Categoria.dc.html" style="text-decoration: none; color: #15171A; padding: 12px 12px">Portões</a>
         <a href="#" style="text-decoration: none; color: #15171A; padding: 12px 12px">Escadas</a>
         <a href="#" style="text-decoration: none; color: #15171A; padding: 12px 12px">Guardas</a>
@@ -39,10 +40,11 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
         <a href="#" style="text-decoration: none; color: #15171A; padding: 12px 12px">Caixas de correio</a>
       </nav>
       <div style="display: flex; gap: 8px">
+        <button type="button" class="menu-btn" aria-label="Abrir o menu de categorias" style="display: none; align-items: center; height: 44px; padding: 0 12px; border: 1px solid #15171A; border-radius: 2px; background: transparent; font-size: 15px; font-weight: 500; cursor: pointer">Menu</button>
         <a href="Conta.dc.html" aria-current="page" aria-label="Conta" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 2px; color: #15171A; background: #EAE8E3">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>
         </a>
-        <a href="Carrinho.dc.html" style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 2px; color: #FFFFFF; background: #15171A; text-decoration: none; font-size: 14px; font-weight: 500">
+        <a href="Carrinho.dc.html" style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 2px; color: #FFFFFF; background: #15171A; text-decoration: none; font-size: 15px; font-weight: 500">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"></path><circle cx="10" cy="20" r="1.4"></circle><circle cx="17" cy="20" r="1.4"></circle></svg>
           Carrinho
         </a>
@@ -68,8 +70,8 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
           <article style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px">
             <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px">
               <div style="display: flex; flex-direction: column; gap: 2px">
-                <h2 style="margin: 0; font-size: 19px; font-weight: 700">{{o.title}}</h2>
-                <span style="font-size: 14px; color: #5A5F66">{{o.meta}}</span>
+                <h2 style="margin: 0; font-size: 20px; font-weight: 700">{{o.title}}</h2>
+                <span style="font-size: 15px; color: #5A5F66">{{o.meta}}</span>
               </div>
               <span style="{{o.badgeStyle}}">{{o.status}}</span>
             </div>
@@ -96,7 +98,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
         <sc-for list="{{quotes}}" as="q" hint-placeholder-count="3">
           <article style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; padding: 18px 20px; display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center">
             <div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 4px">
-              <h2 style="margin: 0; font-size: 19px; font-weight: 700">{{q.title}}</h2>
+              <h2 style="margin: 0; font-size: 20px; font-weight: 700">{{q.title}}</h2>
               <span style="font-size: 15px; color: #5A5F66">{{q.spec}}</span>
               <span style="{{q.validityStyle}}">{{q.validity}}</span>
             </div>
@@ -129,7 +131,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
             <input type="checkbox" checked="{{marketing}}" onChange="{{toggleMarketing}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none; accent-color: #15171A">
             <span>Receber novidades e lembretes sobre orçamentos guardados</span>
           </label>
-          <p style="margin: 0; font-size: 14px; color: #5A5F66">{{consentNote}}</p>
+          <p style="margin: 0; font-size: 15px; color: #5A5F66">{{consentNote}}</p>
         </section>
 
         <section style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; padding: 20px; display: flex; flex-direction: column; gap: 12px; grid-column: 1 / -1">
@@ -157,9 +159,9 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
     </sc-if>
   </main>
 
-  <footer class="wrap" style="margin-top: auto; border-top: 1px solid #DAD8D2; padding: 48px 80px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px; font-size: 14px; color: #4A4F56">
+  <footer class="wrap" style="margin-top: auto; border-top: 1px solid #DAD8D2; padding: 48px 80px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px; font-size: 15px; color: #4A4F56">
     <div style="display: flex; flex-direction: column; gap: 10px; max-width: 320px">
-      <span style="font-family: Archivo, sans-serif; font-weight: 700; font-size: 18px; color: #15171A">Habinox</span>
+      <span style="font-family: Archivo, sans-serif; font-weight: 700; font-size: 17px; color: #15171A">Habinox</span>
       <span>Bruno Miguel Freitas, Lda · Núcleo Industrial de Antas, 4740-016 Antas, Esposende</span>
     </div>
     <div style="display: flex; flex-wrap: wrap; gap: 32px 56px">
@@ -184,7 +186,7 @@ class Component extends DCLogic {
 
     function badge(tone) {
       var t = { wait: 'background: #FFF4D6; color: #6B4700', work: 'background: #EDECE8; color: #15171A', done: 'background: #E3F1E6; color: #1E5B2C' }[tone];
-      return 'display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 2px; font-size: 14px; font-weight: 700; ' + t;
+      return 'display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 2px; font-size: 15px; font-weight: 700; ' + t;
     }
     function steps(doneCount) {
       return STEPS.map(function (label, i) {
@@ -234,7 +236,7 @@ class Component extends DCLogic {
         var color = { ok: '#5A5F66', soon: '#6B4700', expired: '#8C1D17' }[q.tone];
         return {
           title: q.title, spec: q.spec, validity: q.validity, price: q.price, primary: q.primary, primaryHref: q.primaryHref,
-          validityStyle: 'font-size: 14px; font-weight: 600; color: ' + color
+          validityStyle: 'font-size: 15px; font-weight: 600; color: ' + color
         };
       }),
 

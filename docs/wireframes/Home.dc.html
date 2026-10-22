@@ -22,13 +22,20 @@ h1{text-wrap:balance}
 .mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
 .wrap{padding-left:80px;padding-right:80px}
 .hero-title{font-size:64px}
+@media (max-width: 1100px){.prod-grid{grid-template-columns:repeat(2, minmax(0, 1fr))!important}}
+@media (max-width: 640px){.prod-grid{grid-template-columns:minmax(0, 1fr)!important}}
 .cat-bar a{border-right:1px solid #DAD8D2}
 .cat-bar a:last-child{border-right:0}
 @media (max-width: 900px){
   .wrap{padding-left:16px!important;padding-right:16px!important}
-  .hero-title{font-size:40px}
+  .hero-title{font-size:clamp(30px, 8.4vw, 40px)}
+  .pro-title{font-size:clamp(28px, 7.4vw, 44px)!important}
+  .main-nav{display:none!important}
+  .menu-btn{display:flex!important;align-items:center}
   .hero-card{position:static!important;width:auto!important;margin-top:16px}
-  .cat-bar{grid-template-columns:repeat(6, minmax(150px, 1fr))!important;overflow-x:auto}
+  .cat-bar{grid-template-columns:repeat(2, minmax(0, 1fr))!important}
+  .cat-bar a{border-bottom:1px solid #DAD8D2}
+  .cat-bar a:nth-child(2n){border-right:0}
   .two-col{grid-template-columns:minmax(0, 1fr)!important}
   .steps{grid-template-columns:minmax(0, 1fr)!important}
 }
@@ -39,7 +46,7 @@ h1{text-wrap:balance}
   <header class="wrap" style="min-height: 76px; box-sizing: border-box; padding: 0 80px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 32px; border-bottom: 1px solid #DAD8D2">
     <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 56px">
       <a href="Home.dc.html" aria-current="page" style="display: flex; align-items: center; min-height: 44px; font-family: Archivo, sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 0.02em">Habinox</a>
-      <nav aria-label="Principal" style="display: flex; flex-wrap: wrap; gap: 4px 32px; font-size: 14px; font-weight: 500">
+      <nav class="main-nav" aria-label="Principal" style="display: flex; flex-wrap: wrap; gap: 4px 32px; font-size: 15px; font-weight: 500">
         <a href="#produtos" style="display: flex; align-items: center; min-height: 44px">Produtos</a>
         <a href="#como" style="display: flex; align-items: center; min-height: 44px">Como funciona</a>
         <a href="#pro" style="display: flex; align-items: center; min-height: 44px">Área Pro</a>
@@ -47,9 +54,10 @@ h1{text-wrap:balance}
       </nav>
     </div>
     <div style="display: flex; align-items: center; gap: 8px">
+      <button type="button" class="menu-btn" aria-label="Abrir o menu" style="display: none; height: 44px; padding: 0 12px; border: 1px solid #15171A; border-radius: 2px; background: transparent; font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer">Menu</button>
       <button type="button" aria-label="Pesquisar" style="width: 44px; height: 44px; border: none; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#15171A" stroke-width="1.6" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg></button>
-      <a href="Conta.dc.html" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>Entrar</a>
-      <a href="Carrinho.dc.html" style="height: 44px; padding: 0 18px; display: flex; align-items: center; gap: 10px; background: #15171A; color: #FFFFFF; font-size: 14px; font-weight: 500; border-radius: 2px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16l-1.5 12h-13z"></path><path d="M9 7V5a3 3 0 0 1 6 0v2"></path></svg>Pedido · <span class="mono">0</span></a>
+      <a href="Conta.dc.html" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>Entrar</a>
+      <a href="Carrinho.dc.html" style="height: 44px; padding: 0 18px; display: flex; align-items: center; gap: 10px; background: #15171A; color: #FFFFFF; font-size: 15px; font-weight: 500; border-radius: 2px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16l-1.5 12h-13z"></path><path d="M9 7V5a3 3 0 0 1 6 0v2"></path></svg>Pedido · <span class="mono">0</span></a>
     </div>
   </header>
 
@@ -59,7 +67,7 @@ h1{text-wrap:balance}
       <div style="display: flex; flex-direction: column; gap: 28px">
         <div class="mono" style="font-size: 13px; letter-spacing: 0.08em; color: #5A5F66">SERRALHARIA · INOX · FERRO · ALUMÍNIO</div>
         <h1 class="hero-title" style="margin: 0; line-height: 1.04; letter-spacing: -0.02em">Configure à medida.<br>Veja o preço na hora.</h1>
-        <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #4A4F56; max-width: 500px">Portões, escadas, guardas e chaminés feitos por medida. Escolha o modelo, defina as dimensões, o material e a cor, e receba o preço de imediato.</p>
+        <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #4A4F56; max-width: 500px">Portões, escadas, guardas e chaminés feitos por medida. Escolha o modelo, defina as dimensões, o material e a cor, e receba o preço de imediato.</p>
         <div style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px">
           <a href="#produtos" style="height: 52px; padding: 0 28px; display: flex; align-items: center; gap: 10px; background: #2005A2; color: #FFFFFF; font-weight: 500; font-size: 15px; border-radius: 2px">Explorar produtos</a>
           <a href="#pro" style="height: 52px; padding: 0 28px; display: flex; align-items: center; border: 1px solid #15171A; font-weight: 500; font-size: 15px; border-radius: 2px">Sou profissional</a>
@@ -88,7 +96,7 @@ h1{text-wrap:balance}
           <text x="24" y="36" font-family="IBM Plex Mono, monospace" font-size="11" fill="#5A5F66">PORTÃO DE BATENTE · 2 FOLHAS</text>
         </svg>
         <a href="Main.dc.html" class="hero-card" style="position: absolute; right: -24px; bottom: -32px; width: 280px; background: #FFFFFF; border: 1px solid #DAD8D2; box-shadow: 0 12px 32px rgba(21,23,26,0.08); padding: 20px; display: flex; flex-direction: column; gap: 12px; color: #15171A">
-          <span class="mono" style="font-size: 11px; letter-spacing: 0.08em; color: #5A5F66">CONFIGURAÇÃO</span>
+          <span class="mono" style="font-size: 13px; letter-spacing: 0.08em; color: #5A5F66">CONFIGURAÇÃO</span>
           <span style="display: flex; flex-direction: column; font-size: 13px">
             <span style="display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid #EDECE8"><span style="color: #5A5F66">Largura</span><span class="mono">3 000 mm</span></span>
             <span style="display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid #EDECE8"><span style="color: #5A5F66">Altura</span><span class="mono">1 800 mm</span></span>
@@ -105,7 +113,7 @@ h1{text-wrap:balance}
 
     <nav aria-label="Categorias" class="wrap cat-bar" style="padding: 0 80px; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid #DAD8D2; border-bottom: 1px solid #DAD8D2">
       <sc-for list="{{categories}}" as="c" hint-placeholder-count="6">
-        <a href="{{c.href}}" style="{{c.style}}">{{c.name}} <span class="mono" style="font-size: 12px; color: #5A5F66">{{c.n}}</span></a>
+        <a href="{{c.href}}" style="{{c.style}}">{{c.name}} <span class="mono" style="font-size: 13px; color: #5A5F66">{{c.n}}</span></a>
       </sc-for>
     </nav>
 
@@ -117,7 +125,7 @@ h1{text-wrap:balance}
         </div>
         <a href="Categoria.dc.html" style="font-size: 15px; font-weight: 500; display: flex; align-items: center; min-height: 44px; border-bottom: 1px solid #15171A">Ver todos os produtos</a>
       </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px">
+      <div class="prod-grid" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
         <sc-for list="{{products}}" as="p" hint-placeholder-count="6">
           <article style="background: #FFFFFF; border: 1px solid #DAD8D2; display: flex; flex-direction: column">
             <div style="height: 280px; background: #EAE8E3; display: flex; align-items: center; justify-content: center">
@@ -125,13 +133,13 @@ h1{text-wrap:balance}
             </div>
             <div style="padding: 24px; display: flex; flex-direction: column; gap: 16px">
               <div style="display: flex; flex-direction: column; gap: 6px">
-                <div class="mono" style="font-size: 11px; letter-spacing: 0.08em; color: #5A5F66">{{p.cat}}</div>
+                <div class="mono" style="font-size: 13px; letter-spacing: 0.08em; color: #5A5F66">{{p.cat}}</div>
                 <h3 style="margin: 0; font-size: 20px">{{p.name}}</h3>
-                <div style="font-size: 14px; color: #5A5F66">{{p.detail}}</div>
+                <div style="font-size: 15px; color: #5A5F66">{{p.detail}}</div>
               </div>
               <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid #EDECE8">
-                <span style="font-size: 14px; color: #4A4F56">Preço à medida</span>
-                <a href="{{p.href}}" style="height: 44px; padding: 0 18px; display: flex; align-items: center; background: #15171A; color: #FFFFFF; font-size: 14px; font-weight: 500; border-radius: 2px">Configurar</a>
+                <span style="font-size: 15px; color: #4A4F56">Preço à medida</span>
+                <a href="{{p.href}}" style="height: 44px; padding: 0 18px; display: flex; align-items: center; background: #15171A; color: #FFFFFF; font-size: 15px; font-weight: 500; border-radius: 2px">Configurar</a>
               </div>
             </div>
           </article>
@@ -142,21 +150,21 @@ h1{text-wrap:balance}
     <section id="como" class="wrap steps" style="padding: 112px 80px 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px">
       <div style="display: flex; flex-direction: column; gap: 12px">
         <div class="mono" style="font-size: 13px; letter-spacing: 0.08em; color: #5A5F66">COMO FUNCIONA</div>
-        <h2 style="margin: 0; font-size: 32px; line-height: 1.15; letter-spacing: -0.01em">Do modelo à encomenda, sem esperar por um orçamento.</h2>
+        <h2 style="margin: 0; font-size: 32px; line-height: 1.15; letter-spacing: -0.01em">Do modelo à encomenda.</h2>
       </div>
       <div style="border-top: 2px solid #15171A; padding-top: 20px; display: flex; flex-direction: column; gap: 10px">
         <div class="mono" style="font-size: 13px; color: #2005A2">01</div>
-        <h3 style="margin: 0; font-size: 19px">Escolha o modelo</h3>
+        <h3 style="margin: 0; font-size: 20px">Escolha o modelo</h3>
         <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #4A4F56">Navegue pelo catálogo e veja cada produto em 3D.</p>
       </div>
       <div style="border-top: 2px solid #15171A; padding-top: 20px; display: flex; flex-direction: column; gap: 10px">
         <div class="mono" style="font-size: 13px; color: #2005A2">02</div>
-        <h3 style="margin: 0; font-size: 19px">Defina as medidas</h3>
+        <h3 style="margin: 0; font-size: 20px">Defina as medidas</h3>
         <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #4A4F56">Largura, altura, material e cor. O preço atualiza a cada escolha.</p>
       </div>
       <div style="border-top: 2px solid #15171A; padding-top: 20px; display: flex; flex-direction: column; gap: 10px">
         <div class="mono" style="font-size: 13px; color: #2005A2">03</div>
-        <h3 style="margin: 0; font-size: 19px">Encomende</h3>
+        <h3 style="margin: 0; font-size: 20px">Encomende</h3>
         <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #4A4F56">Pague online ou fale com um técnico se tiver dúvidas na instalação.</p>
       </div>
     </section>
@@ -174,7 +182,7 @@ h1{text-wrap:balance}
     <section id="pro" class="wrap two-col on-dark" style="margin-top: 112px; background: #15171A; color: #FFFFFF; padding: 88px 80px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; align-items: center">
       <div style="display: flex; flex-direction: column; gap: 20px">
         <div class="mono" style="font-size: 13px; letter-spacing: 0.08em; color: #A9AEB5">ÁREA PROFISSIONAL</div>
-        <h2 style="margin: 0; font-size: 44px; line-height: 1.1; letter-spacing: -0.01em">Para construtores, arquitetos e empresas.</h2>
+        <h2 class="pro-title" style="margin: 0; font-size: 44px; line-height: 1.1; letter-spacing: -0.01em">Para construtores, arquitetos e empresas.</h2>
         <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #C9CDD2; max-width: 520px">Orçamente as suas obras diretamente na plataforma, com condições profissionais. Acesso por convite.</p>
         <a href="#" style="align-self: flex-start; margin-top: 8px; height: 52px; padding: 0 28px; display: flex; align-items: center; background: #FFFFFF; color: #15171A; font-weight: 500; font-size: 15px; border-radius: 2px">Pedir acesso Pro</a>
       </div>
@@ -187,9 +195,9 @@ h1{text-wrap:balance}
     </section>
   </main>
 
-  <footer id="contactos" class="wrap" style="margin-top: auto; padding: 56px 80px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 32px; font-size: 14px; color: #4A4F56">
+  <footer id="contactos" class="wrap" style="margin-top: auto; padding: 56px 80px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 32px; font-size: 15px; color: #4A4F56">
     <div style="display: flex; flex-direction: column; gap: 10px; max-width: 320px">
-      <span style="font-family: Archivo, sans-serif; font-weight: 700; font-size: 18px; color: #15171A">Habinox</span>
+      <span style="font-family: Archivo, sans-serif; font-weight: 700; font-size: 17px; color: #15171A">Habinox</span>
       <span>Bruno Miguel Freitas, Lda · Núcleo Industrial de Antas, 4740-016 Antas, Esposende</span>
     </div>
     <div style="display: flex; flex-wrap: wrap; gap: 32px 56px">

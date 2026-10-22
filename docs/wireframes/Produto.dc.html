@@ -61,7 +61,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
       <div aria-live="polite" style="display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: #4A4F56">
         <span style="font-weight: 700; color: #15171A">Para publicar:</span>
         <sc-for list="{{checks}}" as="ck" hint-placeholder-count="3">
-          <span style="{{ck.style}}">{{ck.mark}} {{ck.label}}</span>
+          <span style="{{ck.style}}"><sc-if value="{{ck.ok}}" hint-placeholder-val="{{ true }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -3px; margin-right: 4px"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if><sc-if value="{{ck.notOk}}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="vertical-align: -3px; margin-right: 4px"><path d="M6 6l12 12M18 6L6 18"></path></svg></sc-if><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">{{ck.sr}}</span>{{ck.label}}</span>
         </sc-for>
       </div>
       <sc-if value="{{notice}}" hint-placeholder-val="{{ false }}">
@@ -100,7 +100,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
             <h2 style="margin: 0; font-size: 20px; font-weight: 700">Medidas</h2>
             <span style="font-size: 14px; color: #5A5F66">Em milímetros. O cliente pode escrever em mm, cm ou m.</span>
           </div>
-          <div style="overflow-x: auto">
+          <div style="position: relative; overflow-x: auto">
             <table style="width: 100%; min-width: 560px; border-collapse: collapse; font-size: 15px">
               <thead><tr style="background: #F5F4F1; color: #5A5F66; font-size: 13px"><th scope="col" style="padding: 10px 20px">Medida</th><th scope="col" style="padding: 10px 12px">Mínimo</th><th scope="col" style="padding: 10px 12px">Máximo</th><th scope="col" style="padding: 10px 12px">Precisão</th><th scope="col" style="padding: 10px 12px">Variável na fórmula</th></tr></thead>
               <tbody>
@@ -233,7 +233,7 @@ class Component extends DCLogic {
       statusLabel: s.dirty ? 'Publicado, com alterações por publicar' : 'Publicado',
       statusStyle: 'display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 2px; font-size: 14px; font-weight: 700; ' + (s.dirty ? 'background: #FFF4D6; color: #6B4700' : 'background: #E3F1E6; color: #1E5B2C'),
       liveText: 'Publicado com a fórmula v2' + (s.dirty ? '; as alterações abaixo ainda não estão na loja' : ''),
-      checks: checks.map(function (c) { return { label: c.label, mark: c.ok ? '✓' : '✗', style: c.ok ? 'color: #1E5B2C' : 'color: #8C1D17; font-weight: 600' }; }),
+      checks: checks.map(function (c) { return { label: c.label, ok: c.ok, notOk: !c.ok, sr: c.ok ? 'Cumprido: ' : 'Em falta: ', style: c.ok ? 'color: #1E5B2C' : 'color: #8C1D17; font-weight: 600' }; }),
       cannotPublish: !canPublish,
       publishStyle: 'height: 44px; padding: 0 16px; border-radius: 2px; border: 0; font-size: 15px; font-weight: 700; ' + (canPublish ? 'background: #15171A; color: #FFFFFF; cursor: pointer' : 'background: #EDECE8; color: #4A4F56'),
       notice: Boolean(s.notice),

@@ -70,7 +70,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
         <div aria-live="polite" style="display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: #4A4F56">
           <span style="font-weight: 700; color: #15171A">Para validar:</span>
           <sc-for list="{{checks}}" as="ck" hint-placeholder-count="3">
-            <span style="{{ck.style}}">{{ck.mark}} {{ck.label}}</span>
+            <span style="{{ck.style}}"><sc-if value="{{ck.ok}}" hint-placeholder-val="{{ true }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -3px; margin-right: 4px"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if><sc-if value="{{ck.notOk}}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="vertical-align: -3px; margin-right: 4px"><path d="M6 6l12 12M18 6L6 18"></path></svg></sc-if><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">{{ck.sr}}</span>{{ck.label}}</span>
           </sc-for>
         </div>
       </sc-if>
@@ -94,9 +94,9 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
         <div style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; overflow: hidden">
           <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; padding: 16px 18px; border-bottom: 1px solid #EDECE8">
             <h2 style="margin: 0; font-size: 20px; font-weight: 700">Linhas de custo</h2>
-            <span style="font-size: 14px; color: #5A5F66">Quantidades em função de <strong style="color: #15171A">L</strong> (largura) e <strong style="color: #15171A">H</strong> (altura), em metros. Linhas e expressões de exemplo.</span>
+            <span style="font-size: 14px; color: #5A5F66">Quantidades em função de <strong style="color: #15171A">L</strong> (largura) e <strong style="color: #15171A">H</strong> (altura), em metros. O artigo PHC de cada material depende do material escolhido pelo cliente. Linhas e expressões de exemplo.</span>
           </div>
-          <div style="overflow-x: auto">
+          <div style="position: relative; overflow-x: auto">
             <table style="width: 100%; min-width: 860px; border-collapse: collapse; font-size: 15px">
               <thead>
                 <tr style="background: #F5F4F1; color: #5A5F66; font-size: 13px">
@@ -105,7 +105,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
                   <th scope="col" style="padding: 10px 14px; width: 260px">Quantidade</th>
                   <th scope="col" style="padding: 10px 14px; text-align: right">No teste</th>
                   <th scope="col" style="padding: 10px 14px">Custo unitário</th>
-                  <th scope="col" style="padding: 10px 8px"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Ações</span></th>
+                  <th scope="col" style="padding: 10px 8px; position: relative"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Ações</span></th>
                 </tr>
               </thead>
               <tbody>
@@ -146,32 +146,39 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
           <div style="padding: 12px 18px; border-top: 1px solid #EDECE8; display: flex; flex-wrap: wrap; gap: 8px">
             <button type="button" onClick="{{addMaterial}}" style="height: 40px; padding: 0 14px; border-radius: 2px; border: 1px solid #85827A; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar material</button>
             <button type="button" onClick="{{addLabour}}" style="height: 40px; padding: 0 14px; border-radius: 2px; border: 1px solid #85827A; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar mão de obra</button>
-            <button type="button" onClick="{{addFixed}}" style="height: 40px; padding: 0 14px; border-radius: 2px; border: 1px solid #85827A; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar custo fixo</button>
+            <button type="button" onClick="{{addFixed}}" style="height: 40px; padding: 0 14px; border-radius: 2px; border: 1px solid #85827A; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adicionar componente</button>
           </div>
         </div>
 
         <div style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; padding: 16px 18px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
           <div style="display: flex; flex-direction: column; gap: 6px">
-            <label for="margem" style="font-size: 15px; font-weight: 600">Margem</label>
+            <label for="consumiveis" style="font-size: 15px; font-weight: 600">Consumíveis</label>
             <div style="display: flex; align-items: center; border: 1px solid #85827A; border-radius: 2px">
-              <input id="margem" type="text" inputmode="decimal" placeholder="[%]" style="flex: 1; min-width: 0; height: 44px; padding: 0 10px; border: 0; background: transparent; font-size: 16px">
+              <input id="consumiveis" type="text" inputmode="decimal" placeholder="[10 ou 15]" style="flex: 1; min-width: 0; height: 44px; padding: 0 10px; border: 0; background: transparent; font-size: 16px; font-family: 'IBM Plex Mono', monospace">
               <span style="padding: 0 10px; color: #5A5F66">%</span>
             </div>
-            <span style="font-size: 13px; color: #5A5F66">Sobre o custo total.</span>
+            <span style="font-size: 13px; color: #5A5F66">Sobre o total dos materiais (discos, elétrodos, gás…).</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="margem" style="font-size: 15px; font-weight: 600">Margem</label>
+            <div style="display: flex; align-items: center; border: 1px solid #85827A; border-radius: 2px">
+              <input id="margem" type="text" inputmode="decimal" placeholder="[50]" style="flex: 1; min-width: 0; height: 44px; padding: 0 10px; border: 0; background: transparent; font-size: 16px; font-family: 'IBM Plex Mono', monospace">
+              <span style="padding: 0 10px; color: #5A5F66">%</span>
+            </div>
+            <span style="font-size: 13px; color: #5A5F66">Sobre o preço de venda: preço = custo ÷ (1 − margem). Com 50%, o preço é o dobro do custo.</span>
           </div>
           <div style="display: flex; flex-direction: column; gap: 6px">
             <label for="arredondar" style="font-size: 15px; font-weight: 600">Arredondamento</label>
             <select id="arredondar" style="height: 46px; padding: 0 10px; border: 1px solid #85827A; border-radius: 2px; background: #FFFFFF; font-size: 16px">
+              <option>Sem arredondamento</option>
               <option>Para cima, a 1 €</option>
               <option>Para cima, a 5 €</option>
               <option>Para cima, a 10 €</option>
             </select>
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 6px">
-            <span style="font-size: 15px; font-weight: 600">IVA</span>
-            <span style="height: 46px; display: flex; align-items: center; font-size: 16px">23% <a href="#" style="margin-left: 8px; font-size: 14px">em Definições</a></span>
+            <span style="font-size: 13px; color: #5A5F66">A confirmar com o Bruno (os orçamentos dele não arredondam).</span>
           </div>
         </div>
+        <p style="margin: 0; font-size: 14px; color: #4A4F56; line-height: 1.5">As taxas horárias de cada sector (serralharia, corte laser, instalação…) e o preço de cada zona definem-se em <a href="#">Definições</a>. O IVA não entra na fórmula: aplica-se uma vez ao total da encomenda.</p>
       </section>
 
       <aside aria-label="Pré-visualização do preço" style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
@@ -193,6 +200,14 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
               </div>
             </div>
             <div style="display: flex; flex-direction: column; gap: 4px">
+              <label for="tMat" style="font-size: 14px; font-weight: 600">Material</label>
+              <select id="tMat" value="{{tMat}}" onChange="{{onMat}}" style="height: 44px; padding: 0 8px; border: 1px solid #85827A; border-radius: 2px; background: #FFFFFF; font-size: 15px">
+                <option value="ferro">Ferro</option>
+                <option value="inox">Inox</option>
+                <option value="aluminio">Alumínio</option>
+              </select>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px">
               <label for="tAc" style="font-size: 14px; font-weight: 600">Acabamento</label>
               <select id="tAc" value="{{tAc}}" onChange="{{onAc}}" style="height: 44px; padding: 0 8px; border: 1px solid #85827A; border-radius: 2px; background: #FFFFFF; font-size: 15px">
                 <option value="galvanizado">Galvanizado</option>
@@ -212,18 +227,24 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
             Com instalação
           </label>
 
-          <dl style="margin: 0; padding-top: 12px; border-top: 1px solid #EDECE8; display: grid; grid-template-columns: minmax(0, 1fr) max-content; row-gap: 8px; font-size: 15px">
-            <dt style="color: #5A5F66">Materiais</dt><dd style="margin: 0; text-align: right">[€]</dd>
-            <dt style="color: #5A5F66">Mão de obra ({{hoursText}})</dt><dd style="margin: 0; text-align: right">[€]</dd>
-            <dt style="color: #5A5F66">Acabamento e opções</dt><dd style="margin: 0; text-align: right">[€]</dd>
-            <dt style="font-weight: 600">Custo total</dt><dd style="margin: 0; text-align: right; font-weight: 600">[€]</dd>
-            <dt style="color: #5A5F66">Margem ([%])</dt><dd style="margin: 0; text-align: right">[€]</dd>
-            <dt style="color: #5A5F66">IVA 23%</dt><dd style="margin: 0; text-align: right">[€]</dd>
+          <dl style="margin: 0; padding-top: 12px; border-top: 1px solid #EDECE8; display: grid; grid-template-columns: minmax(0, 1fr) max-content; gap: 8px 12px; font-size: 15px">
+            <dt>Materiais ({{matName}})</dt><dd style="margin: 0; text-align: right">[€]</dd>
+            <dt>Consumíveis ([%] dos materiais)</dt><dd style="margin: 0; text-align: right">[€]</dd>
+            <dt>Mão de obra ({{hoursText}}, taxa de cada sector)</dt><dd style="margin: 0; text-align: right">[€]</dd>
+            <dt style="font-weight: 600">Custo de fabrico</dt><dd style="margin: 0; text-align: right; font-weight: 600">[€]</dd>
+            <dt>Com margem: custo ÷ (1 − [%])</dt><dd style="margin: 0; text-align: right">[€]</dd>
+            <sc-if value="{{hasComponents}}" hint-placeholder-val="{{ true }}">
+              <dt>Componentes (preço de venda)</dt><dd style="margin: 0; text-align: right">[€]</dd>
+            </sc-if>
+            <sc-if value="{{tInst}}" hint-placeholder-val="{{ false }}">
+              <dt>Instalação (zona + horas)</dt><dd style="margin: 0; text-align: right">[€]</dd>
+            </sc-if>
           </dl>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 12px; border-top: 1px solid #EDECE8">
-            <span style="font-size: 15px; font-weight: 600">Preço ao cliente</span>
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 12px; padding-top: 12px; border-top: 1px solid #EDECE8">
+            <span style="font-size: 15px; font-weight: 600">Preço sem IVA</span>
             <span style="font-size: 36px; line-height: 1; font-family: Archivo, sans-serif; font-weight: 600;">[preço] €</span>
           </div>
+          <p style="margin: 0; font-size: 14px; color: #4A4F56">Na loja, o IVA é somado uma vez ao total da encomenda, junto com os portes.</p>
           <sc-if value="{{hasErrors}}" hint-placeholder-val="{{ false }}">
             <p role="alert" style="margin: 0; font-size: 14px; color: #8C1D17">Há linhas com erros. Corrija-as para calcular o preço.</p>
           </sc-if>
@@ -233,7 +254,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
         <div style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
           <h2 style="margin: 0; font-size: 20px; font-weight: 700">Comparar com orçamentos reais</h2>
           <p style="margin: 0; font-size: 14px; color: #5A5F66; line-height: 1.45">Antes de validar, a fórmula tem de dar valores próximos de orçamentos que a Habinox já fez.</p>
-          <div style="overflow-x: auto">
+          <div style="position: relative; overflow-x: auto">
             <table style="width: 100%; border-collapse: collapse; font-size: 14px">
               <thead>
                 <tr style="color: #5A5F66; font-size: 13px">
@@ -273,22 +294,23 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.nextId = 9;
+    this.nextId = 10;
     this.state = {
       status: 'rascunho',
       notice: null,
       krPending: true,
       cmp: ['dentro', 'por', 'fora'],
-      tL: '3,5', tH: '1,8', tAc: 'lacado', tMot: 'com', tInst: false,
+      tL: '3,5', tH: '1,8', tMat: 'ferro', tAc: 'lacado', tMot: 'com', tInst: false,
       rows: [
-        { id: 1, label: 'Tubo 40×40 (quadro)', kind: 'Material', expr: '2*L + 2*H', unit: 'm', cost: '[€/m]', source: 'PHC TQ40 · atualizado [data]' },
-        { id: 2, label: 'Barras verticais 20×20', kind: 'Material', expr: 'ceil(L / 0,12) * H', unit: 'm', cost: '[€/m]', source: 'PHC TQ20 · atualizado [data]' },
-        { id: 3, label: 'Calha de chão', kind: 'Material', expr: '2 * L', unit: 'm', cost: '[€/m]', source: 'PHC CAL01 · atualizado [data]' },
+        { id: 1, label: 'Tubo 40×40 (quadro)', kind: 'Material', expr: '2*L + 2*H', unit: 'm', cost: '[€/m]', art: { ferro: 'TQ40F', inox: 'TQ40I', aluminio: 'TQ40A' } },
+        { id: 2, label: 'Barras verticais 20×20', kind: 'Material', expr: 'ceil(L / 0,12) * H', unit: 'm', cost: '[€/m]', art: { ferro: 'TQ20F', inox: 'TQ20I', aluminio: 'TQ20A' } },
+        { id: 3, label: 'Calha de chão', kind: 'Material', expr: '2 * L', unit: 'm', cost: '[€/m]', art: { ferro: 'CAL01', inox: 'CAL01I', aluminio: 'CAL01' } },
         { id: 4, label: 'Kit de rodízios e guias', kind: 'Material', expr: '1', unit: 'un', cost: '[€/un]', source: 'PHC KR02 · para rever', review: true },
-        { id: 5, label: 'Corte e soldadura', kind: 'Mão de obra', expr: '2 + 0,8 * L', unit: 'h', cost: '[€/h]', source: 'Custo/hora da oficina' },
-        { id: 6, label: 'Lacagem', kind: 'Acabamento', expr: '2 * L * H', unit: 'm²', cost: '[€/m²]', source: 'Fornecedor de pintura', cond: { k: 'tAc', v: 'lacado', t: 'Acabamento lacado' } },
-        { id: 7, label: 'Motor de correr', kind: 'Opção', expr: '1', unit: 'un', cost: '[€/un]', source: 'PHC MOT1 · atualizado [data]', cond: { k: 'tMot', v: 'com', t: 'Com motor' } },
-        { id: 8, label: 'Montagem em obra', kind: 'Mão de obra', expr: '3 + 0,5 * L', unit: 'h', cost: '[€/h]', source: 'Custo/hora de instalação', cond: { k: 'tInst', v: true, t: 'Com instalação' } }
+        { id: 5, label: 'Corte laser', kind: 'Mão de obra · Corte laser', expr: '0,5 + 0,1 * L', unit: 'h', cost: '[€/h]', source: 'Taxa do sector (Definições)' },
+        { id: 9, label: 'Soldadura e montagem', kind: 'Mão de obra · Serralharia', expr: '2 + 0,8 * L', unit: 'h', cost: '[€/h]', source: 'Taxa do sector (Definições)' },
+        { id: 6, label: 'Lacagem', kind: 'Serviço externo', expr: '2 * L * H', unit: 'm²', cost: '[€/m²]', source: 'Fornecedor de lacagem', cond: { k: 'tAc', v: 'lacado', t: 'Acabamento lacado' } },
+        { id: 7, label: 'Motor de correr', kind: 'Componente', expr: '1', unit: 'un', cost: '[€] preço de venda', source: 'Componentes · sem margem', comp: true, cond: { k: 'tMot', v: 'com', t: 'Com motor' } },
+        { id: 8, label: 'Montagem em obra', kind: 'Instalação', expr: '3 + 0,5 * L', unit: 'h', cost: '[€/h] + zona', source: 'Taxa de instalação + preço da zona', cond: { k: 'tInst', v: true, t: 'Com instalação' } }
       ]
     };
   }
@@ -365,6 +387,7 @@ class Component extends DCLogic {
     function num(t) { var n = Number(String(t).trim().replace(',', '.')); return isNaN(n) ? 0 : n; }
     function fmt(n) { return (Math.round(n * 100) / 100).toLocaleString('pt-PT', { minimumFractionDigits: 0, maximumFractionDigits: 2 }); }
     var vars = { L: num(s.tL), H: num(s.tH) };
+    var MAT = { ferro: 'ferro', inox: 'inox', aluminio: 'alumínio' };
 
     function touched(patch) {
       var back = s.status === 'rascunho' ? {} : { status: 'rascunho', notice: 'Alterou a fórmula: voltou a rascunho e precisa de nova validação.' };
@@ -374,19 +397,19 @@ class Component extends DCLogic {
       touched({ rows: s.rows.map(function (r) { return r.id === id ? Object.assign({}, r, patch) : r; }) });
     }
 
-    var errors = 0, hours = 0, active = 0;
+    var errors = 0, hours = 0, active = 0, comps = 0;
     var rows = s.rows.map(function (r) {
       var res = self.evaluate(r.expr, vars);
       var applies = !r.cond || s[r.cond.k] === r.cond.v;
       if (res.error) errors++;
-      if (applies && !res.error) { active++; if (r.unit === 'h') hours += res.value; }
+      if (applies && !res.error) { active++; if (r.unit === 'h' && !r.cond) hours += res.value; if (r.comp) comps++; }
       return {
         label: r.label,
         kind: r.kind,
         expr: r.expr,
         unit: r.unit,
         cost: r.cost,
-        source: r.source,
+        source: r.art ? 'PHC ' + r.art[s.tMat] + ' (' + MAT[s.tMat] + ') · atualizado [data]' : r.source,
         sourceStyle: 'display: block; font-size: 13px; ' + (r.review ? 'color: #8A5A00; font-weight: 700' : 'color: #5A5F66'),
         inputId: 'expr-' + r.id,
         inputLabel: 'Quantidade de ' + r.label,
@@ -430,7 +453,7 @@ class Component extends DCLogic {
       keepKr: function () { self.setState({ krPending: false }); },
       showChecklist: s.status === 'rascunho',
       checks: checks.map(function (c) {
-        return { label: c.label, mark: c.ok ? '✓' : '✗', style: c.ok ? 'color: #1E5B2C' : 'color: #8C1D17; font-weight: 600' };
+        return { label: c.label, ok: c.ok, notOk: !c.ok, sr: c.ok ? 'Cumprido: ' : 'Em falta: ', style: c.ok ? 'color: #1E5B2C' : 'color: #8C1D17; font-weight: 600' };
       }),
       compare: ['3,5 × 1,8 m, lacado, motor', '5 × 2 m, galvanizado', '2,5 × 1,5 m, lacado'].map(function (label, i) {
         var v = s.cmp[i];
@@ -443,7 +466,10 @@ class Component extends DCLogic {
       hasErrors: errors > 0,
       hoursText: fmt(hours) + ' h',
       activeText: active + ' de ' + s.rows.length + ' linhas aplicam-se a esta configuração.',
-      tL: s.tL, tH: s.tH, tAc: s.tAc, tMot: s.tMot, tInst: s.tInst,
+      tL: s.tL, tH: s.tH, tMat: s.tMat, tAc: s.tAc, tMot: s.tMot, tInst: s.tInst,
+      matName: MAT[s.tMat],
+      hasComponents: comps > 0,
+      onMat: function (e) { self.setState({ tMat: e.target.value }); },
       onL: function (e) { self.setState({ tL: e.target.value }); },
       onH: function (e) { self.setState({ tH: e.target.value }); },
       onAc: function (e) { self.setState({ tAc: e.target.value }); },
@@ -452,7 +478,7 @@ class Component extends DCLogic {
 
       addMaterial: function () { add('Material', 'm', 'Novo material', '[€/m]', 'Escolher artigo do PHC'); },
       addLabour: function () { add('Mão de obra', 'h', 'Nova mão de obra', '[€/h]', 'Custo/hora da oficina'); },
-      addFixed: function () { add('Custo fixo', 'un', 'Novo custo fixo', '[€]', 'Valor fixo'); },
+      addFixed: function () { add('Componente', 'un', 'Novo componente', '[€] preço de venda', 'Escolher componente'); },
 
       statusLabel: st.label,
       statusStyle: 'display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 2px; font-size: 14px; font-weight: 700; ' + st.style,
