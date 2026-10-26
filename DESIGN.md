@@ -136,12 +136,12 @@ Em mobile, os títulos de 64/44/40px descem (usar `clamp()`), nunca ficam fixos.
 
 Ficheiros em `public/brand/`, redesenhados em SVG a 2026-10-26 a partir do único original que existe (JPEG); **a validar com o Bruno**.
 
-| Ficheiro                      | Uso                                                                                |
-| ----------------------------- | ---------------------------------------------------------------------------------- |
-| `habinox-logo.svg`            | Logótipo completo, com "Trabalhos e soluções em inox" (rodapé, documentos, emails) |
-| `habinox-logo-sem-slogan.svg` | Cabeçalho da loja e do backoffice                                                  |
-| `habinox-simbolo.svg`         | Só o símbolo (favicon, ícone da app, espaços pequenos)                             |
-| `habinox-logo-branco.svg`     | Sobre fundos escuros (faixa Pro, backoffice)                                       |
+| Ficheiro                      | Uso                                                                                                                                                    |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `habinox-logo.svg`            | Logótipo completo, com "Trabalhos e soluções em inox" (documentos, emails, cartazes); só a partir de ~100px de altura, abaixo disso o slogan não se lê |
+| `habinox-logo-sem-slogan.svg` | Cabeçalho e rodapé da loja, backoffice (28px no cabeçalho)                                                                                             |
+| `habinox-simbolo.svg`         | Só o símbolo (favicon = `src/app/icon.svg`, espaços pequenos)                                                                                          |
+| `habinox-logo-branco.svg`     | Sobre fundos escuros (faixa Pro, backoffice)                                                                                                           |
 
 - Cores do logótipo: azul `#2005A2` (= `accent`) e cinzento `#8D8F8C`. O cinzento fica a ~3:1 sobre `canvas`: aceitável num logótipo, nunca para texto.
 - Altura mínima do logótipo sem slogan: 24px; abaixo disso, usar o símbolo. Não deformar, não recolorir além da versão branca, não pôr sobre fotografia sem fundo liso.

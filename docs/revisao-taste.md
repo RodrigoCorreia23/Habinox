@@ -29,7 +29,7 @@ A maior parte das falhas do inspetor são proibições da casa da skill que cont
 | P2   | **Transbordo:** fórmula sai 74 px para o lado a 768 px; carrinho e checkout com margens desiguais a 390 px                                                                                                                   | ✅     |
 | P2   | **Símbolos ✓ ✗** nas fórmulas e no produto, em vez de ícones de traço fino                                                                                                                                                   | ✅     |
 | P3   | **Nenhuma fotografia** em nenhum ecrã. Os desenhos cotados ficam (são a assinatura), mas a página inicial precisa de fotos reais de obras e da oficina → pedir ao Bruno                                                      | ⏳     |
-| P3   | **Logótipo** escrito em texto no cabeçalho → trocar pelo logótipo quando chegar o vetor                                                                                                                                      | ⏳     |
+| P3   | **Logótipo** escrito em texto no cabeçalho → redesenhado em SVG e aplicado nos wireframes e na app (2026-10-26)                                                                                                              | ✅     |
 
 ## As três mudanças com mais efeito
 

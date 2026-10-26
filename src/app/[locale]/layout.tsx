@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -31,8 +32,14 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
         <NextIntlClientProvider>
           <header className="border-b">
             <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-              <Link href="/" className="font-semibold tracking-tight">
-                Habinox
+              <Link href="/" className="flex min-h-11 items-center">
+                <Image
+                  src="/brand/habinox-logo-sem-slogan.svg"
+                  alt="Habinox"
+                  width={146}
+                  height={28}
+                  priority
+                />
               </Link>
               <Link href="/conta" className="text-sm">
                 {t("account")}

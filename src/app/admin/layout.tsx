@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { fontVariables } from "@/lib/fonts";
 import { requireAdmin } from "@/server/auth/session";
 import "../globals.css";
@@ -17,7 +18,8 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
     <html lang="pt" className={`${fontVariables} h-full antialiased`}>
       <body className="flex min-h-full">
         <aside className="w-56 shrink-0 border-r px-4 py-4">
-          <p className="font-semibold tracking-tight">Backoffice</p>
+          <Image src="/brand/habinox-logo-sem-slogan.svg" alt="Habinox" width={125} height={24} />
+          <p className="mt-2 font-semibold tracking-tight">Backoffice</p>
           <p className="text-muted-foreground mt-1 truncate text-xs">{session.user.email}</p>
         </aside>
         <div className="flex flex-1 flex-col">{children}</div>
