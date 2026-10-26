@@ -2,13 +2,13 @@
 
 > Documento vivo. **Atualizar no fim de cada sessão de trabalho** (secções 2, 6 e 7).
 > O `CLAUDE.md` tem o contexto de negócio, as decisões e as regras; este ficheiro tem
-> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-10-22.
+> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-10-26.
 
 ---
 
 ## 1. Resumo rápido
 
-- **Fase atual:** esqueleto técnico feito (passos 1–6 de 7). **Fase 0 em curso**: o Bruno já respondeu às regras comerciais e enviou 4 orçamentos reais (`docs/fase-0.md`, `docs/orcamentos-analise.md`); 14 wireframes com a marca **Habinox** e o azul do logótipo. Falta: como o Bruno faz o preço de cada produto-piloto (guarda, escada, chaminé), zonas/preços de instalação e transporte, capacidade de produção, logótipo em vetor, validação dos wireframes; e o deploy (passo 7).
+- **Fase atual:** esqueleto técnico feito (passos 1–6 de 7). **Fase 0 quase fechada**: as regras de preço, pagamento, IVA e transporte estão todas respondidas pelo Bruno (`docs/fase-0.md`, respostas de 14/10 e 26/10); 14 wireframes com a marca **Habinox**, o azul do logótipo e duas revisões feitas. Falta: o Bruno rever os wireframes (partilhar o canvas), fotografias de obras e da oficina, logótipo em SVG (redesenhar a partir do JPEG), mockup final, contrato assinado; e o deploy (passo 7). Depois: fase 1 a começar por `lib/money` + `lib/pricing`.
 - **Cliente:** marca **HABINOX®** (não "Abinox"), Bruno Miguel Freitas, Lda, Núcleo Industrial de Antas, 4740-016 Antas, **Esposende**. Domínio `habinox.pt`, email `geral@habinox.pt`.
 - **Repositório:** `github.com/RodrigoCorreia23/Habinox`, ramo `main`. CI no GitHub Actions verde.
 - **Nada de lógica de negócio ainda** (catálogo, preços, PHC, encomendas): só infraestrutura, autenticação e páginas placeholder.
@@ -55,6 +55,8 @@
 | `dad3492` docs: estado do projeto            | Atualização deste ficheiro (respostas do Bruno, marca, acento; email e fatura enviados)                                                                                                                                                                          |
 | `536d9cd` chore: skill taste                 | Skill `design-taste-frontend` no projeto e global (ver secção 4)                                                                                                                                                                                                 |
 | `67dcf05` docs: revisão taste                | Revisão dos wireframes com a skill taste (`docs/revisao-taste.md`) e correções P1/P2: fórmula com o modelo do Bruno, desenho do configurador fixo ao scroll e botão ativo, página inicial (grelha 3 colunas, menu no telemóvel), tipografia, transbordos, ícones |
+| `4512c1d` docs: estado do projeto            | Atualização deste ficheiro com a revisão taste                                                                                                                                                                                                                   |
+| `c0ed8ef` docs: respostas de 26/10           | Respostas do Bruno de 26/10 em `docs/fase-0.md`; editor de fórmulas sem arredondamento e com "preço com IVA"; checkout com a regra 50/50 acima de 1 000 €                                                                                                        |
 
 Regras do motor de preços que saíram dos orçamentos e das respostas (detalhe em `docs/fase-0.md` e `docs/orcamentos-analise.md`):
 
@@ -232,12 +234,15 @@ Notas:
 
 - **Ver `docs/fase-0.md`**: decisões já tomadas, perguntas para o Bruno (blocos A–J, perguntas 1–50) e checklist de entregáveis.
 - **Respostas do Bruno (2026-10-14)** registadas em `docs/fase-0.md`; 4 orçamentos reais analisados em `docs/orcamentos-analise.md` (chaminé, escada, 2 guardas → passam a ser os produtos-piloto). Os Excel estão com o Rodrigo, fora do git.
-- **Email enviado ao Bruno (2026-10-22)** com o que falta (à espera de resposta):
-  1. como faz o preço de cada produto-piloto (por metro / degrau / peça), o que leva uma unidade (materiais, quantidades, horas) e o que faz o preço mudar — pede-se a **composição de uma unidade**, não preço fixo por metro, para os custos continuarem a vir do PHC;
-  2. regra dos consumíveis (10% ou 15%?), margem fixa ou por produto, arredondamento, limite dos 1 000 € com ou sem IVA e se inclui instalação;
-  3. tabela de zonas com preço para instalação e transporte;
-  4. capacidade de produção mensal por produto;
-  5. logótipo em vetor (só há JPEG).
+- **Email enviado ao Bruno (2026-10-22); resposta a 2026-10-26**, completada por decisões do Rodrigo (tudo em `docs/fase-0.md`):
+  - preço no formato do Excel: componentes ao metro linear, m² ou unidade; é o **Bruno que define linhas, quantidades e valores ao criar cada produto** no backoffice (já não se pedem medidas nem composições);
+  - consumíveis em % e margem **por produto**;
+  - pagamento: **acima de 1 000 € com IVA → 50% na adjudicação + 50% no despacho**; até 1 000 € → total (substitui os 40/60 de 14/10);
+  - **preços sempre mostrados com IVA**; IVA calculado uma vez sobre o total; **sem arredondamentos**;
+  - instalação à parte;
+  - transporte por **m³ × km**, com valores definidos pelo Bruno no backoffice; a distância recomendada = códigos postais com coordenadas × fator de estrada (decidir na fase 1B);
+  - capacidade de produção: basta o campo no backoffice (simular com valores de exemplo);
+  - logótipo só existe em JPEG → redesenhar em SVG e validar com o Bruno.
 - Erros nas folhas Excel do Bruno (soma que ignora a linha 10, títulos "15%"/"5 sectores" que não batem) **não** foram incluídos no email; estão em `docs/orcamentos-analise.md`.
 - ✅ Fatura dos **50% da fase 0** enviada para `geral@habinox.pt` (2026-10-22). ⏳ **Contrato por assinar** (vai ser assinado pessoalmente).
 - Falta contactar o privado que aloja o site atual (bloco H: domínio, DNS, email, conteúdo).
