@@ -1,0 +1,129 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-26T18:30:00Z"
+  },
+  "title": "Mockup — Loja Habinox",
+  "launch": {
+    "view": "canvas"
+  },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 5590,
+      "title": "Página inicial",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Configurador.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 3080,
+      "title": "Configurador — Portão de correr",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Mobile-Inicio.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 390,
+      "h": 11110,
+      "title": "Página inicial — telemóvel",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Mobile-Configurador.dc.html": {
+      "x": 3510,
+      "y": 0,
+      "w": 390,
+      "h": 4850,
+      "title": "Configurador — telemóvel",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Escuro-Inicio.dc.html": {
+      "x": 4560,
+      "y": 0,
+      "w": 1440,
+      "h": 5610,
+      "title": "Página inicial — escuro 60/30/10",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Escuro-Configurador.dc.html": {
+      "x": 6080,
+      "y": 0,
+      "w": 1440,
+      "h": 3140,
+      "title": "Configurador — escuro 60/30/10",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Escuro-Mobile-Inicio.dc.html": {
+      "x": 7600,
+      "y": 0,
+      "w": 390,
+      "h": 11160,
+      "title": "Página inicial — escuro, telemóvel",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Escuro-Mobile-Configurador.dc.html": {
+      "x": 8070,
+      "y": 0,
+      "w": 390,
+      "h": 4910,
+      "title": "Configurador — escuro, telemóvel",
+      "expand": "fill",
+      "is_interactive": true
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Configurador.dc.html",
+    "Mobile-Inicio.dc.html",
+    "Mobile-Configurador.dc.html",
+    "Escuro-Inicio.dc.html",
+    "Escuro-Configurador.dc.html",
+    "Escuro-Mobile-Inicio.dc.html",
+    "Escuro-Mobile-Configurador.dc.html"
+  ],
+  "notes": {
+    "n1": {
+      "x": 0,
+      "y": -420,
+      "text": "Versão clara",
+      "kind": "title1",
+      "maxW": 3900
+    },
+    "n2": {
+      "x": 3980,
+      "y": 0,
+      "w": 420,
+      "text": "Para validar com o Bruno:\n\n• Fotografias: obras reais tiradas do site atual (habinox.pt). Servem fotos mais recentes e de maior resolução, sobretudo de guardas, chaminés e caixas de correio.\n• Preços: calculados ao vivo com valores DE EXEMPLO (não são os custos da Habinox). No site real vêm das fórmulas que o Bruno cria no backoffice.\n• Prazo de fabrico: exemplo; no site é calculado pela capacidade de produção.\n• Logótipo: redesenhado em SVG a partir do JPEG — confirmar cores.\n• Textos da empresa: adaptados do site atual (desde 2005, equipamento, Núcleo Industrial de Antas).",
+      "size": "m",
+      "fill": "orange"
+    },
+    "n3": {
+      "x": 4560,
+      "y": -420,
+      "text": "Versão escura — regra 60/30/10",
+      "kind": "title1",
+      "maxW": 3900
+    },
+    "n4": {
+      "x": 8540,
+      "y": 0,
+      "w": 420,
+      "size": "m",
+      "fill": "blue",
+      "text": "Regra 60/30/10 (pedido do Bruno: captar o olho com neutros escuros):\n\n• 60% grafite #1F2225 — fundo, cabeçalho, faixas, rodapé.\n• 30% pedra #E4E1DA — cartões de produto, painéis do configurador, faixa Pro, contactos.\n• 10% azul do logótipo #2005A2 — só dentro da pedra: botões Configurar, cotas, preço.\n\nO azul nunca fica sobre o grafite: o contraste entre os dois é 1,37:1 (invisível). Por isso o logótipo aparece em branco e o botão principal do topo é cor de pedra."
+    }
+  },
+  "designSystems": []
+}

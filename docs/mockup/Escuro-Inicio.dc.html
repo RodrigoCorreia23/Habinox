@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Habinox — Página inicial (escuro)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#1F2225;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#F2F0EB;-webkit-font-smoothing:antialiased}
+::selection{background:#E4E1DA;color:#15171A}
+a{color:#F2F0EB;text-decoration:none;text-underline-offset:4px}
+a:hover{color:#FFFFFF;text-decoration:underline}
+.stone a{color:#15171A}
+.stone a:hover{color:#2005A2}
+.btn:hover,.btn-stone:hover,.btn-accent:hover,.card-link:hover{text-decoration:none}
+.btn-accent:hover{background:#18047A!important;color:#FFFFFF!important}
+.btn-stone:hover{background:#FFFFFF!important;color:#15171A!important}
+.btn:hover{background:#F2F0EB!important;color:#15171A!important}
+.btn-ink:hover{background:#15171A!important;color:#FFFFFF!important}
+:focus-visible{outline:2px solid #FFFFFF;outline-offset:2px}
+.stone :focus-visible{outline-color:#15171A}
+h1,h2,h3{font-family:'Archivo',system-ui,sans-serif;font-weight:600}
+h1,h2{text-wrap:balance}
+p{text-wrap:pretty}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.wrap{padding-left:80px;padding-right:80px}
+.hero-title{font-size:64px}
+.cat-bar a{border-right:1px solid #33373D}
+.cat-bar a:last-child{border-right:0}
+.prod-card img,.work img{transition:transform .5s cubic-bezier(.16,1,.3,1)}
+@media (prefers-reduced-motion: reduce){.work img{transition:none}}
+.work:hover img{transform:scale(1.03)}
+@media (max-width: 1100px){
+  .prod-grid{grid-template-columns:repeat(2, minmax(0, 1fr))!important}
+  .works{grid-template-columns:repeat(2, minmax(0, 1fr))!important}
+  .works .work-big{grid-column:span 2!important;grid-row:auto!important}
+}
+@media (max-width: 900px){
+  .wrap{padding-left:16px!important;padding-right:16px!important}
+  .hero-title{font-size:clamp(34px, 9vw, 44px)}
+  .h2-big{font-size:clamp(28px, 7.4vw, 40px)!important}
+  .main-nav,.head-phone{display:none!important}
+  .menu-btn{display:flex!important}
+  .hero-card{position:static!important;width:auto!important;margin-top:-1px!important;box-shadow:none!important}
+  .hero-cap{padding-left:0!important;text-align:left!important}
+  .cat-bar{grid-template-columns:repeat(2, minmax(0, 1fr))!important}
+  .cat-bar a{border-bottom:1px solid #33373D;padding-left:0!important;padding-right:16px!important}
+  .cat-bar a:nth-child(2n){border-right:0;padding-left:16px!important}
+  .two-col{grid-template-columns:minmax(0, 1fr)!important;gap:40px!important}
+  .steps{grid-template-columns:minmax(0, 1fr)!important}
+  .sec{padding-top:72px!important}
+  .contact-card{position:static!important;width:auto!important;margin:0!important}
+  .contact-photo{height:220px!important}
+}
+@media (max-width: 640px){
+  .prod-grid,.works{grid-template-columns:minmax(0, 1fr)!important}
+  .works .work-big{grid-column:auto!important}
+  .entrar-label{display:none}
+}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #1F2225; display: flex; flex-direction: column">
+
+  <header class="wrap" style="min-height: 76px; box-sizing: border-box; padding: 0 80px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 32px; border-bottom: 1px solid #33373D">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 48px">
+      <a href="Escuro-Inicio.dc.html" aria-current="page" aria-label="Habinox, página inicial" style="display: flex; align-items: center; min-height: 44px"><img src="/_blob/8ea8da606b3ba2bba359eb9ae50b3951" alt="Habinox" width="146" height="28" style="display: block; height: 28px; width: auto"></a>
+      <nav class="main-nav" aria-label="Principal" style="display: flex; flex-wrap: wrap; gap: 4px 28px; font-size: 15px; font-weight: 500">
+        <a href="#produtos" style="display: flex; align-items: center; min-height: 44px">Produtos</a>
+        <a href="#como" style="display: flex; align-items: center; min-height: 44px">Como funciona</a>
+        <a href="#obras" style="display: flex; align-items: center; min-height: 44px">Obras</a>
+        <a href="#pro" style="display: flex; align-items: center; min-height: 44px">Área Pro</a>
+        <a href="#contactos" style="display: flex; align-items: center; min-height: 44px">Contactos</a>
+      </nav>
+    </div>
+    <div style="display: flex; align-items: center; gap: 4px">
+      <a class="head-phone mono" href="tel:+351253873429" style="height: 44px; padding: 0 12px; display: flex; align-items: center; gap: 8px; font-size: 14px; color: #B9BDC2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2"></path></svg>253 873 429</a>
+      <button type="button" class="menu-btn" aria-label="Abrir o menu" style="display: none; align-items: center; height: 44px; padding: 0 14px; border: 1px solid #F2F0EB; border-radius: 2px; background: transparent; font-family: inherit; font-size: 15px; font-weight: 500; color: #F2F0EB; cursor: pointer">Menu</button>
+      <a href="#" style="height: 44px; padding: 0 12px; display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 500" aria-label="Entrar na conta"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg><span class="entrar-label">Entrar</span></a>
+      <a class="btn-stone" href="#" style="height: 44px; padding: 0 16px; display: flex; align-items: center; gap: 10px; background: #E4E1DA; color: #15171A; font-size: 15px; font-weight: 500; border-radius: 2px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16l-1.5 12h-13z"></path><path d="M9 7V5a3 3 0 0 1 6 0v2"></path></svg>Pedido <span class="mono" style="font-size: 14px">0</span></a>
+    </div>
+  </header>
+
+  <main style="display: flex; flex-direction: column">
+
+    <section class="wrap two-col" style="padding: 80px 80px 112px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; align-items: center">
+      <div style="display: flex; flex-direction: column; gap: 28px">
+        <h1 class="hero-title" style="margin: 0; line-height: 1.04; letter-spacing: -0.02em; color: #FFFFFF">Configure à medida.<br>Veja o preço na hora.</h1>
+        <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #B9BDC2; max-width: 34em">Portões, escadas, guardas e chaminés feitos por medida na nossa oficina, em Esposende. Indique as medidas, o material e a cor: o preço aparece logo, com IVA.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 4px">
+          <a class="btn-stone" href="Escuro-Configurador.dc.html" style="height: 52px; padding: 0 28px; display: flex; align-items: center; gap: 10px; background: #E4E1DA; color: #15171A; font-weight: 600; font-size: 16px; border-radius: 2px">Configurar um portão</a>
+          <a class="btn" href="#produtos" style="height: 52px; padding: 0 28px; display: flex; align-items: center; border: 1px solid #F2F0EB; font-weight: 500; font-size: 16px; border-radius: 2px">Ver todos os produtos</a>
+        </div>
+        <p style="margin: 8px 0 0; padding-top: 20px; border-top: 1px solid #33373D; font-size: 15px; line-height: 1.55; color: #9AA0A6; max-width: 34em">Trabalhamos o inox desde <span class="mono" style="color: #F2F0EB">2005</span>. Hoje também ferro e alumínio, com corte, quinagem e soldadura na mesma oficina.</p>
+      </div>
+
+      <figure style="margin: 0; position: relative">
+        <div style="position: relative; aspect-ratio: 4 / 3; background: #2A2E32; border-radius: 2px; overflow: hidden">
+          <img src="/_blob/7d32345dadda073ee271c5f4a99d07b2" alt="Portão de correr com painéis lacados imitação madeira e portão pedonal, à entrada de uma moradia" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block">
+          <svg viewBox="0 0 800 600" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true">
+            <g fill="none" stroke-linecap="square">
+              <path d="M252 356V398M672 356V398M252 386H672M682 183H742M682 348H742M732 183V348" stroke="#FFFFFF" stroke-width="4" opacity="0.85"></path>
+              <path d="M252 356V398M672 356V398M252 386H672M682 183H742M682 348H742M732 183V348" stroke="#2005A2" stroke-width="1.6"></path>
+              <path d="M246 392L258 380M666 392L678 380M726 189L738 177M726 354L738 342" stroke="#2005A2" stroke-width="2"></path>
+            </g>
+          </svg>
+          <span class="mono" style="position: absolute; left: 57.75%; top: 64.3%; transform: translate(-50%, -50%); background: #FFFFFF; color: #2005A2; font-size: 13px; font-weight: 500; padding: 4px 8px; border-radius: 2px; white-space: nowrap">L 4 000 mm</span>
+          <span class="mono" style="position: absolute; left: 91.5%; top: 44%; transform: translate(-50%, -50%) rotate(-90deg); background: #FFFFFF; color: #2005A2; font-size: 13px; font-weight: 500; padding: 4px 8px; border-radius: 2px; white-space: nowrap">A 1 600 mm</span>
+        </div>
+        <div class="hero-card stone" style="position: absolute; left: -40px; bottom: -56px; width: 300px; background: #E4E1DA; color: #15171A; box-shadow: 0 16px 40px rgba(0,0,0,0.35); padding: 20px; display: flex; flex-direction: column; gap: 10px">
+          <span style="font-size: 13px; color: #4A4F56">Portão de correr, por exemplo</span>
+          <span style="display: flex; flex-direction: column; font-size: 14px">
+            <span style="display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid #CFCBC3"><span style="color: #4A4F56">Medidas</span><span class="mono">4 000 × 1 600 mm</span></span>
+            <span style="display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid #CFCBC3"><span style="color: #4A4F56">Material</span><span>Ferro lacado</span></span>
+            <span style="display: flex; justify-content: space-between; align-items: center; padding: 7px 0"><span style="color: #4A4F56">Cor</span><span style="display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="width: 12px; height: 12px; background: #383E42; display: inline-block; border-radius: 1px"></span><span class="mono">RAL 7016</span></span></span>
+          </span>
+          <span style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 10px; border-top: 1px solid #15171A">
+            <span style="font-size: 14px; font-weight: 500">Com IVA</span>
+            <span style="font-family: Archivo, sans-serif; font-weight: 600; font-size: 24px; font-variant-numeric: tabular-nums">2 786,43 €</span>
+          </span>
+          <a class="btn-accent" href="Escuro-Configurador.dc.html" style="margin-top: 4px; height: 44px; display: flex; align-items: center; justify-content: center; background: #2005A2; color: #FFFFFF; font-size: 15px; font-weight: 600; border-radius: 2px">Mudar as medidas</a>
+        </div>
+        <figcaption class="hero-cap" style="margin-top: 12px; padding-left: 290px; font-size: 13px; line-height: 1.45; color: #9AA0A6; text-align: right">Portão de correr e portão pedonal fabricados pela Habinox.</figcaption>
+      </figure>
+    </section>
+
+    <nav aria-label="Categorias" class="wrap cat-bar" style="background: #171A1C; padding: 0 80px; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid #33373D; border-bottom: 1px solid #33373D">
+      <sc-for list="{{categories}}" as="c" hint-placeholder-count="6">
+        <a href="{{c.href}}" style="{{c.style}}">{{c.name}} <span class="mono" style="font-size: 13px; color: #9AA0A6">{{c.n}}</span></a>
+      </sc-for>
+    </nav>
+
+    <section id="produtos" class="wrap sec" style="padding: 104px 80px 0; display: flex; flex-direction: column; gap: 40px">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+        <div style="display: flex; flex-direction: column; gap: 12px; max-width: 640px">
+          <h2 class="h2-big" style="margin: 0; font-size: 40px; line-height: 1.1; letter-spacing: -0.01em; color: #FFFFFF">O que quer fabricar?</h2>
+          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #B9BDC2">Cada produto tem medidas mínimas e máximas, materiais e cores. O desenho mostra a peça tal como sai da oficina.</p>
+        </div>
+        <a href="#" style="font-size: 15px; font-weight: 500; display: flex; align-items: center; min-height: 44px; text-decoration: underline">Ver todos os produtos</a>
+      </div>
+      <div class="prod-grid" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+        <sc-for list="{{products}}" as="p" hint-placeholder-count="6">
+          <article class="prod-card stone" style="background: #E4E1DA; color: #15171A; display: flex; flex-direction: column">
+            <div style="height: 280px; background: #D6D2CA; display: flex; align-items: center; justify-content: center; overflow: hidden">
+              <svg width="240" height="180" viewBox="0 0 240 180" fill="none" stroke="#15171A" stroke-width="1.5" aria-hidden="true"><path d="{{p.icon}}"></path><path d="{{p.dim}}" stroke="#2005A2" stroke-width="1.2"></path></svg>
+            </div>
+            <div style="padding: 24px; display: flex; flex-direction: column; gap: 16px; flex: 1">
+              <div style="display: flex; flex-direction: column; gap: 6px">
+                <div class="mono" style="font-size: 12px; letter-spacing: 0.08em; color: #4A4F56">{{p.cat}}</div>
+                <h3 style="margin: 0; font-size: 20px">{{p.name}}</h3>
+                <div style="font-size: 15px; line-height: 1.5; color: #4A4F56">{{p.detail}}</div>
+              </div>
+              <div style="margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-top: 16px; border-top: 1px solid #CFCBC3">
+                <span style="font-size: 14px; color: #4A4F56">{{p.range}}</span>
+                <a class="btn-accent" href="{{p.href}}" aria-label="{{p.aria}}" style="height: 44px; padding: 0 18px; display: flex; align-items: center; background: #2005A2; color: #FFFFFF; font-size: 15px; font-weight: 600; border-radius: 2px">Configurar</a>
+              </div>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+    <section id="como" class="wrap steps sec" style="padding: 112px 80px 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px">
+      <h2 style="margin: 0; font-size: 32px; line-height: 1.15; letter-spacing: -0.01em; color: #FFFFFF">Do modelo à encomenda.</h2>
+      <div style="border-top: 2px solid #E4E1DA; padding-top: 20px; display: flex; flex-direction: column; gap: 10px">
+        <div class="mono" style="font-size: 13px; color: #E4E1DA">01</div>
+        <h3 style="margin: 0; font-size: 20px">Escolha o modelo</h3>
+        <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #B9BDC2">Veja cada produto em desenho com medidas e em 3D, no material e na cor que escolher.</p>
+      </div>
+      <div style="border-top: 2px solid #E4E1DA; padding-top: 20px; display: flex; flex-direction: column; gap: 10px">
+        <div class="mono" style="font-size: 13px; color: #E4E1DA">02</div>
+        <h3 style="margin: 0; font-size: 20px">Indique as medidas</h3>
+        <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #B9BDC2">Largura, altura, material e cor. O preço muda a cada escolha, ao cêntimo e com IVA.</p>
+      </div>
+      <div style="border-top: 2px solid #E4E1DA; padding-top: 20px; display: flex; flex-direction: column; gap: 10px">
+        <div class="mono" style="font-size: 13px; color: #E4E1DA">03</div>
+        <h3 style="margin: 0; font-size: 20px">Encomende</h3>
+        <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #B9BDC2">Pague com cartão, MB WAY ou Multibanco. Acima de <span class="mono">1 000 €</span>, paga metade agora e metade antes do envio.</p>
+      </div>
+    </section>
+
+    <section class="wrap two-col sec" style="padding: 120px 80px 0; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 64px; align-items: start">
+      <div style="display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 16px; align-items: end">
+        <figure style="margin: 0">
+          <img src="/_blob/0f9942acf314d1269148d91d7d0f2c86" alt="Serralheiro a soldar uma peça em inox na oficina da Habinox" style="display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 2px; background: #2A2E32">
+          <figcaption style="margin-top: 10px; font-size: 13px; color: #9AA0A6">Soldadura TIG em inox.</figcaption>
+        </figure>
+        <figure style="margin: 0">
+          <img src="/_blob/de360302b7e4f926a6adc1de1556e010" alt="Bancada da oficina com máscaras de soldar, fita métrica e desenhos técnicos, junto à quinadora" style="display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 2px; background: #2A2E32">
+          <figcaption style="margin-top: 10px; font-size: 13px; color: #9AA0A6">Desenhos e medidas na bancada.</figcaption>
+        </figure>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 24px; padding-top: 8px">
+        <h2 class="h2-big" style="margin: 0; font-size: 40px; line-height: 1.1; letter-spacing: -0.01em; color: #FFFFFF">Feito na nossa oficina, em Esposende.</h2>
+        <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #B9BDC2">Cada peça é desenhada, cortada, quinada, soldada e acabada no Núcleo Industrial de Antas. Quando é preciso, vamos à obra medir e aconselhar.</p>
+        <dl style="margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 24px; font-size: 15px">
+          <dt style="padding: 14px 0; border-top: 1px solid #33373D; color: #9AA0A6">Projeto</dt>
+          <dd style="margin: 0; padding: 14px 0; border-top: 1px solid #33373D">Desenho em <span class="mono">2D</span> e <span class="mono">3D</span></dd>
+          <dt style="padding: 14px 0; border-top: 1px solid #33373D; color: #9AA0A6">Chapa</dt>
+          <dd style="margin: 0; padding: 14px 0; border-top: 1px solid #33373D">Corte <span class="mono">CNC</span>, corte e quinagem</dd>
+          <dt style="padding: 14px 0; border-top: 1px solid #33373D; color: #9AA0A6">Maquinação</dt>
+          <dd style="margin: 0; padding: 14px 0; border-top: 1px solid #33373D">Torno e fresa</dd>
+          <dt style="padding: 14px 0; border-top: 1px solid #33373D; border-bottom: 1px solid #33373D; color: #9AA0A6">Acabamento</dt>
+          <dd style="margin: 0; padding: 14px 0; border-top: 1px solid #33373D; border-bottom: 1px solid #33373D">Esmerilagem e polimento de perfis redondos e quadrados</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section id="obras" class="wrap sec" style="padding: 120px 80px 0; display: flex; flex-direction: column; gap: 40px">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+        <h2 class="h2-big" style="margin: 0; font-size: 40px; line-height: 1.1; letter-spacing: -0.01em; color: #FFFFFF">Obras que já fizemos.</h2>
+        <a href="#" style="font-size: 15px; font-weight: 500; display: flex; align-items: center; min-height: 44px; text-decoration: underline">Ver todas as obras</a>
+      </div>
+      <div class="works" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: auto; gap: 32px 24px">
+        <figure class="work work-big" style="margin: 0; grid-column: span 2; grid-row: span 2; display: flex; flex-direction: column">
+          <div style="overflow: hidden; border-radius: 2px; background: #2A2E32; flex: 1; min-height: 360px; position: relative"><img src="/_blob/d0792322cbc7a8d0c52a6aebc896e22b" alt="Portão de batente de duas folhas em inox escovado, com uma folha aberta" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block"></div>
+          <figcaption style="margin-top: 12px; display: flex; justify-content: space-between; gap: 12px; font-size: 15px"><span style="font-weight: 500">Portão de batente</span><span style="color: #9AA0A6">Inox escovado</span></figcaption>
+        </figure>
+        <sc-for list="{{works}}" as="w" hint-placeholder-count="4">
+          <figure class="work" style="margin: 0">
+            <div style="overflow: hidden; border-radius: 2px; background: #2A2E32"><img src="{{w.src}}" alt="{{w.alt}}" style="display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover"></div>
+            <figcaption style="margin-top: 12px; display: flex; justify-content: space-between; gap: 12px; font-size: 15px"><span style="font-weight: 500">{{w.name}}</span><span style="color: #9AA0A6; text-align: right">{{w.material}}</span></figcaption>
+          </figure>
+        </sc-for>
+      </div>
+    </section>
+
+    <section class="wrap sec" style="padding: 104px 80px 0">
+      <div style="border: 1px solid #3A3F44; padding: 36px 40px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px 32px">
+        <div style="display: flex; flex-direction: column; gap: 8px; max-width: 640px">
+          <h2 style="margin: 0; font-size: 24px; color: #FFFFFF">Precisa de outra peça?</h2>
+          <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #B9BDC2">Hottes, mesas, bases de duche, toalheiros, puxadores. Envie-nos um desenho, uma fotografia ou o projeto e fazemos o orçamento, sem compromisso.</p>
+        </div>
+        <a class="btn" href="#" style="height: 52px; padding: 0 28px; display: flex; align-items: center; border: 1px solid #F2F0EB; font-weight: 500; font-size: 16px; border-radius: 2px; white-space: nowrap">Pedir um orçamento</a>
+      </div>
+    </section>
+
+    <section id="pro" class="wrap two-col stone" style="margin-top: 120px; background: #E4E1DA; color: #15171A; padding: 96px 80px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; align-items: center">
+      <div style="display: flex; flex-direction: column; gap: 20px">
+        <h2 class="h2-big" style="margin: 0; font-size: 44px; line-height: 1.1; letter-spacing: -0.01em">Para instaladores, construtores e arquitetos.</h2>
+        <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #4A4F56; max-width: 520px">Configure as peças das suas obras com preço profissional e mande entregar na morada do seu cliente. O acesso é feito por convite.</p>
+        <a class="btn-accent" href="#" style="align-self: flex-start; margin-top: 8px; height: 52px; padding: 0 28px; display: flex; align-items: center; background: #2005A2; color: #FFFFFF; font-weight: 600; font-size: 16px; border-radius: 2px">Pedir acesso profissional</a>
+      </div>
+      <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column" role="list">
+        <li style="display: flex; gap: 24px; padding: 22px 0; border-top: 1px solid #C2BDB3"><span class="mono" style="font-size: 13px; color: #2005A2; padding-top: 3px">01</span><span style="font-size: 17px">Desconto profissional em todos os produtos</span></li>
+        <li style="display: flex; gap: 24px; padding: 22px 0; border-top: 1px solid #C2BDB3"><span class="mono" style="font-size: 13px; color: #2005A2; padding-top: 3px">02</span><span style="font-size: 17px">Orçamentos guardados e histórico por obra</span></li>
+        <li style="display: flex; gap: 24px; padding: 22px 0; border-top: 1px solid #C2BDB3"><span class="mono" style="font-size: 13px; color: #2005A2; padding-top: 3px">03</span><span style="font-size: 17px">Entrega na morada do seu cliente</span></li>
+        <li style="display: flex; gap: 24px; padding: 22px 0; border-top: 1px solid #C2BDB3; border-bottom: 1px solid #C2BDB3"><span class="mono" style="font-size: 13px; color: #2005A2; padding-top: 3px">04</span><span style="font-size: 17px">Ficheiros técnicos <span class="mono" style="font-size: 15px">STEP</span> e <span class="mono" style="font-size: 15px">IGES</span> de cada produto</span></li>
+      </ol>
+    </section>
+
+    <section id="contactos" class="wrap" style="padding: 0 80px">
+      <div style="position: relative; padding: 104px 0 0">
+        <div class="contact-photo" style="height: 440px; border-radius: 2px; overflow: hidden; background: #2A2E32"><img src="/_blob/9133f8a40e82c376c6398f3c162f701f" alt="Fachada das instalações da Habinox no Núcleo Industrial de Antas, em Esposende" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+        <div class="contact-card stone" style="position: absolute; right: 40px; bottom: 40px; width: 380px; background: #E4E1DA; color: #15171A; padding: 28px; display: flex; flex-direction: column; gap: 18px">
+          <h2 style="margin: 0; font-size: 24px">Visite a oficina.</h2>
+          <address style="font-style: normal; font-size: 15px; line-height: 1.6">Núcleo Industrial de Antas<br>4740-016 Antas, Esposende</address>
+          <dl style="margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 20px; font-size: 15px">
+            <dt style="padding: 10px 0; border-top: 1px solid #CFCBC3; color: #4A4F56">Telefone</dt>
+            <dd style="margin: 0; padding: 10px 0; border-top: 1px solid #CFCBC3"><a class="mono" href="tel:+351253873429">253 873 429</a></dd>
+            <dt style="padding: 10px 0; border-top: 1px solid #CFCBC3; color: #4A4F56">Telemóvel</dt>
+            <dd style="margin: 0; padding: 10px 0; border-top: 1px solid #CFCBC3"><a class="mono" href="tel:+351969413616">969 413 616</a></dd>
+            <dt style="padding: 10px 0; border-top: 1px solid #CFCBC3; color: #4A4F56">Email</dt>
+            <dd style="margin: 0; padding: 10px 0; border-top: 1px solid #CFCBC3"><a href="mailto:geral@habinox.pt">geral@habinox.pt</a></dd>
+            <dt style="padding: 10px 0; border-top: 1px solid #CFCBC3; border-bottom: 1px solid #CFCBC3; color: #4A4F56">GPS</dt>
+            <dd class="mono" style="margin: 0; padding: 10px 0; border-top: 1px solid #CFCBC3; border-bottom: 1px solid #CFCBC3; font-size: 14px">41.61266, −8.77526</dd>
+          </dl>
+          <a class="btn-ink" href="#" style="height: 44px; display: flex; align-items: center; justify-content: center; border: 1px solid #15171A; font-size: 15px; font-weight: 500; border-radius: 2px">Abrir no mapa</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap" style="margin-top: 104px; background: #171A1C; border-top: 1px solid #33373D; padding: 56px 80px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 40px; font-size: 15px; color: #B9BDC2">
+    <div style="display: flex; flex-direction: column; gap: 14px; max-width: 320px">
+      <img src="/_blob/8ea8da606b3ba2bba359eb9ae50b3951" alt="Habinox" width="135" height="26" style="display: block; align-self: flex-start; height: 26px; width: auto">
+      <span style="line-height: 1.6">Bruno Miguel Freitas, Lda<br>Núcleo Industrial de Antas, 4740-016 Antas, Esposende</span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 32px 56px">
+      <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-weight: 600; color: #FFFFFF">Produtos</span><a href="#">Portões</a><a href="#">Escadas</a><a href="#">Guardas</a><a href="#">Chaminés</a><a href="#">Caixas de correio</a></div>
+      <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-weight: 600; color: #FFFFFF">Empresa</span><a href="#">Sobre nós</a><a href="#obras">Obras</a><a href="#pro">Área Pro</a></div>
+      <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-weight: 600; color: #FFFFFF">Contactos</span><a class="mono" href="tel:+351253873429">253 873 429</a><a class="mono" href="tel:+351969413616">969 413 616</a><a href="mailto:geral@habinox.pt">geral@habinox.pt</a></div>
+      <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-weight: 600; color: #FFFFFF">Legal</span><a href="#">Termos e condições</a><a href="#">Privacidade</a><a href="#">Cookies</a><a href="#">Livro de Reclamações</a><a href="#">Resolução de litígios</a></div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":5610}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var CATS = [
+      ['Portões', 'Escuro-Configurador.dc.html'], ['Escadas', '#'], ['Guardas', '#'],
+      ['Chaminés', '#'], ['Chapéus de chaminé', '#'], ['Caixas de correio', '#']
+    ];
+    return {
+      categories: CATS.map(function (c, i) {
+        return {
+          name: c[0], href: c[1], n: '0' + (i + 1),
+          style: 'padding: 24px 20px; min-height: 44px; font-size: 15px; font-weight: 500; display: flex; justify-content: space-between; align-items: center; gap: 12px' +
+            (i === 0 ? '; padding-left: 0' : '') + (i === CATS.length - 1 ? '; padding-right: 0' : '')
+        };
+      }),
+      products: [
+        { cat: 'PORTÕES', name: 'Portão de correr', detail: 'Inox, ferro ou alumínio. Motor opcional.', range: 'Até 6 000 mm', href: 'Escuro-Configurador.dc.html', aria: 'Configurar o portão de correr',
+          icon: 'M20 40h170v104H20zM20 50h170M20 134h170M38 50v84M56 50v84M74 50v84M92 50v84M110 50v84M128 50v84M146 50v84M164 50v84M8 152h224M196 32h12v120h-12z',
+          dim: 'M20 166h170M20 160v12M190 160v12' },
+        { cat: 'PORTÕES', name: 'Portão de batente', detail: 'Uma ou duas folhas, com ou sem pedonal.', range: 'Até 5 000 mm', href: '#', aria: 'Configurar o portão de batente',
+          icon: 'M30 30h90v120H30zM120 30h90v120h-90zM30 46h180M30 134h180M48 46v88M66 46v88M84 46v88M102 46v88M138 46v88M156 46v88M174 46v88M192 46v88M18 22h12v136H18zM210 22h12v136h-12z',
+          dim: 'M30 168h180M30 162v12M210 162v12' },
+        { cat: 'ESCADAS', name: 'Escada reta', detail: 'Viga central ou laterais, degraus em madeira ou chapa.', range: 'Até 4 000 mm de altura', href: '#', aria: 'Configurar a escada reta',
+          icon: 'M30 160h36v-22h32v-22h32v-22h32v-22h32v-22h26M30 160L218 34M48 116L212 8',
+          dim: 'M226 34v126M220 34h12M220 160h12' },
+        { cat: 'GUARDAS', name: 'Guarda-corpo', detail: 'Inox ou ferro, com varões, cabos ou vidro.', range: 'Ao metro linear', href: '#', aria: 'Configurar o guarda-corpo',
+          icon: 'M16 140h208M16 52h208M16 140V52M224 140V52M16 40h208M44 52v88M72 52v88M100 52v88M128 52v88M156 52v88M184 52v88M212 52v88',
+          dim: 'M16 158h208M16 152v12M224 152v12' },
+        { cat: 'CHAPÉUS DE CHAMINÉ', name: 'Chapéu de chaminé', detail: 'Inox, para secção redonda ou quadrada.', range: 'Secção à medida', href: '#', aria: 'Configurar o chapéu de chaminé',
+          icon: 'M60 70L120 30L180 70ZM72 70v22M168 70v22M72 92h96M100 92h40v68h-40zM96 70h48',
+          dim: 'M100 172h40M100 166v12M140 166v12' },
+        { cat: 'CAIXAS DE CORREIO', name: 'Caixa de correio', detail: 'Inox, encastrada no muro ou de parede.', range: 'À medida do muro', href: '#', aria: 'Configurar a caixa de correio',
+          icon: 'M70 26h100v124H70zM86 52h68M70 40h100M84 76h72v58H84z',
+          dim: 'M70 164h100M70 158v12M170 158v12' }
+      ],
+      works: [
+        { src: '/_blob/eaf109247e753c5ae323bd4006762199', alt: 'Escada em caracol com degraus de madeira e estrutura metálica, vista de cima', name: 'Escada em caracol', material: 'Inox e madeira' },
+        { src: '/_blob/8da9eb71bee51a26d490c138275585a9', alt: 'Hotte de cozinha em inox escovado sobre bancada de granito', name: 'Hotte de cozinha', material: 'Inox escovado' },
+        { src: '/_blob/ea1ac8be6e5cc36387ea286df2753f3a', alt: 'Escada com viga central em inox e degraus de madeira encastrados na parede', name: 'Escada de viga central', material: 'Inox e madeira' },
+        { src: '/_blob/be29ecea02f0c324a30a94f7be7f61a7', alt: 'Portões de correr e pedonal com painéis imitação madeira, entre pilares de granito', name: 'Portões de correr', material: 'Lacado madeira' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
