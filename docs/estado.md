@@ -8,7 +8,7 @@
 
 ## 1. Resumo rápido
 
-- **Fase atual:** esqueleto técnico feito (passos 1–6 de 7). **Fase 0 quase fechada**: as regras de preço, pagamento, IVA e transporte estão todas respondidas pelo Bruno (`docs/fase-0.md`, respostas de 14/10 e 26/10); 14 wireframes com a marca **Habinox**, o azul do logótipo e duas revisões feitas. Falta: o Bruno rever os wireframes (partilhar o canvas), fotografias de obras e da oficina, logótipo em SVG (redesenhar a partir do JPEG), mockup final, contrato assinado; e o deploy (passo 7). Depois: fase 1 a começar por `lib/money` + `lib/pricing`.
+- **Fase atual:** esqueleto técnico feito (passos 1–6 de 7). **Fase 0 quase fechada**: as regras de preço, pagamento, IVA e transporte estão todas respondidas pelo Bruno (`docs/fase-0.md`, respostas de 14/10 e 26/10); 14 wireframes com a marca **Habinox**, o azul do logótipo e duas revisões feitas. Logótipo redesenhado em SVG (`public/brand/`) e aplicado na app e nos wireframes; **mockup final feito** (`docs/mockup/`, modo claro e escuro, com fotografias reais de obras) e email ao Bruno escrito. Falta: o Bruno aprovar os wireframes, o mockup e o logótipo; fotografias recentes; contrato assinado; e o deploy (passo 7). Depois: fase 1 a começar por `lib/money` + `lib/pricing`.
 - **Cliente:** marca **HABINOX®** (não "Abinox"), Bruno Miguel Freitas, Lda, Núcleo Industrial de Antas, 4740-016 Antas, **Esposende**. Domínio `habinox.pt`, email `geral@habinox.pt`.
 - **Repositório:** `github.com/RodrigoCorreia23/Habinox`, ramo `main`. CI no GitHub Actions verde.
 - **Nada de lógica de negócio ainda** (catálogo, preços, PHC, encomendas): só infraestrutura, autenticação e páginas placeholder.
@@ -58,6 +58,16 @@
 | `4512c1d` docs: estado do projeto            | Atualização deste ficheiro com a revisão taste                                                                                                                                                                                                                   |
 | `c0ed8ef` docs: respostas de 26/10           | Respostas do Bruno de 26/10 em `docs/fase-0.md`; editor de fórmulas sem arredondamento e com "preço com IVA"; checkout com a regra 50/50 acima de 1 000 €                                                                                                        |
 
+### Fase 0 — logótipo e mockup final (2026-10-26)
+
+| Commit                              | Conteúdo                                                                                                                                                                                                                           |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `bd3bdad` docs: estado do projeto   | Atualização deste ficheiro com as respostas de 26/10                                                                                                                                                                               |
+| `12bf444` design: logótipo em SVG   | Logótipo vetorizado a partir do JPEG (potrace): `public/brand/habinox-logo.svg` (com slogan), `-sem-slogan`, `-simbolo`, `-branco`; secção "Logótipo" no `DESIGN.md` (a validar com o Bruno)                                       |
+| `8876082` design: logótipo aplicado | Logótipo (SVG em linha) nos 14 wireframes (branco no backoffice); `next/image` no cabeçalho da loja e na barra do backoffice; `src/app/icon.svg` (símbolo) substitui o `favicon.ico`                                               |
+| `3e9599e` docs: mockup final        | `docs/mockup/`: página inicial e configurador do portão de correr, desktop e telemóvel, versão clara (`DESIGN.md`) e escura (60/30/10); fotografias reais em `img/`; README com valores de exemplo e correspondência dos `/_blob/` |
+| `75fef4a` docs: mockup com aço      | Versão escura: o bege `#E4E1DA` passou a cinzento-aço `#E3E6E9` (pedido do Rodrigo: o bege não ficava bem)                                                                                                                         |
+
 Regras do motor de preços que saíram dos orçamentos e das respostas (detalhe em `docs/fase-0.md` e `docs/orcamentos-analise.md`):
 
 ```
@@ -76,6 +86,14 @@ Pontos principais dos wireframes (detalhe em `docs/wireframes/README.md` e `docs
 - **Checkout:** confirmação das medidas por produto, separada das condições; telefone visível. **Confirmação:** 4 casos (pago, à espera do MB WAY, Multibanco por pagar, pagamento falhou).
 - **Backoffice:** validar uma fórmula exige linhas sem erros + orçamentos reais dentro de ±[x]% + artigos PHC revistos; produto com fluxo único guardar → publicar; variações de custo do PHC acima de [x]% ficam "por aprovar"; cancelar/devolver encomenda pede confirmação com motivo e valor.
 - Canvas online (privado, partilhar pelo menu Share): https://claude.ai/artifact/Vi61zk6137BkzVVcppTCc6 — cópia do código em `docs/wireframes/`.
+
+Mockup final (detalhe em `docs/mockup/README.md`; canvas https://claude.ai/artifact/Lr38BFXy4aW4uXqiTbG64a, privado):
+
+- **Fotografias reais** da galeria do site atual (habinox.pt, 2010–2015): portões, escadas, hotte, soldadura, oficina, fachada. Antigas e de baixa resolução; não há guardas, chaminés, caixas de correio nem foto atual do escritório.
+- **Textos e contactos reais** do site atual (desde 2005, equipamento, telefones 253 873 429 / 969 413 616, GPS); sem marcadores.
+- **Configurador com preço ao vivo** no modelo do Bruno, com valores **de exemplo** (4 000 × 1 600 mm, ferro lacado → 2 786,43 €); mostra o pagamento 50/50 acima de 1 000 €; enchimento barras/chapa.
+- **Modo claro e escuro.** Escuro = regra 60/30/10 pedida pelo Bruno: 60% grafite `#1F2225`, 30% aço claro `#E3E6E9`, 10% azul só dentro do aço (sobre o grafite o azul fica a 1,37:1). Logótipo branco no escuro. Se for adotado, atualizar `DESIGN.md` e `globals.css` (tema escuro).
+- Feito com a skill impeccable (modo polish; o launcher não correu por descarregar um binário — lido o `DESIGN.md` diretamente) e duas rondas de verificação local a 1440 e 390 px.
 
 ### Verificado manualmente
 
@@ -143,6 +161,8 @@ DESIGN.md                         identidade visual (fonte da verdade; importado
 docs/estado.md, docs/fase-0.md, docs/revisao-wireframes.md
 docs/wireframes/                  14 ecrãs .dc.html + canvas.json + README
 docs/design/                      mockup de referência da home (fora do Prettier)
+docs/mockup/                      mockup final: 8 ecrãs .dc.html (claro/escuro, desktop/telemóvel) + img/ + README (fora do Prettier)
+public/brand/                     logótipo em SVG (completo, sem slogan, símbolo, branco)
 messages/pt.json                  textos da loja (namespaces Metadata, Nav, Home, Account, Auth)
 scripts/seed.ts                   cria/promove admin (idempotente)
 tests/unit, tests/e2e
@@ -248,12 +268,14 @@ Notas:
 - Falta contactar o privado que aloja o site atual (bloco H: domínio, DNS, email, conteúdo).
 - Wireframes feitos (14 ecrãs, todos ligados entre si): home, categoria, configurador, carrinho, checkout, confirmação, área de cliente; backoffice de produto/opções, fórmula de preço, encomendas, materiais/sincronização PHC — ver `docs/wireframes/README.md` (canvas online + cópia do código). Direção visual "ficha de fabrico" com desenho cotado do portão.
 - Revisão dos wireframes com `impeccable` + `web-design-guidelines` feita e P1 corrigidos (ver `docs/revisao-wireframes.md`); 3 ecrãs de telemóvel acrescentados (14 no total). Perguntas novas 40–50 na `docs/fase-0.md`.
-- **Segunda revisão, com a skill taste (2026-10-22):** `docs/revisao-taste.md`. Os wireframes foram renderizados localmente com o runtime do canvas (`artifact-type/dc-runtime.js` do artifact, servido como `support.js`) e medidos com o `inspect.mjs` da skill (`CHROME_PATH` = Chromium do Playwright). P1 e P2 corrigidos; as regras da skill que contrariam o `DESIGN.md` (mono, linhas finas, numeração, 3 fontes, corpo a 15 px) foram ignoradas de propósito. Falta (P3): fotografias reais de obras e da oficina, e o logótipo em vetor — ambos dependem do Bruno.
+- **Segunda revisão, com a skill taste (2026-10-22):** `docs/revisao-taste.md`. Os wireframes foram renderizados localmente com o runtime do canvas (`artifact-type/dc-runtime.js` do artifact, servido como `support.js`) e medidos com o `inspect.mjs` da skill (`CHROME_PATH` = Chromium do Playwright). P1 e P2 corrigidos; as regras da skill que contrariam o `DESIGN.md` (mono, linhas finas, numeração, 3 fontes, corpo a 15 px) foram ignoradas de propósito. P3: o logótipo em vetor está feito (2026-10-26); fotografias de obras usadas no mockup a partir do site atual — faltam fotos recentes do Bruno.
 - **Cópias de telemóvel** (`Mobile-*.dc.html`) são geradas a partir dos ecrãs de desktop: só mudam o `<title>` e o `$preview` (390 px). Ao alterar um ecrã de desktop, regenerar a cópia.
 - **Identidade visual fechada:** `DESIGN.md` (catálogo técnico) + mockup de referência em `docs/design/Loja_Pagina_Inicial_mockup.html`. Tokens aplicados em `src/app/globals.css` e fontes em `src/lib/fonts.ts` (Archivo, IBM Plex Sans, IBM Plex Mono). Ajustes de contraste: `line-strong #85827A` para bordas de campos. Acento = azul do logótipo `#2005A2` (2026-10-22, substituiu o laranja `#B8461A` do mockup). Os 14 wireframes já seguem a nova identidade.
 - **Decisões técnicas da revisão:** números com `Intl.NumberFormat('pt-PT', { useGrouping: 'always' })`; tokens de design em variáveis CSS; linhas de fórmula com artigo PHC por material (decidido: `formula_line_materials`, já no `CLAUDE.md`).
 - **Nomes técnicos internos** (`abinox` na BD, utilizador do Postgres, `package.json`, CI) ficaram de propósito com o nome antigo: invisíveis e mudá-los obriga a recriar a BD local. Mudar só se houver motivo.
-- Por fazer do nosso lado: validar os wireframes com o Bruno (o canvas está **privado**: partilhar pelo botão Share antes de enviar o link); fechar o modelo de opções reutilizáveis com produtos reais; mockup final com o logótipo; preencher os marcadores `[MARCA]`, `[PREÇO]`, `[MORADA]`, `[TELEFONE]`, `[EMAIL]` e os `[x]%` / `[a definir com a Habinox]` dos wireframes.
+- **Mockup final (2026-10-26):** feito, ver secção 2 e `docs/mockup/README.md`. Email ao Bruno escrito (informal: mockup em anexo em HTML, modo claro e escuro e telemóvel; falta fotos melhores e modelos 3D; pedir foto atual do escritório). O Rodrigo envia o HTML. **Aguarda:** opinião do Bruno, escolha do modo por omissão, validação do logótipo e das cores, fotografias recentes.
+- **Bug do runtime do canvas:** texto interpolado (`{{…}}`) dentro de `<text>` SVG não aparece (o runtime embrulha-o num `<span>`). No mockup as cotas são HTML sobre o SVG; o configurador dos wireframes (`docs/wireframes/Main.dc.html`) **ainda não mostra as cotas** — corrigir.
+- Por fazer do nosso lado: validar os wireframes com o Bruno (o canvas está **privado**: partilhar pelo botão Share antes de enviar o link); fechar o modelo de opções reutilizáveis com produtos reais; preencher nos wireframes os marcadores `[MARCA]`, `[PREÇO]`, `[MORADA]`, `[TELEFONE]`, `[EMAIL]` e os `[x]%` / `[a definir com a Habinox]` dos wireframes.
 - **P2 da revisão por fazer** (na implementação): dicionário único de estados da encomenda (rótulo cliente + interno); "Removido. Desfazer" no carrinho e nas linhas da fórmula; separadores/filtros com `tablist`/radio e estado no URL; pesquisa e ordenação em Encomendas e Materiais; ajuda de sintaxe junto às expressões das fórmulas.
 - Ideias a discutir com o Bruno: ficha de fabrico "assinada" em PDF na encomenda; medição no local com preço descontado; etiquetas tipo carimbo.
 
