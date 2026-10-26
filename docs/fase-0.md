@@ -84,6 +84,22 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 - ✅ **Orçamentos reais:** chegaram 4 em Excel (chaminé, escada, 2 guardas). Análise em `docs/orcamentos-analise.md`. Os produtos-piloto passam a ser estes.
 - ✅ **Fatura da fase 0** (50%) para `geral@habinox.pt`; contrato assinado pessoalmente.
 
+### Respostas do Bruno (email de 2026-10-26)
+
+- ✅ **Preço = formato do Excel dele.** Cada produto tem os seus componentes, cada um com preço por **metro linear, m² ou unidade**. O que faz mudar o preço: metros lineares, m² e acabamentos. → Confirma o modelo de linhas de custo; as quantidades em ml/m² são expressões das medidas.
+  - ✅ **Decidido (Rodrigo, 2026-10-26):** é o Bruno que define as linhas, quantidades e valores de cada produto **ao criá-lo no backoffice**, como faz no Excel. Já não se pedem medidas nem composições na fase 0; desenvolve-se e testa-se com produtos de exemplo construídos a partir dos 4 Excel (`docs/orcamentos-analise.md`).
+- ✅ **Consumíveis:** % por produto (brocas, desgaste de máquinas, lixas…). **Margem:** por produto. → Ambos são campos da fórmula de cada produto (já assim no wireframe).
+- ✅ **Pagamento:** encomendas **acima de 1 000 € com IVA** → **50% na adjudicação + 50% no despacho**; até 1 000 € → pagamento total na encomenda. (Substitui os 40/60 de 14/10.) Limite e percentagens em `settings`.
+- ✅ **IVA incluído no preço mostrado.** O cliente vê sempre preços com IVA. O cálculo continua: soma sem IVA → IVA uma vez no total; os preços por linha mostram-se com IVA.
+- ✅ **Sem arredondamentos.** O preço é o que a fórmula dá, ao cêntimo.
+- ✅ **Instalação contabilizada à parte** (linha própria, fora do preço do produto; zona + horas).
+- ✅ **Transporte por m³ e por km.**
+  - 📝 Precisa de: (1) **volume** de cada produto (expressão das medidas, ex.: `L × H × 0,15` m³, ou volume embalado) e (2) **distância** da oficina (Antas, Esposende) à morada de entrega.
+  - 📝 Distância: recomendação = tabela de códigos postais com coordenadas (dados abertos) e distância em linha reta × fator de estrada (~1,3), sem API paga; alternativa = serviço de rotas (OpenRouteService/Google) com custo e dependência externa. Decidir na fase 1B.
+  - ✅ Os valores (€ por m³ e por km, mínimos, tabelas por modo de transporte) são **definidos pelo Bruno no backoffice**.
+- ✅ **Capacidade produtiva:** basta o **campo** para introduzir no backoffice; nesta fase simula-se com valores de exemplo.
+- ✅ **Logótipo:** só existe em JPEG. → Redesenhar em SVG a partir do JPEG (formas geométricas simples) e validar com o Bruno.
+
 ---
 
 ## 2. Perguntas para o Bruno

@@ -29,7 +29,7 @@ Conclusões para o `lib/pricing`:
 - **Consumíveis em % dos materiais**, como linha própria da fórmula (parâmetro por produto, com valor por omissão).
 - **Serviços externos ao m²** (lacagem 22 €/m², decapagem 9,50 €/m²) entram como linhas de "material" com quantidade em m² → a área a tratar tem de ser uma expressão das medidas.
 - **Preço por kg convertido em ml**: em C o preço unitário é `kg/m × €/kg` (ex.: `4 × 2,8`). Se o PHC tiver o custo ao kg, a linha precisa de um **fator de conversão** (peso por metro) por artigo.
-- **Arredondamento:** nenhum orçamento arredonda. Perguntar se quer arredondar no site.
+- **Arredondamento:** nenhum orçamento arredonda, e o Bruno confirmou (2026-10-26): **sem arredondamentos**.
 - **Instalação** aparece como mais uma linha de horas (A: 4 h; D: 32 h), com margem por cima. O Bruno respondeu "preço da zona + horas": a instalação passa a ser **opcional** com taxa por zona + horas da fórmula.
 
 ## O que falta para passar a fórmulas

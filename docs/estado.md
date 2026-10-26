@@ -66,7 +66,7 @@ IVA           = round(preço s/ IVA × taxa)   (uma vez, ao total; taxa em setti
 
 - **Margem sobre o preço de venda** (50% → preço = 2 × custo), não markup.
 - **Taxa horária por sector** (23,50 €/h geral; corte laser 120 €/h).
-- Pagamento: > 1 000 € → 40% na encomenda + 60% no despacho; ≤ 1 000 € → total. Validade dos orçamentos: 30 dias. Transporte: próprio, transportadora (por zona no beta) ou levantamento. Prazo de produção pela capacidade mensal (fora do âmbito original — estimar antes de prometer). Cliente envia foto ou rascunho do espaço (upload).
+- Pagamento: > 1 000 € **com IVA** → 50% na adjudicação + 50% no despacho; ≤ 1 000 € → total (resposta de 26/10, substitui os 40/60). Sem arredondamentos. Preços mostrados sempre com IVA. Instalação à parte. Transporte por m³ × km, com valores definidos pelo Bruno no backoffice. Linhas e valores de cada produto definidos pelo Bruno ao criá-lo. Validade dos orçamentos: 30 dias. Transporte: próprio, transportadora (por zona no beta) ou levantamento. Prazo de produção pela capacidade mensal (fora do âmbito original — estimar antes de prometer). Cliente envia foto ou rascunho do espaço (upload).
 
 Pontos principais dos wireframes (detalhe em `docs/wireframes/README.md` e `docs/revisao-wireframes.md`):
 

@@ -167,18 +167,8 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
             </div>
             <span style="font-size: 13px; color: #5A5F66">Sobre o preço de venda: preço = custo ÷ (1 − margem). Com 50%, o preço é o dobro do custo.</span>
           </div>
-          <div style="display: flex; flex-direction: column; gap: 6px">
-            <label for="arredondar" style="font-size: 15px; font-weight: 600">Arredondamento</label>
-            <select id="arredondar" style="height: 46px; padding: 0 10px; border: 1px solid #85827A; border-radius: 2px; background: #FFFFFF; font-size: 16px">
-              <option>Sem arredondamento</option>
-              <option>Para cima, a 1 €</option>
-              <option>Para cima, a 5 €</option>
-              <option>Para cima, a 10 €</option>
-            </select>
-            <span style="font-size: 13px; color: #5A5F66">A confirmar com o Bruno (os orçamentos dele não arredondam).</span>
-          </div>
         </div>
-        <p style="margin: 0; font-size: 14px; color: #4A4F56; line-height: 1.5">As taxas horárias de cada sector (serralharia, corte laser, instalação…) e o preço de cada zona definem-se em <a href="#">Definições</a>. O IVA não entra na fórmula: aplica-se uma vez ao total da encomenda.</p>
+        <p style="margin: 0; font-size: 14px; color: #4A4F56; line-height: 1.5">As taxas horárias de cada sector (serralharia, corte laser, instalação…) e o preço de cada zona definem-se em <a href="#">Definições</a>. O IVA não entra na fórmula: aplica-se uma vez ao total da encomenda. A loja mostra sempre preços com IVA.</p>
       </section>
 
       <aside aria-label="Pré-visualização do preço" style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
@@ -244,7 +234,11 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
             <span style="font-size: 15px; font-weight: 600">Preço sem IVA</span>
             <span style="font-size: 36px; line-height: 1; font-family: Archivo, sans-serif; font-weight: 600;">[preço] €</span>
           </div>
-          <p style="margin: 0; font-size: 14px; color: #4A4F56">Na loja, o IVA é somado uma vez ao total da encomenda, junto com os portes.</p>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 15px">
+            <span>Preço com IVA ([taxa]), como o cliente o vê</span>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600; white-space: nowrap">[preço c/ IVA] €</span>
+          </div>
+          <p style="margin: 0; font-size: 14px; color: #4A4F56">Sem arredondamentos. Na encomenda, o IVA calcula-se uma vez sobre o total (produtos, instalação e transporte).</p>
           <sc-if value="{{hasErrors}}" hint-placeholder-val="{{ false }}">
             <p role="alert" style="margin: 0; font-size: 14px; color: #8C1D17">Há linhas com erros. Corrija-as para calcular o preço.</p>
           </sc-if>
