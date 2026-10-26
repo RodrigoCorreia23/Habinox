@@ -109,7 +109,7 @@ Em mobile, os títulos de 64/44/40px descem (usar `clamp()`), nunca ficam fixos.
 
 ## Componentes
 
-- **Cabeçalho:** 76px, fundo claro, borda inferior 1px. Logótipo em Archivo 700 à esquerda, navegação ao lado, ações à direita. O botão de pedido é o único elemento escuro.
+- **Cabeçalho:** 76px, fundo claro, borda inferior 1px. Logótipo (`public/brand/habinox-logo-sem-slogan.svg`) à esquerda, navegação ao lado, ações à direita. O botão de pedido é o único elemento escuro.
 - **Barra de categorias:** faixa de largura total, colunas iguais separadas por linhas verticais de 1px, nome + número de ordem em mono (01, 02…). Em mobile vira lista ou carrossel horizontal.
 - **Cartão de produto:** branco, borda 1px, sem sombra. Topo de 280px em `surface-alt` com o desenho técnico centrado. Depois: etiqueta de categoria (mono, maiúsculas), nome (Archivo 600), características em `steel-light`, rodapé separado por linha com preço à esquerda e botão escuro à direita.
 - **Desenhos técnicos:** linha em `ink`, traço 1,5–1,6px, sem preenchimento. Cotas e linhas de dimensão em `accent`; valores em mono, também em `accent`. É o detalhe que mostra que o site é feito por quem percebe do produto.
@@ -131,6 +131,20 @@ Em mobile, os títulos de 64/44/40px descem (usar `clamp()`), nunca ficam fixos.
 - Movimento: mínimo e com `prefers-reduced-motion` respeitado.
 
 ---
+
+## Logótipo
+
+Ficheiros em `public/brand/`, redesenhados em SVG a 2026-10-26 a partir do único original que existe (JPEG); **a validar com o Bruno**.
+
+| Ficheiro                      | Uso                                                                                |
+| ----------------------------- | ---------------------------------------------------------------------------------- |
+| `habinox-logo.svg`            | Logótipo completo, com "Trabalhos e soluções em inox" (rodapé, documentos, emails) |
+| `habinox-logo-sem-slogan.svg` | Cabeçalho da loja e do backoffice                                                  |
+| `habinox-simbolo.svg`         | Só o símbolo (favicon, ícone da app, espaços pequenos)                             |
+| `habinox-logo-branco.svg`     | Sobre fundos escuros (faixa Pro, backoffice)                                       |
+
+- Cores do logótipo: azul `#2005A2` (= `accent`) e cinzento `#8D8F8C`. O cinzento fica a ~3:1 sobre `canvas`: aceitável num logótipo, nunca para texto.
+- Altura mínima do logótipo sem slogan: 24px; abaixo disso, usar o símbolo. Não deformar, não recolorir além da versão branca, não pôr sobre fotografia sem fundo liso.
 
 ## Contexto
 
