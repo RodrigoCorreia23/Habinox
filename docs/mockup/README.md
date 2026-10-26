@@ -22,8 +22,8 @@ As cópias de telemóvel são geradas a partir das de desktop: só mudam o `<tit
 ## Versão escura (60/30/10)
 
 - **60% grafite `#1F2225`**: fundo, cabeçalho, barra de categorias, rodapé (`#171A1C`).
-- **30% pedra `#E4E1DA`**: cartões de produto (área do desenho `#D6D2CA`), painéis do configurador, faixa Área Pro, cartão de contactos.
-- **10% azul `#2005A2`**: só dentro da pedra (botões Configurar, cotas, preço). Sobre o grafite o contraste é 1,37:1, por isso o logótipo fica em branco e o botão principal do topo é cor de pedra.
+- **30% aço claro `#E3E6E9`**: cartões de produto (área do desenho `#D0D5DA`), painéis do configurador, faixa Área Pro, cartão de contactos. Linhas `#C5CBD1`. Começou num bege (`#E4E1DA`), trocado a 2026-10-26 por um cinzento frio, mais próximo do inox.
+- **10% azul `#2005A2`**: só dentro da pedra (botões Configurar, cotas, preço). Sobre o grafite o contraste é 1,37:1, por isso o logótipo fica em branco e o botão principal do topo é cor de aço claro.
 - Texto sobre grafite: `#F2F0EB` (principal), `#B9BDC2` (secundário), `#9AA0A6` (apoio). Linhas `#33373D`.
 
 Se for a escolhida, a paleta do `DESIGN.md` e o tema em `src/app/globals.css` têm de ser atualizados.

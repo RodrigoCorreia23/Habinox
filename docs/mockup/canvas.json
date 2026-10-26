@@ -122,7 +122,7 @@
       "w": 420,
       "size": "m",
       "fill": "blue",
-      "text": "Regra 60/30/10 (pedido do Bruno: captar o olho com neutros escuros):\n\n• 60% grafite #1F2225 — fundo, cabeçalho, faixas, rodapé.\n• 30% pedra #E4E1DA — cartões de produto, painéis do configurador, faixa Pro, contactos.\n• 10% azul do logótipo #2005A2 — só dentro da pedra: botões Configurar, cotas, preço.\n\nO azul nunca fica sobre o grafite: o contraste entre os dois é 1,37:1 (invisível). Por isso o logótipo aparece em branco e o botão principal do topo é cor de pedra."
+      "text": "Regra 60/30/10 (pedido do Bruno: captar o olho com neutros escuros):\n\n• 60% grafite #1F2225 — fundo, cabeçalho, faixas, rodapé.\n• 30% aço claro #E3E6E9 — cartões de produto, painéis do configurador, faixa Pro, contactos.\n• 10% azul do logótipo #2005A2 — só dentro da pedra: botões Configurar, cotas, preço.\n\nO azul nunca fica sobre o grafite: o contraste entre os dois é 1,37:1 (invisível). Por isso o logótipo aparece em branco e o botão principal do topo é cor de pedra."
     }
   },
   "designSystems": []

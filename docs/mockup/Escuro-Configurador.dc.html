@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#1F2225;color:#F2F0EB;font-family:'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-::selection{background:#E4E1DA;color:#15171A}
+::selection{background:#E3E6E9;color:#15171A}
 a{color:#F2F0EB;text-underline-offset:4px}a:hover{color:#FFFFFF}
 .stone{color:#15171A}
 .stone a{color:#15171A}.stone a:hover{color:#2005A2}
@@ -67,7 +67,7 @@ input[inputmode=decimal],.mono{font-family:'IBM Plex Mono',ui-monospace,monospac
         <a href="#" aria-label="Conta" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: #F2F0EB">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>
         </a>
-        <a class="btn-stone" href="#" style="display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 16px; border-radius: 2px; color: #15171A; background: #E4E1DA; text-decoration: none; font-size: 15px; font-weight: 500">
+        <a class="btn-stone" href="#" style="display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 16px; border-radius: 2px; color: #15171A; background: #E3E6E9; text-decoration: none; font-size: 15px; font-weight: 500">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16l-1.5 12h-13z"></path><path d="M9 7V5a3 3 0 0 1 6 0v2"></path></svg>
           Pedido <span class="mono" style="font-size: 14px">{{cartCount}}</span>
         </a>
@@ -91,14 +91,14 @@ input[inputmode=decimal],.mono{font-family:'IBM Plex Mono',ui-monospace,monospac
             <h1 class="h1-main" style="margin: 0; color: #FFFFFF; font-size: 56px; line-height: 0.98; font-weight: 600; letter-spacing: -0.02em">Portão de correr</h1>
             <p style="margin: 0; font-size: 16px; color: #B9BDC2">Feito à medida do seu vão, em inox, ferro ou alumínio.</p>
           </div>
-          <div role="group" aria-label="Vista" class="stone" style="display: flex; background: #E4E1DA; border-radius: 2px; padding: 4px">
+          <div role="group" aria-label="Vista" class="stone" style="display: flex; background: #E3E6E9; border-radius: 2px; padding: 4px">
             <sc-for list="{{views}}" as="v" hint-placeholder-count="2">
               <button type="button" onClick="{{v.pick}}" aria-pressed="{{v.pressed}}" style="{{v.style}}">{{v.label}}</button>
             </sc-for>
           </div>
         </div>
 
-        <div class="stone" style="position: relative; background: #E4E1DA; border-radius: 2px; overflow: hidden">
+        <div class="stone" style="position: relative; background: #E3E6E9; border-radius: 2px; overflow: hidden">
           <sc-if value="{{showDrawing}}" hint-placeholder-val="{{ true }}">
             <svg viewBox="0 0 760 460" style="display: block; width: 100%; height: auto" role="img" aria-label="{{drawingLabel}}">
               <path d="{{d.ground}}" stroke="#85827A" stroke-width="1" fill="none"></path>
@@ -144,7 +144,7 @@ input[inputmode=decimal],.mono{font-family:'IBM Plex Mono',ui-monospace,monospac
 
       <section aria-label="Configurar o portão" style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
 
-        <div class="price-strip stone" style="position: sticky; top: 8px; z-index: 5; background: #E4E1DA; border: 1px solid #E4E1DA; border-radius: 2px; padding: 12px 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px">
+        <div class="price-strip stone" style="position: sticky; top: 8px; z-index: 5; background: #E3E6E9; border: 1px solid #E3E6E9; border-radius: 2px; padding: 12px 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px">
           <div aria-live="polite" style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
             <span style="{{stripMainStyle}}">{{stripMain}}</span>
             <span style="font-size: 13px; color: #5A5F66">{{stripSub}}</span>
@@ -152,7 +152,7 @@ input[inputmode=decimal],.mono{font-family:'IBM Plex Mono',ui-monospace,monospac
           <a class="btn-dark" href="#resumo" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 2px; background: #15171A; color: #FFFFFF; font-weight: 500; text-decoration: none; font-size: 15px">Ver resumo</a>
         </div>
 
-        <fieldset class="stone" style="background: #E4E1DA; border: 1px solid #E4E1DA; border-radius: 2px; margin: 0; padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 16px">
+        <fieldset class="stone" style="background: #E3E6E9; border: 1px solid #E3E6E9; border-radius: 2px; margin: 0; padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 16px">
           <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 600"><span class="mono" style="color: #2005A2; font-size: 14px; font-weight: 500; margin-right: 12px">01</span>Medidas do vão</legend>
           <div role="group" aria-label="Unidade das medidas" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
             <span style="font-size: 15px; color: #4A4F56">Escrever em</span>
@@ -210,7 +210,7 @@ input[inputmode=decimal],.mono{font-family:'IBM Plex Mono',ui-monospace,monospac
           </sc-if>
         </fieldset>
 
-        <fieldset class="stone" style="background: #E4E1DA; border: 1px solid #E4E1DA; border-radius: 2px; margin: 0; padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 16px">
+        <fieldset class="stone" style="background: #E3E6E9; border: 1px solid #E3E6E9; border-radius: 2px; margin: 0; padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 16px">
           <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 600"><span class="mono" style="color: #2005A2; font-size: 14px; font-weight: 500; margin-right: 12px">02</span>Material e acabamento</legend>
           <div role="radiogroup" aria-label="Material" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
             <sc-for list="{{materials}}" as="m" hint-placeholder-count="3">
@@ -245,7 +245,7 @@ input[inputmode=decimal],.mono{font-family:'IBM Plex Mono',ui-monospace,monospac
           </sc-if>
         </fieldset>
 
-        <fieldset class="stone" style="background: #E4E1DA; border: 1px solid #E4E1DA; border-radius: 2px; margin: 0; padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 16px">
+        <fieldset class="stone" style="background: #E3E6E9; border: 1px solid #E3E6E9; border-radius: 2px; margin: 0; padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 16px">
           <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 600"><span class="mono" style="color: #2005A2; font-size: 14px; font-weight: 500; margin-right: 12px">03</span>Enchimento e opções</legend>
           <div role="radiogroup" aria-label="Enchimento" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
             <sc-for list="{{fills}}" as="fl" hint-placeholder-count="2">
@@ -266,7 +266,7 @@ input[inputmode=decimal],.mono{font-family:'IBM Plex Mono',ui-monospace,monospac
           </div>
         </fieldset>
 
-        <fieldset class="stone" style="background: #E4E1DA; border: 1px solid #E4E1DA; border-radius: 2px; margin: 0; padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 8px">
+        <fieldset class="stone" style="background: #E3E6E9; border: 1px solid #E3E6E9; border-radius: 2px; margin: 0; padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 8px">
           <legend style="float: left; width: 100%; padding: 0; margin-bottom: 4px; font-size: 20px; font-weight: 600"><span class="mono" style="color: #2005A2; font-size: 14px; font-weight: 500; margin-right: 12px">04</span>Instalação</legend>
           <label style="display: flex; align-items: flex-start; gap: 12px; min-height: 44px; cursor: pointer">
             <input type="checkbox" name="instalacao" checked="{{install}}" onChange="{{toggleInstall}}" style="margin: 2px 0 0; width: 20px; height: 20px; flex: none">
@@ -277,7 +277,7 @@ input[inputmode=decimal],.mono{font-family:'IBM Plex Mono',ui-monospace,monospac
           </label>
         </fieldset>
 
-        <section id="resumo" class="stone" aria-label="Resumo e preço" style="background: #E4E1DA; border: 1px solid #E4E1DA; border-top: 4px solid #2005A2; border-radius: 2px; padding: 24px; display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 16px">
+        <section id="resumo" class="stone" aria-label="Resumo e preço" style="background: #E3E6E9; border: 1px solid #E3E6E9; border-top: 4px solid #2005A2; border-radius: 2px; padding: 24px; display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 16px">
           <dl style="margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 20px; row-gap: 8px; font-size: 15px">
             <sc-for list="{{summary}}" as="row" hint-placeholder-count="7">
               <dt style="color: #5A5F66">{{row.k}}</dt>
@@ -286,7 +286,7 @@ input[inputmode=decimal],.mono{font-family:'IBM Plex Mono',ui-monospace,monospac
           </dl>
 
           <sc-if value="{{canPrice}}" hint-placeholder-val="{{ true }}">
-            <div style="display: flex; flex-direction: column; gap: 6px; padding-top: 18px; border-top: 1px solid #CFCBC3">
+            <div style="display: flex; flex-direction: column; gap: 6px; padding-top: 18px; border-top: 1px solid #C5CBD1">
               <span class="big-price" style="font-size: 52px; line-height: 1; font-family: Archivo, sans-serif; font-weight: 600; letter-spacing: -0.01em; font-variant-numeric: tabular-nums">{{priceText}}</span>
               <span style="font-size: 15px; color: #4A4F56">Com IVA ({{vatText}}). {{priceNote}}</span>
               <span style="font-size: 15px; color: #4A4F56">{{payNote}}</span>
@@ -526,7 +526,7 @@ class Component extends DCLogic {
     // As cotas são texto HTML sobre o desenho (o runtime não desenha texto interpolado dentro de <text>).
     function at(x, y, extra) {
       return 'position: absolute; left: ' + (x / VW * 100).toFixed(2) + '%; top: ' + (y / VH * 100).toFixed(2) + '%; ' +
-        'white-space: nowrap; font-size: 13px; font-weight: 500; line-height: 1; padding: 3px 6px; background: #E4E1DA; ' + extra;
+        'white-space: nowrap; font-size: 13px; font-weight: 500; line-height: 1; padding: 3px 6px; background: #E3E6E9; ' + extra;
     }
     d.wStyle = at(gx + gw / 2, dimY, 'transform: translate(-50%, -50%); color: ' + d.dimColorW);
     d.hStyle = at(dimX, gy + gh / 2, 'transform: translate(-50%, -50%) rotate(-90deg); color: ' + d.dimColorH);
