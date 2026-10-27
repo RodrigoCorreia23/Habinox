@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<title>Habinox — Plano da plataforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..500&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ground: #0F0E0D; --amber: #D6A25E; --dim: #8A5A1E;
+    --ink: #1A1816; --soft: #4A453F; --faint: #6F685F; --line: #DDD7CE; --paper: #F7F4EF;
+  }
+  @page { size: A4; margin: 20mm 18mm 18mm; }
+  @page :first { margin: 0; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; font-family: "IBM Plex Sans", sans-serif; font-size: 10pt; line-height: 1.55; color: var(--ink); }
+  h1, h2, h3 { font-family: "Archivo", sans-serif; font-stretch: 115%; font-weight: 300; letter-spacing: -0.01em; margin: 0; }
+  h2 { font-size: 22pt; line-height: 1.1; margin: 0 0 6mm; }
+  h2 .n { font-family: "IBM Plex Mono", monospace; font-size: 10pt; color: var(--dim); letter-spacing: 0.08em; display: block; margin-bottom: 2mm; font-weight: 500; }
+  h3 { font-size: 12.5pt; font-weight: 400; margin: 6mm 0 2mm; }
+  p { margin: 0 0 3mm; }
+  .lead { font-size: 11.5pt; color: var(--soft); max-width: 150mm; }
+  .mono { font-family: "IBM Plex Mono", monospace; }
+  .muted { color: var(--faint); }
+  section { break-before: page; }
+  ul, ol { margin: 0 0 3mm; padding-left: 5mm; }
+  li { margin-bottom: 1.4mm; }
+  li::marker { color: var(--dim); }
+  strong { font-weight: 600; }
+
+  /* Capa */
+  .cover { height: 297mm; width: 210mm; position: relative; background: var(--ground); color: #EEE9E2; overflow: hidden; }
+  .cover img.photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .62; }
+  .cover .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,14,13,.55) 0%, rgba(15,14,13,0) 30%, rgba(15,14,13,.35) 55%, rgba(15,14,13,.94) 82%); }
+  .cover .logo { position: absolute; top: 18mm; left: 18mm; height: 9mm; }
+  .cover .txt { position: absolute; left: 18mm; right: 18mm; bottom: 22mm; }
+  .cover .tag { font-family: "IBM Plex Mono", monospace; font-size: 9pt; letter-spacing: .1em; text-transform: uppercase; color: #C9C2B8; }
+  .cover h1 { font-size: 46pt; line-height: .98; margin: 5mm 0 6mm; }
+  .cover h1 em { font-style: normal; color: var(--amber); }
+  .cover .sub { font-size: 12pt; color: #C9C2B8; max-width: 140mm; }
+  .cover .meta { margin-top: 12mm; display: flex; gap: 14mm; font-family: "IBM Plex Mono", monospace; font-size: 8.5pt; color: #A8A095; }
+  .cover .meta b { display: block; color: #EEE9E2; font-weight: 400; font-size: 9.5pt; }
+
+  /* Blocos */
+  .rule { border-top: 1px solid var(--line); padding-top: 4mm; margin-top: 5mm; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
+  .steps { list-style: none; padding: 0; counter-reset: s; }
+  .steps li { counter-increment: s; position: relative; padding: 2.6mm 0 2.6mm 12mm; border-top: 1px solid var(--line); margin: 0; break-inside: avoid; }
+  .steps li::before { content: counter(s, decimal-leading-zero); position: absolute; left: 0; top: 2.6mm; font-family: "IBM Plex Mono", monospace; color: var(--dim); font-weight: 500; }
+  .steps li b { display: block; font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; margin: 2mm 0 4mm; font-size: 9.4pt; }
+  th { text-align: left; font-family: "IBM Plex Mono", monospace; font-size: 7.8pt; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); font-weight: 500; padding: 0 3mm 2mm 0; border-bottom: 1px solid var(--ink); }
+  td { padding: 2.2mm 3mm 2.2mm 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td.num, th.num { text-align: right; font-family: "IBM Plex Mono", monospace; white-space: nowrap; }
+  tr { break-inside: avoid; }
+  tr.total td { border-bottom: 0; border-top: 1px solid var(--ink); font-weight: 600; }
+  tr.opt td { color: var(--faint); }
+  .formula { background: var(--paper); border-left: 2px solid var(--amber); padding: 4mm 5mm; font-family: "IBM Plex Mono", monospace; font-size: 9.2pt; line-height: 1.75; margin: 3mm 0 4mm; }
+  .formula .c { color: var(--faint); }
+  .note { border-left: 2px solid var(--amber); padding: 1mm 0 1mm 4mm; color: var(--soft); margin: 4mm 0; }
+  .chip { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 7.5pt; letter-spacing: .06em; text-transform: uppercase; padding: .4mm 2mm; border: 1px solid currentColor; border-radius: 99px; vertical-align: 1px; }
+  .chip { white-space: nowrap; }
+  h3 { break-after: avoid; }
+  .chip.block { color: #A2412F; }
+  .chip.ok { color: #3E6B3A; }
+  .chip.wait { color: var(--dim); }
+  .q { break-inside: avoid; padding: 2.6mm 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: 8mm 1fr; }
+  .q .i { font-family: "IBM Plex Mono", monospace; color: var(--dim); font-weight: 500; }
+  .q b { font-weight: 600; }
+  .q p { margin: .6mm 0 0; color: var(--soft); }
+  .done li::marker { content: "✓  "; color: #3E6B3A; }
+  .sign { margin-top: 14mm; color: var(--soft); }
+  .flow { display: flex; align-items: stretch; gap: 2mm; margin: 2mm 0 6mm; }
+  .flow div { flex: 1; border-top: 2px solid var(--amber); padding: 2mm 0 0; font-size: 8.6pt; color: var(--soft); }
+  .flow .tag { display: block; font-family: "IBM Plex Mono", monospace; font-size: 8pt; letter-spacing: .06em; text-transform: uppercase; color: var(--ink); font-weight: 500; }
+  .flow i { font-style: normal; color: var(--dim); align-self: center; }
+  p .mono, li .mono, .note .mono { white-space: nowrap; }
+  .note { break-inside: avoid; }
+  section.tight { font-size: 9.4pt; }
+  section.tight .lead { font-size: 10.8pt; }
+  section.tight .steps li { padding-top: 1.7mm; padding-bottom: 1.7mm; }
+  section.tight .steps li::before { top: 1.7mm; }
+  section.tight .q { padding: 1.8mm 0; }
+  section.tight .rule { margin-top: 3mm; padding-top: 3mm; }
+  section.tight td { padding-top: 1.6mm; padding-bottom: 1.6mm; }
+  section.tight h3 { margin-top: 4mm; }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="cover">
+  <img class="photo" src="../mockup-v2/img/portao-moradia.jpg" alt="">
+  <div class="shade"></div>
+  <img class="logo" src="../../public/brand/habinox-logo-branco.svg" alt="Habinox">
+  <div class="txt">
+    <div class="tag">Plano da plataforma · documento para a reunião</div>
+    <h1>Loja online<br><em>com preço na hora</em></h1>
+    <p class="sub">O que estou a desenvolver, como vai funcionar para os teus clientes e para ti, o que já está feito, o que vem a seguir e o que precisamos de decidir juntos.</p>
+    <div class="meta">
+      <div>Cliente<b>Bruno Miguel Freitas, Lda</b></div>
+      <div>Preparado por<b>Rodrigo Correia</b></div>
+      <div>Data<b>27 de outubro de 2026</b></div>
+    </div>
+  </div>
+</div>
+
+<!-- 1 -->
+<section>
+  <h2><span class="n">01</span>Em resumo</h2>
+  <p class="lead">Hoje cada pedido passa por um orçamento feito à mão. A nova plataforma deixa o cliente configurar o produto (medidas, material, cor e opções) e <strong>ver o preço final na hora</strong>, sem precisar de ninguém da Habinox. Se gostar, encomenda e paga online.</p>
+
+  <div class="cols rule">
+    <div>
+      <h3>O que muda para o cliente</h3>
+      <ul>
+        <li>Escolhe o produto, mete as medidas e vê o preço com IVA de imediato.</li>
+        <li>Vê o produto em 3D com a cor e o material que escolheu.</li>
+        <li>Encomenda, paga e acompanha o estado da encomenda na sua conta.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>O que muda para ti</h3>
+      <ul>
+        <li>Deixas de fazer orçamentos repetitivos: a plataforma faz as contas como tu fazes no Excel.</li>
+        <li>Crias e alteras produtos, opções e preços tu mesmo, num painel de gestão.</li>
+        <li>Os custos dos materiais vêm do PHC todos os dias; se um material sobe, os preços acompanham.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <h3>O objetivo do negócio</h3>
+    <p>Hoje a Habinox vende sobretudo por recomendação: cerca de 3% do mercado na região e 0,02% a nível nacional. A meta é chegar a <strong>1% nacional</strong> e, mais tarde, a Espanha e França. Por isso a plataforma já nasce preparada para outras línguas, embora no arranque só exista em português.</p>
+  </div>
+
+  <div class="rule">
+    <h3>Ponto de partida importante</h3>
+    <p>A loja <strong>não tem produtos fixos no código</strong>. És tu que crias as categorias, os produtos, as opções, os materiais, as cores, os limites de medidas e as fórmulas de preço. Se amanhã quiseres vender um produto novo, crias-o no painel, sem precisares de mim.</p>
+  </div>
+</section>
+
+<!-- 2 -->
+<section>
+  <h2><span class="n">02</span>Como funciona para o cliente</h2>
+  <p class="lead">O percurso de quem compra, do primeiro clique até à entrega.</p>
+  <ol class="steps">
+    <li><b>Escolhe a categoria e o modelo</b>Ex.: Portões → Portão de correr → modelo. Fotografias grandes, preço "desde" em cada modelo.</li>
+    <li><b>Configura</b>Largura, altura, material (ferro, inox, alumínio), cor RAL, enchimento, motorização e o que mais tiveres definido. Cada medida tem mínimo e máximo; uma combinação que não fazes aparece como "não é possível".</li>
+    <li><b>Vê o preço a mudar ao vivo</b>Sempre com IVA incluído, ao cêntimo, sem arredondamentos. Ao lado, um desenho técnico com as medidas que escreveu, para confirmar que não se enganou.</li>
+    <li><b>Vê o produto em 3D</b>Roda, aproxima, muda a cor e o material. No arranque o 3D muda cor e material, mas não muda de tamanho (as medidas só mudam o preço).</li>
+    <li><b>Envia uma foto ou rascunho do espaço</b>E confirma que as medidas são da sua responsabilidade (fica registado com data e hora, e está nos termos).</li>
+    <li><b>Escolhe instalação e transporte</b>Instalação à parte (zona + horas). Transporte próprio, transportadora ou levantamento na oficina.</li>
+    <li><b>Paga</b>Até 1 000 € com IVA: paga tudo. Acima de 1 000 €: 50% na adjudicação e 50% no despacho. Cartão, MB WAY e referência Multibanco. Nunca há taxas por meio de pagamento.</li>
+    <li><b>Acompanha a encomenda</b>Na área de cliente: paga → em produção → pronta → enviada → entregue. Recebe um email em cada passo importante.</li>
+  </ol>
+  <p class="note">Um orçamento guardado mantém o preço durante <strong>30 dias</strong>. Depois disso volta a ser calculado com os custos do dia.</p>
+</section>
+
+<!-- 3 -->
+<section>
+  <h2><span class="n">03</span>Como funciona para ti</h2>
+  <p class="lead">O painel de gestão (backoffice) é onde vives o dia a dia da loja. Só tu e quem autorizares lá entram.</p>
+
+  <div class="cols">
+    <div>
+      <h3>Catálogo</h3>
+      <ul>
+        <li>Categorias e subcategorias.</li>
+        <li><strong>Biblioteca de opções</strong>: crias uma vez (ex.: "Motorização", "Enchimento", "Cor") e reutilizas em vários produtos.</li>
+        <li>Regras do tipo "se o material for inox, não há lacado" ou "motor de correr só em portões de correr".</li>
+        <li>Componentes comprados (motores, fechaduras, iluminação) com o preço de venda.</li>
+      </ul>
+      <h3>Preços</h3>
+      <ul>
+        <li>Fórmula de cada produto por linhas, como no teu Excel: chapa, tubo, horas de soldadura, pintura…</li>
+        <li>Margem e consumíveis em % por produto; taxa horária por sector.</li>
+        <li>Pré-visualização com valores de exemplo e o detalhe linha a linha.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Publicar com segurança</h3>
+      <ul>
+        <li>Cada produto passa por <strong>rascunho → validado → publicado</strong>. Só aparece na loja depois de o validares com orçamentos reais.</li>
+        <li>As fórmulas têm versões; uma alteração não mexe nas encomendas já feitas.</li>
+      </ul>
+      <h3>PHC GO</h3>
+      <ul>
+        <li>Uma vez por dia a loja lê os artigos e custos do PHC e guarda uma cópia. Também há um botão "sincronizar agora".</li>
+        <li>A loja <strong>só lê</strong> do PHC; nunca escreve nada lá.</li>
+        <li>Se o PHC falhar, a loja continua com os últimos custos e avisa-te.</li>
+        <li>Se um artigo desaparecer do PHC, o preço nunca vai a zero: fica o último custo, marcado para revisão.</li>
+        <li>Fica guardado o histórico de custos.</li>
+      </ul>
+      <h3>Encomendas</h3>
+      <ul>
+        <li>Lista, estados, pagamentos, medidas confirmadas, fotos do cliente.</li>
+        <li>Cancelar ou devolver pede sempre motivo e confirmação.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="tight">
+  <h2><span class="n">04</span>Como se calcula o preço</h2>
+  <p class="lead">É o teu método de orçamento do Excel, passado para o computador. Tu defines as linhas e os valores de cada produto uma vez; a plataforma repete as contas para cada medida e cada opção que o cliente escolher, em menos de um segundo.</p>
+
+  <ol class="steps">
+    <li><b>Quantidades a partir das medidas</b>Cada linha do produto tem uma conta simples com as medidas do cliente: metros lineares de tubo, m² de chapa, m² de pintura, unidades. Ex.: tubo = 2 × largura + 3 × altura.</li>
+    <li><b>Custo de cada material</b>Quantidade × custo do artigo no PHC. O artigo depende do material escolhido: a linha "tubo 40×40" usa o artigo de ferro, de inox ou de alumínio, conforme a escolha do cliente.</li>
+    <li><b>Consumíveis</b>Uma percentagem sobre os materiais (brocas, discos, lixas, desgaste das máquinas). Defines a % em cada produto.</li>
+    <li><b>Mão de obra</b>Horas × taxa horária do sector (ex.: serralharia 23,50 €/h, corte laser 120 €/h). As horas também podem depender das medidas: soldadura = 2 + 0,5 × largura.</li>
+    <li><b>Margem</b>Soma-se tudo (custo direto) e aplica-se a margem <strong>sobre o preço de venda</strong>: preço = custo ÷ (1 − margem).</li>
+    <li><b>Componentes comprados</b>Motor, fechadura, iluminação: entram ao preço de venda que definiste, <strong>sem margem por cima</strong>, e só se o cliente os escolher.</li>
+    <li><b>Instalação e transporte</b>À parte, em linhas próprias. Instalação = preço da zona + horas × taxa. Transporte = volume (m³) × distância (km) × valor que defines.</li>
+    <li><b>IVA</b>23% aplicado <strong>uma só vez</strong>, sobre o total. O cliente vê sempre o preço com IVA.</li>
+  </ol>
+
+  <div class="formula">
+    custo direto &nbsp;= Σ materiais + consumíveis + Σ horas × taxa<br>
+    preço s/ IVA = custo direto ÷ (1 − margem) + Σ componentes + instalação + transporte<br>
+    preço final &nbsp;= preço s/ IVA + IVA <span class="c">(taxa guardada nas definições, hoje 23%)</span>
+  </div>
+
+  <div class="note"><strong>Margem não é o mesmo que "somar uma percentagem".</strong> Com custo de 100 € e margem de 50%, o preço é 100 ÷ 0,5 = <span class="mono">200 €</span> (não 150 €). Com margem de 40%: 100 ÷ 0,6 = <span class="mono">166,67 €</span>. É assim que fazes no teu Excel e é assim que a plataforma faz.</div>
+</section>
+
+<!-- 5 -->
+<section>
+  <h2><span class="n">05</span>Exemplo completo, passo a passo</h2>
+  <p class="lead">Portão de correr de <span class="mono">4 000 × 1 600 mm</span>, em ferro lacado, com motor, instalação e transporte a 35 km. <strong>Os custos e valores são inventados</strong>, só para mostrar as contas; os verdadeiros vêm do PHC e do que meteres no painel.</p>
+
+  <table>
+    <tr><th>Linha</th><th>Conta</th><th class="num">Valor</th></tr>
+    <tr><td>Tubo 40×40 (ferro)</td><td class="mono">(2 × 4 + 3 × 1,6) = 12,8 m × 4,20 €/m</td><td class="num">53,76 €</td></tr>
+    <tr><td>Chapa (ferro)</td><td class="mono">4 × 1,6 × 1,1 = 7,04 m² × 18,50 €/m²</td><td class="num">130,24 €</td></tr>
+    <tr><td>Lacagem RAL 7016</td><td class="mono">4 × 1,6 = 6,4 m² × 9,00 €/m²</td><td class="num">57,60 €</td></tr>
+    <tr class="total"><td>Materiais</td><td></td><td class="num">241,60 €</td></tr>
+    <tr><td>Consumíveis</td><td class="mono">5% × 241,60</td><td class="num">12,08 €</td></tr>
+    <tr><td>Soldadura</td><td class="mono">(2 + 0,5 × 4) = 4 h × 23,50 €/h</td><td class="num">94,00 €</td></tr>
+    <tr><td>Montagem</td><td class="mono">3 h × 23,50 €/h</td><td class="num">70,50 €</td></tr>
+    <tr class="total"><td>Custo direto</td><td></td><td class="num">418,18 €</td></tr>
+    <tr><td>Com margem de 50%</td><td class="mono">418,18 ÷ (1 − 0,50)</td><td class="num">836,36 €</td></tr>
+    <tr><td>Motor de correr (componente)</td><td class="mono">preço de venda, sem margem</td><td class="num">450,00 €</td></tr>
+    <tr class="total"><td>Portão, sem IVA</td><td></td><td class="num">1 286,36 €</td></tr>
+    <tr><td>Instalação</td><td class="mono">zona 60,00 € + 3 h × 23,50 €/h</td><td class="num">130,50 €</td></tr>
+    <tr><td>Transporte</td><td class="mono">4 × 1,6 × 0,15 = 0,96 m³ × 35 km × 0,50 €</td><td class="num">16,80 €</td></tr>
+    <tr class="total"><td>Total sem IVA</td><td></td><td class="num">1 433,66 €</td></tr>
+    <tr><td>IVA</td><td class="mono">23% × 1 433,66</td><td class="num">329,74 €</td></tr>
+    <tr class="total"><td>Total com IVA</td><td></td><td class="num">1 763,40 €</td></tr>
+  </table>
+
+  <div class="cols">
+    <div>
+      <h3>O que o cliente vê</h3>
+      <p>No configurador, o preço do portão com IVA: <span class="mono">1 582,22 €</span>. No carrinho, a instalação e o transporte aparecem em linhas separadas e o total fica <span class="mono">1 763,40 €</span>.</p>
+    </div>
+    <div>
+      <h3>Como paga</h3>
+      <p>Como passa de 1 000 € com IVA: <span class="mono">881,70 €</span> na adjudicação e <span class="mono">881,70 €</span> no despacho. O limite e as percentagens ficam nas definições; se mudares, muda para as encomendas novas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="tight">
+  <h2><span class="n">06</span>O que faz mudar o preço</h2>
+  <p class="lead">O preço reage às escolhas do cliente e aos custos do PHC. Tudo isto se define no painel, sem mexer no código.</p>
+
+  <div class="q"><span class="i">A</span><div><b>As medidas.</b><p>Mudam as quantidades (metros, m²) e, se quiseres, as horas. Cada medida tem mínimo e máximo por produto; fora disso, "não é possível".</p></div></div>
+  <div class="q"><span class="i">B</span><div><b>O material.</b><p>Escolher inox em vez de ferro troca o artigo do PHC em cada linha (tubo de inox, chapa de inox) e, com isso, o custo. Se um material não tiver artigo associado numa linha, essa combinação não é vendida.</p></div></div>
+  <div class="q"><span class="i">C</span><div><b>Opções que acrescentam uma linha.</b><p>Uma linha pode ter "só se": a linha do motor só conta se o cliente escolher motor; a linha da fechadura elétrica só se escolher fechadura elétrica.</p></div></div>
+  <div class="q"><span class="i">D</span><div><b>Opções que mudam números.</b><p>Ex.: enchimento em barras com espaçamento de 12 cm; o número de barras calcula-se sozinho a partir da largura (variável calculada) e entra na conta do tubo e das horas.</p></div></div>
+  <div class="q"><span class="i">E</span><div><b>Regras entre opções.</b><p>"Se inox, não há lacado", "motor de correr só em portões de correr". As escolhas impossíveis desaparecem do configurador e o servidor recusa sempre uma combinação inválida, mesmo que alguém tente forçar.</p></div></div>
+  <div class="q"><span class="i">F</span><div><b>Os custos do PHC.</b><p>No exemplo da secção 05, se o tubo passar de 4,20 para 4,60 €/m, o portão sobe <span class="mono">10,75 €</span> sem IVA (<span class="mono">13,22 €</span> com IVA), sozinho, em todos os produtos que usam esse tubo. Subidas acima de uma percentagem que definires ficam à tua espera para aprovar.</p></div></div>
+
+  <div class="rule">
+    <h3>O que <em style="font-style:normal;color:var(--dim)">não</em> muda o preço</h3>
+    <ul>
+      <li><strong>Um orçamento guardado</strong> mantém o preço durante 30 dias, mesmo que os custos mudem.</li>
+      <li><strong>Uma encomenda feita</strong> guarda uma "fotografia" do cálculo: custos usados, versão da fórmula e cada linha. Alterar a fórmula ou um custo depois nunca mexe nela.</li>
+      <li><strong>Publicar uma fórmula nova</strong> cria uma versão nova; a anterior fica guardada.</li>
+    </ul>
+  </div>
+
+  <div class="rule">
+    <h3>Como sabemos que as contas estão certas</h3>
+    <ul>
+      <li>Antes de publicar um produto, comparas o preço da plataforma com os teus orçamentos reais (dentro de uma tolerância a decidir, ex.: ±3%).</li>
+      <li>A parte das contas tem testes automáticos que correm a cada alteração que faço, com exemplos tirados dos teus orçamentos em Excel.</li>
+      <li>Dinheiro é sempre guardado em cêntimos e os custos com 4 casas decimais: nunca há "0,01 € perdidos" pelo caminho.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="tight">
+  <h2><span class="n">07</span>Onde ficam os dados</h2>
+  <p class="lead">Tudo o que a loja sabe fica numa base de dados própria (PostgreSQL, alojada na Neon, em nome da Habinox). A loja nunca depende do PHC em tempo real: lê sempre a sua cópia.</p>
+
+  <div class="flow">
+    <div><span class="tag">PHC GO</span>artigos e custos</div><i>→</i>
+    <div><span class="tag">Materiais</span>cópia diária + histórico</div><i>→</i>
+    <div><span class="tag">Fórmulas</span>linhas por produto</div><i>→</i>
+    <div><span class="tag">Orçamento</span>preço válido 30 dias</div><i>→</i>
+    <div><span class="tag">Encomenda</span>com o cálculo guardado</div>
+  </div>
+
+  <table>
+    <tr><th>Grupo</th><th>O que guarda</th><th>Quem altera</th></tr>
+    <tr><td><strong>Catálogo</strong></td><td>Categorias e subcategorias, produtos, fotografias, ficheiros 3D, biblioteca de opções e valores (incl. cores RAL), regras entre opções</td><td>Tu, no painel</td></tr>
+    <tr><td><strong>Preços</strong></td><td>Fórmulas por linhas e as suas versões, margens, consumíveis, sectores e taxas horárias, componentes, zonas de instalação, valores de transporte</td><td>Tu, no painel</td></tr>
+    <tr><td><strong>Materiais</strong></td><td>Artigos do PHC com o custo atual, <strong>histórico de todos os custos</strong>, artigos que deixaram de existir no PHC (marcados para revisão)</td><td>Sincronização diária; tu aprovas variações grandes</td></tr>
+    <tr><td><strong>Clientes</strong></td><td>Conta, email, moradas de faturação e entrega, consentimentos RGPD (o quê, quando, onde), grupo de desconto (Pro)</td><td>O cliente; tu no painel</td></tr>
+    <tr><td><strong>Orçamentos e encomendas</strong></td><td>Configuração escolhida, preço, "fotografia" do cálculo, medidas confirmadas (data e hora), foto do espaço, estado e histórico de estados</td><td>A loja; tu mudas os estados</td></tr>
+    <tr><td><strong>Pagamentos</strong></td><td>Pagamentos de cada encomenda (1 ou 2), meio, referência, estado. <strong>Nunca dados de cartões</strong></td><td>O serviço de pagamento</td></tr>
+    <tr><td><strong>Definições</strong></td><td>Taxa de IVA, validade dos orçamentos, limite e % dos pagamentos, % de variação que pede aprovação…</td><td>Tu, no painel</td></tr>
+    <tr><td><strong>Registos</strong></td><td>Sincronizações com o PHC (quando, quantos artigos, erros), eventos da loja para métricas e CRM, alertas</td><td>A plataforma</td></tr>
+  </table>
+
+  <div class="cols rule">
+    <div>
+      <h3>Segurança e cópias</h3>
+      <ul>
+        <li>Cópias de segurança automáticas, com possibilidade de recuperar a base de dados como estava num momento passado.</li>
+        <li>Uma cópia separada para o ambiente de testes: o que experimentas lá não toca na loja real.</li>
+        <li>Palavras-passe guardadas cifradas; o painel só abre para administradores.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Regras que nunca se quebram</h3>
+      <ul>
+        <li>Nunca se apaga um custo nem se põe um preço a zero por falha do PHC.</li>
+        <li>Opções e materiais já usados em encomendas são arquivados, não apagados.</li>
+        <li>Um cliente pode pedir para apagar a conta (RGPD); as faturas e encomendas ficam pelo prazo legal.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section>
+  <h2><span class="n">08</span>O que já está feito</h2>
+  <p class="lead">Fase 0 (definição) quase fechada do meu lado e a base técnica da plataforma já montada.</p>
+
+  <div class="cols">
+    <div>
+      <h3>Definição (fase 0)</h3>
+      <ul class="done">
+        <li>Regras de preço, pagamento, IVA, instalação e transporte (as tuas respostas de 14/10 e 26/10).</li>
+        <li>Análise dos 4 orçamentos reais em Excel (chaminé, escada e 2 guardas).</li>
+        <li>Desenho completo de como funcionam as opções e as regras de cada produto, testado contra portão, guarda, escada, chaminé e caixa de correio.</li>
+        <li>14 ecrãs de estrutura (wireframes): loja, carrinho, checkout, área de cliente e painel de gestão.</li>
+        <li>Logótipo redesenhado em vetor (SVG), em várias versões.</li>
+        <li><strong>Imagem do site aprovada por ti</strong> a 27/10: arquitetura moderna, fundo escuro, luz âmbar, fotografia grande, vista 3D.</li>
+        <li>Regras para exportares os ficheiros 3D (GLB) do TopSolid, enviadas por email.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Base técnica</h3>
+      <ul class="done">
+        <li>Projeto criado e organizado, com testes automáticos a correr em cada alteração.</li>
+        <li>Base de dados.</li>
+        <li>Registo de clientes com confirmação por email, login, recuperação de password.</li>
+        <li>Papéis: cliente, instalador (Pro) e administrador. O painel de gestão está protegido.</li>
+        <li>Preparado para várias línguas (só português no arranque).</li>
+        <li>Registo de erros e tarefas automáticas (ex.: a sincronização diária com o PHC).</li>
+      </ul>
+      <div class="note">Ainda não há lógica de negócio (produtos, preços, encomendas). Isso é a fase 1.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="tight">
+  <h2><span class="n">09</span>Fases, horas e valores</h2>
+  <p class="lead">As fases são feitas por ordem: só se começa uma quando a anterior está fechada e validada por ti. O preço de cada fase é fechado.</p>
+
+  <table>
+    <tr><th>Fase</th><th>O que é</th><th class="num">Horas</th><th class="num">Valor</th></tr>
+    <tr><td class="mono">0</td><td>Definição: produtos, regras de preço, estrutura dos ecrãs, imagem</td><td class="num">20 h</td><td class="num">300 €</td></tr>
+    <tr><td class="mono">1</td><td><strong>Loja online (beta) + ligação ao PHC GO</strong><br><span class="muted">catálogo, configurador com preço na hora, 3D, carrinho, pedido, conta do cliente, painel de gestão, emails, RGPD, SEO básico</span></td><td class="num">210 h</td><td class="num">3 150 €</td></tr>
+    <tr><td class="mono">1B</td><td>Pagamento online: cartão, MB WAY, Multibanco; portes; ligação à faturação</td><td class="num">40 h</td><td class="num">600 €</td></tr>
+    <tr><td class="mono">2</td><td>Métricas e análise do site</td><td class="num">35 h</td><td class="num">525 €</td></tr>
+    <tr><td class="mono">3</td><td>Ligação ao CRM GoHighLevel (contactos e follow-up automático)</td><td class="num">35 h</td><td class="num">525 €</td></tr>
+    <tr><td class="mono">4</td><td>Área Pro: instaladores por convite, com desconto, entrega na morada do cliente final, ficheiros técnicos</td><td class="num">100 h</td><td class="num">1 500 €</td></tr>
+    <tr><td class="mono">5</td><td>Assistente com IA (atendimento + vigilância do negócio e do sistema)</td><td class="num">60 h</td><td class="num">900 €</td></tr>
+    <tr><td class="mono">6</td><td>Relatório mensal automático da procura</td><td class="num">20 h</td><td class="num">300 €</td></tr>
+    <tr class="total"><td></td><td>Plano base</td><td class="num">520 h</td><td class="num">7 800 €</td></tr>
+    <tr class="opt"><td class="mono">7</td><td>(opcional) Prospeção em concursos públicos</td><td class="num">70 h</td><td class="num">à parte</td></tr>
+    <tr class="opt"><td class="mono">8</td><td>(opcional) 3D que muda com as medidas e ligação à produção</td><td class="num">135 h</td><td class="num">à parte</td></tr>
+  </table>
+  <p class="muted">Valores sem IVA.</p>
+
+  <div class="rule">
+    <h3>Prazos</h3>
+    <p>Trabalho cerca de <strong>15 horas por semana</strong> no projeto. Assim, a fase 1 leva à volta de <strong>14 semanas</strong> (3 a 4 meses) depois do arranque, e a fase 1B cerca de 3 semanas. Vais tendo versões para experimentar ao longo do caminho, não só no fim.</p>
+  </div>
+
+  <div class="rule">
+    <h3>Depois do lançamento</h3>
+    <p>Manutenção de <strong>75 €/mês</strong>, até 5 horas por mês: correções, atualizações de segurança e pequenos ajustes. Por isso a plataforma está a ser feita com serviços geridos e o mínimo de peças a manter.</p>
+  </div>
+</section>
+
+<!-- 7 -->
+<section>
+  <h2><span class="n">10</span>A fase 1 em detalhe</h2>
+  <p class="lead">A ordem em que vou construir a loja. Primeiro o que mexe com dinheiro, testado à parte; depois os ecrãs.</p>
+  <ol class="steps">
+    <li><b>Motor de preços</b>As contas do preço, isoladas e com testes automáticos, verificadas contra os teus orçamentos reais. É onde um erro custa dinheiro, por isso vem antes de tudo.</li>
+    <li><b>Base de dados do catálogo</b>Materiais, opções, regras, produtos, fórmulas e versões.</li>
+    <li><b>Painel de gestão</b>Criar produtos, opções, materiais, componentes e fórmulas; pré-visualizar o preço; validar e publicar.</li>
+    <li><b>Loja</b>Página inicial, categorias com filtros, configurador com preço ao vivo e desenho cotado, versão de telemóvel.</li>
+    <li><b>Visualizador 3D</b>A partir dos teus ficheiros GLB, com cor e material ao vivo.</li>
+    <li><b>Carrinho, pedido e conta do cliente</b>Medidas confirmadas, foto do espaço, emails de confirmação, histórico de encomendas.</li>
+    <li><b>Ligação ao PHC GO</b>Primeiro com dados de teste; com os teus acessos, passa a ler os custos reais.</li>
+    <li><b>RGPD e SEO</b>Consentimentos, cookies, apagar conta, páginas legais; o básico para o Google encontrar a loja.</li>
+    <li><b>Ambiente de testes (staging)</b>Uma cópia da loja só para ti, para experimentares cada entrega antes de ir para o ar.</li>
+  </ol>
+</section>
+
+<!-- 8 -->
+<section>
+  <h2><span class="n">11</span>O que preciso de ti</h2>
+  <p class="lead">Só uma coisa impede o arranque da fase 1. O resto pode ir chegando durante o desenvolvimento.</p>
+
+  <table>
+    <tr><th>O quê</th><th>Para quê</th><th>Estado</th></tr>
+    <tr><td><strong>Contrato assinado</strong></td><td>Arranque da fase 1</td><td><span class="chip block">bloqueia</span></td></tr>
+    <tr><td>OK ao logótipo em SVG</td><td>Cabeçalho, emails, faturas</td><td><span class="chip wait">em falta</span></td></tr>
+    <tr><td>OK aos fluxos: carrinho, checkout, área de cliente, painel de gestão</td><td>O aspeto já está aprovado; falta a estrutura</td><td><span class="chip wait">em falta</span></td></tr>
+    <tr><td>Acessos à API do PHC GO (AppID, token, ambiente de testes)</td><td>Ler os custos reais. Até lá trabalho com dados de teste</td><td><span class="chip wait">fecho da fase 1</span></td></tr>
+    <tr><td>Lista de artigos do PHC por material (ferro, inox, alumínio) nos produtos-piloto</td><td>Ligar cada linha da fórmula ao custo certo</td><td><span class="chip wait">fecho da fase 1</span></td></tr>
+    <tr><td>2 ficheiros GLB de teste (um de correr, um de batente)</td><td>Confirmar que o 3D funciona com o que sai do TopSolid</td><td><span class="chip wait">em falta</span></td></tr>
+    <tr><td>Fotografias recentes das obras, alta resolução, ao fim do dia</td><td>Substituir as fotos de exemplo. Faltam guardas, chaminés e caixas de correio</td><td><span class="chip wait">em falta</span></td></tr>
+    <tr><td>Contas em nome da Habinox (Vercel, Neon, Cloudflare, Resend, Sentry) com cartão da empresa</td><td>Pôr a loja online. Dou-te antes uma estimativa do custo mensal</td><td><span class="chip wait">antes do lançamento</span></td></tr>
+    <tr><td>Contacto de quem aloja o site atual</td><td>Domínio, DNS e email (o email @habinox.pt não pode parar)</td><td><span class="chip wait">antes do lançamento</span></td></tr>
+    <tr><td>Dados legais: NIF, registo, termos e privacidade (de preferência por um jurista)</td><td>Páginas legais, exclusão de devolução em produtos por medida</td><td><span class="chip wait">antes do lançamento</span></td></tr>
+  </table>
+</section>
+
+<!-- 9 -->
+<section>
+  <h2><span class="n">12</span>Para decidirmos na reunião</h2>
+  <p class="lead">Pontos em aberto. Alguns mexem com horas fora do plano, por isso prefiro decidi-los contigo antes de os fazer.</p>
+
+  <h3>Âmbito e horas</h3>
+  <div class="q"><span class="i">1</span><div><b>"Abrir o portão" no 3D.</b><p>Está no mockup, mas não está no âmbito da fase 1 (≈ 8 a 15 h). Entra já na fase 1 com acréscimo, ou fica para a fase 8?</p></div></div>
+  <div class="q"><span class="i">2</span><div><b>Prazo de produção calculado pela capacidade</b> (ex.: 8 portões/mês).<p>Não estava no âmbito original. Estimo as horas e decidimos se entra.</p></div></div>
+  <div class="q"><span class="i">3</span><div><b>Faturação no PHC: automática quando o pagamento entra, ou manual?</b><p>Automática alarga a fase 1B de cerca de 40 h para cerca de 50 h.</p></div></div>
+
+  <h3>Como vais usar a loja</h3>
+  <div class="q"><span class="i">4</span><div><b>Produtos-piloto.</b><p>Começar pelos dos teus orçamentos (chaminé, escada, guardas) e pelo portão de correr?</p></div></div>
+  <div class="q"><span class="i">5</span><div><b>Escadas: um produto com muitas opções, ou vários produtos separados</b> (reta, em L, caracol)?</div></div>
+  <div class="q"><span class="i">6</span><div><b>"Outra cor RAL"</b> fora da carta: tem acréscimo de preço?</div></div>
+  <div class="q"><span class="i">7</span><div><b>Validação dos produtos.</b><p>Que diferença aceitas entre o preço da loja e os teus orçamentos reais (±3%? ±5%)? Com quantos orçamentos por produto?</p></div></div>
+  <div class="q"><span class="i">8</span><div><b>Subidas de custo no PHC.</b><p>Acima de que percentagem uma variação fica à espera da tua aprovação antes de mexer nos preços da loja?</p></div></div>
+  <div class="q"><span class="i">9</span><div><b>Fora dos limites.</b><p>Mostrar só "não é possível", ou também um contacto para pedido especial (para não perder o cliente)?</p></div></div>
+  <div class="q"><span class="i">10</span><div><b>Medição no local.</b><p>Fazes? Em que zonas, com que preço, e é descontado na encomenda?</p></div></div>
+
+  <h3>Pagamentos e entregas</h3>
+  <div class="q"><span class="i">11</span><div><b>Que banco usas?</b><p>Ajuda a escolher a forma de pagamento online (Stripe, IfthenPay ou Eupago).</p></div></div>
+  <div class="q"><span class="i">12</span><div><b>Zona de entrega no arranque:</b> continente, ilhas, Espanha?</div></div>
+  <div class="q"><span class="i">13</span><div><b>Multibanco por pagar:</b> quantos dias de prazo? Passado o prazo, cancela ou fica para revisão?</div></div>
+  <div class="q"><span class="i">14</span><div><b>Quem mais vai usar o painel de gestão,</b> e que email recebe os avisos de nova encomenda?</div></div>
+</section>
+
+<!-- 10 -->
+<section>
+  <h2><span class="n">13</span>Como vamos trabalhar</h2>
+
+  <div class="cols">
+    <div>
+      <h3>Entregas</h3>
+      <ul>
+        <li>Antes de cada fase mostro-te um plano curto e só avanço com o teu OK.</li>
+        <li>Cada entrega fica primeiro no ambiente de testes, para experimentares.</li>
+        <li>Só passa para a loja real depois de validares.</li>
+        <li>Nenhum produto aparece na loja sem a fórmula validada por ti.</li>
+      </ul>
+      <h3>Contas e dados</h3>
+      <ul>
+        <li>Todas as contas dos serviços ficam <strong>em nome da Habinox</strong>; eu entro como administrador.</li>
+        <li>Os dados dos clientes ficam na nossa base de dados, com cópias de segurança diárias.</li>
+        <li>Pelo RGPD, a Habinox é a responsável pelos dados e eu sou subcontratante (assinamos um acordo para isso).</li>
+        <li>A plataforma nunca guarda dados de cartões: isso fica com o serviço de pagamento.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Código</h3>
+      <ul>
+        <li>O código é meu; a Habinox recebe a licença de utilização.</li>
+        <li>Serviços fiáveis e conhecidos, para a manutenção ser barata e rápida.</li>
+      </ul>
+      <h3>Segurança dos preços</h3>
+      <ul>
+        <li>As contas do preço são testadas automaticamente em cada alteração.</li>
+        <li>O preço de cada encomenda fica guardado tal como foi calculado.</li>
+        <li>Se o PHC falhar, a loja continua a vender com os últimos custos.</li>
+        <li>O assistente com IA (fase 5) <strong>só lê e propõe</strong>: nunca altera preços, produtos ou encomendas sem ti.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <h3>Próximos passos</h3>
+    <ol>
+      <li>Reunião: tirar dúvidas e decidir os pontos da secção 12.</li>
+      <li>Assinar o contrato.</li>
+      <li>Arranque da fase 1 pelo motor de preços.</li>
+      <li>Em paralelo, do teu lado: acessos ao PHC, GLB de teste e fotografias.</li>
+    </ol>
+  </div>
+
+  <p class="sign">Rodrigo Correia</p>
+</section>
+
+</body>
+</html>

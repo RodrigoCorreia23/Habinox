@@ -81,6 +81,11 @@
 
 - `docs/modelo-opcoes.md`: biblioteca de opções (medida, número, escolha, sim/não) e valores com `params`; opção do produto com limites e valores permitidos; regras "se… então" (`restrict`, `hide`, `require`, `forbid`), também ao nível da biblioteca, sem ciclos; preço pelas opções via componente, condição na linha ou números nas expressões; variáveis calculadas; artigo da linha escolhido por qualquer opção. Opções e fórmula publicadas juntas em `product_versions`. Testado contra o portão, a guarda, a escada, a chaminé e a caixa de correio. Schema do `CLAUDE.md` atualizado.
 
+### Fase 0 — plano para a reunião presencial (2026-10-27)
+
+- O Bruno pediu uma reunião presencial "para entender bem o que estás a desenvolver e outras questões de como vai funcionar".
+- `docs/plano/Habinox-plano.pdf` (15 páginas, fonte em `docs/plano/plano.html`; gerado com o Chromium do Playwright, `--print-to-pdf`): resumo, percurso do cliente, painel de gestão, cálculo do preço com exemplo completo (valores inventados), o que mexe no preço, base de dados explicada por grupos, o que está feito, fases/horas/valores (valores por fase a 15 €/h = 7 800 € ÷ 520 h — confirmar com o contrato), fase 1 em detalhe, o que falta do Bruno, 14 pontos para decidir na reunião e forma de trabalho.
+
 Regras do motor de preços que saíram dos orçamentos e das respostas (detalhe em `docs/fase-0.md` e `docs/orcamentos-analise.md`):
 
 ```
