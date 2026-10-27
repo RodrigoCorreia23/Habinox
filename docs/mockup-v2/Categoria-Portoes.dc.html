@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Habinox — Portões</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,200..700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0F0E0D;color:#EEE9E2;font-family:'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+::selection{background:#D6A25E;color:#15120E}
+a{color:#EEE9E2;text-decoration:none}
+a:hover{color:#FFFFFF}
+:focus-visible{outline:2px solid #EEE9E2;outline-offset:3px}
+.disp{font-family:'Archivo',system-ui,sans-serif;font-stretch:115%;font-weight:300;letter-spacing:-0.01em;margin:0}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.wrap{max-width:1440px;margin:0 auto;padding-left:56px;padding-right:56px;box-sizing:border-box}
+.nav a{font-size:14px;letter-spacing:0.02em;color:#C9C2B8}
+.nav a:hover{color:#FFFFFF}
+.icon-btn{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;color:#EEE9E2;background:transparent;border:0;cursor:pointer;position:relative}
+.icon-btn:hover{color:#D6A25E}
+.menu-btn{display:none}
+.chip{height:44px;padding:0 22px;border-radius:999px;font:inherit;font-size:14px;cursor:pointer;transition:background .25s ease,color .25s ease,border-color .25s ease}
+.chip:hover{border-color:#EEE9E2!important}
+.link-arrow{display:inline-flex;align-items:center;gap:10px;font-size:15px;border-bottom:1px solid rgba(238,233,226,0.35);padding-bottom:6px}
+.link-arrow:hover{border-bottom-color:#D6A25E}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:24px;row-gap:72px}
+.prod .ph{aspect-ratio:4/5;overflow:hidden;background:#181715;position:relative}
+.prod img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.1s cubic-bezier(.16,1,.3,1)}
+.prod:hover img{transform:scale(1.04)}
+.prod .cta{opacity:0;transform:translateY(8px);transition:opacity .35s ease,transform .5s cubic-bezier(.16,1,.3,1)}
+.prod:hover .cta,.prod:focus-visible .cta{opacity:1;transform:none}
+.foot a{color:#A8A095;font-size:14px}
+.foot a:hover{color:#EEE9E2}
+@media (prefers-reduced-motion: reduce){.prod img,.prod .cta{transition:none}.prod:hover img{transform:none}}
+@media (max-width: 1100px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width: 760px){
+  .wrap{padding-left:20px;padding-right:20px}
+  .nav{display:none!important}
+  .menu-btn{display:inline-flex}
+  .hide-sm{display:none!important}
+  .cat-title{font-size:64px!important}
+  .grid{grid-template-columns:minmax(0,1fr);row-gap:48px}
+  .prod .cta{opacity:1;transform:none}
+}
+</style>
+</helmet>
+<div style="background: #0F0E0D; color: #EEE9E2; min-height: 100%;">
+
+  <header style="border-bottom: 1px solid #2A2724;">
+    <div class="wrap" style="height: 88px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button class="icon-btn menu-btn" type="button" aria-label="Abrir menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"></path></svg>
+        </button>
+        <a href="Main.dc.html" aria-label="Habinox, loja" style="display: flex; align-items: center;">
+          <img src="/_blob/2e3bd2009f6755044ea2b243e813c2a3" alt="Habinox" style="height: 26px; width: auto; display: block;">
+        </a>
+      </div>
+      <nav class="nav" aria-label="Categorias" style="display: flex; gap: 36px;">
+        <a href="Categoria-Portoes.dc.html" aria-current="page" style="color: #FFFFFF; border-bottom: 1px solid #D6A25E; padding-bottom: 4px;">Portões</a>
+        <a href="Main.dc.html#escadas">Escadas</a>
+        <a href="Main.dc.html#categorias">Guardas</a>
+        <a href="Main.dc.html#categorias">Chaminés</a>
+        <a href="Main.dc.html#categorias">Caixas de correio</a>
+      </nav>
+      <div style="display: flex; align-items: center; gap: 4px;">
+        <button class="icon-btn" type="button" aria-label="Pesquisar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg>
+        </button>
+        <a class="icon-btn hide-sm" href="#" aria-label="A minha conta">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20c1.2-3.6 4-5.5 7.5-5.5s6.3 1.9 7.5 5.5"></path></svg>
+        </a>
+        <a class="icon-btn" href="#" aria-label="Carrinho, vazio">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 8h14l-1.2 12H6.2L5 8z"></path><path d="M9 8V6.5a3 3 0 0 1 6 0V8"></path></svg>
+          <span class="mono" style="position: absolute; top: 6px; right: 4px; font-size: 10px; color: #D6A25E;">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section style="padding-top: 72px; padding-bottom: 56px;">
+    <div class="wrap">
+      <nav aria-label="Caminho" style="font-size: 13px; color: #8E867B; display: flex; gap: 10px; margin-bottom: 40px;">
+        <a href="Main.dc.html" style="color: #A8A095;">Loja</a><span aria-hidden="true">/</span><span>Portões</span>
+      </nav>
+      <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px;">
+        <h1 class="disp cat-title" style="font-size: 128px; line-height: 0.95;">Portões</h1>
+        <p style="margin: 0 0 10px; max-width: 380px; font-size: 16px; line-height: 1.6; color: #A8A095;">Por medida, em ferro, inox ou alumínio. Escolha um modelo e veja o preço com as suas medidas.</p>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; margin-top: 64px;">
+        <div role="group" aria-label="Filtrar por tipo" style="display: flex; flex-wrap: wrap; gap: 10px;">
+          <sc-for list="{{filters}}" as="f" hint-placeholder-count="4">
+            <button class="chip" type="button" aria-pressed="{{f.pressed}}" onClick="{{f.pick}}" style="{{f.style}}">{{f.label}}</button>
+          </sc-for>
+        </div>
+        <span class="mono" style="font-size: 13px; color: #8E867B;">{{countLabel}}</span>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-bottom: 140px;">
+    <div class="wrap">
+      <div class="grid">
+        <sc-for list="{{products}}" as="p" hint-placeholder-count="6">
+          <a class="prod" href="{{p.href}}" style="display: flex; flex-direction: column; gap: 22px;">
+            <div class="ph">
+              <img src="{{p.img}}" alt="{{p.alt}}">
+              <span class="cta" style="position: absolute; left: 20px; bottom: 20px; height: 44px; padding: 0 20px; display: inline-flex; align-items: center; gap: 10px; background: #D6A25E; color: #15120E; font-size: 14px; font-weight: 500;">Configurar
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+              </span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;">
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <span style="font-family: 'Archivo', sans-serif; font-stretch: 110%; font-size: 24px; font-weight: 400;">{{p.name}}</span>
+                <span style="font-size: 14px; color: #A8A095;">{{p.sub}}</span>
+              </div>
+              <span class="mono" style="font-size: 14px; white-space: nowrap; padding-top: 6px;">{{p.price}}</span>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="border-top: 1px solid #2A2724;">
+    <div class="wrap" style="padding-top: 96px; padding-bottom: 96px; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px;">
+      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 680px;">
+        <h2 class="disp" style="font-size: 44px; line-height: 1.05;">Tem um projeto diferente?</h2>
+        <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #A8A095;">Envie as medidas e uma fotografia do local. Respondemos com um orçamento.</p>
+      </div>
+      <a class="link-arrow" href="#">Fazer um pedido especial</a>
+    </div>
+  </section>
+
+  <footer style="border-top: 1px solid #2A2724; padding-top: 48px; padding-bottom: 48px;">
+    <div class="wrap foot" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px;">
+      <img src="/_blob/2e3bd2009f6755044ea2b243e813c2a3" alt="Habinox" style="height: 22px; width: auto;">
+      <div style="display: flex; flex-wrap: wrap; gap: 28px;">
+        <a href="#">Como medir</a>
+        <a href="#">Entregas e instalação</a>
+        <a href="#">Termos</a>
+        <a href="#">Privacidade</a>
+        <a href="#">Livro de Reclamações</a>
+      </div>
+      <span style="font-size: 13px; color: #8E867B;">Preços com IVA incluído</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2500}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { filter: 'todos' };
+  }
+  renderVals() {
+    var self = this;
+    var current = this.state.filter;
+    var ALL = [
+      { id: 'linear', type: 'correr', name: 'Linear', sub: 'De correr · barras verticais', price: 'desde 2 786 €', img: '/_blob/0e6102f23bdfa3cd6d1aa4461d993c1c', alt: 'Portão de correr preto numa moradia moderna', href: 'Configurador.dc.html' },
+      { id: 'prisma', type: 'batente', name: 'Prisma', sub: 'De batente · chapa com relevo', price: 'desde 3 940 €', img: '/_blob/50205ecb1cee00ee7bd06796adbd524d', alt: 'Portão de batente preto com relevo geométrico', href: 'Configurador.dc.html' },
+      { id: 'orbita', type: 'correr', name: 'Órbita', sub: 'De correr · chapa perfurada', price: 'desde 3 120 €', img: '/_blob/31491adc8a0d651ab5ab69f7500a6642', alt: 'Portão de correr cinzento em chapa perfurada', href: 'Configurador.dc.html' },
+      { id: 'horizonte', type: 'correr', name: 'Horizonte', sub: 'De correr · lâminas horizontais', price: 'desde 2 540 €', img: '/_blob/1dc911186af6321cb85719fc4a444f27', alt: 'Portão de correr com lâminas horizontais', href: 'Configurador.dc.html' },
+      { id: 'ritmo', type: 'batente', name: 'Ritmo', sub: 'De batente · barras verticais', price: 'desde 1 890 €', img: '/_blob/444be6fc7de7c158ca1e6dac2c861618', alt: 'Portão de batente preto com barras verticais', href: 'Configurador.dc.html' },
+      { id: 'passo', type: 'pedonal', name: 'Passo', sub: 'Pedonal · ripas verticais', price: 'desde 1 290 €', img: '/_blob/bd354ade49015a76a984257d2ba3384e', alt: 'Portão pedonal preto de ripas numa parede branca', href: 'Configurador.dc.html' }
+    ];
+    var FILTERS = [
+      { id: 'todos', label: 'Todos' },
+      { id: 'correr', label: 'De correr' },
+      { id: 'batente', label: 'De batente' },
+      { id: 'pedonal', label: 'Pedonais' }
+    ];
+    var filters = FILTERS.map(function (f) {
+      var on = f.id === current;
+      return {
+        label: f.label,
+        pressed: on ? 'true' : 'false',
+        style: on ? 'background: #EEE9E2; color: #15120E; border: 1px solid #EEE9E2;' : 'background: transparent; color: #EEE9E2; border: 1px solid #706960;',
+        pick: function () { self.setState({ filter: f.id }); }
+      };
+    });
+    var products = ALL.filter(function (p) { return current === 'todos' || p.type === current; });
+    var n = products.length;
+    return {
+      filters: filters,
+      products: products,
+      countLabel: n + (n === 1 ? ' modelo' : ' modelos')
+    };
+  }
+}
+</script>
+</body>
+</html>

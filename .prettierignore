@@ -8,6 +8,7 @@ test-results
 playwright-report
 docs/wireframes
 docs/mockup
+docs/mockup-v2
 .agents
 skills-lock.json
 docs/design

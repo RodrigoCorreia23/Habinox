@@ -1,0 +1,28 @@
+{
+  "v": 3,
+  "createdOnFiles": { "v": 1, "at": "2026-10-27T10:40:00Z" },
+  "title": "Habinox — Loja v2",
+  "launch": { "view": "canvas" },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": { "x": 0, "y": 0, "w": 1440, "h": 5000, "title": "Loja — início", "expand": "fill", "is_interactive": true },
+    "Categoria-Portoes.dc.html": { "x": 1520, "y": 0, "w": 1440, "h": 2500, "title": "Categoria — Portões", "expand": "fill", "is_interactive": true },
+    "Configurador.dc.html": { "x": 3040, "y": 0, "w": 1440, "h": 2900, "title": "Configurador — Portão de correr Linear", "expand": "fill", "is_interactive": true },
+    "Configurador-3D.dc.html": { "x": 4560, "y": 0, "w": 1440, "h": 1900, "title": "Configurador — vista 3D", "expand": "fill", "is_interactive": true },
+    "Mobile-Loja.dc.html": { "x": 6080, "y": 0, "w": 390, "h": 7400, "title": "Loja — telemóvel", "expand": "fill", "is_interactive": true }
+  },
+  "order": ["Main.dc.html", "Categoria-Portoes.dc.html", "Configurador.dc.html", "Configurador-3D.dc.html", "Mobile-Loja.dc.html"],
+  "notes": {
+    "t1": { "x": 0, "y": -420, "text": "Loja v2 — mais imagem, menos caixas", "kind": "title1", "maxW": 6470 },
+    "n2": { "x": 4560, "y": 1980, "w": 520, "size": "m", "fill": "blue", "text": "Vista 3D: o portão é desenhado em código só para o mockup. No site, o modelo vem do ficheiro GLB exportado do TopSolid. No beta o 3D muda material e cor; as medidas entram no preço, não no modelo." },
+    "n1": {
+      "x": 6550,
+      "y": 0,
+      "w": 440,
+      "size": "m",
+      "fill": "orange",
+      "text": "Para o Bruno:\n\n• A loja é só loja: produtos, medidas, preço e carrinho. A história da Habinox fica na página inicial do site.\n• Fotografias ilustrativas (Unsplash), só para mostrar o ambiente. No site real entram fotografias das obras da Habinox.\n• Nomes dos modelos e preços são exemplos.\n• Cores: grafite quente com a luz âmbar das fotografias de referência."
+    }
+  },
+  "designSystems": []
+}

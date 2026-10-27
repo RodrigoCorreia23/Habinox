@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Habinox — Portão de correr Linear</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,200..700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0F0E0D;color:#EEE9E2;font-family:'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+::selection{background:#D6A25E;color:#15120E}
+a{color:#EEE9E2;text-decoration:none}
+a:hover{color:#FFFFFF}
+:focus-visible{outline:2px solid #EEE9E2;outline-offset:3px}
+.disp{font-family:'Archivo',system-ui,sans-serif;font-stretch:115%;font-weight:300;letter-spacing:-0.01em;margin:0}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.wrap{max-width:1440px;margin:0 auto;padding-left:56px;padding-right:56px;box-sizing:border-box}
+.nav a{font-size:14px;letter-spacing:0.02em;color:#C9C2B8}
+.nav a:hover{color:#FFFFFF}
+.icon-btn{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;color:#EEE9E2;background:transparent;border:0;cursor:pointer;position:relative}
+.icon-btn:hover{color:#D6A25E}
+.menu-btn{display:none}
+.layout{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:72px;align-items:start}
+.stick{position:sticky;top:24px}
+.chip{min-height:44px;padding:0 20px;border-radius:999px;font:inherit;font-size:14px;cursor:pointer;transition:background .25s ease,color .25s ease,border-color .25s ease}
+.chip:hover{border-color:#EEE9E2!important}
+.swatch{width:44px;height:44px;border-radius:50%;cursor:pointer;padding:0;transition:box-shadow .25s ease}
+.thumb{width:96px;height:72px;padding:0;cursor:pointer;overflow:hidden;background:#181715}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.field{display:flex;flex-direction:column;gap:8px;flex:1 1 160px}
+.field input{height:56px;padding:0 16px;background:#181715;border:1px solid #706960;color:#EEE9E2;font-family:'IBM Plex Mono',monospace;font-size:18px;border-radius:2px;box-sizing:border-box;width:100%}
+.field input:focus{border-color:#D6A25E;outline:none}
+.opt{padding:28px 0;border-top:1px solid #2A2724;display:flex;flex-direction:column;gap:16px}
+.opt-h{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.btn-amber{width:100%;height:60px;border:0;background:#D6A25E;color:#15120E;font:inherit;font-size:16px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px}
+.btn-amber:hover{background:#E4B676}
+.btn-amber[disabled]{background:#3A3631;color:#A8A095;cursor:not-allowed}
+.link-arrow{display:inline-flex;align-items:center;gap:10px;font-size:15px;border-bottom:1px solid rgba(238,233,226,0.35);padding-bottom:6px}
+.link-arrow:hover{border-bottom-color:#D6A25E}
+.specs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px}
+.rel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.prod .ph{aspect-ratio:4/5;overflow:hidden;background:#181715}
+.prod img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.1s cubic-bezier(.16,1,.3,1)}
+.prod:hover img{transform:scale(1.04)}
+.foot a{color:#A8A095;font-size:14px}
+.foot a:hover{color:#EEE9E2}
+@media (prefers-reduced-motion: reduce){.prod img{transition:none}.prod:hover img{transform:none}}
+@media (max-width: 1100px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:48px}
+  .stick{position:static}
+  .specs{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width: 760px){
+  .wrap{padding-left:20px;padding-right:20px}
+  .nav{display:none!important}
+  .menu-btn{display:inline-flex}
+  .hide-sm{display:none!important}
+  .view{height:420px!important}
+  .prod-title{font-size:56px!important}
+  .rel{grid-template-columns:minmax(0,1fr)}
+  .specs{grid-template-columns:minmax(0,1fr)}
+}
+</style>
+</helmet>
+<div style="background: #0F0E0D; color: #EEE9E2; min-height: 100%;">
+
+  <header style="border-bottom: 1px solid #2A2724;">
+    <div class="wrap" style="height: 88px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button class="icon-btn menu-btn" type="button" aria-label="Abrir menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"></path></svg>
+        </button>
+        <a href="Main.dc.html" aria-label="Habinox, loja" style="display: flex; align-items: center;">
+          <img src="/_blob/2e3bd2009f6755044ea2b243e813c2a3" alt="Habinox" style="height: 26px; width: auto; display: block;">
+        </a>
+      </div>
+      <nav class="nav" aria-label="Categorias" style="display: flex; gap: 36px;">
+        <a href="Categoria-Portoes.dc.html" style="color: #FFFFFF; border-bottom: 1px solid #D6A25E; padding-bottom: 4px;">Portões</a>
+        <a href="Main.dc.html#escadas">Escadas</a>
+        <a href="Main.dc.html#categorias">Guardas</a>
+        <a href="Main.dc.html#categorias">Chaminés</a>
+        <a href="Main.dc.html#categorias">Caixas de correio</a>
+      </nav>
+      <div style="display: flex; align-items: center; gap: 4px;">
+        <button class="icon-btn" type="button" aria-label="Pesquisar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg>
+        </button>
+        <a class="icon-btn hide-sm" href="#" aria-label="A minha conta">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20c1.2-3.6 4-5.5 7.5-5.5s6.3 1.9 7.5 5.5"></path></svg>
+        </a>
+        <a class="icon-btn" href="#" aria-label="{{cartAria}}">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 8h14l-1.2 12H6.2L5 8z"></path><path d="M9 8V6.5a3 3 0 0 1 6 0V8"></path></svg>
+          <span class="mono" style="position: absolute; top: 6px; right: 4px; font-size: 10px; color: #D6A25E;">{{cartCount}}</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap" style="padding-top: 32px;">
+    <nav aria-label="Caminho" style="font-size: 13px; color: #8E867B; display: flex; gap: 10px;">
+      <a href="Main.dc.html" style="color: #A8A095;">Loja</a><span aria-hidden="true">/</span>
+      <a href="Categoria-Portoes.dc.html" style="color: #A8A095;">Portões</a><span aria-hidden="true">/</span>
+      <span>Linear</span>
+    </nav>
+  </div>
+
+  <section class="wrap" style="padding-top: 32px; padding-bottom: 120px;">
+    <div class="layout">
+
+      <div class="stick" style="display: flex; flex-direction: column; gap: 16px;">
+        <div class="view" style="position: relative; height: 760px; overflow: hidden; background: #181715;">
+          <sc-if value="{{showPhoto}}" hint-placeholder-val="{{true}}">
+            <img src="{{photoSrc}}" alt="{{photoAlt}}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </sc-if>
+          <sc-if value="{{showDrawing}}" hint-placeholder-val="{{false}}">
+            <div style="position: absolute; inset: 0; background: #E9E4DC; display: flex; align-items: center; justify-content: center;">
+              <span class="mono" style="position: absolute; left: 24px; top: 22px; font-size: 12px; letter-spacing: 0.08em; color: #706960;">{{drawTitle}}</span>
+              <div style="position: relative; width: 82%; aspect-ratio: 16 / 10;">
+                <div style="{{gateStyle}}"></div>
+                <div style="{{postStyle}}"></div>
+                <div style="{{groundStyle}}"></div>
+                <div style="{{wLineStyle}}"></div>
+                <span class="mono" style="{{wLabelStyle}}">{{wLabel}}</span>
+                <div style="{{hLineStyle}}"></div>
+                <span class="mono" style="{{hLabelStyle}}">{{hLabel}}</span>
+                <span class="mono" style="{{sideLabelStyle}}">{{sideLabel}}</span>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <div role="group" aria-label="Vistas" style="display: flex; gap: 12px;">
+          <sc-for list="{{views}}" as="v" hint-placeholder-count="3">
+            <button class="thumb" type="button" aria-label="{{v.label}}" aria-pressed="{{v.pressed}}" onClick="{{v.pick}}" style="{{v.style}}">
+              <sc-if value="{{v.isImg}}" hint-placeholder-val="{{true}}">
+                <img src="{{v.img}}" alt="">
+              </sc-if>
+              <sc-if value="{{v.isDraw}}" hint-placeholder-val="{{false}}">
+                <span style="width: 100%; height: 100%; background: #E9E4DC; display: flex; align-items: center; justify-content: center;">
+                  <svg width="56" height="36" viewBox="0 0 56 36" fill="none" stroke="#15120E" stroke-width="1.4" aria-hidden="true"><rect x="6" y="6" width="30" height="20"></rect><path d="M12 6v20M18 6v20M24 6v20M30 6v20M2 30h52"></path><path d="M6 33h30" stroke="#8A5A1E"></path></svg>
+                </span>
+              </sc-if>
+            </button>
+          </sc-for>
+          <a class="thumb" href="Configurador-3D.dc.html" aria-label="Ver o portão em 3D" style="border: 1px solid #2A2724; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #EEE9E2;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"></path><path d="M4 7.5l8 4.5 8-4.5M12 12v9"></path></svg>
+            <span class="mono" style="font-size: 11px; letter-spacing: 0.08em;">3D</span>
+          </a>
+          <span style="align-self: center; margin-left: 8px; font-size: 13px; color: #8E867B;">{{viewHint}}</span>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column;">
+        <span class="mono" style="font-size: 12px; letter-spacing: 0.08em; color: #A8A095;">PORTÃO DE CORRER</span>
+        <h1 class="disp prod-title" style="font-size: 80px; line-height: 1; margin-top: 14px;">Linear</h1>
+        <p style="margin: 18px 0 0; font-size: 16px; line-height: 1.6; color: #A8A095; max-width: 440px;">Folha única com barras verticais, a deslizar sobre calha. Feito com as medidas da sua entrada.</p>
+
+        <div style="margin-top: 36px; margin-bottom: 36px; display: flex; flex-direction: column; gap: 8px;" aria-live="polite">
+          <span class="disp mono" style="font-size: 44px; font-weight: 400; letter-spacing: -0.02em; font-family: 'IBM Plex Mono', monospace;">{{priceText}}</span>
+          <span style="font-size: 14px; color: #A8A095;">{{priceNote}}</span>
+        </div>
+
+        <div class="opt">
+          <div class="opt-h"><span style="font-size: 16px;">Medidas da abertura</span><span class="mono" style="font-size: 12px; color: #8E867B;">EM MM</span></div>
+          <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+            <label class="field">
+              <span style="font-size: 13px; color: #A8A095;">Largura</span>
+              <input type="text" inputmode="numeric" value="{{wText}}" onChange="{{onW}}" aria-describedby="w-hint" style="{{wInputStyle}}">
+              <span id="w-hint" style="{{wHintStyle}}">{{wHint}}</span>
+            </label>
+            <label class="field">
+              <span style="font-size: 13px; color: #A8A095;">Altura</span>
+              <input type="text" inputmode="numeric" value="{{hText}}" onChange="{{onH}}" aria-describedby="h-hint" style="{{hInputStyle}}">
+              <span id="h-hint" style="{{hHintStyle}}">{{hHint}}</span>
+            </label>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+            <span style="font-size: 13px; color: #A8A095; margin-right: 6px;">Abre para a</span>
+            <sc-for list="{{sides}}" as="o" hint-placeholder-count="2">
+              <button class="chip" type="button" aria-pressed="{{o.pressed}}" onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div class="opt">
+          <div class="opt-h"><span style="font-size: 16px;">Material</span></div>
+          <div role="group" aria-label="Material" style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <sc-for list="{{materials}}" as="o" hint-placeholder-count="3">
+              <button class="chip" type="button" aria-pressed="{{o.pressed}}" onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div class="opt">
+          <div class="opt-h"><span style="font-size: 16px;">Acabamento</span><span style="font-size: 14px; color: #A8A095;">{{finishName}}</span></div>
+          <div role="group" aria-label="Acabamento" style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <sc-for list="{{finishes}}" as="o" hint-placeholder-count="2">
+              <button class="chip" type="button" aria-pressed="{{o.pressed}}" onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button>
+            </sc-for>
+          </div>
+          <sc-if value="{{showColors}}" hint-placeholder-val="{{true}}">
+            <div role="group" aria-label="Cor" style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 4px;">
+              <sc-for list="{{colors}}" as="c" hint-placeholder-count="4">
+                <button class="swatch" type="button" aria-label="{{c.aria}}" aria-pressed="{{c.pressed}}" onClick="{{c.pick}}" style="{{c.style}}"></button>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+
+        <div class="opt">
+          <div class="opt-h"><span style="font-size: 16px;">Enchimento</span></div>
+          <div role="group" aria-label="Enchimento" style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <sc-for list="{{fills}}" as="o" hint-placeholder-count="2">
+              <button class="chip" type="button" aria-pressed="{{o.pressed}}" onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div class="opt">
+          <div class="opt-h"><span style="font-size: 16px;">Automatismo</span></div>
+          <div role="group" aria-label="Automatismo" style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <sc-for list="{{motors}}" as="o" hint-placeholder-count="3">
+              <button class="chip" type="button" aria-pressed="{{o.pressed}}" onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div class="opt" style="border-bottom: 1px solid #2A2724;">
+          <label style="display: flex; align-items: center; justify-content: space-between; gap: 16px; cursor: pointer; min-height: 44px;">
+            <span style="display: flex; flex-direction: column; gap: 4px;">
+              <span style="font-size: 16px;">Instalação no local</span>
+              <span style="font-size: 13px; color: #A8A095;">Montagem pela nossa equipa · <span class="mono">{{installPrice}}</span></span>
+            </span>
+            <input type="checkbox" checked="{{install}}" onChange="{{toggleInstall}}" style="width: 22px; height: 22px; accent-color: #D6A25E; flex-shrink: 0;">
+          </label>
+        </div>
+
+        <div style="margin-top: 32px; display: flex; flex-direction: column; gap: 16px;">
+          <button class="btn-amber" type="button" disabled="{{cantAdd}}" onClick="{{add}}">{{addLabel}}</button>
+          <span style="font-size: 13px; line-height: 1.5; color: #A8A095;">{{payNote}}</span>
+          <div style="display: flex; flex-wrap: wrap; gap: 28px; margin-top: 8px;">
+            <a class="link-arrow" href="#">Guardar orçamento</a>
+            <a class="link-arrow" href="#">Como medir a abertura</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="border-top: 1px solid #2A2724;">
+    <div class="wrap" style="padding-top: 96px; padding-bottom: 96px;">
+      <h2 class="disp" style="font-size: 40px; line-height: 1.05; margin-bottom: 48px;">Detalhes</h2>
+      <div class="specs">
+        <div style="display: flex; flex-direction: column; gap: 10px; border-top: 1px solid #2A2724; padding-top: 20px;">
+          <span style="font-size: 13px; color: #A8A095;">Medidas</span>
+          <span class="mono" style="font-size: 15px; line-height: 1.6;">Largura 1 000 – 6 000 mm<br>Altura 800 – 2 200 mm</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px; border-top: 1px solid #2A2724; padding-top: 20px;">
+          <span style="font-size: 13px; color: #A8A095;">Inclui</span>
+          <span style="font-size: 15px; line-height: 1.6;">Calha, rodas e guias. Acabamento à escolha.</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px; border-top: 1px solid #2A2724; padding-top: 20px;">
+          <span style="font-size: 13px; color: #A8A095;">Fabrico</span>
+          <span style="font-size: 15px; line-height: 1.6;">Por medida. Prazo calculado na encomenda.</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px; border-top: 1px solid #2A2724; padding-top: 20px;">
+          <span style="font-size: 13px; color: #A8A095;">Entrega</span>
+          <span style="font-size: 15px; line-height: 1.6;">Portugal continental, ou levantamento na oficina.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap" style="padding-bottom: 120px;">
+      <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 40px;">
+        <h2 class="disp" style="font-size: 40px; line-height: 1.05;">Outros portões</h2>
+        <a class="link-arrow" href="Categoria-Portoes.dc.html">Ver todos</a>
+      </div>
+      <div class="rel">
+        <a class="prod" href="Categoria-Portoes.dc.html" style="display: flex; flex-direction: column; gap: 18px;">
+          <div class="ph"><img src="/_blob/50205ecb1cee00ee7bd06796adbd524d" alt="Portão de batente preto com relevo geométrico"></div>
+          <div style="display: flex; justify-content: space-between; gap: 16px;"><span style="font-size: 18px;">Prisma</span><span class="mono" style="font-size: 14px; color: #A8A095;">desde 3 940 €</span></div>
+        </a>
+        <a class="prod" href="Categoria-Portoes.dc.html" style="display: flex; flex-direction: column; gap: 18px;">
+          <div class="ph"><img src="/_blob/31491adc8a0d651ab5ab69f7500a6642" alt="Portão de correr em chapa perfurada"></div>
+          <div style="display: flex; justify-content: space-between; gap: 16px;"><span style="font-size: 18px;">Órbita</span><span class="mono" style="font-size: 14px; color: #A8A095;">desde 3 120 €</span></div>
+        </a>
+        <a class="prod" href="Categoria-Portoes.dc.html" style="display: flex; flex-direction: column; gap: 18px;">
+          <div class="ph"><img src="/_blob/bd354ade49015a76a984257d2ba3384e" alt="Portão pedonal de ripas verticais"></div>
+          <div style="display: flex; justify-content: space-between; gap: 16px;"><span style="font-size: 18px;">Passo</span><span class="mono" style="font-size: 14px; color: #A8A095;">desde 1 290 €</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="border-top: 1px solid #2A2724; padding-top: 48px; padding-bottom: 48px;">
+    <div class="wrap foot" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px;">
+      <img src="/_blob/2e3bd2009f6755044ea2b243e813c2a3" alt="Habinox" style="height: 22px; width: auto;">
+      <div style="display: flex; flex-wrap: wrap; gap: 28px;">
+        <a href="#">Como medir</a>
+        <a href="#">Entregas e instalação</a>
+        <a href="#">Termos</a>
+        <a href="#">Privacidade</a>
+        <a href="#">Livro de Reclamações</a>
+      </div>
+      <span style="font-size: 13px; color: #8E867B;">Preços com IVA incluído</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      view: 'foto',
+      wText: '4000',
+      hText: '1600',
+      side: 'direita',
+      material: 'ferro',
+      finish: 'lacado',
+      color: '7016',
+      fill: 'barras',
+      motor: 'sem',
+      install: false,
+      added: false,
+      cartCount: 0
+    };
+  }
+
+  renderVals() {
+    var s = this.state;
+    var self = this;
+    var LIMITS = { width: [1000, 6000], height: [800, 2200] };
+    var MATERIALS = [{ id: 'ferro', label: 'Ferro' }, { id: 'inox', label: 'Inox' }, { id: 'aluminio', label: 'Alumínio' }];
+    var FINISHES = {
+      ferro: [{ id: 'lacado', label: 'Lacado' }, { id: 'galvanizado', label: 'Galvanizado', hex: '#9EA4A6' }],
+      inox: [{ id: 'escovado', label: 'Escovado', hex: '#B9BEC1' }, { id: 'polido', label: 'Polido espelho', hex: '#D4D8DA' }],
+      aluminio: [{ id: 'lacado', label: 'Lacado' }]
+    };
+    var COLORS = [
+      { id: '7016', code: 'RAL 7016', name: 'Cinza antracite', hex: '#383E42' },
+      { id: '9005', code: 'RAL 9005', name: 'Preto', hex: '#0E0E10' },
+      { id: '9016', code: 'RAL 9016', name: 'Branco', hex: '#F1F0EA' },
+      { id: '8017', code: 'RAL 8017', name: 'Castanho chocolate', hex: '#44322D' }
+    ];
+    var FILLS = [{ id: 'barras', label: 'Barras verticais' }, { id: 'chapa', label: 'Chapa lisa' }];
+
+    // Fórmula de EXEMPLO (modelo do Bruno): materiais + consumíveis + horas × taxa, ÷ (1 − margem),
+    // + componentes a preço de venda + instalação; IVA no fim. Não são os custos da Habinox.
+    var TUBE = { ferro: 6.40, inox: 17.80, aluminio: 11.20 };
+    var SHEET = { ferro: 24.00, inox: 78.00, aluminio: 46.00 };
+    var FINISH_M2 = { lacado: 21.00, galvanizado: 9.50, escovado: 0, polido: 0 };
+    var CONSUMABLES = 0.10, HOUR = 25.00, MARGIN = 0.45, VAT = 0.23, KIT = 186.00;
+    var MOTOR = { sem: 0, motor: 465.00, 'motor-extra': 535.00 };
+
+    function grp(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+    function eur(cents) {
+      var e = Math.floor(cents / 100), c = cents % 100;
+      return grp(e) + ',' + (c < 10 ? '0' : '') + c + ' €';
+    }
+    function parse(t) {
+      var x = String(t).replace(/\s/g, '');
+      if (x === '') return null;
+      var n = Number(x.replace(',', '.'));
+      return isNaN(n) ? NaN : Math.round(n);
+    }
+    function chip(on) {
+      return on ? 'background: #EEE9E2; color: #15120E; border: 1px solid #EEE9E2;' : 'background: transparent; color: #EEE9E2; border: 1px solid #706960;';
+    }
+    function opts(list, key) {
+      return list.map(function (o) {
+        var on = s[key] === o.id;
+        return {
+          label: o.label, pressed: on ? 'true' : 'false', style: chip(on),
+          pick: function () { var p = {}; p[key] = o.id; p.added = false; self.setState(p); }
+        };
+      });
+    }
+
+    var w = parse(s.wText), h = parse(s.hText);
+    var wOk = typeof w === 'number' && !isNaN(w) && w >= LIMITS.width[0] && w <= LIMITS.width[1];
+    var hOk = typeof h === 'number' && !isNaN(h) && h >= LIMITS.height[0] && h <= LIMITS.height[1];
+    var canPrice = wOk && hOk;
+
+    var finishList = FINISHES[s.material];
+    var finish = finishList.filter(function (f) { return f.id === s.finish; })[0] || finishList[0];
+    var lacado = finish.id === 'lacado';
+    var color = COLORS.filter(function (c) { return c.id === s.color; })[0];
+    var leaf = lacado ? color.hex : finish.hex;
+    var isSheet = s.fill === 'chapa';
+
+    var L = canPrice ? w / 1000 : 0, H = canPrice ? h / 1000 : 0;
+    var tube = isSheet ? 2 * (L + H) + 2 * L : 2 * (L + H) + Math.ceil(L / 0.12) * H;
+    var sheet = isSheet ? L * H * 1.05 : 0;
+    var area = isSheet ? 2 * L * H : L * H;
+    var mats = tube * TUBE[s.material] + sheet * SHEET[s.material] + area * FINISH_M2[finish.id];
+    var hours = isSheet ? 6 + 2.0 * L + 0.6 * L * H : 6 + 2.4 * L + 0.9 * L * H;
+    if (finish.id === 'polido') hours += 0.8 * L * H;
+    var direct = mats * (1 + CONSUMABLES) + hours * HOUR;
+    var installNet = 120.00 + (4 + 0.5 * (canPrice ? L : 4)) * 28.00;
+    var net = Math.round((direct / (1 - MARGIN) + KIT + MOTOR[s.motor] + (s.install ? installNet : 0)) * 100);
+    var total = net + Math.round(net * VAT);
+
+    // Desenho: palco 16:10, tudo em % do palco
+    var dw = wOk ? w : 4000, dh = hOk ? h : 1600;
+    var sc = Math.min(0.62 / dw, (0.62 * 1.6) / dh);
+    var stageRatio = 1.6;
+    var gwPct = dw * sc * 100;
+    var ghP = dh * sc * stageRatio * 100;
+    if (ghP > 66) { var k = 66 / ghP; gwPct *= k; ghP = 66; }
+    var left = (100 - gwPct) / 2 + 6;
+    var groundY = 80;
+    var topY = groundY - ghP;
+    var barStep = (120 / dw) * 100;
+    var gateBg = isSheet
+      ? 'background: ' + leaf + ';'
+      : 'background-color: transparent; background-image: linear-gradient(90deg, ' + leaf + ' 0, ' + leaf + ' 3px, transparent 3px); background-size: ' + barStep.toFixed(3) + '% 100%;';
+    var stroke = (lacado && (s.color === '9016')) ? '#8E867B' : leaf;
+    var gateStyle = 'position: absolute; box-sizing: border-box; left: ' + left.toFixed(2) + '%; top: ' + topY.toFixed(2) + '%; width: ' + gwPct.toFixed(2) + '%; height: ' + ghP.toFixed(2) + '%; border: 4px solid ' + stroke + '; ' + gateBg;
+    var postX = s.side === 'esquerda' ? left + gwPct + 1 : left - 3;
+    var postStyle = 'position: absolute; left: ' + postX.toFixed(2) + '%; top: ' + (topY - 4).toFixed(2) + '%; width: 2%; height: ' + (ghP + 4).toFixed(2) + '%; background: #15120E;';
+    var groundStyle = 'position: absolute; left: 0; right: 0; top: ' + groundY + '%; height: 2px; background: #15120E;';
+    var dimC = '#8A5A1E';
+    var wLineStyle = 'position: absolute; left: ' + left.toFixed(2) + '%; width: ' + gwPct.toFixed(2) + '%; top: ' + (groundY + 9) + '%; height: 0; border-top: 1.5px solid ' + dimC + '; border-left: 1.5px solid ' + dimC + '; border-right: 1.5px solid ' + dimC + '; padding-top: 8px;';
+    var wLabelStyle = 'position: absolute; left: ' + (left + gwPct / 2).toFixed(2) + '%; top: ' + (groundY + 9) + '%; transform: translate(-50%, -50%); background: #E9E4DC; padding: 2px 10px; font-size: 14px; color: ' + (wOk ? dimC : '#B3261E') + '; white-space: nowrap;';
+    var hx = left - 7;
+    var hLineStyle = 'position: absolute; left: ' + hx.toFixed(2) + '%; top: ' + topY.toFixed(2) + '%; height: ' + ghP.toFixed(2) + '%; width: 0; border-left: 1.5px solid ' + dimC + ';';
+    var hLabelStyle = 'position: absolute; left: ' + hx.toFixed(2) + '%; top: ' + (topY + ghP / 2).toFixed(2) + '%; transform: translate(-50%, -50%) rotate(-90deg); background: #E9E4DC; padding: 2px 10px; font-size: 14px; color: ' + (hOk ? dimC : '#B3261E') + '; white-space: nowrap;';
+    var sideLabelStyle = 'position: absolute; left: ' + (left + gwPct / 2).toFixed(2) + '%; top: ' + (topY - 8).toFixed(2) + '%; transform: translate(-50%, -100%); font-size: 12px; color: #706960; white-space: nowrap;';
+
+    var VIEWS = [
+      { id: 'foto', label: 'Fotografia', img: '/_blob/0e6102f23bdfa3cd6d1aa4461d993c1c' },
+      { id: 'ambiente', label: 'Ambiente à noite', img: '/_blob/d39e464b6387ef6a4f0db8e088819057' },
+      { id: 'desenho', label: 'Desenho com as suas medidas', img: null }
+    ];
+    var views = VIEWS.map(function (v) {
+      var on = s.view === v.id;
+      return {
+        label: v.label, img: v.img, isImg: !!v.img, isDraw: !v.img,
+        pressed: on ? 'true' : 'false',
+        style: on ? 'border: 2px solid #D6A25E;' : 'border: 1px solid #2A2724; opacity: 0.7;',
+        pick: function () { self.setState({ view: v.id }); }
+      };
+    });
+    var photo = VIEWS.filter(function (v) { return v.id === s.view; })[0];
+
+    function hint(ok, val, lim) {
+      var range = grp(lim[0]) + ' a ' + grp(lim[1]) + ' mm';
+      if (val === null) return 'Entre ' + range + '.';
+      if (isNaN(val)) return 'Só números, por exemplo 3500.';
+      if (!ok) return 'Fora do intervalo: ' + range + '.';
+      return 'Entre ' + range + '.';
+    }
+    function inputStyle(ok, val) { return (val !== null && !ok) ? 'border-color: #E5796F; border-width: 2px;' : ''; }
+    function hintStyle(ok, val) { return 'font-size: 12px; color: ' + ((val !== null && !ok) ? '#F0A39B' : '#8E867B') + ';'; }
+
+    var colors = COLORS.map(function (c) {
+      var on = c.id === s.color;
+      return {
+        aria: c.code + ' ' + c.name, pressed: on ? 'true' : 'false',
+        style: 'background: ' + c.hex + '; border: 1px solid #706960; box-shadow: ' + (on ? '0 0 0 3px #0F0E0D, 0 0 0 5px #D6A25E' : 'none') + ';',
+        pick: function () { self.setState({ color: c.id, added: false }); }
+      };
+    });
+
+    var priceText = canPrice ? eur(total) : '— €';
+    var over = total > 100000;
+    return {
+      cartCount: s.cartCount,
+      cartAria: s.cartCount ? 'Carrinho, 1 artigo' : 'Carrinho, vazio',
+      showPhoto: s.view !== 'desenho',
+      showDrawing: s.view === 'desenho',
+      photoSrc: photo && photo.img ? photo.img : '',
+      photoAlt: s.view === 'ambiente' ? 'Moradia moderna iluminada ao anoitecer' : 'Portão de correr preto numa moradia moderna',
+      views: views,
+      viewHint: s.view === 'desenho' ? 'O desenho muda com as medidas.' : 'Fotografia ilustrativa.',
+      drawTitle: 'LINEAR · ' + (isSheet ? 'CHAPA LISA' : 'BARRAS VERTICAIS') + ' · ' + s.material.toUpperCase().replace('ALUMINIO', 'ALUMÍNIO'),
+      gateStyle: gateStyle, postStyle: postStyle, groundStyle: groundStyle,
+      wLineStyle: wLineStyle, wLabelStyle: wLabelStyle, wLabel: (w !== null && !isNaN(w) ? grp(w) : '?') + ' mm',
+      hLineStyle: hLineStyle, hLabelStyle: hLabelStyle, hLabel: (h !== null && !isNaN(h) ? grp(h) : '?') + ' mm',
+      sideLabelStyle: sideLabelStyle, sideLabel: s.side === 'esquerda' ? '← abre para a esquerda' : 'abre para a direita →',
+      priceText: priceText,
+      priceNote: canPrice ? 'IVA incluído · preço de exemplo' : 'Escreva medidas válidas para ver o preço.',
+      wText: s.wText, hText: s.hText,
+      onW: function (e) { self.setState({ wText: e.target.value, added: false }); },
+      onH: function (e) { self.setState({ hText: e.target.value, added: false }); },
+      wHint: hint(wOk, w, LIMITS.width), hHint: hint(hOk, h, LIMITS.height),
+      wInputStyle: inputStyle(wOk, w), hInputStyle: inputStyle(hOk, h),
+      wHintStyle: hintStyle(wOk, w), hHintStyle: hintStyle(hOk, h),
+      sides: opts([{ id: 'esquerda', label: 'Esquerda' }, { id: 'direita', label: 'Direita' }], 'side'),
+      materials: MATERIALS.map(function (m) {
+        var on = s.material === m.id;
+        return {
+          label: m.label, pressed: on ? 'true' : 'false', style: chip(on),
+          pick: function () { self.setState({ material: m.id, finish: FINISHES[m.id][0].id, added: false }); }
+        };
+      }),
+      finishes: finishList.map(function (f) {
+        var on = finish.id === f.id;
+        return {
+          label: f.label, pressed: on ? 'true' : 'false', style: chip(on),
+          pick: function () { self.setState({ finish: f.id, added: false }); }
+        };
+      }),
+      finishName: lacado ? color.code + ' · ' + color.name : finish.label,
+      showColors: lacado,
+      colors: colors,
+      fills: opts(FILLS, 'fill'),
+      motors: opts([{ id: 'sem', label: 'Sem motor' }, { id: 'motor', label: 'Motor · + 572 €' }, { id: 'motor-extra', label: 'Motor e 2 comandos · + 658 €' }], 'motor'),
+      install: s.install,
+      installPrice: '+ ' + eur(Math.round(installNet * 100 * (1 + VAT))),
+      toggleInstall: function () { self.setState({ install: !s.install, added: false }); },
+      cantAdd: !canPrice,
+      addLabel: s.added ? 'Adicionado ao carrinho' : (canPrice ? 'Adicionar ao carrinho · ' + priceText : 'Adicionar ao carrinho'),
+      add: function () { self.setState({ added: true, cartCount: 1 }); },
+      payNote: canPrice && over ? 'Acima de 1 000 €: paga 50% na encomenda e 50% quando o portão sair da oficina. Cartão, MB WAY ou Multibanco.' : 'Pagamento com cartão, MB WAY ou referência Multibanco.'
+    };
+  }
+}
+</script>
+</body>
+</html>

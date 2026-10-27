@@ -2,13 +2,13 @@
 
 > Documento vivo. **Atualizar no fim de cada sessão de trabalho** (secções 2, 6 e 7).
 > O `CLAUDE.md` tem o contexto de negócio, as decisões e as regras; este ficheiro tem
-> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-10-26.
+> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-10-27.
 
 ---
 
 ## 1. Resumo rápido
 
-- **Fase atual:** esqueleto técnico feito (passos 1–6 de 7). **Fase 0 quase fechada**: as regras de preço, pagamento, IVA e transporte estão todas respondidas pelo Bruno (`docs/fase-0.md`, respostas de 14/10 e 26/10); 14 wireframes com a marca **Habinox**, o azul do logótipo e duas revisões feitas. Logótipo redesenhado em SVG (`public/brand/`) e aplicado na app e nos wireframes; **mockup final feito** (`docs/mockup/`, modo claro e escuro, com fotografias reais de obras) e email ao Bruno escrito. Falta: o Bruno aprovar os wireframes, o mockup e o logótipo; fotografias recentes; contrato assinado; e o deploy (passo 7). Depois: fase 1 a começar por `lib/money` + `lib/pricing`.
+- **Fase atual:** esqueleto técnico feito (passos 1–6 de 7). **Fase 0 quase fechada**: as regras de preço, pagamento, IVA e transporte estão todas respondidas pelo Bruno (`docs/fase-0.md`, respostas de 14/10 e 26/10); 14 wireframes com a marca **Habinox**, o azul do logótipo e duas revisões feitas. Logótipo redesenhado em SVG (`public/brand/`) e aplicado na app e nos wireframes. O mockup v1 (`docs/mockup/`, "catálogo técnico") foi recusado pelo Bruno ("muitas caixas"); o **mockup v2** (`docs/mockup-v2/`: loja escura de arquitetura moderna, com vista 3D) foi **aprovado a 2026-10-27** e o `DESIGN.md` reescrito. Falta: o Bruno aprovar os wireframes e o logótipo; fotografias recentes das obras; GLB de teste do TopSolid; contrato assinado; e o deploy (passo 7). Depois: fase 1 a começar por `lib/money` + `lib/pricing`.
 - **Cliente:** marca **HABINOX®** (não "Abinox"), Bruno Miguel Freitas, Lda, Núcleo Industrial de Antas, 4740-016 Antas, **Esposende**. Domínio `habinox.pt`, email `geral@habinox.pt`.
 - **Repositório:** `github.com/RodrigoCorreia23/Habinox`, ramo `main`. CI no GitHub Actions verde.
 - **Nada de lógica de negócio ainda** (catálogo, preços, PHC, encomendas): só infraestrutura, autenticação e páginas placeholder.
@@ -67,6 +67,15 @@
 | `8876082` design: logótipo aplicado | Logótipo (SVG em linha) nos 14 wireframes (branco no backoffice); `next/image` no cabeçalho da loja e na barra do backoffice; `src/app/icon.svg` (símbolo) substitui o `favicon.ico`                                               |
 | `3e9599e` docs: mockup final        | `docs/mockup/`: página inicial e configurador do portão de correr, desktop e telemóvel, versão clara (`DESIGN.md`) e escura (60/30/10); fotografias reais em `img/`; README com valores de exemplo e correspondência dos `/_blob/` |
 | `75fef4a` docs: mockup com aço      | Versão escura: o bege `#E4E1DA` passou a cinzento-aço `#E3E6E9` (pedido do Rodrigo: o bege não ficava bem)                                                                                                                         |
+
+### Fase 0 — mockup v2 aprovado (2026-10-27)
+
+- O Bruno recusou o mockup v1: "muito simples e quadrada e tem muitas caixas"; pediu o visual de imagens de arquitetura moderna do Pinterest (interiores escuros com LED âmbar) e que a loja fosse só loja.
+- **Mockup v2** feito num canvas novo (https://claude.ai/artifact/SbBGznCFf11VEcdd7YUev3, privado), cópia em `docs/mockup-v2/` (README com imagens, `/_blob/` e notas): loja — início, categoria Portões com filtros, configurador do portão de correr com preço ao vivo e desenho cotado, **vista 3D** (three.js: rodar, aproximar, rodar sozinho, abrir o portão, material e cor ao vivo) e início em telemóvel.
+- Fotografias **do Unsplash, ilustrativas** (não do Pinterest, por direitos); no site entram as das obras.
+- **Aprovado pelo Bruno a 2026-10-27:** "A ideia é mesmo esta com um ar de arquitectura moderna, é este o caminho."
+- `DESIGN.md` reescrito para a nova direção (grafite `#0F0E0D`, âmbar `#D6A25E`, Archivo larga a 300, sem caixas; o azul do logótipo sai da loja; contrastes verificados; bordas de controlos subidas para `#706960`, 3,56:1). Backoffice mantém a paleta clara. `CLAUDE.md` (stack e decisão 16) atualizado.
+- **Email ao Bruno** com as regras de exportação dos GLB (detalhe em `docs/mockup-v2/README.md`): peças `folha` / `folha_esquerda` / `folha_direita`, material `acabamento` (as RAL vêm do backoffice), GLB com peças separadas, portão fechado, sem cenário; pedidos 2 ficheiros de teste.
 
 Regras do motor de preços que saíram dos orçamentos e das respostas (detalhe em `docs/fase-0.md` e `docs/orcamentos-analise.md`):
 
@@ -161,7 +170,8 @@ DESIGN.md                         identidade visual (fonte da verdade; importado
 docs/estado.md, docs/fase-0.md, docs/revisao-wireframes.md
 docs/wireframes/                  14 ecrãs .dc.html + canvas.json + README
 docs/design/                      mockup de referência da home (fora do Prettier)
-docs/mockup/                      mockup final: 8 ecrãs .dc.html (claro/escuro, desktop/telemóvel) + img/ + README (fora do Prettier)
+docs/mockup/                      mockup v1 (recusado): 8 ecrãs .dc.html (claro/escuro, desktop/telemóvel) + img/ + README (fora do Prettier)
+docs/mockup-v2/                   mockup v2 (aprovado): 5 ecrãs .dc.html (loja, categoria, configurador, 3D, telemóvel) + img/ + README (fora do Prettier)
 public/brand/                     logótipo em SVG (completo, sem slogan, símbolo, branco)
 messages/pt.json                  textos da loja (namespaces Metadata, Nav, Home, Account, Auth)
 scripts/seed.ts                   cria/promove admin (idempotente)
@@ -273,7 +283,13 @@ Notas:
 - **Identidade visual fechada:** `DESIGN.md` (catálogo técnico) + mockup de referência em `docs/design/Loja_Pagina_Inicial_mockup.html`. Tokens aplicados em `src/app/globals.css` e fontes em `src/lib/fonts.ts` (Archivo, IBM Plex Sans, IBM Plex Mono). Ajustes de contraste: `line-strong #85827A` para bordas de campos. Acento = azul do logótipo `#2005A2` (2026-10-22, substituiu o laranja `#B8461A` do mockup). Os 14 wireframes já seguem a nova identidade.
 - **Decisões técnicas da revisão:** números com `Intl.NumberFormat('pt-PT', { useGrouping: 'always' })`; tokens de design em variáveis CSS; linhas de fórmula com artigo PHC por material (decidido: `formula_line_materials`, já no `CLAUDE.md`).
 - **Nomes técnicos internos** (`abinox` na BD, utilizador do Postgres, `package.json`, CI) ficaram de propósito com o nome antigo: invisíveis e mudá-los obriga a recriar a BD local. Mudar só se houver motivo.
-- **Mockup final (2026-10-26):** feito, ver secção 2 e `docs/mockup/README.md`. Email ao Bruno escrito (informal: mockup em anexo em HTML, modo claro e escuro e telemóvel; falta fotos melhores e modelos 3D; pedir foto atual do escritório). O Rodrigo envia o HTML. **Aguarda:** opinião do Bruno, escolha do modo por omissão, validação do logótipo e das cores, fotografias recentes.
+- **Mockup v2 aprovado (2026-10-27)** — ver secção 2 e `docs/mockup-v2/README.md`. Por fazer:
+  - **Tokens da loja escura** em `src/app/globals.css` (`ground`, `surface`, `line-strong`, `amber`, …) e fonte Archivo com eixo de largura em `src/lib/fonts.ts`; o tema atual é o claro (fica para o backoffice). Fazer no início da UI da fase 1.
+  - **Fotografias recentes das obras**, alta resolução, ao fim do dia, de todas as famílias (faltam guardas, chaminés, caixas de correio).
+  - **GLB de teste** (um portão de correr, um de batente) para confirmar peças separadas e nomes.
+  - **"Abrir o portão" no 3D:** não está escrito no âmbito da fase 1 (≈ 8–15 h). Decidir com o Bruno: fase 1 ou fase 8.
+  - Os wireframes continuam na direção v1; valem pela estrutura e fluxos. Telemóvel da categoria, do configurador e do 3D por desenhar.
+- **Mockup v1 (2026-10-26, recusado):** ver `docs/mockup/README.md`. Email ao Bruno escrito (informal: mockup em anexo em HTML, modo claro e escuro e telemóvel; falta fotos melhores e modelos 3D; pedir foto atual do escritório). O Rodrigo envia o HTML. **Aguarda:** opinião do Bruno, escolha do modo por omissão, validação do logótipo e das cores, fotografias recentes.
 - **Bug do runtime do canvas:** texto interpolado (`{{…}}`) dentro de `<text>` SVG não aparece (o runtime embrulha-o num `<span>`). No mockup as cotas são HTML sobre o SVG; o configurador dos wireframes (`docs/wireframes/Main.dc.html`) **ainda não mostra as cotas** — corrigir.
 - Por fazer do nosso lado: validar os wireframes com o Bruno (o canvas está **privado**: partilhar pelo botão Share antes de enviar o link); fechar o modelo de opções reutilizáveis com produtos reais; preencher nos wireframes os marcadores `[MARCA]`, `[PREÇO]`, `[MORADA]`, `[TELEFONE]`, `[EMAIL]` e os `[x]%` / `[a definir com a Habinox]` dos wireframes.
 - **P2 da revisão por fazer** (na implementação): dicionário único de estados da encomenda (rótulo cliente + interno); "Removido. Desfazer" no carrinho e nas linhas da fórmula; separadores/filtros com `tablist`/radio e estado no URL; pesquisa e ordenação em Encomendas e Materiais; ajuda de sintaxe junto às expressões das fórmulas.

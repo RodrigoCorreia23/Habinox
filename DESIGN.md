@@ -1,134 +1,161 @@
 # Habinox — identidade visual
 
-Fonte da verdade visual da plataforma (loja e backoffice). Referência estática: [`docs/design/Loja_Pagina_Inicial_mockup.html`](docs/design/Loja_Pagina_Inicial_mockup.html) (página inicial, desktop 1440px). Em caso de conflito com os wireframes de `docs/wireframes/`, **este documento ganha**: os wireframes valem pela estrutura e pelos fluxos, não pelo aspeto.
+Fonte da verdade visual da plataforma. Referência: o **mockup v2** em [`docs/mockup-v2/`](docs/mockup-v2/README.md) (canvas https://claude.ai/artifact/SbBGznCFf11VEcdd7YUev3), **aprovado pelo Bruno a 2026-10-27** ("um ar de arquitectura moderna, é este o caminho"). Em caso de conflito com os wireframes de `docs/wireframes/`, **este documento ganha**: os wireframes valem pela estrutura e pelos fluxos, não pelo aspeto.
+
+Até 2026-10-27 a direção era "catálogo técnico" claro (mockup v1 em `docs/mockup/`, referência antiga em `docs/design/`). O Bruno achou-a "muito simples e quadrada, com muitas caixas"; ficou substituída na loja.
+
+**Âmbito:** esta identidade é a da **loja**. O **backoffice** mantém, por agora, a paleta clara anterior (secção [Backoffice](#backoffice)): é um ecrã de trabalho, usado horas seguidas.
 
 ---
 
 ## Carácter
 
-**Catálogo técnico**, não loja de decoração. O cliente configura uma peça metálica por medida; o site transmite precisão e competência industrial. Referências: desenho técnico, folha de especificações, catálogo de fabricante alemão ou italiano de serralharia.
+**Arquitetura moderna, à noite.** Fotografias de casas, portões e escadas com luz quente, fundo escuro, muito espaço, poucas palavras. O produto aparece no seu sítio, na casa, e não numa ficha. Referência do Bruno: quadros do Pinterest de interiores escuros com fita LED âmbar.
 
-Não usar: gradientes, cantos muito arredondados, sombras suaves, ilustrações, emojis, tons pastel, fotografia de estilo de vida.
+A loja **é só loja**: produtos, medidas, preço, carrinho. A história da Habinox, a oficina, a equipa e a Área Pro ficam na página de apresentação do site, não aqui.
 
 Princípios:
 
-- O produto e o preço são o conteúdo. O resto é moldura.
-- Densidade informativa a favor do profissional, sem parecer apertado.
-- Branco e linhas finas em vez de caixas e sombras.
-- **Números, medidas e códigos sempre em monoespaçada** — é o que dá o tom técnico.
+- **A fotografia é o conteúdo.** Imagens grandes, de ponta a ponta, sem moldura nem borda.
+- **Menos caixas.** Separar com espaço e com linhas de 1px, nunca com cartões, fundos alternados ou sombras.
+- **Pouco texto, letra grande.** Títulos grandes e finos; parágrafos curtos.
+- **A precisão continua lá, discreta:** medidas, preços e códigos em monoespaçada; o desenho cotado no configurador.
 
-Dois públicos, o mesmo sistema: o **particular** (chega por pesquisa, precisa de clareza) e o **profissional** (construtores, instaladores; quer densidade e rapidez). A diferença faz-se por **fundo e hierarquia**, nunca por paleta ou tipografia diferentes.
+Não usar: cartões com borda à volta dos produtos, sombras, cantos arredondados em imagens, ilustrações, emojis, ícones preenchidos, gradientes decorativos (o único gradiente permitido é o escurecimento por cima de uma fotografia para o texto se ler).
 
 ---
 
-## Paleta
+## Paleta (loja)
 
-Neutros quentes acinzentados e um único acento: o **azul do logótipo HABINOX**.
+Grafite quente e um único acento: o **âmbar** da luz LED.
 
-| Token         | Hex       | Uso                                                                                        |
-| ------------- | --------- | ------------------------------------------------------------------------------------------ |
-| `ink`         | `#15171A` | Texto principal, fundos escuros (faixa Pro), botões primários                              |
-| `ink-soft`    | `#33373D` | Separadores sobre fundo escuro                                                             |
-| `steel`       | `#4A4F56` | Texto secundário, descrições                                                               |
-| `steel-light` | `#5A5F66` | Etiquetas, metadados, texto de apoio                                                       |
-| `mist`        | `#A9AEB5` | Texto de apoio sobre fundo escuro                                                          |
-| `mist-light`  | `#C9CDD2` | Parágrafos sobre fundo escuro                                                              |
-| `canvas`      | `#F5F4F1` | Fundo da página                                                                            |
-| `surface`     | `#FFFFFF` | Cartões de produto, painéis                                                                |
-| `surface-alt` | `#EAE8E3` | Área de imagem dos produtos, blocos neutros                                                |
-| `line`        | `#DAD8D2` | Bordas e separadores **decorativos**                                                       |
-| `line-soft`   | `#EDECE8` | Separadores internos de cartões                                                            |
-| `line-strong` | `#85827A` | Bordas de **campos e controlos** (precisam de ≥ 3:1)                                       |
-| `accent`      | `#2005A2` | Acento único (azul do logótipo): CTA principal, cotas, numeração de passos, estados ativos |
-| `graphite`    | `#383E42` | Amostra RAL 7016 (exemplo de acabamento)                                                   |
-| `error`       | `#B3261E` | Erros (sempre com texto)                                                                   |
+| Token          | Hex       | Uso                                                                             |
+| -------------- | --------- | ------------------------------------------------------------------------------- |
+| `ground`       | `#0F0E0D` | Fundo da página                                                                 |
+| `surface`      | `#181715` | Campos, fundo das imagens enquanto carregam, painéis                            |
+| `stage`        | `#141210` | Fundo do visualizador 3D                                                        |
+| `line`         | `#2A2724` | Separadores **decorativos** (1px)                                               |
+| `line-strong`  | `#706960` | Bordas de **campos e controlos** (precisam de ≥ 3:1)                            |
+| `text`         | `#EEE9E2` | Texto principal, botões selecionados (fundo)                                    |
+| `text-soft`    | `#C9C2B8` | Texto sobre fotografia, navegação                                               |
+| `text-muted`   | `#A8A095` | Texto secundário, descrições                                                    |
+| `text-faint`   | `#8E867B` | Apoio, metadados, caminho de navegação                                          |
+| `amber`        | `#D6A25E` | Acento único: botão principal, números dos passos, estado ativo, cor de seleção |
+| `amber-hover`  | `#E4B676` | Hover do botão principal                                                        |
+| `on-amber`     | `#15120E` | Texto sobre âmbar e sobre `text`                                                |
+| `paper`        | `#E9E4DC` | Fundo do desenho técnico cotado (o único bloco claro)                           |
+| `dim`          | `#8A5A1E` | Cotas e linhas de dimensão no desenho, sobre `paper`                            |
+| `error-border` | `#E5796F` | Borda de campo com erro (2px)                                                   |
+| `error-text`   | `#F0A39B` | Texto de erro                                                                   |
 
 Regras:
 
-- O acento é **raro**: 2–3 vezes por ecrã, não em cada elemento.
-- Nunca transmitir estado só com cor; juntar sempre texto ou ícone.
-- O acento é o azul do logótipo (`#2005A2`, decisão de 2026-10-22; substituiu o laranja `#B8461A` do mockup). O cinzento do logótipo (`#8D8F8C`) não entra na interface: falha o contraste para texto.
-- O azul e o `ink` são ambos escuros (1,37:1 entre si): o CTA distingue-se do botão primário pela cor e por ser o único no ecrã; links em hover ganham também sublinhado.
+- O âmbar é **raro**: um botão principal por ecrã, mais pequenos sinais (números de passos, contador do carrinho, anel da cor escolhida).
+- O **azul do logótipo (`#2005A2`) não entra na interface da loja**: sobre o fundo escuro fica a 1,47:1. O logótipo aparece na versão branca.
+- Nunca transmitir estado só com cor; juntar texto, `aria-pressed` ou ícone.
+- Fotografia com texto por cima leva escurecimento por baixo do texto (de `rgba(15,14,13,0)` a `rgba(15,14,13,0.85–0.92)`), nunca texto direto sobre zonas claras da imagem.
 
 ### Contrastes verificados (WCAG)
 
-| Par                                                | Rácio              | Nota                                         |
-| -------------------------------------------------- | ------------------ | -------------------------------------------- |
-| `accent` / `surface`                               | 13,09              | OK texto                                     |
-| `accent` / `canvas`                                | 11,90              | OK texto (hover de links)                    |
-| `accent` / `surface-alt`                           | 10,69              | OK texto pequeno (cotas dos desenhos)        |
-| branco / `accent`                                  | 13,09              | OK (CTA)                                     |
-| `accent` / `ink`                                   | 1,37               | **Nunca** acento sobre fundo escuro          |
-| `steel-light` / `canvas`, `surface`, `surface-alt` | 5,85 / 6,43 / 5,26 | OK                                           |
-| `mist` / `ink`                                     | 8,05               | OK                                           |
-| `line` / `surface`                                 | 1,43               | **Só decorativo**; nunca como borda de campo |
-| `line-strong` / `surface`                          | 3,84               | OK para bordas de campos e controlos         |
+| Par                                 | Rácio         | Nota                                |
+| ----------------------------------- | ------------- | ----------------------------------- |
+| `text` / `ground`, `surface`        | 15,97 / 14,83 | OK                                  |
+| `text-soft` / `ground`              | 10,92         | OK                                  |
+| `text-muted` / `ground`, `surface`  | 7,46 / 6,93   | OK                                  |
+| `text-faint` / `ground`, `surface`  | 5,37 / 4,99   | OK texto pequeno                    |
+| `amber` / `ground`                  | 8,44          | OK texto                            |
+| `on-amber` / `amber`                | 8,17          | OK (botão principal)                |
+| `line-strong` / `ground`, `surface` | 3,56 / 3,31   | OK bordas de controlos              |
+| `line` / `ground`                   | 1,30          | **Só decorativo**                   |
+| `dim` / `paper`                     | 4,66          | OK cotas                            |
+| `error-text` / `ground`             | 9,57          | OK                                  |
+| `#2005A2` (azul) / `ground`         | 1,47          | **Nunca** azul sobre o fundo escuro |
 
 ---
 
 ## Tipografia
 
-| Família           | Função                                                         | Pesos         |
-| ----------------- | -------------------------------------------------------------- | ------------- |
-| **Archivo**       | Títulos, nomes de produto, preços, logótipo                    | 500, 600, 700 |
-| **IBM Plex Sans** | Corpo, navegação, botões, descrições                           | 400, 500, 600 |
-| **IBM Plex Mono** | Medidas, dimensões, códigos, etiquetas de categoria, numeração | 400, 500      |
+As mesmas três famílias da v1; muda o uso da Archivo.
 
-| Papel                  | Tamanho | Família / peso                                           |
-| ---------------------- | ------- | -------------------------------------------------------- |
-| Título principal       | 64px    | Archivo 600, `letter-spacing: -0.02em`, line-height 1.04 |
-| Título de secção       | 40px    | Archivo 600, `-0.01em`                                   |
-| Título de faixa escura | 44px    | Archivo 600, `-0.01em`                                   |
-| Subtítulo              | 32px    | Archivo 600                                              |
-| Nome de produto        | 20px    | Archivo 600                                              |
-| Título de passo        | 19px    | Archivo 600                                              |
-| Parágrafo de destaque  | 17–18px | Plex Sans 400, line-height 1.6                           |
-| Corpo                  | 14–15px | Plex Sans 400/500                                        |
-| Apoio / metadados      | 13px    | Plex Sans 400                                            |
-| Etiqueta de categoria  | 11–13px | Plex Mono, maiúsculas, `letter-spacing: 0.08em`          |
-| Cotas e medidas        | 12–13px | Plex Mono                                                |
+| Família           | Função                                                       | Pesos    |
+| ----------------- | ------------------------------------------------------------ | -------- |
+| **Archivo**       | Títulos (eixo de largura a 115%, peso 300), nomes de produto | 300, 400 |
+| **IBM Plex Sans** | Corpo, navegação, botões, descrições                         | 400, 500 |
+| **IBM Plex Mono** | Medidas, preços, códigos, numeração, etiquetas               | 400, 500 |
 
-**Regra de ouro:** qualquer número que represente uma medida, um código ou uma referência vai em **IBM Plex Mono**, mesmo dentro de uma frase. Os números formatam-se com `Intl.NumberFormat('pt-PT', { useGrouping: 'always' })` ("3 500").
+A Archivo carrega-se com o eixo de largura (`Archivo:wdth,wght@62..125,200..700`) e usa-se com `font-stretch: 115%`.
 
-Em mobile, os títulos de 64/44/40px descem (usar `clamp()`), nunca ficam fixos.
+| Papel                       | Tamanho (desktop → telemóvel) | Família / peso                                  |
+| --------------------------- | ----------------------------- | ----------------------------------------------- |
+| Título do herói             | 112 → 52px                    | Archivo 300, 115%, `line-height` 0.98           |
+| Título de categoria         | 128 → 64px                    | Archivo 300, 115%                               |
+| Título de secção            | 64 → 40px                     | Archivo 300, 115%, `letter-spacing: -0.01em`    |
+| Título de faixa fotográfica | 80 → 44px                     | Archivo 300, 115%                               |
+| Nome do produto (página)    | 80 → 56px                     | Archivo 300, 115%                               |
+| Nome do produto (grelha)    | 22–24px                       | Archivo 400, 110%                               |
+| Preço no configurador       | 44px                          | Plex Mono 400                                   |
+| Parágrafo de destaque       | 16–18px                       | Plex Sans 400, `line-height` 1.6                |
+| Corpo                       | 14–15px                       | Plex Sans 400/500                               |
+| Apoio                       | 13px                          | Plex Sans 400                                   |
+| Etiqueta                    | 12px                          | Plex Mono, maiúsculas, `letter-spacing: 0.08em` |
+
+**Regra de ouro (mantém-se):** qualquer número que represente uma medida, um preço, um código ou uma referência vai em **IBM Plex Mono**. Os números formatam-se com `Intl.NumberFormat('pt-PT', { useGrouping: 'always' })` ("3 500").
+
+Em ecrãs estreitos os títulos descem com `clamp()`; nunca ficam fixos.
 
 ---
 
 ## Forma e espaçamento
 
-- **Raio dos cantos: 2px.** Nunca 8px ou mais.
-- **Sem sombras**, exceto o cartão flutuante sobre o visual do herói: `0 12px 32px rgba(21,23,26,0.08)`.
-- Separação por **linha de 1px** (`line`), não por sombra nem fundo alternado.
-- Margem lateral: **80px** desktop; **16–24px** mobile.
-- Entre secções: 72–112px.
-- Grelha interna em múltiplos de 4: 6, 8, 10, 12, 16, 24, 32, 64.
-- Alvos interativos: **44px** (padrão) e **52px** (ações principais). Nunca abaixo de 44px.
-- Preenchimento interno dos cartões: 24px.
+- **Imagens:** sem cantos arredondados, sem borda. Proporção 4:5 nas grelhas de produto.
+- **Botões e filtros:** botão principal retangular (sem raio); filtros e opções em **pílula** (`border-radius: 999px`); cores em círculo.
+- **Campos:** raio de 2px.
+- **Sem sombras.** O anel da cor escolhida é `box-shadow` de contorno (`0 0 0 3px ground, 0 0 0 5px amber`), não sombra.
+- Margem lateral: **56px** desktop; **20px** telemóvel. Largura máxima 1440px.
+- Entre secções: **140px** desktop; **88px** telemóvel.
+- Grelhas de produto: espaço de 24px entre colunas, 72px entre linhas.
+- Alvos interativos: **44px** (padrão), **56–60px** (ação principal). Nunca abaixo de 44px.
 
 ---
 
 ## Componentes
 
-- **Cabeçalho:** 76px, fundo claro, borda inferior 1px. Logótipo (`public/brand/habinox-logo-sem-slogan.svg`) à esquerda, navegação ao lado, ações à direita. O botão de pedido é o único elemento escuro.
-- **Barra de categorias:** faixa de largura total, colunas iguais separadas por linhas verticais de 1px, nome + número de ordem em mono (01, 02…). Em mobile vira lista ou carrossel horizontal.
-- **Cartão de produto:** branco, borda 1px, sem sombra. Topo de 280px em `surface-alt` com o desenho técnico centrado. Depois: etiqueta de categoria (mono, maiúsculas), nome (Archivo 600), características em `steel-light`, rodapé separado por linha com preço à esquerda e botão escuro à direita.
-- **Desenhos técnicos:** linha em `ink`, traço 1,5–1,6px, sem preenchimento. Cotas e linhas de dimensão em `accent`; valores em mono, também em `accent`. É o detalhe que mostra que o site é feito por quem percebe do produto.
-- **Botões:** primário = fundo `ink`, texto branco; CTA principal = fundo `accent`, texto branco (só um por ecrã); secundário = transparente com borda 1px `ink`. Em fundo escuro inverte (fundo branco, texto `ink`). Raio 2px.
-- **Faixa escura (Área Pro):** largura total em `ink`, texto branco, etiqueta em `mist`, parágrafos em `mist-light`, lista numerada separada por linhas `ink-soft`.
-- **Passos numerados:** borda superior 2px `ink`, número em mono na cor `accent`, título Archivo 600, descrição em `steel`.
-- **Campos de formulário:** fundo `surface`, borda 1px `line-strong`, raio 2px, altura 44–48px; valores numéricos em mono.
-- **Rodapé:** fundo da página (sem faixa escura), colunas de links com cabeçalhos a negrito. Inclui sempre: termos, privacidade, cookies, Livro de Reclamações, resolução de litígios.
+- **Cabeçalho:** 88px. Na página inicial fica **por cima da fotografia**, transparente; nas outras, fundo `ground` com linha inferior. Logótipo branco à esquerda (26px de altura), categorias ao centro, pesquisa, conta e carrinho à direita (ícones de traço, contador do carrinho em âmbar). Em telemóvel, menu à esquerda e categorias escondidas.
+- **Herói:** fotografia de ponta a ponta (~900px), escurecida em baixo; título grande no canto inferior esquerdo, segunda linha em âmbar; parágrafo curto e o botão principal.
+- **Mosaico de categorias:** grelha de 12 colunas com peças de tamanhos diferentes (8+4 em cima, 4+4+4 em baixo), 12px entre elas. Cada peça: fotografia, nome em Archivo grande e uma linha em mono ("De correr, de batente e pedonais · desde 1 290 €"), seta num círculo de traço que fica âmbar no hover.
+- **Produto em grelha:** fotografia 4:5 sem moldura; por baixo, nome, descrição curta em `text-muted` e preço "desde" em mono. No hover: a imagem aproxima 4% e aparece o botão "Configurar" em âmbar sobre a fotografia (sempre visível em telemóvel).
+- **Filtros:** pílulas; selecionada = fundo `text`, letra `on-amber`; não selecionada = transparente com borda `line-strong`. `aria-pressed` sempre.
+- **Configurador:** duas colunas (7/5). À esquerda, a vista (fotografia, ambiente, desenho cotado, 3D) fixa ao scroll, com miniaturas por baixo. À direita: etiqueta, nome grande, descrição, **preço grande em mono** que muda ao vivo, e as opções separadas por linhas de 1px, sem caixas. Botão principal em largura total: "Adicionar ao carrinho · 2 786,43 €".
+- **Desenho cotado:** o único bloco claro (`paper`); peça em linhas da cor escolhida, cotas e valores em `dim`, em mono.
+- **Visualizador 3D:** palco `stage` em largura total; controlos em pílulas por cima (rodar sozinho, abrir/fechar, repor vista); opções por baixo. Ver `docs/mockup-v2/README.md` (secção Vista 3D).
+- **Faixa fotográfica:** fotografia de ponta a ponta escurecida a ~72%, título grande e passos numerados (número em mono âmbar, linha superior de 1px).
+- **Lista de modelos:** linhas com nome à esquerda e preço em mono à direita, separadas por 1px; o nome fica âmbar no hover.
+- **Ligações de texto:** sublinhado de 1px semitransparente, que fica âmbar no hover.
+- **Rodapé:** sem faixa; logótipo branco, colunas Loja / Ajuda / Legal. Inclui sempre: termos, privacidade, cookies, Livro de Reclamações, resolução de litígios. Meios de pagamento e "Preços com IVA incluído".
+
+---
+
+## Fotografia
+
+- Arquitetura moderna, luz quente, de preferência ao fim do dia ou à noite. Produto no local, não em fundo branco.
+- No site final: **fotografias das obras da Habinox**. As do mockup são do Unsplash e só ilustrativas (lista em `docs/mockup-v2/README.md`). Pedir ao Bruno fotos recentes, em alta resolução, ao fim do dia, de todas as famílias (faltam guardas, chaminés e caixas de correio).
+- Nunca imagens do Pinterest (direitos de terceiros).
 
 ---
 
 ## Comportamento
 
-- Hover em links: de `ink` para `accent`, com sublinhado (a cor sozinha muda pouco).
-- **Foco visível sempre:** anel de 2px em `ink` sobre fundos claros, branco sobre fundos escuros (o `accent` sobre `ink` fica em 1,37:1 — nunca usar).
+- **Foco visível sempre:** anel de 2px em `text`, afastado 3px.
 - Interativos são sempre `<button>`, `<a href>` ou `<input>` com `<label>`; nunca `div` com clique.
-- Ícones: traço fino (1,6px), em linha, da mesma família dos desenhos técnicos. Sem ícones preenchidos nem emojis.
-- Mobile: grelha de 3 colunas de produtos passa a 1; margem lateral 16–24px.
-- Movimento: mínimo e com `prefers-reduced-motion` respeitado.
+- Ícones: traço fino (1,5px), em linha. Sem ícones preenchidos nem emojis.
+- Movimento: imagens aproximam devagar no hover (`1.1s cubic-bezier(.16,1,.3,1)`); setas deslizam 4px. Tudo respeita `prefers-reduced-motion` (sem zoom, sem rotação automática no 3D).
+- Telemóvel: grelhas passam a 1 coluna; o mosaico de categorias fica em coluna com peças de 380px.
+
+---
+
+## Backoffice
+
+Mantém a paleta clara da v1 (já em `src/app/globals.css`): fundo `#F5F4F1`, texto `#15171A`, linhas `#DAD8D2`, bordas de campos `#85827A`, acento azul `#2005A2`, raio de 2px, sem sombras, logótipo branco na barra escura. A confirmar com o Rodrigo quando se começar o backoffice.
 
 ---
 
@@ -139,15 +166,13 @@ Ficheiros em `public/brand/`, redesenhados em SVG a 2026-10-26 a partir do únic
 | Ficheiro                      | Uso                                                                                                                                                    |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `habinox-logo.svg`            | Logótipo completo, com "Trabalhos e soluções em inox" (documentos, emails, cartazes); só a partir de ~100px de altura, abaixo disso o slogan não se lê |
-| `habinox-logo-sem-slogan.svg` | Cabeçalho e rodapé da loja, backoffice (28px no cabeçalho)                                                                                             |
+| `habinox-logo-sem-slogan.svg` | Fundos claros (backoffice, documentos)                                                                                                                 |
 | `habinox-simbolo.svg`         | Só o símbolo (favicon = `src/app/icon.svg`, espaços pequenos)                                                                                          |
-| `habinox-logo-branco.svg`     | Sobre fundos escuros (faixa Pro, backoffice)                                                                                                           |
+| `habinox-logo-branco.svg`     | **Loja** (cabeçalho e rodapé, sobre o fundo escuro) e barra do backoffice                                                                              |
 
-- Cores do logótipo: azul `#2005A2` (= `accent`) e cinzento `#8D8F8C`. O cinzento fica a ~3:1 sobre `canvas`: aceitável num logótipo, nunca para texto.
-- Altura mínima do logótipo sem slogan: 24px; abaixo disso, usar o símbolo. Não deformar, não recolorir além da versão branca, não pôr sobre fotografia sem fundo liso.
+- Cores do logótipo: azul `#2005A2` e cinzento `#8D8F8C`. Na loja escura usa-se só a versão branca.
+- Altura mínima do logótipo sem slogan: 24px; abaixo disso, usar o símbolo. Não deformar, não recolorir além da versão branca, não pôr sobre fotografia sem fundo liso ou escurecido.
 
 ## Contexto
 
 Cliente: **Bruno Miguel Freitas, Lda** (Habinox), serralharia em Esposende (Núcleo Industrial de Antas). Portões, escadas, guardas, chaminés, chapéus de chaminé e caixas de correio, quase tudo por medida, em inox, ferro e alumínio.
-
-Marcadores por preencher no mockup: `[MARCA]`, `[PREÇO]`, `[MORADA]`, `[TELEFONE]`, `[EMAIL]`.
