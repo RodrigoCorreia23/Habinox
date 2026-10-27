@@ -77,6 +77,10 @@
 - `DESIGN.md` reescrito para a nova direção (grafite `#0F0E0D`, âmbar `#D6A25E`, Archivo larga a 300, sem caixas; o azul do logótipo sai da loja; contrastes verificados; bordas de controlos subidas para `#706960`, 3,56:1). Backoffice mantém a paleta clara. `CLAUDE.md` (stack e decisão 16) atualizado.
 - **Email ao Bruno** com as regras de exportação dos GLB (detalhe em `docs/mockup-v2/README.md`): peças `folha` / `folha_esquerda` / `folha_direita`, material `acabamento` (as RAL vêm do backoffice), GLB com peças separadas, portão fechado, sem cenário; pedidos 2 ficheiros de teste.
 
+### Fase 0 — modelo de opções (2026-10-27)
+
+- `docs/modelo-opcoes.md`: biblioteca de opções (medida, número, escolha, sim/não) e valores com `params`; opção do produto com limites e valores permitidos; regras "se… então" (`restrict`, `hide`, `require`, `forbid`), também ao nível da biblioteca, sem ciclos; preço pelas opções via componente, condição na linha ou números nas expressões; variáveis calculadas; artigo da linha escolhido por qualquer opção. Opções e fórmula publicadas juntas em `product_versions`. Testado contra o portão, a guarda, a escada, a chaminé e a caixa de correio. Schema do `CLAUDE.md` atualizado.
+
 Regras do motor de preços que saíram dos orçamentos e das respostas (detalhe em `docs/fase-0.md` e `docs/orcamentos-analise.md`):
 
 ```
@@ -298,7 +302,7 @@ Notas:
 ### Fase 1 (depois da fase 0), pela ordem do CLAUDE.md
 
 1. `lib/money` + `lib/pricing` (puro, sem BD) com testes — **antes de qualquer UI**. Fórmulas por linhas de custo, versionadas, parser seguro (nunca `eval`).
-2. Schema: `materials`, `material_costs`, `categories`, `products`, `product_options`, `formula_versions`, `formula_lines`, `formula_line_materials`, `components`, sectores/taxas horárias, zonas (instalação e transporte), `finishes`, `quotes`, `orders`, `order_items`, `payments`, `webhook_events`, `discount_groups`, `consents`, … (ver secção 4 do CLAUDE.md).
+2. Schema (opções, regras e fórmulas segundo `docs/modelo-opcoes.md`): `materials`, `material_costs`, `categories`, `products`, `option_definitions`, `option_values`, `product_versions`, `product_options`, `product_option_values`, `option_rules`, `formula_variables`, `formula_lines`, `formula_line_materials`, `components`, sectores/taxas horárias, zonas (instalação e transporte), `finishes`, `quotes`, `orders`, `order_items`, `payments`, `webhook_events`, `discount_groups`, `consents`, … (ver secção 4 do CLAUDE.md).
 3. Catálogo, configurador, carrinho, pedido; backoffice (shadcn + TanStack Table).
 4. Sincronização PHC: interface `PhcClient` + adaptador fake primeiro; real quando houver AppID/token.
 5. RGPD: tabela `consents` e checkbox de termos/privacidade no registo (ainda **não** existe); apagamento de conta no backoffice; cookies.

@@ -36,7 +36,7 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
   - 📝 Tabela `components (id, name, price_cents, active)`, usada por valores de opção ou por linhas da fórmula com quantidade fixa. No motor: `preço = custo / (1 − margem) + Σ componentes`. O snapshot guarda o preço de cada componente usado.
 - ✅ **IVA no fim:** todas as linhas, margem, componentes, instalação e portes são **sem IVA**; o IVA aplica-se **uma vez ao total** do orçamento/encomenda (taxa em `settings`, com snapshot).
   - 📝 `total s/ IVA = custo / (1 − margem) + Σ componentes + instalação + portes`; `IVA = round(total s/ IVA × taxa)` em cêntimos; `total c/ IVA = total s/ IVA + IVA`. Os preços por linha na loja mostram-se com IVA só para apresentação.
-- 📝 **Por desenhar** — proposta inicial para discutir:
+- ✅ **Desenhado a 2026-10-27 em `docs/modelo-opcoes.md`** (substitui a proposta abaixo, que fica como histórico). Proposta inicial:
   - **Biblioteca de opções** (`option_definitions`): definida uma vez no backoffice. Ex.: "Motorização" com valores _Sem / Batente / Correr_; "Largura" numérica.
   - **Ligação ao produto** (`product_options`): cada produto escolhe que opções usa e pode **sobrepor** limites e valores permitidos (ex.: largura de 1–6 m num portão de correr, 0,8–1,2 m numa porta).
   - **Regras de compatibilidade** (`option_rules`): "se material = inox, acabamento ≠ lacado"; "motorização de correr só em portões de correr". Combinação inválida = "não é possível".
@@ -190,7 +190,7 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 
 - [x] ~~Lista de categorias/subcategorias do beta~~ — já não se aplica: o Bruno cria o catálogo no backoffice (ver topo)
 - [x] ~~Por subcategoria: medidas, opções, materiais, cores, combinações impossíveis~~ — idem, criado pelo Bruno no backoffice
-- [ ] Desenho final do modelo de opções reutilizáveis (ver proposta acima) — **do nosso lado; bloqueia o schema da fase 1**
+- [x] Desenho final do modelo de opções reutilizáveis — `docs/modelo-opcoes.md` (2026-10-27), testado contra os 4 orçamentos e o portão do mockup
 - [x] Modelo de fórmula de preço fechado com o Bruno (linhas de custo, consumíveis %, horas × taxa por sector, margem sobre o preço de venda, componentes a preço de venda, IVA ao total). As linhas e valores de cada produto são o Bruno que os define no backoffice; o motor é testado na fase 1 com produtos de exemplo construídos a partir dos 4 Excel
 - [x] Regras de instalação, portes, pagamento (sinal/total) e validade de orçamentos (princípios; zonas e valores definidos pelo Bruno no backoffice)
 - [x] Orçamentos reais recebidos (4), analisados em `docs/orcamentos-analise.md`
@@ -206,4 +206,4 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 - [ ] Logótipo em SVG validado pelo Bruno (`public/brand/`)
 - [ ] Contrato assinado (fatura dos 50% da fase 0 já enviada a 2026-10-22)
 
-Para começar a fase 1 pelo `lib/money` + `lib/pricing` (código puro, sem UI) basta o contrato assinado; o schema espera pelo modelo de opções. Pendências que não bloqueiam o arranque: acessos Vercel/Neon (deploy), acessos PHC GO, GLB de teste do TopSolid, fotografias recentes das obras.
+Para começar a fase 1 pelo `lib/money` + `lib/pricing` (código puro, sem UI) basta o contrato assinado; o schema segue `docs/modelo-opcoes.md`. Pendências que não bloqueiam o arranque: acessos Vercel/Neon (deploy), acessos PHC GO, GLB de teste do TopSolid, fotografias recentes das obras.

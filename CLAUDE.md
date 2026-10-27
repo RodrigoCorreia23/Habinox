@@ -169,7 +169,7 @@ Portão de correr =
   margem: 35%   arredondamento: 5 €
 ```
 
-- Só as **quantidades** são expressões: variáveis das opções do produto, `+ - × ÷`, `min`, `max`, `ceil`. Parser pequeno e seguro, **nunca `eval`**.
+- Só as **quantidades** (e as variáveis calculadas) são expressões: variáveis das opções do produto, `+ - × ÷`, `min`, `max`, `ceil`, `floor`, `round`, `sqrt`. Parser pequeno e seguro, **nunca `eval`**. O "só se" de uma linha é uma condição estruturada, não uma expressão (ver `docs/modelo-opcoes.md`).
 - O backoffice mostra uma pré-visualização com valores de exemplo e a decomposição por linha.
 - As fórmulas têm **versão**. Cada orçamento e cada encomenda guarda um *snapshot* (versão da fórmula, custos usados, decomposição), para auditoria e para a validade dos orçamentos.
 
@@ -189,12 +189,19 @@ Portão de correr =
 materials        (id, phc_code, name, unit, cost numeric(12,4), cost_updated_at, phc_missing_at)
 material_costs   (id, material_id, cost, observed_at)          -- histórico
 categories       (id, parent_id, slug, name, position)                 -- árvore: categoria → subcategoria
-products         (id, category_id, slug, name, model_glb_url, status: draft|validated|published)
-product_options  (id, product_id, key, type, min, max, step, unit, required)  -- medidas sempre em mm; modelo de opções reutilizáveis por desenhar (docs/fase-0.md)
-formula_versions (id, product_id, version, margin, rounding, active, created_at, created_by)
-formula_lines    (id, formula_version_id, label, kind: material|labour|finish, quantity_expr, unit, position)
-formula_line_materials (formula_line_id, material_option_value, material_id)  -- o artigo/custo depende do material escolhido
-finishes         (id, name, type: material|cor, ral, price_modifier)
+-- Opções, regras e fórmulas: desenho completo em docs/modelo-opcoes.md
+option_definitions (id, key UNIQUE, name, type: dimension|number|choice|boolean, unit, display, help_text, archived_at)  -- biblioteca
+option_values    (id, option_id, key, label, position, params jsonb, ral_code, swatch_hex, component_id, asks_text, archived_at)
+components       (id, name, price_cents, active)               -- preço de venda s/ IVA, entra depois da margem
+sectors          (id, name, hourly_rate_cents)
+products         (id, category_id, slug, name, model_glb_url, published_version_id)
+product_versions (id, product_id, version, status: draft|validated|published, margin, consumables_pct, created_by, published_at)
+product_options  (id, product_version_id, option_id, position, var, required, min, max, step, default)  -- medidas sempre em mm
+product_option_values (product_option_id, option_value_id, position, is_default)
+option_rules     (id, product_version_id NULL = biblioteca, position, conditions jsonb, effect: restrict|hide|require|forbid, message)
+formula_variables (id, product_version_id, name, expr, position, label, show_to_customer)
+formula_lines    (id, product_version_id, position, label, kind: material|labour|external|component, quantity_expr, unit, conditions jsonb, material_id, article_option_id, sector_id, component_id)
+formula_line_materials (formula_line_id, option_value_id, material_id)  -- o artigo/custo depende do valor escolhido (material, tipo de vidro…)
 quotes           (id, user_id, product_id, config_json, price_cents, pricing_snapshot jsonb, valid_until)
 orders           (id, user_id, status, total_cents, vat_rate, billing_address, shipping_address)
 order_items      (id, order_id, product_id, config_json, unit_price_cents, qty, pricing_snapshot jsonb)
