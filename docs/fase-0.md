@@ -188,12 +188,12 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 
 ## 3. Entregáveis da fase 0
 
-- [ ] Lista de categorias/subcategorias do beta
-- [ ] Por subcategoria: medidas (mín./máx.), opções e valores, materiais, cores, combinações impossíveis
-- [ ] Desenho final do modelo de opções reutilizáveis (ver proposta acima)
-- [ ] Fórmula de preço por produto, validada contra orçamentos reais
-- [x] Regras de instalação, portes, pagamento (sinal/total) e validade de orçamentos (princípios; faltam zonas e preços)
-- [x] Orçamentos reais recebidos (4) — faltam as medidas de cada um para escrever as fórmulas
+- [x] ~~Lista de categorias/subcategorias do beta~~ — já não se aplica: o Bruno cria o catálogo no backoffice (ver topo)
+- [x] ~~Por subcategoria: medidas, opções, materiais, cores, combinações impossíveis~~ — idem, criado pelo Bruno no backoffice
+- [ ] Desenho final do modelo de opções reutilizáveis (ver proposta acima) — **do nosso lado; bloqueia o schema da fase 1**
+- [x] Modelo de fórmula de preço fechado com o Bruno (linhas de custo, consumíveis %, horas × taxa por sector, margem sobre o preço de venda, componentes a preço de venda, IVA ao total). As linhas e valores de cada produto são o Bruno que os define no backoffice; o motor é testado na fase 1 com produtos de exemplo construídos a partir dos 4 Excel
+- [x] Regras de instalação, portes, pagamento (sinal/total) e validade de orçamentos (princípios; zonas e valores definidos pelo Bruno no backoffice)
+- [x] Orçamentos reais recebidos (4), analisados em `docs/orcamentos-analise.md`
 - [ ] Wireframes das páginas principais (ver `docs/wireframes/`):
   - [x] Configurador (portão de correr)
   - [x] Carrinho, checkout e confirmação
@@ -201,5 +201,9 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
   - [x] Área de cliente (encomendas, orçamentos guardados, privacidade)
   - [x] Backoffice: fórmula de preço com pré-visualização
   - [x] Backoffice: produtos/opções, encomendas, materiais e sincronização PHC
-  - [ ] Validar todos os wireframes com o Bruno
-- [ ] Mockup visual a partir dos wireframes e do logótipo
+  - [ ] Validar com o Bruno os fluxos que o mockup não cobre: carrinho, checkout, confirmação, área de cliente e backoffice (o aspeto é o do mockup v2; os wireframes valem pela estrutura)
+- [x] Mockup visual: v1 recusado (2026-10-26, `docs/mockup/`); **v2 aprovado a 2026-10-27** (`docs/mockup-v2/`), `DESIGN.md` reescrito
+- [ ] Logótipo em SVG validado pelo Bruno (`public/brand/`)
+- [ ] Contrato assinado (fatura dos 50% da fase 0 já enviada a 2026-10-22)
+
+Para começar a fase 1 pelo `lib/money` + `lib/pricing` (código puro, sem UI) basta o contrato assinado; o schema espera pelo modelo de opções. Pendências que não bloqueiam o arranque: acessos Vercel/Neon (deploy), acessos PHC GO, GLB de teste do TopSolid, fotografias recentes das obras.
