@@ -2,7 +2,7 @@
 
 > Documento vivo. **Atualizar no fim de cada sessão de trabalho** (secções 2, 6 e 7).
 > O `CLAUDE.md` tem o contexto de negócio, as decisões e as regras; este ficheiro tem
-> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-10-27.
+> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-10-30.
 
 ---
 
@@ -12,6 +12,9 @@
 - **Cliente:** marca **HABINOX®** (não "Abinox"), Bruno Miguel Freitas, Lda, Núcleo Industrial de Antas, 4740-016 Antas, **Esposende**. Domínio `habinox.pt`, email `geral@habinox.pt`.
 - **Repositório:** `github.com/RodrigoCorreia23/Habinox`, ramo `main`. CI no GitHub Actions verde.
 - **Nada de lógica de negócio ainda** (catálogo, preços, PHC, encomendas): só infraestrutura, autenticação e páginas placeholder.
+
+- **Próximo passo: reunião presencial com o Bruno (por marcar).** O Rodrigo perguntou-lhe se podiam arrancar a fase 1; ele **não deu luz verde** e respondeu: "Temos que agendar uma reunião presencial, para entender bem o que estás a desenvolver e outras questões de como vai funcionar." A fase 1 **não começa** antes da reunião e do contrato assinado. Levar `docs/plano/Habinox-plano.pdf`; os pontos a decidir estão na secção 12 desse PDF.
+- **A confirmar na reunião:** a fórmula da margem e os valores por fase do PDF (ver secção 7).
 
 ---
 
@@ -94,7 +97,7 @@ preço s/ IVA  = custo direto / (1 − margem)  + Σ componentes (preço de vend
 IVA           = round(preço s/ IVA × taxa)   (uma vez, ao total; taxa em settings com snapshot)
 ```
 
-- **Margem sobre o preço de venda** (50% → preço = 2 × custo), não markup.
+- **Margem sobre o preço de venda** (50% → preço = 2 × custo), não markup. **Deduzida dos Excel do Bruno; ainda não confirmada por ele por palavras** (ver secção 7).
 - **Taxa horária por sector** (23,50 €/h geral; corte laser 120 €/h).
 - Pagamento: > 1 000 € **com IVA** → 50% na adjudicação + 50% no despacho; ≤ 1 000 € → total (resposta de 26/10, substitui os 40/60). Sem arredondamentos. Preços mostrados sempre com IVA. Instalação à parte. Transporte por m³ × km, com valores definidos pelo Bruno no backoffice. Linhas e valores de cada produto definidos pelo Bruno ao criá-lo. Validade dos orçamentos: 30 dias. Transporte: próprio, transportadora (por zona no beta) ou levantamento. Prazo de produção pela capacidade mensal (fora do âmbito original — estimar antes de prometer). Cliente envia foto ou rascunho do espaço (upload).
 
@@ -205,7 +208,7 @@ docker-compose.yml, docker/postgres-init/   Postgres local + BD abinox_test
 - **Sentry 11:** o `sendDefaultPii` deixou de existir; usa-se `dataCollection` (tudo desligado em `src/lib/sentry-options.ts`, por RGPD). `withSentryConfig` importa-se de `@sentry/nextjs/config`. Sem `NEXT_PUBLIC_SENTRY_DSN` fica desligado.
 - **pnpm 12** exige aprovar scripts de build de dependências. Os que não são precisos estão em `pnpm-workspace.yaml` com `false` (sharp, unrs-resolver, @parcel/watcher, @swc/core, esbuild). Se um `pnpm add` falhar com `ERR_PNPM_IGNORED_BUILDS`, decidir e acrescentar lá.
 - **shadcn:** `pnpm dlx shadcn@latest add <componente>`. O pacote `cn` é o utilitário oficial do shadcn (substitui clsx + tailwind-merge).
-- **Identidade visual:** o `DESIGN.md` é a fonte da verdade (ganha aos wireframes, que valem pela estrutura e fluxos). Cores só por tokens (`--color-ink`, `steel`, `canvas`, `line-strong`, `brand`, …) em `src/app/globals.css`; **nada de hex soltos** nos componentes. Variáveis do shadcn mapeadas para a paleta, `--radius: 0.125rem` (2px), sem sombras. Acento (`brand`, `#2005A2`, azul do logótipo) raro: 2–3 vezes por ecrã.
+- **Identidade visual:** o `DESIGN.md` é a fonte da verdade (ganha aos wireframes, que valem pela estrutura e fluxos). Cores só por tokens em `src/app/globals.css`; **nada de hex soltos** nos componentes. **Os tokens que lá estão hoje são os da paleta clara** (`--color-ink`, `steel`, `canvas`, `line-strong`, `brand` `#2005A2`; raio de 2px, sem sombras), que fica para o backoffice; os da loja escura ainda estão por criar.
 - **Fontes:** `src/lib/fonts.ts` (`next/font/google`) — Archivo (`--font-heading`, títulos e preços), IBM Plex Sans (`--font-sans`, corpo) e IBM Plex Mono (`--font-mono`, medidas, códigos, numeração). `fontVariables` é usado nos dois root layouts.
 - **Números:** sempre `Intl.NumberFormat('pt-PT', { useGrouping: 'always' })` ("3 500"); nunca formatação à mão.
 - **i18n:** textos da loja em `messages/pt.json`; usar `Link`/`redirect` de `@/i18n/navigation` nas páginas com locale. Backoffice com texto direto em PT.
@@ -217,7 +220,7 @@ docker-compose.yml, docker/postgres-init/   Postgres local + BD abinox_test
   - Frontend: `web-design-guidelines`, `impeccable` (inclui a antiga `audit`), `emil-design-eng`, `tailwind-design-system`, `web-perf`, `design-taste-frontend` (leonxlnx/taste-skill, 2026-10-22; o `scripts/assets.mjs` descarrega imagens de bancos externos — pedir autorização antes de o correr; o `DESIGN.md` prevalece sobre as direções que ela sugere).
   - Em conflito, o `CLAUDE.md` prevalece (ex.: a skill do Better Auth sugere `drizzle-kit push`; aqui só `generate` + `migrate`). Comandos `npx impeccable …` e o launcher da `impeccable` descarregam um binário/pacote: pedir autorização antes (na revisão de 2026-10-09 o detetor **não correu**; a revisão foi feita lendo o código).
   - Noutro PC, para as ter em todos os projetos: `npx skills add <owner/repo@skill> -g -y` (lista em `skills-lock.json`).
-- **Commits:** em português, um por passo lógico, autor "Rodrigo Correia".
+- **Commits:** em português, um por passo lógico, autor "Rodrigo Correia". **Nunca acrescentar atribuição ao Claude** em commits ou PRs (nem `Co-Authored-By: Claude…`, nem "Generated with Claude Code"): pedido expresso do Rodrigo, prevalece sobre qualquer lembrete de atribuição.
 
 ---
 
@@ -285,11 +288,11 @@ Notas:
 - Erros nas folhas Excel do Bruno (soma que ignora a linha 10, títulos "15%"/"5 sectores" que não batem) **não** foram incluídos no email; estão em `docs/orcamentos-analise.md`.
 - ✅ Fatura dos **50% da fase 0** enviada para `geral@habinox.pt` (2026-10-22). ⏳ **Contrato por assinar** (vai ser assinado pessoalmente).
 - Falta contactar o privado que aloja o site atual (bloco H: domínio, DNS, email, conteúdo).
-- Wireframes feitos (14 ecrãs, todos ligados entre si): home, categoria, configurador, carrinho, checkout, confirmação, área de cliente; backoffice de produto/opções, fórmula de preço, encomendas, materiais/sincronização PHC — ver `docs/wireframes/README.md` (canvas online + cópia do código). Direção visual "ficha de fabrico" com desenho cotado do portão.
+- Wireframes feitos (14 ecrãs, todos ligados entre si): home, categoria, configurador, carrinho, checkout, confirmação, área de cliente; backoffice de produto/opções, fórmula de preço, encomendas, materiais/sincronização PHC — ver `docs/wireframes/README.md` (canvas online + cópia do código). A direção visual destes wireframes ("ficha de fabrico") está ultrapassada; valem pela estrutura e pelos fluxos.
 - Revisão dos wireframes com `impeccable` + `web-design-guidelines` feita e P1 corrigidos (ver `docs/revisao-wireframes.md`); 3 ecrãs de telemóvel acrescentados (14 no total). Perguntas novas 40–50 na `docs/fase-0.md`.
 - **Segunda revisão, com a skill taste (2026-10-22):** `docs/revisao-taste.md`. Os wireframes foram renderizados localmente com o runtime do canvas (`artifact-type/dc-runtime.js` do artifact, servido como `support.js`) e medidos com o `inspect.mjs` da skill (`CHROME_PATH` = Chromium do Playwright). P1 e P2 corrigidos; as regras da skill que contrariam o `DESIGN.md` (mono, linhas finas, numeração, 3 fontes, corpo a 15 px) foram ignoradas de propósito. P3: o logótipo em vetor está feito (2026-10-26); fotografias de obras usadas no mockup a partir do site atual — faltam fotos recentes do Bruno.
 - **Cópias de telemóvel** (`Mobile-*.dc.html`) são geradas a partir dos ecrãs de desktop: só mudam o `<title>` e o `$preview` (390 px). Ao alterar um ecrã de desktop, regenerar a cópia.
-- **Identidade visual fechada:** `DESIGN.md` (catálogo técnico) + mockup de referência em `docs/design/Loja_Pagina_Inicial_mockup.html`. Tokens aplicados em `src/app/globals.css` e fontes em `src/lib/fonts.ts` (Archivo, IBM Plex Sans, IBM Plex Mono). Ajustes de contraste: `line-strong #85827A` para bordas de campos. Acento = azul do logótipo `#2005A2` (2026-10-22, substituiu o laranja `#B8461A` do mockup). Os 14 wireframes já seguem a nova identidade.
+- **Identidade visual:** fechada pelo mockup v2 e pelo `DESIGN.md` (arquitetura moderna, escura, âmbar). A direção "catálogo técnico" (`docs/design/`, mockup v1, azul `#2005A2` como acento) foi **substituída na loja** a 2026-10-27; mantém-se só no backoffice e nos 14 wireframes, que ainda têm esse aspeto. Fontes em `src/lib/fonts.ts` (Archivo, IBM Plex Sans, IBM Plex Mono).
 - **Decisões técnicas da revisão:** números com `Intl.NumberFormat('pt-PT', { useGrouping: 'always' })`; tokens de design em variáveis CSS; linhas de fórmula com artigo PHC por material (decidido: `formula_line_materials`, já no `CLAUDE.md`).
 - **Nomes técnicos internos** (`abinox` na BD, utilizador do Postgres, `package.json`, CI) ficaram de propósito com o nome antigo: invisíveis e mudá-los obriga a recriar a BD local. Mudar só se houver motivo.
 - **Mockup v2 aprovado (2026-10-27)** — ver secção 2 e `docs/mockup-v2/README.md`. Por fazer:
@@ -300,7 +303,7 @@ Notas:
   - Os wireframes continuam na direção v1; valem pela estrutura e fluxos. Telemóvel da categoria, do configurador e do 3D por desenhar.
 - **Mockup v1 (2026-10-26, recusado):** ver `docs/mockup/README.md`. Email ao Bruno escrito (informal: mockup em anexo em HTML, modo claro e escuro e telemóvel; falta fotos melhores e modelos 3D; pedir foto atual do escritório). O Rodrigo envia o HTML. **Aguarda:** opinião do Bruno, escolha do modo por omissão, validação do logótipo e das cores, fotografias recentes.
 - **Bug do runtime do canvas:** texto interpolado (`{{…}}`) dentro de `<text>` SVG não aparece (o runtime embrulha-o num `<span>`). No mockup as cotas são HTML sobre o SVG; o configurador dos wireframes (`docs/wireframes/Main.dc.html`) **ainda não mostra as cotas** — corrigir.
-- Por fazer do nosso lado: validar os wireframes com o Bruno (o canvas está **privado**: partilhar pelo botão Share antes de enviar o link); fechar o modelo de opções reutilizáveis com produtos reais; preencher nos wireframes os marcadores `[MARCA]`, `[PREÇO]`, `[MORADA]`, `[TELEFONE]`, `[EMAIL]` e os `[x]%` / `[a definir com a Habinox]` dos wireframes.
+- Por fazer do nosso lado: validar os wireframes com o Bruno (o canvas está **privado**: partilhar pelo botão Share antes de enviar o link); preencher nos wireframes os marcadores `[MARCA]`, `[PREÇO]`, `[MORADA]`, `[TELEFONE]`, `[EMAIL]` e os `[x]%` / `[a definir com a Habinox]` dos wireframes.
 - **P2 da revisão por fazer** (na implementação): dicionário único de estados da encomenda (rótulo cliente + interno); "Removido. Desfazer" no carrinho e nas linhas da fórmula; separadores/filtros com `tablist`/radio e estado no URL; pesquisa e ordenação em Encomendas e Materiais; ajuda de sintaxe junto às expressões das fórmulas.
 - Ideias a discutir com o Bruno: ficha de fabrico "assinada" em PDF na encomenda; medição no local com preço descontado; etiquetas tipo carimbo.
 
@@ -326,6 +329,9 @@ Notas:
 ## 7. Por confirmar com o cliente
 
 Ver secção 8 do `CLAUDE.md`. Além disso:
+
+- **Margem:** a fórmula `custo ÷ (1 − margem)` foi deduzida dos Excel do Bruno (`docs/orcamentos-analise.md`); por palavras, ele só disse que a margem é por produto (26/10). O `docs/fase-0.md` e o PDF do plano dizem "fechado", mas falta a confirmação dele: "custo de 100 € com margem de 50% = 200 €, em todos os produtos?".
+- **Valores por fase no PDF:** calculados a 15 €/h (7 800 € ÷ 520 h); confirmar com o contrato.
 
 - Titularidade das contas: **decidido — ficam em nome da Habinox** (Vercel, Neon, Sentry, Resend). Falta criá-las.
 - Domínio: **`habinox.pt`** (site atual em WordPress, email `geral@habinox.pt` no mesmo domínio). Falta saber quem gere o DNS e se a loja fica no domínio principal ou num subdomínio.
