@@ -196,7 +196,7 @@ const SCENES = {
     return { pos: [1.6, 1.12, 6], tgt: [0, 1.45, 0], fov: 36, hemi: .22 };
   },
   'escada-corrimao-luz': st => {   // escada reta, corrimão com LED
-    st.floor(.8); st.box(16, 7, .3, C.board, 0, 3.5, -.85);
+    st.floor(.8); st.box(34, 7, .3, C.board, 0, 3.5, -.85);
     const n = 13, run = .29, rise = .18, x0 = -1.8;
     st.flight(n, run, rise, 1.1, C.stone, x0, 0, .07, (i, x, y) => { st.emit(.26, .012, 1.04, x, y - .075, 0, 1.3); });
     const g = new THREE.BoxGeometry(run * n + .3, .3, .02);
@@ -209,7 +209,7 @@ const SCENES = {
     return { pos: [-3.3, .9, 5.2], tgt: [.25, 1.65, -.2], fov: 42, hemi: .16 };
   },
   'escada-madeira-luz': st => {   // degraus flutuantes em carvalho, com luz na parede
-    st.floor(.75); st.box(14, 7, .3, C.wall, 0, 3.5, -.72);
+    st.floor(.75); st.box(34, 7, .3, C.wall, 0, 3.5, -.72);
     const n = 13, run = .3, rise = .185, x0 = -1.7;
     st.flight(n, run, rise, 1.08, C.oak, x0, 0, .08, (i, x, y) => { st.emit(run - .05, .012, .02, x, y - .09, -.55, 3); st.point(WARM, 1.1, [x, y - .15, -.48], [.08, .01, .01]); });
     st.spot(WARM2, 10, [-2.5, 5, 3], [.2, 1, 0], [.5, .1, .2], .65); st.graze(-3.2, -.45, 5, 15, -.6);
@@ -226,7 +226,7 @@ const SCENES = {
     return { pos: [-.4, 1.15, 5], tgt: [.15, 1.75, 0], fov: 40, hemi: .1 };
   },
   'escada-caracol': st => {   // escada de caracol em inox
-    st.floor(.9); st.box(16, 8, .3, C.wall, 0, 4, -3.3); const R = 1.05, r0 = .1, n = 18, rise = .185, turn = Math.PI * 1.75;
+    st.floor(.9); st.box(34, 8, .3, C.wall, 0, 4, -3.3); const R = 1.05, r0 = .1, n = 18, rise = .185, turn = Math.PI * 1.75;
     st.cyl(.07, .07, n * rise + 1.1, C.inox, 0, (n * rise + 1.1) / 2, 0);
     const pts = [];
     for (let i = 0; i < n; i++) {
