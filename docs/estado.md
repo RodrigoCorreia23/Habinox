@@ -2,7 +2,7 @@
 
 > Documento vivo. **Atualizar no fim de cada sessão de trabalho** (secções 2, 6 e 7).
 > O `CLAUDE.md` tem o contexto de negócio, as decisões e as regras; este ficheiro tem
-> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-10-30.
+> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-10-31.
 
 ---
 
@@ -88,6 +88,19 @@
 
 - O Bruno pediu uma reunião presencial "para entender bem o que estás a desenvolver e outras questões de como vai funcionar".
 - `docs/plano/Habinox-plano.pdf` (15 páginas, fonte em `docs/plano/plano.html`; gerado com o Chromium do Playwright, `--print-to-pdf`): resumo, percurso do cliente, painel de gestão, cálculo do preço com exemplo completo (valores inventados), o que mexe no preço, base de dados explicada por grupos, o que está feito, fases/horas/valores (valores por fase a 15 €/h = 7 800 € ÷ 520 h — confirmar com o contrato), fase 1 em detalhe, o que falta do Bruno, 14 pontos para decidir na reunião e forma de trabalho.
+
+### Fase 0 — página inicial 3D com passagem contínua para a loja (2026-10-31)
+
+- O Bruno gostou de uma página inicial 3D (escada em three.js, câmara por scroll; original em `Downloads/index.html`, cores noite `#0c1220` + dourado) e pediu mais fluidez, passagem entre páginas sem parecer mudança de página, as mesmas cores e um ambiente mais realista.
+- **Protótipo em `docs/site-inicial/`** (online e privado: https://claude.ai/artifact/3P8GRmf4UieL9tQuqqRYDE; localmente, abrir o `index.html`): início e loja são estados da mesma página, a loja usa a mesma cena 3D como herói e a câmara viaja até lá (2,3 s, reversível a meio). Continuar a descer no fim do início também entra na loja. Entre ecrãs da loja, a fotografia transforma-se (View Transitions). Realismo: reflexo planar no pavimento, juntas no betão, degraus a acender, pó no ar, grão e vinheta, movimento com o rato; resolução adaptativa em máquinas lentas. A loja, os preços e as fotografias são de exemplo.
+- **Categorias em duas linhas automáticas (pedido do Rodrigo):** a secção "Escolha o que quer fabricar" tem 12 categorias de exemplo em duas linhas que passam sozinhas, em sentidos opostos; param com o rato em cima, com o foco do teclado ou no botão Pausar. Sem animação (`prefers-reduced-motion` ou sem WebGL), deslizam à mão. Substitui, neste protótipo, o mosaico 8+4 / 4+4+4 do `DESIGN.md`: atualizar o documento se o Bruno aprovar. As 7 categorias novas e todos os preços são inventados.
+- **Arrastar as categorias (pedido do Rodrigo):** cada linha arrasta-se para os dois lados com o rato ou o dedo, com inércia ao largar, e dá a volta sem fim; deixa de ser animação CSS e passa a ser um ciclo em JS. Um arrasto não abre a categoria; um clique simples abre.
+- **Cenários 3D em vez de fotografias:** o Rodrigo não quis fotografias escurecidas. As 14 imagens de `docs/site-inicial/img/` são cenas renderizadas (`docs/site-inicial/cenarios/cenas.js` + `render.mjs`, com three.js no Chromium do Playwright): betão, luz quente de fim de dia, uma cena por categoria. São ilustrativas: não são produtos nem obras reais da Habinox. As 12 categorias e os preços continuam a ser de exemplo. A capa de Portões tem imagem panorâmica própria (`portoes-capa`), com o título sobre a imagem; uma imagem 4:3 cortada numa faixa larga fica ampliada e desfocada, por isso cada capa de categoria precisa de imagem panorâmica.
+- **Abertura direta na loja (pedido do Rodrigo, 2026-10-31):** o site abre em "Metal feito à medida. Preço na hora.", com esta entrada: enquanto a cena carrega mostra só o nome HABINOX®; o nome desloca-se para o canto esquerdo e encaixa no logótipo do cabeçalho, os degraus acendem de baixo para cima e o título e o menu surgem durante esse acender (cerca de 3 s). A única animação nesse ecrã é o balanço lento da câmara à volta da escada (±4° em 14 s), que abranda ao fazer scroll e retoma quando a página para; sem parallax, pó nem grão a mexer. A apresentação da empresa passou para `#inicio` (link "Empresa" no menu); a viagem de câmara entre os dois mantém-se.
+- **Escada mais real (pedido do Rodrigo):** chapa metálica com textura fina (a espessura falsa nos recortes foi retirada: fazia traços pretos), degraus e LED menos brilhantes (vê-se o veio) e sombra de contacto no chão.
+- **Passagem do herói para as categorias:** a escada dissolve-se no fundo por gradiente, sem linha a separar as secções.
+- **Em produção (Next 16):** canvas persistente no layout de `[locale]` e `<ViewTransition>` do React para os ecrãs da loja (`next/dist/docs/01-app/02-guides/view-transitions.md`). O canvas não pode ser desmontado entre rotas.
+- **Por decidir com o Bruno:** fontes e cores (início Fraunces/noite, loja Archivo/grafite aprovados a 27/10; a passagem interpola as cores, as fontes mudam); a página inicial não consta do plano de fases, por isso é preciso acordar horas e valor; números de clientes e toneladas provisórios; falta a fotografia `escada.png`; a cena é pesada para telemóveis fracos e só foi testada em renderização por software.
 
 Regras do motor de preços que saíram dos orçamentos e das respostas (detalhe em `docs/fase-0.md` e `docs/orcamentos-analise.md`):
 

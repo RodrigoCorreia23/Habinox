@@ -1,0 +1,1978 @@
+<!doctype html>
+<html lang="pt-PT" class="flow">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0c1220">
+<title>Habinox Início e Loja</title>
+<meta name="description" content="Serralharia em aço inoxidável, alumínio soldado e ferro desde 2005 em Antas, Esposende. Escadas, gradeamentos, portões e muito mais. Orçamentos gratuitos, em todo o país.">
+<link rel="canonical" href="https://habinox.pt/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230c1220'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23e8c37a'%3EH%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_PT">
+<meta property="og:site_name" content="HABINOX">
+<meta property="og:title" content="HABINOX — Trabalhos em aço inoxidável | Esposende">
+<meta property="og:description" content="Serralharia em inox, alumínio e ferro desde 2005. Do projeto à obra.">
+<meta property="og:url" content="https://habinox.pt/">
+<meta property="og:image" content="https://habinox.pt/escada.png">
+
+<script>
+/* =========================================================
+   CONFIGURAÇÃO — editar aqui
+   ========================================================= */
+const SHOP_URL = '#loja';            // protótipo: a loja vive na mesma página
+
+// Números da secção "Números". Os de clientes e toneladas são PROVISÓRIOS.
+const STATS = [
+  { value: 20,   suffix: '+', label: 'anos de atividade', note: 'desde 2005' },
+  { value: 1998, suffix: '',  label: 'clientes' },                 // PROVISÓRIO
+  { value: 780,  suffix: '',  label: 'toneladas de inox' }         // PROVISÓRIO
+];
+
+// 3D + scroll animation unless the visitor asked for less motion or has no WebGL.
+// Without it (or without JS) the page is an ordinary scrolling document.
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let gl = false;
+  try { gl = !!document.createElement('canvas').getContext('webgl2'); } catch (e) {}
+  if (!reduce && gl) { document.documentElement.classList.remove('flow'); document.documentElement.classList.add('scrolly'); }
+  else document.documentElement.classList.add('flow');
+})();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "HABINOX",
+  "description": "Serralharia em aço inoxidável, alumínio soldado e ferro.",
+  "url": "https://habinox.pt/",
+  "email": "geral@habinox.pt",
+  "telephone": "+351253873429",
+  "foundingDate": "2005",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Núcleo Industrial de Antas",
+    "postalCode": "4740-016",
+    "addressLocality": "Antas, Esposende",
+    "addressCountry": "PT"
+  },
+  "geo": { "@type": "GeoCoordinates", "latitude": 41.61266, "longitude": -8.77526 },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    "opens": "09:00", "closes": "18:30"
+  },
+  "areaServed": ["PT", "EU"]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,200..700&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300&family=IBM+Plex+Mono:wght@400&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night: #0c1220;
+    --cream: #f1e8d6;
+    --muted: rgba(241, 232, 214, .62);
+    --gold: #e8c37a;
+    --gold-line: rgba(232, 195, 122, .5);
+    --glass: rgba(12, 18, 32, .58);
+    --serif: "Fraunces", Georgia, serif;
+    --sans: "IBM Plex Sans", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+    --side: clamp(16px, 4.5vw, 72px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--night); color: var(--cream); }
+  body {
+    font-family: var(--sans);
+    font-size: 15px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+  /* ---------- stage ---------- */
+  .view { position: fixed; inset: 0; overflow: hidden; z-index: 0; }
+  .view canvas { display: block; width: 100%; height: 100%; }
+  .view { background: radial-gradient(120% 90% at 70% 40%, #1a2236 0%, var(--night) 60%); }
+
+  /* ---------- header ---------- */
+  .top {
+    position: fixed; z-index: 4;
+    top: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: max(18px, env(safe-area-inset-top)) var(--side) 18px;
+    background: linear-gradient(rgba(8, 12, 22, .55), transparent);
+  }
+  .logo {
+    font-family: var(--serif); font-weight: 600;
+    font-size: 1.2rem; letter-spacing: .2em;
+    text-decoration: none; white-space: nowrap;
+    text-shadow: 0 1px 14px rgba(0, 0, 0, .5);
+  }
+  .logo sup, .brand sup { color: var(--gold); font-size: .5em; letter-spacing: 0; margin-left: .15em; vertical-align: .9em; }
+  .top nav { display: flex; gap: clamp(10px, 2.2vw, 28px); }
+  .top nav a {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    text-decoration: none; color: var(--muted);
+    padding: 6px 0; transition: color .2s;
+  }
+  .top nav a:hover { color: var(--cream); }
+  .top nav a.shop { color: var(--gold); }
+  @media (max-width: 520px) {
+    .logo { font-size: 1rem; letter-spacing: .14em; }
+    .top nav { gap: 11px; }
+    .top nav a { font-size: 9.5px; letter-spacing: .06em; }
+  }
+
+  /* ---------- content blocks: text straight on the scene ---------- */
+  .block {
+    width: min(500px, 40vw);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .55), 0 2px 22px rgba(0, 0, 0, .5);
+  }
+  .num {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 14px;
+  }
+  .block h1, .block h2 {
+    font-family: var(--serif); font-weight: 400;
+    font-size: clamp(2.5rem, 4.6vw, 4.5rem); line-height: 1.04; letter-spacing: -.02em;
+    margin-bottom: 18px;
+  }
+  .lead { font-size: 17px; line-height: 1.55; color: rgba(241, 232, 214, .9); max-width: 34em; }
+  .note { font-size: 12px; color: var(--muted); margin-top: 12px; }
+
+  /* lists: one line at a time, each with a small gold dash */
+  .lines { list-style: none; margin-top: 18px; }
+  .lines li { position: relative; padding: 5px 0 5px 26px; font-size: 16px; color: rgba(241, 232, 214, .92); }
+  .lines li::before { content: ""; position: absolute; left: 0; top: 1.05em; width: 14px; height: 1px; background: var(--gold); box-shadow: 0 0 6px rgba(232, 195, 122, .6); }
+  .lines a { color: var(--cream); text-decoration-color: var(--gold-line); text-underline-offset: 3px; }
+  .lines a:hover { color: var(--gold); }
+  .nw { white-space: nowrap; }
+
+  .with-photo { display: grid; grid-template-columns: 1fr auto; gap: 22px; align-items: end; }
+  .work { width: 132px; text-shadow: none; }
+  .work img {
+    display: block; width: 100%; height: auto;           /* whole photo, portrait 3:4, no crop */
+    padding: 4px; background: linear-gradient(160deg, #f0d391, #b98a3e 55%, #e8c37a);
+    box-shadow: 0 14px 34px -12px rgba(0, 0, 0, .8);
+  }
+  .work figcaption { margin-top: 8px; font-family: var(--mono); font-size: 9.5px; line-height: 1.45; letter-spacing: .08em; color: var(--muted); text-shadow: 0 1px 6px rgba(0, 0, 0, .8); }
+  .cols { columns: 2; column-gap: 18px; }
+  .services { width: min(360px, 30vw); }
+  /* at 90% the stair fills all but the right ~22% of the screen */
+  .contacts { width: min(290px, 23vw); }
+  html.scrolly .contacts.right { right: clamp(16px, 2.5vw, 32px); }
+  .narrow { width: min(430px, 36vw); }
+  .cols li { break-inside: avoid; font-size: 15px; padding-top: 3px; padding-bottom: 3px; }
+
+  .stats { display: flex; gap: clamp(20px, 3vw, 44px); margin-top: 8px; }
+  .stat b { display: block; font-family: var(--serif); font-weight: 300; font-size: clamp(2.6rem, 4.4vw, 4rem); line-height: 1; color: var(--gold); font-variant-numeric: tabular-nums; }
+  .stat span { display: block; margin-top: 6px; font-size: 13px; line-height: 1.35; color: var(--muted); }
+
+  .hint { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 26px; align-items: center; }
+  .btn-shop {
+    display: inline-flex; align-items: center; gap: .5em;
+    padding: 16px 32px;
+    font-family: var(--serif); font-size: 1.4rem; font-weight: 500;
+    color: #1b1408; text-decoration: none; text-shadow: none;
+    background: linear-gradient(180deg, #f3d798, #e2b462);
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px rgba(255, 230, 170, .6), 0 0 28px rgba(232, 195, 122, .45), 0 10px 30px -10px rgba(0, 0, 0, .6);
+    animation: glow 3.2s ease-in-out infinite;
+    transition: transform .2s;
+  }
+  .btn-shop:hover { transform: translateY(-1px); }
+  @keyframes glow {
+    50% { box-shadow: 0 0 0 1px rgba(255, 230, 170, .8), 0 0 44px rgba(232, 195, 122, .7), 0 10px 30px -10px rgba(0, 0, 0, .6); }
+  }
+  .btn-quote {
+    padding: 14px 4px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+    text-decoration: none; color: var(--cream);
+    border-bottom: 1px solid var(--gold-line);
+  }
+  .btn-quote:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* reading scrims: soft dark gradients from the side the text is on, no edges */
+  .scrim { position: fixed; z-index: 1; pointer-events: none; opacity: 0; top: 0; bottom: 0; width: 62vw; }
+  .scrim-l { left: 0; background: linear-gradient(90deg, rgba(5, 8, 16, .6), rgba(5, 8, 16, .38) 45%, rgba(5, 8, 16, 0)); }
+  .scrim-r { right: 0; background: linear-gradient(270deg, rgba(5, 8, 16, .6), rgba(5, 8, 16, .38) 45%, rgba(5, 8, 16, 0)); }
+
+  /* ---------- progress ---------- */
+  .progress {
+    position: fixed; z-index: 3;
+    left: var(--side); right: var(--side);
+    bottom: max(18px, env(safe-area-inset-bottom));
+    pointer-events: none;
+  }
+  .progress ol { list-style: none; display: flex; justify-content: space-between; margin-bottom: 8px; }
+  .progress li {
+    font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+    color: rgba(241, 232, 214, .4); transition: color .3s;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, .8);
+  }
+  .progress li.on { color: var(--gold); }
+  .bar { height: 1px; background: rgba(241, 232, 214, .18); position: relative; }
+  .bar i {
+    position: absolute; inset: 0; background: var(--gold);
+    transform-origin: left; transform: scaleX(0);
+    box-shadow: 0 0 8px var(--gold);
+  }
+
+  /* splash while the 3D scene builds: dark ground, the logo breathing */
+  .loading {
+    position: fixed; inset: 0; z-index: 10;
+    display: grid; place-items: center;
+    background: var(--night);
+    transition: background-color .9s ease, visibility 0s 3s;
+    pointer-events: none;
+  }
+  .loading span {
+    font-family: var(--serif); font-weight: 600; letter-spacing: .2em; white-space: nowrap;
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    animation: breathe 2.4s ease-in-out infinite;
+  }
+  .loading sup { color: var(--gold); font-size: .5em; letter-spacing: 0; margin-left: .15em; vertical-align: .9em; }
+  @media (max-width: 760px) { .loading span { letter-spacing: .14em; } }
+  @keyframes breathe { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+  /* o fundo desaparece e o nome vai encaixar-se no cabeçalho */
+  html.ready .loading { background-color: transparent; visibility: hidden; }
+  html.ready .loading span { animation: none; }
+
+  /* ---------- scrolly mode: blocks are fixed and driven by the scroll ---------- */
+  html.scrolly .track { height: 900vh; }
+  html.scrolly .block {
+    position: fixed; z-index: 2;
+    top: 50%;
+    opacity: 0; transform: translateY(-50%);
+    pointer-events: none;
+    will-change: opacity, transform;
+  }
+  html.scrolly .block.on { pointer-events: auto; }
+  html.scrolly .left { left: var(--side); }
+  html.scrolly .right { right: var(--side); }
+  html.scrolly .hero { opacity: 1; }
+  html.flow .block { width: min(560px, 100%); }
+  @media (max-width: 760px) {
+    html.scrolly .block {
+      left: 20px; right: 20px; width: auto;
+      top: auto; bottom: calc(max(18px, env(safe-area-inset-bottom)) + 44px);
+      transform: none;
+    }
+    .block h1, .block h2 { font-size: 2.5rem; margin-bottom: 12px; }
+    .lead { font-size: 15px; }
+    .lines { margin-top: 12px; }
+    .lines li { font-size: 14px; padding: 3px 0 3px 22px; }
+    .lines li::before { width: 12px; }
+    .cols li { font-size: 13px; padding-top: 2px; padding-bottom: 2px; }
+    .stat b { font-size: 2.4rem; }
+    .stat span { font-size: 11px; }
+    .with-photo { gap: 14px; }
+    .work { width: 86px; }
+    .work figcaption { font-size: 8.5px; }
+    .btn-shop { padding: 13px 24px; font-size: 1.2rem; }
+    /* text sits at the bottom: the scrim rises from the bottom edge instead */
+    .scrim { width: auto; left: 0; right: 0; top: auto; height: 72vh; }
+    .scrim-l, .scrim-r { background: linear-gradient(0deg, rgba(5, 8, 16, .6), rgba(5, 8, 16, .4) 45%, rgba(5, 8, 16, 0)); }
+  }
+
+  /* ---------- flow mode: reduced motion / no WebGL / no JS ---------- */
+  html.flow .view canvas, html.flow .progress, html.flow .loading { display: none; }
+  html.flow .scrim { display: none; }
+  html.flow .top { background: rgba(8, 12, 22, .82); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  html.flow .track {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; gap: 28vh;
+    padding: 28vh var(--side) 30vh;
+  }
+  html.flow .left { align-self: flex-start; }
+  html.flow .right { align-self: flex-end; }
+  html.flow .track > :first-child { margin-top: 10vh; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn-shop { animation: none; }
+    * { scroll-behavior: auto !important; }
+  }
+
+  /* =========================================================
+     Passagem contínua início ↔ loja. As cores são propriedades registadas,
+     por isso o fundo passa da noite azul do início ao grafite da loja sem corte.
+     ========================================================= */
+  @property --night { syntax: '<color>'; inherits: true; initial-value: #0c1220; }
+  @property --cream { syntax: '<color>'; inherits: true; initial-value: #f1e8d6; }
+  @property --gold  { syntax: '<color>'; inherits: true; initial-value: #e8c37a; }
+  :root {
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --display: "Archivo", "Fraunces", Georgia, sans-serif;
+    --line: rgba(238, 233, 226, .14);
+    --line-strong: #706960;
+    --soft: #A8A095;
+    --on-gold: #15120E;
+    color-scheme: dark;
+    transition: --night 1.8s var(--ease-in-out), --cream 1.8s var(--ease-in-out), --gold 1.8s var(--ease-in-out);
+  }
+  html.in-shop { --night: #0F0E0D; --cream: #EEE9E2; --gold: #D6A25E; --muted: #A8A095; }
+  html, body { background: var(--night); }
+  html.in-shop .track { height: 0 !important; overflow: visible; }
+  html.flow.in-shop .track { display: none; }
+  html.in-shop .block { opacity: 0 !important; pointer-events: none !important; transition: opacity .35s ease-out; }
+  html.in-shop .scrim { opacity: 0 !important; transition: opacity .6s ease-out; }
+  .progress { transition: opacity .35s ease-out; }
+  html.in-shop .progress { opacity: 0; }
+  html.covered .view { visibility: hidden; }
+  html.in-shop .view { background: var(--night); }
+  html.covered .top { background: var(--night); }
+  html.in-shop:not(.covered) .top { background: linear-gradient(rgba(15, 14, 13, .7), rgba(15, 14, 13, 0)); }
+
+  .w { display: inline-block; will-change: opacity, transform; }
+
+  /* cabeçalho: mantém-se fixo, só troca a navegação */
+  .top { view-transition-name: top; }
+  .logo { background: none; border: 0; cursor: pointer; }
+  .top nav { position: relative; }
+  .nav-site, .nav-shop { display: flex; align-items: center; gap: clamp(10px, 2.2vw, 28px); transition: opacity .45s var(--ease-out), transform .45s var(--ease-out), visibility 0s; }
+  .nav-shop { position: absolute; right: 0; top: 50%; transform: translateY(calc(-50% + 8px)); opacity: 0; visibility: hidden; white-space: nowrap; }
+  html.in-shop .nav-site { opacity: 0; transform: translateY(-8px); visibility: hidden; }
+  html.in-shop .nav-shop { opacity: 1; transform: translateY(-50%); visibility: visible; }
+  .top nav a { min-height: 44px; display: inline-flex; align-items: center; }
+  .top nav .nav-shop a { font-family: var(--sans); font-size: 14px; letter-spacing: 0; text-transform: none; color: #C9C2B8; }
+  .top nav .nav-shop a:hover, .top nav .nav-shop a[aria-current] { color: var(--cream); }
+  .cart { font-family: var(--mono); font-size: 13px; color: var(--gold); }
+  @media (max-width: 760px) { .nav-shop .cat { display: none; } }
+
+  /* ---------- loja ---------- */
+  .shop { position: relative; z-index: 2; }
+  .page { --gut: clamp(20px, 4vw, 56px); }
+  .wrap { max-width: 1440px; margin-inline: auto; padding-left: max(var(--gut), env(safe-area-inset-left, 0px)); padding-right: max(var(--gut), env(safe-area-inset-right, 0px)); }
+  .s-hero { min-height: 100svh; display: flex; align-items: flex-end; padding-block: 0 72px; position: relative; }
+  .s-hero::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(15,14,13,.82), rgba(15,14,13,.3) 38%, rgba(15,14,13,0) 62%), linear-gradient(90deg, rgba(15,14,13,.62), rgba(15,14,13,0) 58%); }
+  .s-hero .wrap { width: 100%; position: relative; }
+  html.flow .s-hero { background: center / cover url(img/hero-escada-luz.jpg); }
+  .s-hero h1 { font-family: var(--display); font-stretch: 115%; font-weight: 300; font-size: clamp(44px, 6.2vw, 96px); line-height: 1; max-width: 11em; text-wrap: balance; }
+  .s-hero h1 em { display: block; font-style: normal; color: var(--gold); }
+  .s-hero p { margin-top: 24px; font-size: clamp(16px, 1.3vw, 18px); max-width: 34em; color: #C9C2B8; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 32px; }
+  .s-hero .stag { opacity: 0; transform: translateY(26px); transition: opacity .25s ease-out, transform .25s ease-out; }
+  .s-hero.in .stag { opacity: 1; transform: none; transition: opacity 1s var(--ease-out), transform 1s var(--ease-out); }
+  .s-hero.in .stag:nth-child(2) { transition-delay: 80ms; }
+  .s-hero.in .stag:nth-child(3) { transition-delay: 160ms; }
+  /* ao abrir, as cores já estão certas por trás do nome */
+  html:not(.ready), html:not(.ready) .nav-site, html:not(.ready) .nav-shop { transition: none; }
+  /* entrada: o site aparece enquanto os degraus acendem */
+  html.scrolly:not(.lit) .s-hero .stag { opacity: 0; transform: translateY(14px); }
+  html.scrolly:not(.lit) .top, html.scrolly:not(.lit) .s-hero::before { opacity: 0; }
+  .top, .s-hero::before { transition: opacity 1.2s var(--ease-out); }
+  html.scrolly:not(.lit) #inicio > * { opacity: 0; transform: translateY(14px); }
+  #inicio > * { transition: opacity 1.1s var(--ease-out), transform 1.1s var(--ease-out); }
+  #inicio > :nth-child(2) { transition-delay: 90ms; }
+  #inicio > :nth-child(3) { transition-delay: 220ms; }
+  .primary { display: inline-flex; align-items: center; justify-content: center; min-height: 58px; padding: 0 32px; border: 0; background: var(--gold); color: var(--on-gold); font: 500 15px var(--sans); text-decoration: none; cursor: pointer; transition: background-color .2s ease, transform .16s var(--ease-out); }
+  .primary:active { transform: scale(.98); }
+  @media (hover: hover) and (pointer: fine) { .primary:hover { background: #E4B676; } }
+  .tlink { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; color: var(--cream); text-decoration: underline; text-decoration-color: rgba(238,233,226,.35); text-underline-offset: 5px; }
+  .tlink:hover { color: var(--gold); text-decoration-color: currentColor; }
+  /* a cena dissolve-se no fundo por baixo do herói, sem linha a separar as secções */
+  .s-body { background: linear-gradient(90deg, rgba(15,14,13,.62), rgba(15,14,13,0) 58%), linear-gradient(rgba(15,14,13,.82), rgba(15,14,13,.97) 26vh, var(--night) 42vh); padding-top: 16vh; }
+  html.flow .s-body { background: var(--night); padding-top: 72px; }
+  .s-title { font-family: var(--display); font-stretch: 115%; font-weight: 300; font-size: clamp(40px, 5vw, 64px); line-height: 1.04; letter-spacing: -.01em; text-wrap: balance; }
+  .s-sub { margin-top: 14px; color: var(--soft); font-size: 16px; }
+  /* catálogo: duas linhas que passam sozinhas, em sentidos opostos e em ciclo contínuo */
+  .cat-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 40px; scroll-margin-top: 104px; }
+  .cat-pause { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line-strong); background: transparent; color: var(--cream); font: 14px var(--sans); cursor: pointer; }
+  .cat-rows { display: grid; gap: 12px; margin-top: 40px; }
+  .cat-row { overflow: hidden; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  .cat-row.dragging { cursor: grabbing; }
+  .cat-row.dragging .tile { cursor: grabbing; }
+  .rail { display: flex; width: max-content; will-change: transform; }
+  .set { display: flex; gap: 12px; padding-right: 12px; }
+  html.flow .cat-pause { display: none; }
+  .tile { position: relative; display: block; flex: none; width: max(28vw, 340px); height: clamp(220px, 31vh, 420px); overflow: hidden; color: var(--cream); text-decoration: none; background: #181715; }
+
+  .tile img, .card img, .banner img, .cfg-view img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .tile img, .card img { transition: transform 1.1s var(--ease-out); }
+  .tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(15,14,13,.88), rgba(15,14,13,0) 55%); }
+  .tile div { position: absolute; z-index: 1; left: 24px; right: 24px; bottom: 24px; }
+  .tile b { display: block; font: 300 clamp(26px, 2.4vw, 36px)/1.05 var(--display); font-stretch: 115%; }
+  .tile span { display: block; margin-top: 8px; font: 12px/1.5 var(--mono); color: #C9C2B8; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 72px 24px; margin-top: 48px; }
+  .card { display: block; color: var(--cream); text-decoration: none; }
+  .card figure { aspect-ratio: 4 / 5; overflow: hidden; background: #181715; }
+  .card b { display: block; margin-top: 16px; font: 400 23px/1.2 var(--display); font-stretch: 110%; }
+  .card span { display: block; margin-top: 4px; color: var(--soft); font-size: 14px; }
+  .card i { display: block; margin-top: 8px; font: normal 14px var(--mono); }
+  @media (hover: hover) and (pointer: fine) {
+    .tile:hover img, .card:hover img { transform: scale(1.04); }
+    .card:hover b { color: var(--gold); }
+  }
+  /* capa panorâmica: funde-se com o fundo em baixo, e o título assenta na fotografia */
+  .banner { position: relative; height: clamp(440px, 72vh, 780px); overflow: hidden; margin-top: 88px; }
+  .banner::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, var(--night), rgba(15, 14, 13, .4) 20%, rgba(15, 14, 13, 0) 42%), linear-gradient(90deg, rgba(15, 14, 13, .55), rgba(15, 14, 13, 0) 45%); }
+  .banner-text { position: absolute; z-index: 1; left: 0; right: 0; bottom: 8px; }
+  .banner-text .crumb { color: #C9C2B8; margin-top: 0; }
+  .crumb { font: 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #8E867B; margin-top: 40px; }
+  .crumb a { color: inherit; }
+  .deep-title { font-family: var(--display); font-stretch: 115%; font-weight: 300; font-size: clamp(64px, 9vw, 128px); line-height: 1; margin-top: 16px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 32px; }
+  .pill { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line-strong); background: transparent; color: var(--cream); font: 14px var(--sans); cursor: pointer; transition: background-color .2s ease, color .2s ease; }
+  .pill[aria-pressed="true"] { background: var(--cream); color: var(--on-gold); border-color: var(--cream); }
+  .cfg { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(28px, 4vw, 64px); margin-top: 88px; padding-bottom: 88px; align-items: start; }
+  .cfg-view { position: sticky; top: 88px; height: calc(100svh - 112px); min-height: 420px; overflow: hidden; background: #181715; }
+  .cfg h1 { font: 300 clamp(56px, 6vw, 80px)/1 var(--display); font-stretch: 115%; margin-top: 12px; }
+  .label { font: 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #8E867B; }
+  .price { font: 400 44px/1.1 var(--mono); margin-top: 24px; font-variant-numeric: tabular-nums; }
+  .opt { border-top: 1px solid var(--line); padding-block: 22px; margin-top: 22px; }
+  .opt + .opt { margin-top: 0; }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+  .fields label { display: block; font-size: 13px; color: var(--soft); }
+  .fields input { display: block; width: 100%; min-height: 48px; margin-top: 6px; padding: 0 12px; border-radius: 2px; border: 1px solid var(--line-strong); background: #181715; color: var(--cream); font: 16px var(--mono); }
+  .fields input[aria-invalid="true"] { border: 2px solid #E5796F; }
+  .hint-txt { display: block; margin-top: 6px; font: 12px var(--mono); color: #8E867B; }
+  .hint-txt.bad { color: #F0A39B; }
+  .swatch { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-strong); cursor: pointer; }
+  .swatch[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--night), 0 0 0 5px var(--gold); }
+  .primary.full { width: 100%; margin-top: 8px; }
+  .demo { margin-top: 14px; font-size: 13px; color: #8E867B; }
+  .foot { border-top: 1px solid var(--line); margin-top: 140px; padding-block: 56px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px 40px; font-size: 13px; color: var(--soft); }
+  .foot a { color: inherit; }
+  .mt { margin-top: 140px; }
+  @media (max-width: 760px) {
+    .tile { width: 68vw; height: 280px; }
+    .banner img { object-position: 78% center; }
+    .tile b { font-size: 28px; }
+    .grid { grid-template-columns: 1fr; gap: 48px; }
+    .cfg { grid-template-columns: minmax(0, 1fr); margin-top: 72px; }
+    .cfg-view { position: relative; top: 0; height: 56vh; min-height: 0; }
+    .mt, .foot { margin-top: 88px; }
+    .s-hero { padding-bottom: 40px; }
+  }
+
+  /* morfismo das fotografias entre ecrãs da loja */
+  ::view-transition-group(photo) { animation-duration: .75s; animation-timing-function: var(--ease-in-out); }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .45s; animation-timing-function: var(--ease-out); }
+  ::view-transition-old(photo), ::view-transition-new(photo) { height: 100%; object-fit: cover; overflow: clip; }
+</style>
+</head>
+<body>
+
+<div class="view" aria-hidden="true">
+  <canvas id="c"></canvas>
+</div>
+
+<header class="top">
+  <a class="logo" href="#loja" data-to="#shopHero" aria-label="HABINOX — início">HABINOX<sup>®</sup></a>
+  <nav aria-label="Principal">
+    <div class="nav-site">
+      <a href="#empresa">Empresa</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#contactos">Contactos</a>
+      <a href="#loja" class="shop" data-shop>Loja</a>
+    </div>
+    <div class="nav-shop">
+      <a class="cat" href="#inicio">Empresa</a>
+      <a class="cat" href="#portoes">Portões</a>
+      <a class="cat" href="#loja" data-to="#familias">Escadas</a>
+      <a class="cat" href="#loja" data-to="#familias">Guardas</a>
+      <a class="cat" href="#loja" data-to="#familias">Chaminés</a>
+      <a class="cat" href="#loja" data-to="#familias">Caixas de correio</a>
+      <span class="cart" aria-label="Artigos no carrinho" id="cart">0</span>
+    </div>
+  </nav>
+</header>
+
+<!-- Each block shows between data-in and data-out (fractions of the scroll).
+     left/right = the side of the screen that is free of the stair at that moment of the camera path. -->
+<main class="track" id="track">
+
+  <section class="block hero left narrow" id="inicio" data-in="0" data-out=".055">
+    <p class="num">HABINOX®</p>
+    <h1>Especialistas em aço inoxidável.</h1>
+    <p class="hint">Faça scroll para descobrir.</p>
+  </section>
+
+  <section class="block left narrow" id="empresa" data-in=".085" data-out=".14">
+    <p class="num">01 — Quem somos</p>
+    <h2>Desde 2005 em Antas, Esposende.</h2>
+    <p class="lead">Começámos no aço inoxidável e hoje fazemos serralharia em inox, alumínio soldado e ferro, com aposta na modernização e inovação.</p>
+  </section>
+
+  <!-- timed to the stretch where the camera passes closest to the laser-cut guards -->
+  <section class="block left" id="como" data-in=".15" data-out=".245">
+    <p class="num">02 — Como trabalhamos</p>
+    <h2>Do corte ao polimento.</h2>
+    <p class="lead">Projeto em 2D e 3D, preparação e execução de obra, com equipamento próprio:</p>
+    <div class="with-photo">
+      <ul class="lines">
+        <li>Linha de corte e quinagem de chapa</li>
+        <li>Corte CNC — como as guardas desta escada</li>
+        <li>Torno e fresa</li>
+        <li>Esmerilagem e polimento de perfis</li>
+      </ul>
+      <figure class="work">
+        <img src="escada.png" width="1200" height="1600" loading="lazy" decoding="async" onerror="this.closest('figure').remove()"
+             alt="Escada helicoidal em obra, com guardas em aço recortadas por CNC e degraus iluminados">
+        <figcaption>Obra real Habinox — guardas em corte CNC</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="block right services" id="servicos" data-in=".32" data-out=".46">
+    <p class="num">03 — O que fazemos</p>
+    <h2>Por medida.</h2>
+    <ul class="lines cols">
+      <li>Escadas</li><li>Gradeamento interior</li><li>Gradeamento exterior</li>
+      <li>Portões</li><li>Portões em alumínio</li><li>Portas de entrada</li>
+      <li>Hottes</li><li>Chaminés</li><li>Quedas e capitéis</li>
+      <li>Cascatas</li><li>Churrasqueiras</li><li>Toalheiros</li>
+      <li>Mesas</li><li>Bases de chuveiro</li><li>Puxadores</li>
+    </ul>
+  </section>
+
+  <section class="block right" id="inox" data-in=".5" data-out=".6">
+    <p class="num">04 — Porquê inox</p>
+    <h2>Bonito e feito para durar.</h2>
+    <p class="lead">Ciclo de vida longo e baixo custo de manutenção: uma escolha bonita e económica para arquitetura e construção.</p>
+  </section>
+
+  <section class="block left" id="perto" data-in=".63" data-out=".73">
+    <p class="num">05 — Ao seu lado</p>
+    <h2>Vamos à obra consigo.</h2>
+    <ul class="lines">
+      <li>Aconselhamento e levantamento na obra</li>
+      <li>Orçamentos gratuitos e sem compromisso</li>
+      <li>Todo o país — e fabricamos para a Europa</li>
+      <li>Particulares e empresas</li>
+    </ul>
+  </section>
+
+  <section class="block left" id="numeros" data-in=".76" data-out=".85">
+    <p class="num">06 — Números</p>
+    <h2>Duas décadas de inox.</h2>
+    <div class="stats" id="stats"></div>
+  </section>
+
+  <section class="block right contacts" id="contactos" data-in=".87" data-out=".94">
+    <p class="num">07 — Contactos</p>
+    <h2>Fale connosco.</h2>
+    <ul class="lines">
+      <li><address style="font-style:normal">Núcleo Industrial de Antas, <span class="nw">4740-016 Antas</span>, Esposende</address></li>
+      <li><span class="nw">Tel. <a href="tel:+351253873429">253 873 429</a></span> · <span class="nw">Tlm. <a href="tel:+351969413616">969 413 616</a></span></li>
+      <li><a href="mailto:geral@habinox.pt">geral@habinox.pt</a> · <a href="https://www.google.com/maps?q=41.61266,-8.775260" target="_blank" rel="noopener">Google Maps ↗</a></li>
+    </ul>
+    <p class="note">Dias úteis, 9h00–18h30. Chamada para a rede fixa / móvel nacional.</p>
+  </section>
+
+  <section class="block left final" id="loja" data-in=".955" data-out="1">
+    <p class="num">08 — Loja</p>
+    <h2>Do projeto à obra.</h2>
+    <div class="actions">
+      <a class="btn-shop" href="#loja" data-shop>Entrar na loja <span aria-hidden="true">→</span></a>
+      <a class="btn-quote" href="mailto:geral@habinox.pt?subject=Pedido%20de%20or%C3%A7amento">Pedir orçamento</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- A loja usa a mesma cena: o herói é transparente e deixa ver o canvas. Preços e fotografias de exemplo. -->
+<div class="shop" id="shop" hidden>
+  <section class="page" data-page="loja">
+    <div class="s-hero" id="shopHero"><div class="wrap">
+      <h1 class="stag">Metal feito à medida. <em>Preço na hora.</em></h1>
+      <p class="stag">Escreva as medidas, escolha o material e veja o preço enquanto configura.</p>
+      <div class="row stag"><a class="primary" href="#linear">Configurar um portão</a><a class="tlink" href="#loja" data-to="#familias">Ver a loja</a></div>
+    </div></div>
+    <div class="s-body">
+     <div class="wrap cat-head" id="familias">
+       <div><h2 class="s-title">Escolha o que quer fabricar.</h2>
+       <p class="s-sub">Tudo por medida, em inox, ferro ou alumínio.</p></div>
+       <button class="cat-pause" id="catPause" type="button" aria-pressed="false">Pausar</button>
+     </div>
+     <div class="cat-rows" id="catRows"><div class="cat-row"><div class="rail"></div></div><div class="cat-row"><div class="rail"></div></div></div>
+     <div class="wrap">
+      <footer class="foot"><span>© 2026 Habinox · Preços com IVA incluído</span><span><a href="#inicio">Sobre a Habinox</a> · Termos · Privacidade · Livro de Reclamações</span></footer>
+    </div></div>
+  </section>
+
+  <section class="page" data-page="portoes" hidden>
+    <div class="banner"><img data-morph="portoes" src="img/portoes-capa.jpg" alt="Portão em chapa com relevo, entre muros de betão ao anoitecer">
+      <div class="wrap banner-text">
+        <p class="crumb"><a href="#loja">Loja</a> / Portões</p>
+        <h1 class="deep-title">Portões</h1>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="filters" id="filters"></div>
+      <div class="grid" id="gates"></div>
+      <footer class="foot"><span>© 2026 Habinox · Preços com IVA incluído</span><span><a href="#inicio">Sobre a Habinox</a> · Termos · Privacidade · Livro de Reclamações</span></footer>
+    </div>
+  </section>
+
+  <section class="page" data-page="linear" hidden>
+    <div class="wrap cfg">
+      <div class="cfg-view"><img data-morph="linear" src="img/portao-correr-cinza.jpg" alt="Portão de correr Linear, com barras verticais"></div>
+      <div>
+        <p class="crumb" style="margin-top:0"><a href="#loja">Loja</a> / <a href="#portoes">Portões</a> / Linear</p>
+        <h1>Linear</h1>
+        <p class="s-sub">Folha única com barras verticais, a deslizar sobre calha.</p>
+        <p class="price" id="price" aria-live="polite"></p>
+        <div class="opt"><span class="label">Medidas da abertura · mm</span>
+          <div class="fields">
+            <label for="w">Largura<input id="w" inputmode="numeric" value="4000"><span class="hint-txt" id="wh">1 000 a 6 000</span></label>
+            <label for="h">Altura<input id="h" inputmode="numeric" value="1600"><span class="hint-txt" id="hh">800 a 2 200</span></label>
+          </div>
+        </div>
+        <div class="opt"><span class="label">Material</span><div class="filters" id="mats" style="margin-top:12px"></div></div>
+        <div class="opt"><span class="label">Cor · <span id="colorName"></span></span><div class="filters" id="cols" style="margin-top:12px"></div></div>
+        <button class="primary full" id="add" type="button"></button>
+        <p class="demo">Preço e fórmula de exemplo, só para esta demonstração.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="scrim scrim-l" aria-hidden="true"></div>
+<div class="scrim scrim-r" aria-hidden="true"></div>
+
+<div class="progress" aria-hidden="true">
+  <ol>
+    <li data-at="0">Empresa</li>
+    <li data-at=".32">Serviços</li>
+    <li data-at=".87">Contactos</li>
+    <li data-at=".955">Loja</li>
+  </ol>
+  <div class="bar"><i id="bar"></i></div>
+</div>
+
+<div class="loading" id="loading" aria-hidden="true"><span>HABINOX<sup>®</sup></span></div>
+
+<script>
+/* =========================================================
+   Content: shown/hidden in step with the scroll position
+   ========================================================= */
+(() => {
+  const html = document.documentElement, scrolly = html.classList.contains('scrolly');
+  const clamp01 = x => Math.min(1, Math.max(0, x));
+  const smooth = (a, b, x) => { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+
+  document.querySelectorAll('[data-shop]').forEach(a => a.href = SHOP_URL);
+  const statsEl = document.getElementById('stats');
+  statsEl.innerHTML = STATS.map(s =>
+    `<div class="stat"><b data-to="${s.value}" data-suffix="${s.suffix}">${s.value}${s.suffix}</b>` +
+    `<span>${s.label}${s.note ? ` (${s.note})` : ''}</span></div>`).join('');
+
+  // títulos: as palavras chegam uma a uma, presas ao scroll
+  document.querySelectorAll('.block h2').forEach(h => {
+    h.innerHTML = h.textContent.trim().split(/\s+/).map(w => `<span class="w">${w}</span>`).join(' ');
+  });
+  const blocks = [...document.querySelectorAll('.block')].map(el => ({
+    el, a: +el.dataset.in, b: +el.dataset.out,
+    words: [...el.querySelectorAll('.w')],
+    items: [...el.querySelectorAll('.lines > li')],
+    counters: [...el.querySelectorAll('[data-to]')]
+  }));
+  const labels = [...document.querySelectorAll('.progress li')];
+  const bar = document.getElementById('bar');
+  const scrims = { left: document.querySelector('.scrim-l'), right: document.querySelector('.scrim-r') };
+  const F = .015;                      // fade length, in scroll fraction
+  const mobile = matchMedia('(max-width: 760px)');
+  const maxScroll = () => document.documentElement.scrollHeight - innerHeight;
+
+  function update(p) {
+    if (!scrolly) return;
+    const shade = { left: 0, right: 0 };
+    for (const k of blocks) {
+      const vin = k.a <= 0 ? 1 : smooth(k.a - F, k.a, p);
+      const vout = k.b >= 1 ? 0 : smooth(k.b, k.b + F, p);
+      const v = vin * (1 - vout);
+      const dy = (1 - vin) * 18 - vout * 14;           // rise in, drift up out
+      k.el.style.opacity = v.toFixed(3);
+      k.el.style.transform = mobile.matches ? `translateY(${dy}px)` : `translateY(calc(-50% + ${dy}px))`;
+      k.el.classList.toggle('on', v > .5);
+      const side = k.el.classList.contains('right') ? 'right' : 'left';
+      shade[side] = Math.max(shade[side], v);
+      const local = clamp01((p - k.a) / ((k.b - k.a) * .55));
+      k.items.forEach((li, i) => {                    // list lines arrive one by one
+        const s = i / k.items.length * .75, t = smooth(s, s + .25, local);
+        li.style.opacity = t.toFixed(3);
+        li.style.transform = `translateX(${((1 - t) * -10).toFixed(1)}px)`;
+      });
+      k.words.forEach((w, i) => {
+        const s = i / k.words.length * .4, t = smooth(s, s + .3, local);
+        w.style.opacity = t.toFixed(3);
+        w.style.transform = `translateY(${((1 - t) * 16).toFixed(1)}px)`;
+      });
+      k.counters.forEach(c => { c.textContent = Math.round(+c.dataset.to * smooth(0, 1, local)) + c.dataset.suffix; });
+    }
+    scrims.left.style.opacity = shade.left.toFixed(3);
+    scrims.right.style.opacity = shade.right.toFixed(3);
+    bar.style.transform = `scaleX(${p})`;
+    let cur = 0;
+    labels.forEach((l, i) => { if (p >= +l.dataset.at - .001) cur = i; });
+    labels.forEach((l, i) => l.classList.toggle('on', i === cur));
+  }
+
+  // Until the 3D module takes over (it feeds the smoothed scroll), follow the raw scroll
+  window.HABINOX = { update, driven: false };
+  if (scrolly) {
+    const raw = () => { if (!window.HABINOX.driven && window.HABINOX.route !== 'loja') update(scrollY / Math.max(1, maxScroll())); };
+    addEventListener('scroll', raw, { passive: true });
+    raw();
+
+    // Nav links and keyboard focus jump to the moment each block is on screen
+    const go = (el, smoothScroll) => {
+      const k = blocks.find(b => b.el === el); if (!k) return;
+      const p = k.b >= 1 ? 1 : (k.a + k.b) / 2;
+      scrollTo({ top: p * maxScroll(), behavior: smoothScroll ? 'smooth' : 'auto' });
+    };
+    document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t && t.classList.contains('block') && !a.dataset.to && a.getAttribute('href') !== SHOP_URL && !html.classList.contains('in-shop')) { e.preventDefault(); go(t, true); }
+    }));
+    document.getElementById('track').addEventListener('focusin', e => {
+      const t = e.target.closest('.block');
+      if (t && !t.classList.contains('on')) go(t, false);
+    });
+  }
+})();
+</script>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="text/plain" id="voronoi-worker">
+function rng(seed) {
+  return () => {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+function noise2(seed) {
+  const r = rng(seed), N = 128, g = new Float32Array(N * N);
+  for (let i = 0; i < g.length; i++) g[i] = r();
+  const at = (x, y) => g[(y & (N - 1)) * N + (x & (N - 1))];
+  return (x, y) => {
+    const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+    const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+    const a = at(xi, yi) + (at(xi + 1, yi) - at(xi, yi)) * u;
+    const b = at(xi, yi + 1) + (at(xi + 1, yi + 1) - at(xi, yi + 1)) * u;
+    return a + (b - a) * v;
+  };
+}
+
+/* Cracked-glass cut pattern.
+   - seeds by rejection sampling against a low-frequency density field: dense clusters and empty zones
+   - cells laid out in a space squeezed 1.6x along the curve, so they come out stretched horizontally
+   - power-diagram weights keep edges straight but make neighbours very unequal
+   - a small noise warp bends the straight edges into angular, irregular ribs
+   Output: 2-channel alpha (RG8), soft 1-px ramp on every edge for antialiasing. */
+onmessage = ({ data: { w, h, ppm, W, H, seed, low, high } }) => {
+  const r = rng(seed), dens = noise2(seed + 1), warpX = noise2(seed + 2), warpY = noise2(seed + 3);
+  const ANISO = 1.6, RIB = .0155, ENDS = .05, MIN_D = .05, BEND = .1, KINK = .004;
+  const SW = W / ANISO;                       // pattern space width
+
+  // Seeds
+  const G = .16, gw = Math.ceil(SW / G) + 4, gh = Math.ceil(H / G) + 4;
+  const cells = Array.from({ length: gw * gh }, () => []);
+  const field = (s, y) => {
+    const n = .6 * dens(s * 2.2, y * 2.2) + .4 * dens(s * 5 + 31, y * 5 + 17);
+    const t = Math.min(1, Math.max(0, (n - .58) / .2));
+    return .5 + .5 * t * t;                   // most of the sheet medium/large; a few denser patches
+  };
+  const tries = Math.ceil((SW + 4 * G) * (H + 4 * G) / (.095 * .095));
+  for (let i = 0; i < tries; i++) {
+    const s = -2 * G + r() * (SW + 4 * G), y = -2 * G + r() * (H + 4 * G);
+    if (r() > field(s, y)) continue;
+    const ci = Math.floor(s / G) + 2, cj = Math.floor(y / G) + 2;
+    let ok = true;
+    for (let jj = cj - 1; jj <= cj + 1 && ok; jj++) for (let ii = ci - 1; ii <= ci + 1 && ok; ii++) {
+      if (ii < 0 || jj < 0 || ii >= gw || jj >= gh) continue;
+      for (const p of cells[jj * gw + ii]) if ((p[0] - s) ** 2 + (p[1] - y) ** 2 < MIN_D * MIN_D) { ok = false; break; }
+    }
+    if (!ok) continue;
+    const wgt = (r() * .045) ** 2;            // power weight
+    cells[cj * gw + ci].push([s, y, wgt]);
+  }
+
+  const out = new Uint8Array(w * h * 2);
+  const aa = v => v <= 0 ? 0 : v >= 1 ? 255 : (v * 255) | 0;
+  for (let py = 0; py < h; py++) {
+    const y0 = (py + .5) / ppm;
+    for (let px = 0; px < w; px++) {
+      const u = (px + .5) / ppm;
+      // solid bands / ends, as signed distances so they antialias too
+      const band = Math.max(y0 - high[px], low[px] - y0, ENDS - u, u - (W - ENDS));
+      let a = .5 + band * ppm;
+      if (a < 1) {
+        // low-frequency bend: stretches cells in locally varying directions, edges stay ~straight;
+        // a tiny higher-frequency kink breaks their perfect straightness
+        const s = (u + (warpX(u * 1.4, y0 * 1.4) - .5) * 2 * BEND + (warpX(u * 7 + 50, y0 * 7) - .5) * 2 * KINK) / ANISO;
+        const y = y0 + (warpY(u * 1.4, y0 * 1.4) - .5) * 2 * BEND + (warpY(u * 7 + 50, y0 * 7) - .5) * 2 * KINK;
+        const ci = Math.floor(s / G) + 2, cj = Math.floor(y / G) + 2;
+        let d1 = 1e9, d2 = 1e9, A = null, B = null;
+        for (let jj = cj - 2; jj <= cj + 2; jj++) {
+          if (jj < 0 || jj >= gh) continue;
+          for (let ii = ci - 2; ii <= ci + 2; ii++) {
+            if (ii < 0 || ii >= gw) continue;
+            const L = cells[jj * gw + ii];
+            for (let k = 0; k < L.length; k++) {
+              const p = L[k], dd = (p[0] - s) ** 2 + (p[1] - y) ** 2 - p[2];
+              if (dd < d1) { d2 = d1; B = A; d1 = dd; A = p; } else if (dd < d2) { d2 = dd; B = p; }
+            }
+          }
+        }
+        if (B) {
+          // distance to the power bisector, measured in pattern space then converted to real metres
+          const dx = B[0] - A[0], dy = B[1] - A[1], len = Math.hypot(dx, dy);
+          const ds = (d2 - d1) / (2 * len);
+          const nx = dx / len, ny = dy / len;
+          const dReal = ds / Math.hypot(nx / ANISO, ny);
+          a = Math.max(a, .5 + (RIB - dReal) * ppm);
+        }
+      }
+      const v = aa(a), k = (py * w + px) * 2;
+      out[k] = out[k + 1] = v;
+    }
+  }
+  postMessage(out, [out.buffer]);
+};
+</script>
+
+<!-- 3D scene: injected as a module only in scrolly mode (skipped for reduced motion / no WebGL) -->
+<script type="text/x-scene" id="scene">
+import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+import { Reflector } from 'three/addons/objects/Reflector.js';
+
+/* =========================================================
+   Parameters — all lengths in metres
+   ========================================================= */
+const STEPS    = 14;
+const RISE     = 3.08 / 15;          // riser height fitted to the photo
+const LANDING  = STEPS * RISE;       // landing deck = top of the last tread (2.87 m; 3.3 m to the ceiling)
+const TURN     = 150 * Math.PI / 180; // ~half a turn, climbing to the left (fitted to the photo)
+const DTH      = TURN / STEPS;
+const RI = 0.52, RO = 1.84;        // inner / outer radius (no central column); treads 1.32 m
+const TREAD_T  = 0.06;
+const GUARD_UP = 0.95;              // guard height above the pitch line
+const GUARD_DN = 0.32;              // stringer depth below the pitch line
+const ROOM = { x0: -6.5, x1: 6.5, z0: -7, z1: 5.5, h: 6.2 };
+
+const small = Math.min(innerWidth, innerHeight) < 700;
+const QS = new URLSearchParams(location.search);
+let mirror = null, dust = null, warmLight = null; const lit = [];
+const DPR = Math.min(devicePixelRatio || 1, 2);
+
+const V3 = THREE.Vector3;
+const lineY = th => RISE * (th / DTH + 0.5);                       // pitch line
+const polar = (r, th, y) => new V3(r * Math.cos(th), y, -r * Math.sin(th));
+const clamp01 = x => Math.min(1, Math.max(0, x));
+const smooth = (a, b, x) => { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+const lerp = (a, b, t) => a + (b - a) * t;
+
+function rng(seed) {             // mulberry32
+  return () => {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+/* Tileable value-noise fbm, used for onyx and concrete */
+function makeNoise(seed, N = 256) {
+  const r = rng(seed), g = new Float32Array(N * N);
+  for (let i = 0; i < g.length; i++) g[i] = r();
+  const at = (x, y) => g[((y % N + N) % N) * N + ((x % N + N) % N)];
+  const n = (x, y) => {
+    const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+    const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+    return lerp(lerp(at(xi, yi), at(xi + 1, yi), u), lerp(at(xi, yi + 1), at(xi + 1, yi + 1), u), v);
+  };
+  return (x, y, oct = 4) => {
+    let s = 0, a = .5, f = 1;
+    for (let o = 0; o < oct; o++) { s += a * n(x * f, y * f); a *= .5; f *= 2; }
+    return s;
+  };
+}
+
+function canvas(w, h) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  return [c, c.getContext('2d')];
+}
+
+/* =========================================================
+   Procedural textures
+   ========================================================= */
+function onyxTexture() {
+  const S = 512, [c, x] = canvas(S, S), img = x.createImageData(S, S), fbm = makeNoise(7);
+  const A = [252, 245, 224], B = [246, 233, 200], V = [236, 214, 170];
+  for (let j = 0; j < S; j++) for (let i = 0; i < S; i++) {
+    const u = i / S * 8, v = j / S * 8;          // period 8 matches the 256 noise grid / 32
+    const w = fbm(u * 4, v * 4, 5);
+    const band = .5 + .5 * Math.sin((u * 1.3 + v * .5 + w * 5.5) * Math.PI);
+    const vein = Math.pow(1 - Math.abs(Math.sin((u * .7 - v * .9 + w * 7) * Math.PI)), 26);
+    const k = (j * S + i) * 4;
+    for (let ch = 0; ch < 3; ch++) {
+      let col = lerp(A[ch], B[ch], band * .35 + w * .3);
+      col = lerp(col, V[ch], vein * .15);
+      img.data[k + ch] = col;
+    }
+    img.data[k + 3] = 255;
+  }
+  x.putImageData(img, 0, 0);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(1.4, 1.4);
+  return t;
+}
+
+function concreteTexture() {
+  const S = 512, [c, x] = canvas(S, S), img = x.createImageData(S, S), fbm = makeNoise(21), r = rng(3);
+  for (let j = 0; j < S; j++) for (let i = 0; i < S; i++) {
+    const u = i / S * 32, v = j / S * 32;
+    const m = fbm(u * .5, v * .5, 5) * .7 + fbm(u * 3, v * 3, 2) * .3;
+    const speck = r() < .004 ? -18 : 0;
+    const g = 118 + (m - .5) * 46 + speck;
+    const k = (j * S + i) * 4;
+    img.data[k] = g * .995; img.data[k + 1] = g; img.data[k + 2] = g * 1.01; img.data[k + 3] = 255;
+  }
+  x.putImageData(img, 0, 0);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  return t;
+}
+
+/* Dusk outside: gradient sky, tree line, lawn — painted on a cylinder */
+function outsideTexture() {
+  const W = 2048, H = 512, [c, x] = canvas(W, H), r = rng(11);
+  const horizon = H * .80;
+  const sky = x.createLinearGradient(0, 0, 0, horizon);
+  sky.addColorStop(0, '#1a2840'); sky.addColorStop(.55, '#46668e'); sky.addColorStop(1, '#8ea7c2');
+  x.fillStyle = sky; x.fillRect(0, 0, W, horizon);
+  // Tree line: one continuous, ragged canopy silhouette (bumps of many widths + leafy jitter),
+  // a few taller crowns and palms, painted at 1/4 size and scaled up — the upscale is the blur
+  const S = 4, tw = W / S, th = 60, base = 54, [tc, tx] = canvas(tw, th);
+  const prof = new Float32Array(tw);
+  for (let i = 0; i < 70; i++) {                                    // canopy bumps
+    const cx = r() * tw, wd = 4 + r() * 22, ht = 5 + r() * 9;
+    for (let k = Math.floor(cx - wd); k <= cx + wd; k++) {
+      const q = 1 - ((k - cx) / wd) ** 2;
+      if (q > 0) prof[(k + tw) % tw] = Math.max(prof[(k + tw) % tw], ht * Math.sqrt(q));
+    }
+  }
+  const sil = (col, scale, jitter) => {
+    tx.fillStyle = col; tx.beginPath(); tx.moveTo(0, th);
+    for (let i = 0; i < tw; i++) tx.lineTo(i, base - prof[i] * scale - r() * jitter);
+    tx.lineTo(tw, th); tx.closePath(); tx.fill();
+  };
+  sil('#3c5068', 1.25, 2.2);           // far layer, almost sky-coloured
+  sil('#33465d', .8, 1.6);             // nearer, a touch darker
+  // janelas acesas ao longe: pontos quentes pequenos, a dar distância à paisagem
+  for (let i = 0; i < 26; i++) {
+    tx.fillStyle = r() > .3 ? 'rgba(255,196,120,.85)' : 'rgba(255,226,180,.7)';
+    tx.fillRect(r() * tw, base - 1 - r() * 5, .7, .6);
+  }
+  x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+  x.drawImage(tc, 0, horizon - base * S, W, th * S);
+
+  // lawn + terrace
+  const lawn = x.createLinearGradient(0, horizon, 0, H);
+  lawn.addColorStop(0, '#34434a'); lawn.addColorStop(1, '#414d52');
+  x.fillStyle = lawn; x.fillRect(0, horizon, W, H - horizon);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.wrapS = THREE.RepeatWrapping;
+  return t;
+}
+
+/* =========================================================
+   Guards: curved sheets that follow the helix.
+   UV = unrolled cylinder (u = arc length, v = height), so the
+   laser-cut Voronoi cells stay isotropic and are never sheared.
+   ========================================================= */
+function guardSpec(r, th0, th1, topFn, botFn) {
+  const W = r * (th1 - th0);
+  const H = topFn(th1) + .05;
+  return { r, th0, th1, topFn, botFn, W, H };
+}
+
+function guardGeometry(g, segs = 160) {
+  const pos = [], uv = [], idx = [];
+  for (let i = 0; i <= segs; i++) {
+    const th = lerp(g.th0, g.th1, i / segs);
+    const bot = g.botFn(th), top = Math.max(bot, g.topFn(th));
+    const a = polar(g.r, th, bot), b = polar(g.r, th, top);
+    pos.push(a.x, a.y, a.z, b.x, b.y, b.z);
+    const u = g.r * (th - g.th0) / g.W;
+    uv.push(u, bot / g.H, u, top / g.H);
+    if (i < segs) { const k = i * 2; idx.push(k, k + 2, k + 1, k + 1, k + 2, k + 3); }
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  geo.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+  geo.setIndex(idx);
+  geo.computeVertexNormals();
+  return geo;
+}
+
+/* The pixel loop runs in a worker (source in #voronoi-worker). The guard outline
+   only varies along u, so it is sent as per-column profiles instead of functions. */
+const workerURL = URL.createObjectURL(new Blob(
+  [document.getElementById('voronoi-worker').textContent], { type: 'text/javascript' }));
+
+function voronoiAlpha(g, seed, ppm) {
+  const w = Math.ceil(g.W * ppm), h = Math.ceil(g.H * ppm), BAND = .035;
+  const low = new Float32Array(w), high = new Float32Array(w);
+  for (let px = 0; px < w; px++) {
+    const th = g.th0 + (px + .5) / ppm / g.r;
+    low[px] = Math.max(lineY(th) + .12, g.botFn(th) + .12);   // solid foot: no cut cells touch the floor
+    high[px] = g.topFn(th) - BAND;
+    if (high[px] - low[px] < .25) high[px] = low[px];   // too low to cut cleanly: leave it solid
+  }
+  return new Promise((resolve, reject) => {
+    const wk = new Worker(workerURL);
+    wk.onmessage = ({ data }) => {
+      wk.terminate();
+      // rows arrive bottom-up, matching v = y / H, so no flip. RG8: alphaMap reads .g
+      const t = new THREE.DataTexture(data, w, h, THREE.RGFormat);
+      t.generateMipmaps = true;
+      t.minFilter = THREE.LinearMipmapLinearFilter;
+      t.magFilter = THREE.LinearFilter;
+      t.anisotropy = 8;
+      t.needsUpdate = true;
+      resolve(t);
+    };
+    wk.onerror = e => { wk.terminate(); reject(e); };
+    wk.postMessage({ w, h, ppm, W: g.W, H: g.H, seed, low, high }, [low.buffer, high.buffer]);
+  });
+}
+
+/* =========================================================
+   Renderer, scene, post
+   ========================================================= */
+const cv = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: false, powerPreference: 'high-performance' });
+renderer.setPixelRatio(DPR);
+renderer.setSize(innerWidth, innerHeight, false);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = .95;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#121a28');
+const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, .05, 120);
+
+const rt = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: small ? 2 : 4 });
+const composer = new EffectComposer(renderer, rt);
+composer.setPixelRatio(DPR);
+composer.setSize(innerWidth, innerHeight);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), .26, .4, .9);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+const lens = new ShaderPass({
+  uniforms: { tDiffuse: { value: null }, seed: { value: 0 } },
+  vertexShader: 'varying vec2 vUv; void main() { vUv = uv; gl_Position = vec4(position.xy, 0., 1.); }',
+  fragmentShader: `
+    uniform sampler2D tDiffuse; uniform float seed; varying vec2 vUv;
+    float rnd(vec2 p) { return fract(sin(dot(p + seed, vec2(12.9898, 78.233))) * 43758.5453); }
+    void main() {
+      vec2 d = vUv - .5;
+      vec3 c = texture2D(tDiffuse, vUv).rgb;
+      c *= 1. - smoothstep(.28, .9, length(d)) * .42;
+      c += (rnd(gl_FragCoord.xy) - .5) * .022;
+      gl_FragColor = vec4(c, 1.);
+    }`
+});
+composer.addPass(lens);
+
+function build() {
+  const msaa = true;
+  const shadowSize = small ? 512 : 2048;
+
+  /* ---------- outside + environment ---------- */
+  const outside = new THREE.Mesh(
+    new THREE.CylinderGeometry(30, 30, 30, 64, 1, true),
+    new THREE.MeshBasicMaterial({ map: outsideTexture(), side: THREE.BackSide, fog: false })
+  );
+  outside.material.userData.fixed = true;
+  outside.position.y = 10;            // horizon (80% of the canvas) lands at ~y=1
+  outside.material.map.repeat.x = 2;
+  scene.add(outside);
+
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(80, 80),
+    new THREE.MeshBasicMaterial({ color: '#29353a' }));
+  ground.material.userData.fixed = true;
+  ground.rotation.x = -Math.PI / 2; ground.position.y = -.02;
+  scene.add(ground);
+
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  const envScene = new THREE.Scene();
+  envScene.background = new THREE.Color('#1a2538');
+  envScene.add(outside.clone());
+  scene.environment = pmrem.fromScene(envScene, .04).texture;
+  scene.environmentIntensity = .7;
+
+  /* ---------- room ---------- */
+  const concrete = concreteTexture();
+  // o pavimento leva juntas de betonagem a cada 2,6 m: dão escala à sala
+  const [fc, fx] = canvas(concrete.image.width, concrete.image.height);
+  fx.drawImage(concrete.image, 0, 0);
+  fx.strokeStyle = 'rgba(30,30,32,.75)'; fx.lineWidth = 1.5;
+  fx.strokeRect(.75, .75, fc.width - 1.5, fc.height - 1.5);
+  const floorTex = new THREE.CanvasTexture(fc);
+  floorTex.colorSpace = THREE.SRGBColorSpace;
+  floorTex.wrapS = floorTex.wrapT = THREE.RepeatWrapping;
+  floorTex.repeat.set(5, 5); floorTex.anisotropy = 8;
+  const floorMat = new THREE.MeshPhysicalMaterial({
+    color: '#a4a5a6', map: floorTex, roughnessMap: floorTex, roughness: .62, metalness: 0,
+    clearcoat: .25, clearcoatRoughness: .55
+  });
+  const W = ROOM.x1 - ROOM.x0, D = ROOM.z1 - ROOM.z0;
+  const cx = (ROOM.x0 + ROOM.x1) / 2, cz = (ROOM.z0 + ROOM.z1) / 2;
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(W, D), floorMat);
+  floor.rotation.x = -Math.PI / 2; floor.position.set(cx, 0, cz);
+  floor.receiveShadow = true;
+  scene.add(floor);
+
+  // Betão polido: reflexo planar real da escada e dos LED, desfocado e mais forte a ângulo rasante
+  if (!small) {
+    mirror = new Reflector(new THREE.PlaneGeometry(W, D), {
+      textureWidth: 1024, textureHeight: 1024, clipBias: .003, multisample: 0,
+      shader: {
+        name: 'FloorSheen',
+        uniforms: { color: { value: null }, tDiffuse: { value: null }, textureMatrix: { value: null } },
+        vertexShader: `
+          uniform mat4 textureMatrix; varying vec4 vP; varying vec3 vW;
+          void main() {
+            vP = textureMatrix * vec4(position, 1.);
+            vW = (modelMatrix * vec4(position, 1.)).xyz;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
+          }`,
+        fragmentShader: `
+          uniform sampler2D tDiffuse; uniform vec3 color; varying vec4 vP; varying vec3 vW;
+          float n(vec2 p) { return fract(sin(dot(p, vec2(41.3, 289.1))) * 43758.5); }
+          void main() {
+            vec2 uv = vP.xy / vP.w; vec3 s = vec3(0.);
+            float r = .0045 + .006 * n(floor(vW.xz * 3.));
+            for (int i = 0; i < 12; i++) {
+              float a = float(i) * 2.399, q = sqrt(float(i) / 12.);
+              s += texture2D(tDiffuse, uv + r * q * vec2(cos(a), sin(a))).rgb;
+            }
+            vec3 V = normalize(cameraPosition - vW);
+            float f = .035 + .5 * pow(1. - clamp(V.y, 0., 1.), 4.);
+            gl_FragColor = vec4(min(s / 12., vec3(4.)) * f, 1.);
+          }`
+      }
+    });
+    mirror.material.transparent = true;
+    mirror.material.blending = THREE.AdditiveBlending;
+    mirror.material.depthWrite = false;
+    mirror.rotation.x = -Math.PI / 2; mirror.position.set(cx, .003, cz);
+    scene.add(mirror);
+  }
+
+  const white = new THREE.MeshStandardMaterial({ color: '#f1ece2', roughness: .9, emissive: '#77716a' }); // bounce light
+  const ceil = new THREE.Mesh(new THREE.PlaneGeometry(W, D), white);
+  ceil.rotation.x = Math.PI / 2; ceil.position.set(cx, ROOM.h, cz);   // faces down only
+  scene.add(ceil);
+
+  // Mezzanine: covers z > 0 so the stair arrives at its edge at θ = π
+  const slabTex = concrete.clone(); slabTex.repeat.set(4, 2); slabTex.needsUpdate = true;
+  const slabTop = floorMat.clone(); slabTop.map = slabTex;
+  // Landing: everything beyond the radial line where the stair arrives (θ = TURN)
+  const A = polar(RI, TURN, 0), dir = polar(1, TURN, 0);
+  const tB = (ROOM.x0 - A.x) / dir.x, B = new V3(ROOM.x0, 0, A.z + dir.z * tB);
+  const land = new THREE.Shape([
+    new THREE.Vector2(A.x, -A.z), new THREE.Vector2(B.x, -B.z),
+    new THREE.Vector2(ROOM.x0, -ROOM.z1), new THREE.Vector2(A.x, -ROOM.z1)
+  ]);
+  const SLAB_T = .3;
+  const slabGeo = new THREE.ExtrudeGeometry(land, { depth: SLAB_T, bevelEnabled: false });
+  slabGeo.rotateX(-Math.PI / 2);
+  // caps white, the exposed edge a warmer, darker plaster so the thickness reads
+  const edgeMat = new THREE.MeshStandardMaterial({ color: '#cbc2b2', roughness: .75, emissive: '#3a352e' });
+  const slab = new THREE.Mesh(slabGeo, [white, edgeMat]);
+  const deck = new THREE.Mesh(new THREE.ShapeGeometry(land).rotateX(-Math.PI / 2), slabTop);   // concrete top
+  deck.position.y = LANDING + .002; deck.receiveShadow = true; scene.add(deck);
+  slab.position.y = LANDING - SLAB_T;
+  slab.receiveShadow = true;           // no shadow: it was darkening the floor in the eye of the spiral
+  scene.add(slab);
+
+  const railGlass = new THREE.MeshPhysicalMaterial({
+    color: '#d6e0ea', transparent: true, opacity: .14, roughness: .05, depthWrite: false, side: THREE.DoubleSide
+  });
+  // same lacquered steel as the stair guards
+  const railTop = new THREE.MeshStandardMaterial({ color: '#ecd7a2', roughness: .42, metalness: .15, emissive: '#8a6428', emissiveIntensity: .8 });
+  const O = polar(RO + .04, TURN, 0);
+  const rimLed = new THREE.MeshBasicMaterial({ color: new THREE.Color(1, .66, .3).multiplyScalar(1.5) });
+  for (const [p, q] of [[A, B], [A, new V3(A.x, 0, ROOM.z1)]]) {     // LED line under the rim
+    const len = Math.hypot(q.x - p.x, q.z - p.z), ang = Math.atan2(-(q.z - p.z), q.x - p.x);
+    const m = new THREE.Mesh(new THREE.BoxGeometry(len, .012, .02), rimLed);
+    m.position.set((p.x + q.x) / 2, LANDING - SLAB_T - .006, (p.z + q.z) / 2); m.rotation.y = ang; scene.add(m);
+  }
+  for (const [p, q] of [[O, B], [A, new V3(A.x, 0, ROOM.z1)]]) {
+    const len = Math.hypot(q.x - p.x, q.z - p.z), ang = Math.atan2(-(q.z - p.z), q.x - p.x);
+    const g = new THREE.Mesh(new THREE.PlaneGeometry(len, 1), railGlass);
+    g.position.set((p.x + q.x) / 2, LANDING + .5, (p.z + q.z) / 2); g.rotation.y = ang; scene.add(g);
+    const t = new THREE.Mesh(new THREE.BoxGeometry(len, .04, .05), railTop);
+    t.position.set((p.x + q.x) / 2, LANDING + 1.0, (p.z + q.z) / 2); t.rotation.y = ang; scene.add(t);
+    const shoe = new THREE.Mesh(new THREE.BoxGeometry(len, .07, .06), railTop);   // base channel holding the glass
+    shoe.position.set((p.x + q.x) / 2, LANDING + .035, (p.z + q.z) / 2); shoe.rotation.y = ang; scene.add(shoe);
+  }
+
+  // Glass walls with dark mullions
+  const glass = new THREE.MeshPhysicalMaterial({
+    color: '#7f98b3', transparent: true, opacity: .1, roughness: .05,
+    metalness: 0, depthWrite: false, side: THREE.DoubleSide
+  });
+  const frame = new THREE.MeshStandardMaterial({ color: '#15181c', roughness: .6, metalness: .4 });
+  const walls = [
+    [ROOM.x0, ROOM.z0, ROOM.x1, ROOM.z0],
+    [ROOM.x1, ROOM.z0, ROOM.x1, ROOM.z1],
+    [ROOM.x1, ROOM.z1, ROOM.x0, ROOM.z1],
+    [ROOM.x0, ROOM.z1, ROOM.x0, ROOM.z0]
+  ];
+  for (const [ax, az, bx, bz] of walls) {
+    const len = Math.hypot(bx - ax, bz - az), ang = Math.atan2(-(bz - az), bx - ax);
+    const pane = new THREE.Mesh(new THREE.PlaneGeometry(len, ROOM.h), glass);
+    pane.position.set((ax + bx) / 2, ROOM.h / 2, (az + bz) / 2);
+    pane.rotation.y = ang;
+    scene.add(pane);
+    const n = Math.round(len / 1.6);
+    for (let i = 0; i <= n; i++) {
+      const t = i / n, m = new THREE.Mesh(new THREE.BoxGeometry(.06, ROOM.h, .08), frame);
+      m.position.set(lerp(ax, bx, t), ROOM.h / 2, lerp(az, bz, t));
+      m.rotation.y = ang; scene.add(m);
+    }
+    for (const y of [.04, LANDING - .1, ROOM.h - .04]) {
+      const m = new THREE.Mesh(new THREE.BoxGeometry(len, .07, .08), frame);
+      m.position.set((ax + bx) / 2, y, (az + bz) / 2); m.rotation.y = ang; scene.add(m);
+    }
+  }
+
+  // a round concrete column, like the one by the back window
+  const colMat = new THREE.MeshStandardMaterial({ color: '#8e949b', map: concrete, roughness: .8 });
+  const col = new THREE.Mesh(new THREE.CylinderGeometry(.24, .24, ROOM.h, 32), colMat);
+  col.position.set(4.6, ROOM.h / 2, -4.2); col.castShadow = col.receiveShadow = true;
+  scene.add(col);
+
+  /* ---------- stair ---------- */
+  const onyx = onyxTexture();
+  const treadMat = new THREE.MeshPhysicalMaterial({
+    color: '#f2dfae', map: onyx,
+    emissive: '#ffbf66', emissiveMap: onyx, emissiveIntensity: .36,
+    roughness: .32, clearcoat: .5, clearcoatRoughness: .3,
+    sheen: .4, sheenColor: '#ffd9a0'
+  });
+  const ledMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(1, .66, .32).multiplyScalar(2.1) });
+  const underMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(1, .72, .42).multiplyScalar(1.1), side: THREE.DoubleSide });
+  const noseMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(1, .8, .48).multiplyScalar(1) });
+
+  for (let k = 0; k < STEPS; k++) {
+    const a0 = k * DTH, a1 = k === STEPS - 1 ? TURN : (k + 1) * DTH + .025;   // last one stops at the slab edge
+    const s = new THREE.Shape();
+    s.absarc(0, 0, RO - .012, a0, a1, false);
+    s.absarc(0, 0, RI + .012, a1, a0, true);
+    const geo = new THREE.ExtrudeGeometry(s, {
+      depth: TREAD_T - .012, curveSegments: 18,
+      bevelEnabled: true, bevelThickness: .006, bevelSize: .006, bevelSegments: 2
+    });
+    geo.rotateX(-Math.PI / 2);
+    const top = (k + 1) * RISE;
+    const treadK = treadMat.clone(); treadK.userData.step = k;
+    const m = new THREE.Mesh(geo, treadK);
+    m.position.y = top - TREAD_T + .006;
+    m.castShadow = m.receiveShadow = true;
+    scene.add(m);
+
+    // Soft, even glow over the whole underside (no point sources), plus the LED line
+    // under the nosing running the full width
+    const stepped = mat => { const c = mat.clone(); c.userData.step = k; return c; };
+    const under = new THREE.Mesh(new THREE.ShapeGeometry(s, 18).rotateX(-Math.PI / 2), stepped(underMat));
+    under.position.y = top - TREAD_T - .002;
+    scene.add(under);
+    const led = new THREE.Mesh(new THREE.BoxGeometry(RO - RI - .03, .008, .03), stepped(ledMat));
+    const th = a0 + .06;
+    led.position.copy(polar((RI + RO) / 2, th + .02, top - TREAD_T - .004));
+    led.rotation.y = th;
+    scene.add(led);
+
+    // the front edge of the onyx glows brighter (light travelling through the slab)
+    const nose = new THREE.Mesh(new THREE.BoxGeometry(RO - RI - .04, TREAD_T - .008, .003), stepped(noseMat));
+    nose.position.copy(polar((RI + RO) / 2, a0 - .0025, top - TREAD_T / 2));
+    nose.rotation.y = a0;
+    scene.add(nose);
+  }
+
+  // Guards (also the stringers). Inner one starts at the floor with a diagonal cut.
+  const outer = guardSpec(RO, -.015, TURN + .02,     // vertical end flush with the first tread
+    th => lineY(th) + GUARD_UP,
+    th => Math.max(0, lineY(th) - GUARD_DN));
+  // inner: a gentle diagonal from a short vertical foot (no sharp point at the floor)
+  const CUT0 = -.62, CUT_K = 2.0;
+  const inner = guardSpec(RI, CUT0 + .1, TURN + .02,
+    th => Math.min(lineY(th) + GUARD_UP, Math.max(0, (th - CUT0) * CUT_K)),
+    th => Math.max(0, lineY(th) - GUARD_DN));
+
+  const ppm = small ? 380 : 520;     // 2x the previous density; edges carry a soft alpha ramp
+  const pending = [], footLed = ledMat.clone(); footLed.color.multiplyScalar(.55);
+  // Chapa pintada: a textura fina quebra o brilho, para não parecer uma superfície lisa de computador
+  const plateTex = concrete.clone(); plateTex.repeat.set(9, 5); plateTex.needsUpdate = true;
+  for (const [g, seed] of [[outer, 101], [inner, 202]]) {
+    const mat = new THREE.MeshStandardMaterial({
+      // lacquered steel: its own warm tone (emissive) so a face that only sees the blue dusk —
+      // like the inner guard from the photo viewpoint — still reads the same gold as the outer one
+      color: '#d9c08a', roughness: .62, metalness: .5, envMapIntensity: .8,
+      roughnessMap: plateTex, bumpMap: plateTex, bumpScale: .35,
+      emissive: '#9a7034', emissiveIntensity: .3,
+      alphaTest: .5, alphaToCoverage: msaa,
+      side: THREE.DoubleSide, shadowSide: THREE.DoubleSide
+    });
+    const m = new THREE.Mesh(guardGeometry(g), mat);
+    m.castShadow = m.receiveShadow = true;
+    m.visible = false;                 // shown once its cut pattern arrives from the worker
+    scene.add(m);
+    pending.push(voronoiAlpha(g, seed, ppm).then(tex => {
+      mat.alphaMap = tex; mat.needsUpdate = true;
+      m.visible = true;
+    }));
+
+    // LED line along the foot of the stringer, shining down
+    class Foot extends THREE.Curve {
+      getPoint(t, o = new V3()) {
+        const th = lerp(Math.max(g.th0, 0), g.th1, t);
+        const r = g.r + (g.r === RO ? -.03 : .03);
+        return o.copy(polar(r, th, Math.max(.012, g.botFn(th) + .01)));
+      }
+    }
+    scene.add(new THREE.Mesh(new THREE.TubeGeometry(new Foot(), 160, .007, 6), footLed));
+  }
+  const guardsReady = Promise.all(pending);
+
+  // Inner face of the outer stringer, lit hard by the LEDs: an emissive band just inside
+  // the solid (uncut) zone of the guard, brightest right under the treads
+  {
+    const r = RO - .006, rows = [[-GUARD_DN, .45], [-.16, .8], [-.03, 1], [.11, .7]];
+    const pos = [], col = [], idx = [], seg = 160, th0 = -.015, th1 = TURN;
+    const c = new THREE.Color(1, .62, .24);
+    for (let i = 0; i <= seg; i++) {
+      const th = lerp(th0, th1, i / seg), base = lineY(th);
+      rows.forEach(([dy, k]) => {
+        const p = polar(r, th, Math.max(.005, base + dy));
+        pos.push(p.x, p.y, p.z); col.push(c.r * k, c.g * k, c.b * k);
+      });
+      if (i < seg) for (let j = 0; j < rows.length - 1; j++) {
+        const a = i * rows.length + j, b = a + rows.length;
+        idx.push(a, b, a + 1, a + 1, b, b + 1);
+      }
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+    geo.setIndex(idx);
+    const band = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide }));
+    band.material.color.setScalar(1.2);      // HDR so the bloom picks it up
+    scene.add(band);
+  }
+
+  /* ---------- light ---------- */
+  scene.add(new THREE.HemisphereLight('#86a3d0', '#2c3036', 1.35));
+
+  const dusk = new THREE.DirectionalLight('#9db8e6', .9);
+  dusk.position.set(-7, 9, -6);
+  dusk.castShadow = true;
+  Object.assign(dusk.shadow.camera, { left: -7, right: 7, top: 7, bottom: -7, near: 1, far: 30 });
+  dusk.shadow.mapSize.setScalar(shadowSize);
+  dusk.shadow.bias = -.0004; dusk.shadow.normalBias = .02; dusk.shadow.radius = 4;
+  scene.add(dusk);
+
+  // Warm wash from inside the helix — throws the cut pattern on the floor
+  const warm = new THREE.SpotLight('#ffb35c', 9, 9, 1.05, 1, 1.6);
+  warm.position.set(.3, 2.7, -.5);
+  warm.target.position.set(1.1, 0, -.7);
+  warm.castShadow = true;
+  warm.shadow.mapSize.setScalar(small ? 512 : 1024);
+  warm.shadow.bias = -.0005; warm.shadow.radius = 5;
+  scene.add(warm, warm.target);
+
+
+  // Light on the concrete: one soft ribbon following the base of the stair, fading as it climbs
+  {
+    const prof = [[0, .32], [RI * .5, .34], [RI, .4], [(RI + RO) / 2, .45], [RO - .08, .9], [RO + .18, .55], [RO + .55, 0]];
+    const pos = [], col = [], idx = [], seg = 120, th0 = -.15, th1 = TURN;
+    const c = new THREE.Color(1, .64, .32).multiplyScalar(.3);
+    for (let i = 0; i <= seg; i++) {
+      const th = lerp(th0, th1, i / seg), fade = Math.exp(-Math.max(0, lineY(th)) / 1.05) * smooth(th0, th0 + .3, th);
+      for (const [r, k] of prof) {
+        const p = polar(r, th, .004);
+        pos.push(p.x, p.y, p.z); col.push(c.r * k * fade, c.g * k * fade, c.b * k * fade);
+      }
+      if (i < seg) for (let j = 0; j < prof.length - 1; j++) {
+        const a = i * prof.length + j, b = a + prof.length;
+        idx.push(a, a + 1, b, a + 1, b + 1, b);
+      }
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+    geo.setIndex(idx);
+    scene.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({
+      vertexColors: true, transparent: true, depthWrite: false,
+      blending: THREE.AdditiveBlending, side: THREE.DoubleSide
+    })));
+  }
+  {
+    const disc = new THREE.CircleGeometry(RO * 1.1, 64, 0, Math.PI * 2);
+    const n = disc.attributes.position.count, col = new Float32Array(n * 3), c = new THREE.Color(1, .66, .36);
+    for (let i = 0; i < n; i++) {
+      const r = Math.hypot(disc.attributes.position.getX(i), disc.attributes.position.getY(i)) / (RO * 1.1);
+      const k = .085 * Math.max(0, 1 - r) ** 1.5;   // clamp: a NaN here blacks out the whole frame via bloom
+      col[i * 3] = c.r * k; col[i * 3 + 1] = c.g * k; col[i * 3 + 2] = c.b * k;
+    }
+    disc.setAttribute('color', new THREE.BufferAttribute(col, 3));
+    disc.rotateX(-Math.PI / 2);
+    const m = new THREE.Mesh(disc, new THREE.MeshBasicMaterial({
+      vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+    m.position.y = .005; scene.add(m);
+  }
+  // Sombra de contacto: onde a chapa toca no chão, a luz não chega
+  for (const [r0, r1] of [[RO, RO + .34], [RO, RO - .22], [RI, RI + .2], [RI, RI - .2]]) {
+    const pos = [], col = [], idx = [], seg = 120, th0 = -.1, th1 = 1.6;
+    for (let i = 0; i <= seg; i++) {
+      const th = lerp(th0, th1, i / seg), a = .62 * (1 - smooth(.15, .95, Math.max(0, lineY(th) - GUARD_DN + .3)));
+      for (const [r, k] of [[r0, a], [r1, 0]]) { const q = polar(r, th, .007); pos.push(q.x, q.y, q.z); col.push(0, 0, 0, k); }
+      if (i < seg) { const j = i * 2; idx.push(j, j + 1, j + 2, j + 1, j + 3, j + 2); }
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 4));
+    geo.setIndex(idx);
+    scene.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, depthWrite: false, side: THREE.DoubleSide })));
+  }
+  warmLight = warm;
+
+  // Pó em suspensão na luz quente: pouco, mas dá profundidade ao ar da sala
+  {
+    const n = small ? 90 : 220, r = rng(77), pos = new Float32Array(n * 3);
+    for (let i = 0; i < n; i++) {
+      const a = r() * Math.PI * 2, d = .6 + r() * 3.2;
+      pos[i * 3] = Math.cos(a) * d; pos[i * 3 + 1] = .15 + r() * 3.4; pos[i * 3 + 2] = Math.sin(a) * d - .4;
+    }
+    const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    const [dc, dx] = canvas(32, 32), g = dx.createRadialGradient(16, 16, 0, 16, 16, 16);
+    g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+    dx.fillStyle = g; dx.fillRect(0, 0, 32, 32);
+    dust = new THREE.Points(geo, new THREE.PointsMaterial({
+      map: new THREE.CanvasTexture(dc), color: new THREE.Color(1, .78, .5).multiplyScalar(.32), size: .016,
+      transparent: true, opacity: .55, depthWrite: false, blending: THREE.AdditiveBlending
+    }));
+    dust.material.userData.fixed = true;
+    scene.add(dust);
+  }
+
+  // Tudo o que emite luz, para a sequência de acender
+  const seen = new Set();
+  scene.traverse(o => {
+    const m = o.material; if (!m || Array.isArray(m) || seen.has(m) || m.userData.fixed || o === mirror) return;
+    seen.add(m);
+    if (m.isMeshBasicMaterial) lit.push({ m, base: m.color.clone(), step: m.userData.step });
+    else if (m.emissive && m.emissiveIntensity && m.userData.step !== undefined) lit.push({ m, em: m.emissiveIntensity, step: m.userData.step });
+    else if (m.emissive && m.emissiveIntensity && m.metalness > .05) lit.push({ m, em: m.emissiveIntensity });
+  });
+  return guardsReady;
+}
+
+/* Os degraus acendem de baixo para cima; o resto da luz vem atrás */
+function setLit(age) {
+  const g = smooth(.3, 2.8, age);
+  for (const l of lit) {
+    const v = l.step === undefined ? g : smooth(0, .6, age - .25 - l.step * .14);
+    if (l.base) l.m.color.copy(l.base).multiplyScalar(v);
+    else l.m.emissiveIntensity = l.em * (l.step === undefined ? .25 + .75 * v : v);
+  }
+  if (warmLight) warmLight.intensity = 9 * g;
+}
+
+
+/* =========================================================
+   Camera path
+   ========================================================= */
+// Orbit path (unchanged): starts at the pose of the original photo and does a full turn
+// while climbing. Content blocks and the final top-down framing are tuned to it.
+const PATH0 = { pos: new V3(2.15, 1.27, 1.61), tgt: new V3(.62, 1.03, -.97), vfov: 64 };
+const phi0 = Math.atan2(PATH0.pos.x, PATH0.pos.z);
+const R0 = Math.hypot(PATH0.pos.x, PATH0.pos.z);
+const CAM_TOP = 5.5;                // final camera height; the ceiling is at ROOM.h = 6.2
+// End-view centre, solved numerically so all 14 treads fit on phone, 4:3 and 16:9 from 5.5 m up
+const END_C = new V3(-.3, 0, -.9);
+
+// Opening view: low, behind and to the side, the whole curve climbing to the landing.
+// A lens shift (not a rotation, so perspective is untouched) puts the stair on the right,
+// leaving the left for the title; on portrait screens it lifts the stair above the text.
+// Over the first BLEND of the scroll the camera swings round the stair, outside it, onto the path.
+const START = {
+  pos: new V3(-1.45, .5, -4.5),
+  tgt: new V3(.2, 1.65, -.5),
+  vfov: 50, vfovPortrait: 84,
+  shiftX: .2,                       // fraction of the width (landscape)
+  shiftY: .14                       // fraction of the height (portrait)
+};
+const BLEND = .12;
+// Pose da loja: a mesma sala, vista de outro lado, com a escada à direita do texto
+const SHOP = { pos: new V3(-2.75, .4, -4.05), tgt: new V3(.3, 1.8, -.55), vfov: 47, vfovPortrait: 80, shiftX: .25, shiftY: .16 };
+const phiShop = Math.atan2(SHOP.pos.x, SHOP.pos.z), RShop = Math.hypot(SHOP.pos.x, SHOP.pos.z);
+const look = { x: 0, y: 0, tx: 0, ty: 0 };
+if (matchMedia('(pointer: fine)').matches) addEventListener('pointermove', e => {
+  look.tx = e.clientX / innerWidth * 2 - 1; look.ty = e.clientY / innerHeight * 2 - 1;
+}, { passive: true });
+const camQ = QS.get('cam');
+if (camQ) {
+  const v = camQ.split(',').map(Number);
+  START.pos.set(v[0], v[1], v[2]); START.tgt.set(v[3], v[4], v[5]); if (v[6]) START.vfov = v[6]; if (v[7]) START.vfovPortrait = v[7];
+}
+const phiS = Math.atan2(START.pos.x, START.pos.z), RS = Math.hypot(START.pos.x, START.pos.z);
+
+// idle sway before the first scroll: ±8° around the helix axis, peak speed 2°/s
+const SWAY = { amp: THREE.MathUtils.degToRad(8), w: 2 / 8 };
+let swayT = 0, scrolled = false;
+// Na abertura a escada só balança, devagar, enquanto a página está parada: ±4° em 14 s
+const REST = { amp: THREE.MathUtils.degToRad(4), w: Math.PI * 2 / 14 };
+let restT = 0, rest = 1, stillFor = 1, lastY = 0;
+
+const _p = new V3(), _t = new V3(), _up = new V3(0, 1, 0);
+function pathCamera(p, pos, tgt) {        // the original orbit; returns the fov
+  const aspect = camera.aspect, fov1 = aspect < 1 ? 68 : 46;
+  const fov0 = aspect < 1 ? 70 : PATH0.vfov;
+  const u = p;
+  const e = .5 - .5 * Math.cos(Math.PI * u);
+  const phi = phi0 - Math.PI * 2 * e;   // swing under the landing first, while still low
+  let R = lerp(R0, 5, smooth(0, .3, u));
+  R = lerp(R, .3, smooth(.62, 1, u));
+  // stay under the landing until past it (u≈.5), then climb fast to clear the guards,
+  // ending at CAM_TOP — below the ceiling — looking down into the spiral
+  const up = clamp01((u - .5) / .45);
+  const y = lerp(PATH0.pos.y, 2.4, smooth(0, .45, u)) + (CAM_TOP - 2.4) * (1 - (1 - up) ** 3);
+  // the orbit centre drifts from the helix axis to the middle of the footprint,
+  // so the final top-down view frames the whole stair from only 5.5 m up
+  const k = smooth(.6, 1, u), cx = END_C.x * k, cz = END_C.z * k;
+  pos.set(cx + R * Math.sin(phi), y, cz + R * Math.cos(phi));
+  tgt.set(cx, lerp(1.5, .2, smooth(.45, 1, u)), cz);
+  tgt.lerpVectors(PATH0.tgt, tgt, smooth(0, .25, u));
+  // final view: at least 54° vertical and ~40° horizontal, so narrow phones still fit the treads
+  const fovEnd = Math.max(54, 2 * THREE.MathUtils.radToDeg(Math.atan(Math.tan(THREE.MathUtils.degToRad(20)) / aspect)));
+  return lerp(lerp(fov0, fov1, smooth(0, .3, u)), fovEnd, smooth(.75, 1, u));
+}
+
+const _tgt = new V3(), _v = new V3();
+function placeCamera(p) {
+  const aspect = camera.aspect;
+  const q = p <= .1 ? 0 : (p - .1) / .9;          // path progress (the path starts at 10% of the scroll)
+  const fovP = pathCamera(q, _p, _t);
+  const b = smooth(0, BLEND, p);                  // 0 = opening view, 1 = on the path
+  if (b >= 1) { camera.position.copy(_p); _tgt.copy(_t); camera.fov = fovP; }
+  else {
+    // swing in polar coordinates, so the camera goes round the stair instead of through it
+    const phiP = Math.atan2(_p.x, _p.z), RP = Math.hypot(_p.x, _p.z);
+    let d = phiP - phiS; d = Math.atan2(Math.sin(d), Math.cos(d));
+    const phi = phiS + d * b, R = lerp(RS, RP, b) + Math.sin(Math.PI * b) * .6;
+    camera.position.set(R * Math.sin(phi), lerp(START.pos.y, _p.y, b), R * Math.cos(phi));
+    _tgt.lerpVectors(START.tgt, _t, b);
+    camera.fov = lerp(aspect < 1 ? START.vfovPortrait : START.vfov, fovP, b);
+  }
+  // idle sway: orbit position and target together around the helix axis, fading out with scroll
+  const T = shot.T;
+  const sway = SWAY.amp * Math.sin(SWAY.w * swayT) * (1 - smooth(0, .03, p)) * (1 - T);
+  if (sway) { camera.position.applyAxisAngle(_up, sway); _tgt.applyAxisAngle(_up, sway); }
+  // Viagem para a pose da loja: em polares e abrindo o raio primeiro, para contornar a escada
+  if (T > 0) {
+    const phiH = Math.atan2(camera.position.x, camera.position.z), RH = Math.hypot(camera.position.x, camera.position.z);
+    let d = phiShop - phiH; d = Math.atan2(Math.sin(d), Math.cos(d));
+    const phi = phiH + d * T, R = lerp(RH, RShop, smooth(0, .6, T)) + Math.sin(Math.PI * T) * .5;
+    const y = lerp(camera.position.y, SHOP.pos.y, smooth(.15, 1, T));
+    camera.position.set(R * Math.sin(phi), y, R * Math.cos(phi));
+    _tgt.lerp(SHOP.tgt, T);
+    camera.fov = lerp(camera.fov, aspect < 1 ? SHOP.vfovPortrait : SHOP.vfov, T);
+    const swing = REST.amp * Math.sin(REST.w * restT) * T;
+    camera.position.applyAxisAngle(_up, swing); _tgt.applyAxisAngle(_up, swing);
+  }
+  // No início: respiração lenta e o olhar a seguir o rato. Na abertura, nada disto.
+  camera.lookAt(_tgt);
+  camera.updateMatrixWorld();
+  const px = (look.x * .09 + Math.sin(clock * .23) * .012) * (1 - T), py = (-look.y * .05 + Math.sin(clock * .31) * .014) * (1 - T);
+  camera.position.add(_v.setFromMatrixColumn(camera.matrixWorld, 0).multiplyScalar(px));
+  camera.position.y += py;
+  camera.fov += Math.min(2.2, Math.abs(speed) * 26);   // abre ligeiramente a lente quando se desce depressa
+  camera.lookAt(_tgt);
+  // lens shift for the opening composition, gone by the end of the blend
+  const k = (1 - b) * (1 - T), W = innerWidth, H = innerHeight;
+  const sx = START.shiftX * k + SHOP.shiftX * T, sy = START.shiftY * k + SHOP.shiftY * T;
+  if (sx > 0) camera.setViewOffset(W, H, aspect < 1 ? 0 : -sx * W, aspect < 1 ? sy * H : 0, W, H);
+  else camera.clearViewOffset();
+  camera.updateProjectionMatrix();
+}
+
+/* =========================================================
+   Scroll + render loop
+   ========================================================= */
+const state = { p: 0 };
+const shot = { T: window.HABINOX.T || 0, from: 0, to: window.HABINOX.T || 0, t0: 0, dur: 1 };
+let prevT = performance.now(), clock = 0, speed = 0, litAt = -1, lastAge = -1, ema = 1 / 60, tick = 0;
+const fixedQ = QS.has('fixed'), maxScroll = () => document.documentElement.scrollHeight - innerHeight;
+
+// curva forte de movimento em ecrã, cubic-bezier(.77,0,.175,1), resolvida por bisseção
+const bez = (a, b, t) => 3 * a * t * (1 - t) ** 2 + 3 * b * t * t * (1 - t) + t ** 3;
+const easeIO = x => { let l = 0, h = 1; for (let i = 0; i < 18; i++) { const m = (l + h) / 2; if (bez(.77, .175, m) < x) l = m; else h = m; } return bez(0, 1, (l + h) / 2); };
+
+function frame(now = performance.now()) {
+  requestAnimationFrame(frame);
+  const dt = Math.min(.1, (now - prevT) / 1000); prevT = now; clock += dt;
+  const H = window.HABINOX;
+
+  // viagem início ↔ loja: pode ser invertida a meio, parte sempre do ponto em que está
+  const want = H.shot;
+  if (want) {
+    H.shot = null;
+    if (want.instant) { shot.T = shot.to = want.T; shot.dur = 0; }
+    else if (want.T !== shot.to) { shot.from = shot.T; shot.to = want.T; shot.t0 = now; shot.dur = 2300 * Math.max(.45, Math.abs(want.T - shot.T)); }
+  }
+  if (shot.T !== shot.to) {
+    const x = clamp01((now - shot.t0) / shot.dur);
+    shot.T = lerp(shot.from, shot.to, easeIO(x));
+    if (x >= 1) shot.T = shot.to;
+  }
+  H.T = shot.T;
+  if (shot.T > .6) H.heroIn();
+  // a inércia da roda não pode descer a loja enquanto a câmara ainda viaja
+  if (H.route === 'loja' && shot.to === 1 && shot.T < .75 && scrollY > 0) scrollTo(0, 0);
+  // ao descer, o balanço abranda até parar; volta do mesmo ponto quando a página sossega
+  stillFor = Math.abs(scrollY - lastY) > .5 ? 0 : stillFor + dt; lastY = scrollY;
+  rest += ((stillFor > .4 ? 1 : 0) - rest) * (1 - Math.exp(-dt * (stillFor > .4 ? 1.5 : 7)));
+  restT += dt * rest;
+
+  // o scroll chega à câmara amortecido, sempre à mesma velocidade de resposta
+  if (H.route === 'inicio') {
+    const target = clamp01(scrollY / Math.max(1, maxScroll())), before = state.p;
+    state.p += (target - state.p) * (1 - Math.exp(-dt * 3.2));
+    speed = lerp(speed, (state.p - before) / Math.max(dt, .001) / 8, .12);
+  } else speed *= .9;
+  look.x += (look.tx - look.x) * (1 - Math.exp(-dt * 2.2));
+  look.y += (look.ty - look.y) * (1 - Math.exp(-dt * 2.2));
+
+  if (state.p > 1e-3) scrolled = true;
+  if (!scrolled) swayT += dt;
+
+  // luz de entrada
+  if (litAt >= 0) {
+    const age = (now - litAt) / 1000;
+    if (lastAge < 4) { setLit(age); lastAge = age; }
+    if (age > 1.1) document.documentElement.classList.add('lit');
+  }
+
+  // por trás de conteúdo opaco não vale a pena desenhar
+  const hidden = shot.T >= 1 && (H.route === 'portoes' || H.route === 'linear' || scrollY > innerHeight * 1.45);
+  if (H.route === 'inicio' || shot.T > 0) H.update(state.p);
+  if (hidden) return;
+
+  if (dust && shot.T < 1) { dust.rotation.y = clock * .012; dust.position.y = Math.sin(clock * .15) * .05; }
+  if (shot.T < 1) lens.uniforms.seed.value = clock % 7;
+  placeCamera(state.p);
+  composer.render();
+
+  // fluidez primeiro: se a máquina não aguenta, baixa a resolução e depois os reflexos
+  ema = lerp(ema, dt, .05);
+  if (!fixedQ && ++tick % 45 === 0 && ema > 1 / 42) {
+    const dpr = renderer.getPixelRatio();
+    if (dpr > 1) { const v = Math.max(1, dpr - .25); renderer.setPixelRatio(v); composer.setPixelRatio(v); }
+    else if (mirror && mirror.visible) mirror.visible = false;
+    ema = 1 / 60;
+  }
+}
+
+let lastW = innerWidth, lastH = innerHeight;
+addEventListener('resize', () => {
+  // ignore the mobile URL bar showing/hiding (height jitter only)
+  if (innerWidth === lastW && Math.abs(innerHeight - lastH) < 120) return;
+  lastW = innerWidth; lastH = innerHeight;
+  camera.aspect = innerWidth / innerHeight;
+  renderer.setSize(innerWidth, innerHeight, false);
+  composer.setSize(innerWidth, innerHeight);
+});
+
+// let the loading label paint before building the scene
+requestAnimationFrame(() => setTimeout(() => {
+  camera.aspect = innerWidth / innerHeight;
+  const guardsReady = build();
+  const qt = QS.get('t');
+  if (qt !== null) { shot.T = shot.to = +qt; }
+  const qp = QS.get('p');
+  if (qp !== null) state.p = +qp;
+  setLit(0);
+  window.HABINOX.driven = true;
+  requestAnimationFrame(frame);
+  const reveal = () => {
+    window.HABINOX.dock();
+    // o nome desaparece e só depois começam a acender; quem abre um ecrã interior não espera
+    if (litAt < 0) litAt = document.documentElement.classList.contains('covered') ? performance.now() - 9000 : performance.now() + 500;
+  };
+  guardsReady.then(() => { requestAnimationFrame(() => requestAnimationFrame(reveal)); window.__ready = true; },
+                   e => { reveal(); console.error('Voronoi worker failed', e); });
+}, 30));
+</script>
+<script>
+/* =========================================================
+   Navegação: início e loja são estados da mesma página.
+   Entre início e loja move-se a câmara; entre ecrãs da loja, as fotografias.
+   ========================================================= */
+(() => {
+  const html = document.documentElement, H = window.HABINOX, $ = id => document.getElementById(id);
+  const shop = $('shop'), track = $('track'), hero = $('shopHero');
+  const PAGES = ['loja', 'portoes', 'linear'], euro = v => new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR', useGrouping: 'always' }).format(v);
+  const num = n => new Intl.NumberFormat('pt-PT', { useGrouping: 'always' }).format(n);
+  const motion = html.classList.contains('scrolly') && document.startViewTransition;
+  history.scrollRestoration = 'manual';
+  let route = 'inicio', homeY = 0; const seen = {};
+  // o site abre na loja; a apresentação da empresa fica em #inicio
+  const routeOf = () => { const r = location.hash.slice(1); return !r || PAGES.includes(r) ? r || 'loja' : 'inicio'; };
+
+  function show(next) {
+    const wasHome = route === 'inicio', goHome = next === 'inicio';
+    if (wasHome && !goHome) homeY = scrollY; else if (!wasHome) seen[route] = scrollY;
+    html.classList.toggle('in-shop', !goHome);
+    shop.hidden = goHome; track.inert = !goHome;
+    document.querySelectorAll('.page').forEach(p => { p.hidden = p.dataset.page !== next; });
+    html.classList.toggle('covered', !goHome && next !== 'loja');
+    H.shot = { T: goHome ? 0 : 1, instant: H.firstRoute };
+    route = next; H.route = next; H.firstRoute = false;
+    scrollTo({ top: goHome ? homeY : seen[next] || 0, behavior: 'auto' });
+    if (goHome || !html.classList.contains('scrolly')) hero.classList.toggle('in', !goHome);
+    else if (next !== 'loja') hero.classList.add('in');
+    else if (H.T > .9) hero.classList.add('in');
+    if (goHome) hero.classList.remove('in');
+    document.querySelectorAll('.nav-shop a[href="#portoes"]').forEach(a => next === 'portoes' || next === 'linear' ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current'));
+  }
+  H.heroIn = () => { if (route === 'loja') hero.classList.add('in'); };
+
+  function go() {
+    const next = routeOf(); if (next === route) return;
+    const between = route !== 'inicio' && next !== 'inicio';
+    if (!between || !motion) { show(next); return; }
+    // o ecrã "maior" é o que dá nome à fotografia, para o morfismo servir nos dois sentidos
+    const key = PAGES.indexOf(next) > PAGES.indexOf(route) ? next : route;
+    const mark = name => { const el = document.querySelector(`.page:not([hidden]) [data-morph="${key}"]`); if (el) el.style.viewTransitionName = name; };
+    mark('photo');
+    const vt = document.startViewTransition(() => {
+      const old = document.querySelector(`.page:not([hidden]) [data-morph="${key}"]`); if (old) old.style.viewTransitionName = '';
+      show(next); mark('photo');
+    });
+    vt.finished.then(() => mark(''), () => mark(''));
+  }
+  addEventListener('hashchange', go);
+
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]'); if (!a) return;
+    const to = a.dataset.to;
+    if (to) { e.preventDefault(); if (routeOf() !== 'loja') location.hash = 'loja'; setTimeout(() => document.querySelector(to).scrollIntoView({ behavior: 'smooth', block: 'start' }), routeOf() === route ? 0 : 60); return; }
+    const home = ['#inicio', '#empresa', '#servicos', '#contactos'].includes(a.getAttribute('href'));
+    if (home && route !== 'inicio') {
+      e.preventDefault();
+      if (a.getAttribute('href') === '#inicio') homeY = 0;
+      history.pushState(null, '', a.getAttribute('href')); show('inicio');
+    }
+  });
+
+  // continuar a descer no fim do início leva à loja, sem clique
+  if (html.classList.contains('scrolly')) {
+    let push = 0, ty = 0; const atEnd = () => route === 'inicio' && scrollY >= document.documentElement.scrollHeight - innerHeight - 2;
+    const pushOn = d => { if (!atEnd() || d <= 0) { push = 0; return; } push += d; if (push > 320) { push = 0; location.hash = 'loja'; } };
+    addEventListener('wheel', e => pushOn(e.deltaY), { passive: true });
+    addEventListener('touchstart', e => { ty = e.touches[0].clientY; }, { passive: true });
+    addEventListener('touchmove', e => { const y = e.touches[0].clientY; pushOn((ty - y) * 1.5); ty = y; }, { passive: true });
+  }
+
+  /* ---------- catálogo e configurador de exemplo ---------- */
+  const GATES = [
+    { n: 'Linear', s: 'Ferro lacado · barras verticais', p: 'desde 2 786 €', t: 'correr', i: 'portao-correr-cinza', link: 'linear' },
+    { n: 'Prisma', s: 'Chapa com relevo · duas folhas', p: 'desde 3 940 €', t: 'batente', i: 'portao-perfurado' },
+    { n: 'Órbita', s: 'Ripas horizontais · de correr', p: 'desde 3 120 €', t: 'correr', i: 'portao-ripas' },
+    { n: 'Moradia', s: 'Ferro lacado · duas folhas', p: 'desde 3 280 €', t: 'batente', i: 'portao-moradia' },
+    { n: 'Passo', s: 'Portão pedonal · uma folha', p: 'desde 1 290 €', t: 'pedonal', i: 'portao-pedonal' }
+  ];
+  const pills = (el, items, cur, pick) => { el.innerHTML = ''; items.forEach(([id, label, hex]) => {
+    const b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-pressed', id === cur);
+    if (hex) { b.className = 'swatch'; b.style.background = hex; b.setAttribute('aria-label', label); } else { b.className = 'pill'; b.textContent = label; }
+    b.onclick = () => pick(id); el.appendChild(b); }); };
+  let ftr = 'todos';
+  const drawGates = () => {
+    pills($('filters'), [['todos', 'Todos'], ['correr', 'De correr'], ['batente', 'De batente'], ['pedonal', 'Pedonais']], ftr, f => { ftr = f; drawGates(); });
+    $('gates').innerHTML = GATES.filter(g => ftr === 'todos' || g.t === ftr).map(g =>
+      `<a class="card" href="#${g.link || 'linear'}"><figure><img ${g.link ? `data-morph="${g.link}"` : ''} loading="lazy" src="img/${g.i}.jpg" alt="Portão ${g.n}"></figure><b>${g.n}</b><span>${g.s}</span><i>${g.p}</i></a>`).join('');
+  };
+  drawGates();
+  const MAT = { ferro: ['Ferro', 1], inox: ['Inox', 1.85], aluminio: ['Alumínio', 1.35] };
+  const COL = [['7016', 'RAL 7016 · Cinza antracite', '#383E42'], ['9005', 'RAL 9005 · Preto', '#0E0E10'], ['9016', 'RAL 9016 · Branco', '#F1F0EA'], ['8017', 'RAL 8017 · Castanho', '#44322D']];
+  const c = { mat: 'ferro', col: '7016', n: 0 };
+  const LIM = { w: [1000, 6000], h: [800, 2200] };
+  function drawCfg() {
+    const w = +$('w').value.replace(/\D/g, ''), hv = +$('h').value.replace(/\D/g, '');
+    const okW = w >= LIM.w[0] && w <= LIM.w[1], okH = hv >= LIM.h[0] && hv <= LIM.h[1];
+    $('w').setAttribute('aria-invalid', !okW); $('h').setAttribute('aria-invalid', !okH);
+    $('wh').classList.toggle('bad', !okW); $('hh').classList.toggle('bad', !okH);
+    // fórmula só de demonstração, calibrada no exemplo do mockup (4 000 × 1 600 mm em ferro = 2 786,43 €)
+    const v = 2786.43 * (.35 + .65 * w * hv / 6.4e6) * MAT[c.mat][1], ok = okW && okH;
+    $('price').textContent = ok ? euro(v) : '—';
+    const add = $('add'); add.disabled = !ok;
+    add.textContent = ok ? `Adicionar ao carrinho · ${euro(v)}` : `Corrija as medidas (${num(LIM.w[0])}–${num(LIM.w[1])} × ${num(LIM.h[0])}–${num(LIM.h[1])} mm)`;
+    pills($('mats'), Object.entries(MAT).map(([k, m]) => [k, m[0]]), c.mat, m => { c.mat = m; drawCfg(); });
+    pills($('cols'), COL, c.col, k => { c.col = k; drawCfg(); });
+    $('colorName').textContent = COL.find(x => x[0] === c.col)[1];
+  }
+  $('w').oninput = $('h').oninput = drawCfg;
+  $('add').onclick = () => { $('cart').textContent = ++c.n; };
+  drawCfg();
+
+  /* ---------- catálogo em duas linhas automáticas (categorias e preços de exemplo) ---------- */
+  const CATS = [
+    [['Portões', 'De correr, de batente e pedonais · desde 1 290 €', 'portao-geometrico'],
+     ['Escadas', 'Retas e em L · desde 2 450 €', 'escada-corrimao-luz'],
+     ['Guardas', 'Vidro, barras e cabo · desde 180 €/m', 'guarda-varanda'],
+     ['Chaminés', 'Tubos e chapéus em inox · desde 95 €', 'chamine-chapeus'],
+     ['Caixas de correio', 'De parede e de pé · desde 85 €', 'caixa-correio'],
+     ['Portões de correr', 'Folha única sobre calha · desde 2 786 €', 'portao-correr-cinza']],
+    [['Portas de entrada', 'Ferro lacado e inox · desde 1 290 €', 'portao-pedonal'],
+     ['Escadas de caracol', 'Por medida · desde 3 650 €', 'escada-caracol'],
+     ['Gradeamentos', 'Interior e exterior · desde 210 €/m', 'guarda-preta'],
+     ['Portões em alumínio', 'Ripas e painéis · desde 3 120 €', 'portao-ripas'],
+     ['Escadas interiores', 'Degraus em madeira ou chapa · desde 4 120 €', 'escada-madeira-luz'],
+     ['Vedações em chapa', 'Chapa perfurada · desde 240 €/m', 'portao-perfurado']]
+  ];
+  const tileHtml = ([name, sub, img]) => `<a class="tile" href="#portoes" draggable="false"><img draggable="false" loading="lazy" src="img/${img}.jpg" alt="${name}"><div><b>${name}</b><span>${sub}</span></div></a>`;
+  const rails = [...document.querySelectorAll('.rail')];
+  rails.forEach((rail, i) => {
+    const set = `<div class="set">${CATS[i].map(tileHtml).join('')}</div>`;
+    // a segunda cópia só serve para o ciclo não ter emenda: fica fora do teclado e dos leitores de ecrã
+    rail.innerHTML = set + `<div class="set" aria-hidden="true" inert>${CATS[i].map(tileHtml).join('')}</div>`;
+  });
+  $('catRows').addEventListener('click', e => {
+    const t = e.target.closest('.tile'); if (!t) return;
+    // a fotografia clicada, onde quer que esteja nesse instante, é a que passa para o ecrã seguinte
+    $('catRows').querySelectorAll('[data-morph]').forEach(im => im.removeAttribute('data-morph'));
+    t.querySelector('img').dataset.morph = 'portoes';
+  });
+  // cada linha passa sozinha e pode ser arrastada para qualquer lado; ao largar, segue com a inércia
+  const moving = html.classList.contains('scrolly');
+  const rows = rails.map((rail, i) => ({ rail, el: rail.parentElement, x: 0, v: 0, drift: !moving ? 0 : i ? 1 / 86 : -1 / 72, drag: false, hover: false, focus: false }));
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  let dragged = false, onScreen = true, lastT = performance.now();
+  rows.forEach(r => {
+    let id = null, sx = 0, px = 0, pt = 0;
+    r.el.addEventListener('pointerdown', e => {
+      if (e.button !== 0) return;
+      id = e.pointerId; sx = px = e.clientX; pt = e.timeStamp; dragged = false; r.v = 0;
+    });
+    r.el.addEventListener('pointermove', e => {
+      if (e.pointerId !== id) return;
+      if (!r.drag) {
+        if (Math.abs(e.clientX - sx) < 6) return;
+        r.drag = dragged = true; px = e.clientX; r.el.setPointerCapture(id); r.el.classList.add('dragging');
+      }
+      const dx = e.clientX - px, dt = Math.max(1, e.timeStamp - pt);
+      r.x += dx; r.v = r.v * .7 + dx / dt * 1000 * .3; px = e.clientX; pt = e.timeStamp;
+    });
+    const end = e => {
+      if (e.pointerId !== id) return;
+      id = null; r.drag = false; r.el.classList.remove('dragging');
+      if (e.timeStamp - pt > 90) r.v = 0;                // parou antes de largar: não há inércia
+    };
+    r.el.addEventListener('pointerup', end);
+    r.el.addEventListener('pointercancel', end);
+    r.el.addEventListener('wheel', e => {                // deslizar na horizontal com o trackpad
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      e.preventDefault(); r.x -= e.deltaX; r.v = 0;
+    }, { passive: false });
+    if (fine) { r.el.addEventListener('pointerenter', () => { r.hover = true; }); r.el.addEventListener('pointerleave', () => { r.hover = false; }); }
+    // com o teclado, a categoria em foco entra sempre no ecrã
+    r.el.addEventListener('focusin', e => {
+      r.el.scrollLeft = 0;
+      if (!e.target.matches(':focus-visible')) return;
+      r.focus = true; r.v = 0;
+      r.x = Math.min(0, 20 - e.target.offsetLeft);
+    });
+    r.el.addEventListener('focusout', () => { r.focus = false; });
+  });
+  // um arrasto não abre a categoria em que começou
+  $('catRows').addEventListener('click', e => { if (dragged) { e.preventDefault(); e.stopPropagation(); dragged = false; } }, true);
+  new IntersectionObserver(es => { onScreen = es[0].isIntersecting; }).observe($('catRows'));
+  (function run(now) {
+    requestAnimationFrame(run);
+    const dt = Math.min(.1, (now - lastT) / 1000); lastT = now;
+    if (!onScreen) return;
+    const off = html.classList.contains('cats-paused');
+    rows.forEach(r => {
+      const w = r.rail.firstElementChild.offsetWidth; if (!w) return;
+      if (!r.drag) {
+        const rest = off || r.hover || r.focus ? 0 : r.drift * w;
+        r.v += (rest - r.v) * (1 - Math.exp(-dt * 2.6));
+        r.x += r.v * dt;
+      }
+      if (!r.focus) { while (r.x <= -w) r.x += w; while (r.x > 0) r.x -= w; }
+      r.rail.style.transform = `translate3d(${r.x.toFixed(2)}px, 0, 0)`;
+    });
+  })(lastT);
+  $('catPause').onclick = e => {
+    const off = html.classList.toggle('cats-paused');
+    e.currentTarget.textContent = off ? 'Retomar' : 'Pausar';
+    e.currentTarget.setAttribute('aria-pressed', off);
+  };
+
+  H.firstRoute = true; H.route = 'inicio'; H.T = routeOf() === 'inicio' ? 0 : 1;
+  if (routeOf() !== 'inicio') show(routeOf()); else H.firstRoute = false;
+})();
+</script>
+<script>
+// O nome do ecrã de carregamento viaja até ao logótipo do cabeçalho, letra sobre letra
+window.HABINOX.dock = () => {
+  const root = document.documentElement; if (root.classList.contains('ready')) return;
+  const word = document.querySelector('.loading span'), logo = document.querySelector('.top .logo');
+  const textRect = el => { const r = document.createRange(); r.selectNodeContents(el.firstChild); return r.getBoundingClientRect(); };
+  const box = word.getBoundingClientRect(), from = textRect(word), to = textRect(logo);
+  const k = parseFloat(getComputedStyle(logo).fontSize) / parseFloat(getComputedStyle(word).fontSize);
+  const x = to.left - box.left - (from.left - box.left) * k, y = to.top - box.top - (from.top - box.top) * k;
+  const glow = getComputedStyle(word).opacity;
+  root.classList.add('ready');
+  word.animate(
+    [{ opacity: glow, transform: 'none', transformOrigin: '0 0' }, { opacity: 1, offset: .3 }, { opacity: 1, transform: `translate(${x}px, ${y}px) scale(${k})`, transformOrigin: '0 0' }],
+    { duration: 1300, easing: 'cubic-bezier(.77, 0, .175, 1)', fill: 'forwards' });
+};
+if (document.documentElement.classList.contains('scrolly')) {
+  const s = document.createElement('script');
+  s.type = 'module';
+  s.textContent = document.getElementById('scene').textContent;
+  document.body.appendChild(s);
+  setTimeout(() => { window.HABINOX.dock(); document.documentElement.classList.add('lit'); }, 8000);   // never keep the splash up for long, even if the scene fails
+}
+</script>
+</body>
+</html>
