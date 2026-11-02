@@ -14,7 +14,7 @@
 <meta property="og:title" content="HABINOX — Trabalhos em aço inoxidável | Esposende">
 <meta property="og:description" content="Serralharia em inox, alumínio e ferro desde 2005. Do projeto à obra.">
 <meta property="og:url" content="https://habinox.pt/">
-<meta property="og:image" content="https://habinox.pt/escada.png">
+<meta property="og:image" content="https://habinox.pt/img/casa/f090.jpg">
 
 <script>
 /* =========================================================
@@ -29,13 +29,11 @@ const STATS = [
   { value: 780,  suffix: '',  label: 'toneladas de inox' }         // PROVISÓRIO
 ];
 
-// 3D + scroll animation unless the visitor asked for less motion or has no WebGL.
+// Vídeo + scroll, salvo se o visitante pediu menos movimento.
 // Without it (or without JS) the page is an ordinary scrolling document.
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let gl = false;
-  try { gl = !!document.createElement('canvas').getContext('webgl2'); } catch (e) {}
-  if (!reduce && gl) { document.documentElement.classList.remove('flow'); document.documentElement.classList.add('scrolly'); }
+  if (!reduce) { document.documentElement.classList.remove('flow'); document.documentElement.classList.add('scrolly'); }
   else document.documentElement.classList.add('flow');
 })();
 </script>
@@ -560,7 +558,7 @@ const STATS = [
         <li>Esmerilagem e polimento de perfis</li>
       </ul>
       <figure class="work">
-        <img src="escada.png" width="1200" height="1600" loading="lazy" decoding="async" onerror="this.closest('figure').remove()"
+        <img src="img/casa/f090.jpg" width="1200" height="1600" loading="lazy" decoding="async" onerror="this.closest('figure').remove()"
              alt="Escada helicoidal em obra, com guardas em aço recortadas por CNC e degraus iluminados">
         <figcaption>Obra real Habinox — guardas em corte CNC</figcaption>
       </figure>
@@ -803,933 +801,61 @@ const STATS = [
 })();
 </script>
 
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
-  }
-}
-</script>
-
-<script type="text/plain" id="voronoi-worker">
-function rng(seed) {
-  return () => {
-    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
-    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
-    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-    return ((t ^ t >>> 14) >>> 0) / 4294967296;
-  };
-}
-function noise2(seed) {
-  const r = rng(seed), N = 128, g = new Float32Array(N * N);
-  for (let i = 0; i < g.length; i++) g[i] = r();
-  const at = (x, y) => g[(y & (N - 1)) * N + (x & (N - 1))];
-  return (x, y) => {
-    const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
-    const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
-    const a = at(xi, yi) + (at(xi + 1, yi) - at(xi, yi)) * u;
-    const b = at(xi, yi + 1) + (at(xi + 1, yi + 1) - at(xi, yi + 1)) * u;
-    return a + (b - a) * v;
-  };
-}
-
-/* Cracked-glass cut pattern.
-   - seeds by rejection sampling against a low-frequency density field: dense clusters and empty zones
-   - cells laid out in a space squeezed 1.6x along the curve, so they come out stretched horizontally
-   - power-diagram weights keep edges straight but make neighbours very unequal
-   - a small noise warp bends the straight edges into angular, irregular ribs
-   Output: 2-channel alpha (RG8), soft 1-px ramp on every edge for antialiasing. */
-onmessage = ({ data: { w, h, ppm, W, H, seed, low, high } }) => {
-  const r = rng(seed), dens = noise2(seed + 1), warpX = noise2(seed + 2), warpY = noise2(seed + 3);
-  const ANISO = 1.6, RIB = .0155, ENDS = .05, MIN_D = .05, BEND = .1, KINK = .004;
-  const SW = W / ANISO;                       // pattern space width
-
-  // Seeds
-  const G = .16, gw = Math.ceil(SW / G) + 4, gh = Math.ceil(H / G) + 4;
-  const cells = Array.from({ length: gw * gh }, () => []);
-  const field = (s, y) => {
-    const n = .6 * dens(s * 2.2, y * 2.2) + .4 * dens(s * 5 + 31, y * 5 + 17);
-    const t = Math.min(1, Math.max(0, (n - .58) / .2));
-    return .5 + .5 * t * t;                   // most of the sheet medium/large; a few denser patches
-  };
-  const tries = Math.ceil((SW + 4 * G) * (H + 4 * G) / (.095 * .095));
-  for (let i = 0; i < tries; i++) {
-    const s = -2 * G + r() * (SW + 4 * G), y = -2 * G + r() * (H + 4 * G);
-    if (r() > field(s, y)) continue;
-    const ci = Math.floor(s / G) + 2, cj = Math.floor(y / G) + 2;
-    let ok = true;
-    for (let jj = cj - 1; jj <= cj + 1 && ok; jj++) for (let ii = ci - 1; ii <= ci + 1 && ok; ii++) {
-      if (ii < 0 || jj < 0 || ii >= gw || jj >= gh) continue;
-      for (const p of cells[jj * gw + ii]) if ((p[0] - s) ** 2 + (p[1] - y) ** 2 < MIN_D * MIN_D) { ok = false; break; }
-    }
-    if (!ok) continue;
-    const wgt = (r() * .045) ** 2;            // power weight
-    cells[cj * gw + ci].push([s, y, wgt]);
-  }
-
-  const out = new Uint8Array(w * h * 2);
-  const aa = v => v <= 0 ? 0 : v >= 1 ? 255 : (v * 255) | 0;
-  for (let py = 0; py < h; py++) {
-    const y0 = (py + .5) / ppm;
-    for (let px = 0; px < w; px++) {
-      const u = (px + .5) / ppm;
-      // solid bands / ends, as signed distances so they antialias too
-      const band = Math.max(y0 - high[px], low[px] - y0, ENDS - u, u - (W - ENDS));
-      let a = .5 + band * ppm;
-      if (a < 1) {
-        // low-frequency bend: stretches cells in locally varying directions, edges stay ~straight;
-        // a tiny higher-frequency kink breaks their perfect straightness
-        const s = (u + (warpX(u * 1.4, y0 * 1.4) - .5) * 2 * BEND + (warpX(u * 7 + 50, y0 * 7) - .5) * 2 * KINK) / ANISO;
-        const y = y0 + (warpY(u * 1.4, y0 * 1.4) - .5) * 2 * BEND + (warpY(u * 7 + 50, y0 * 7) - .5) * 2 * KINK;
-        const ci = Math.floor(s / G) + 2, cj = Math.floor(y / G) + 2;
-        let d1 = 1e9, d2 = 1e9, A = null, B = null;
-        for (let jj = cj - 2; jj <= cj + 2; jj++) {
-          if (jj < 0 || jj >= gh) continue;
-          for (let ii = ci - 2; ii <= ci + 2; ii++) {
-            if (ii < 0 || ii >= gw) continue;
-            const L = cells[jj * gw + ii];
-            for (let k = 0; k < L.length; k++) {
-              const p = L[k], dd = (p[0] - s) ** 2 + (p[1] - y) ** 2 - p[2];
-              if (dd < d1) { d2 = d1; B = A; d1 = dd; A = p; } else if (dd < d2) { d2 = dd; B = p; }
-            }
-          }
-        }
-        if (B) {
-          // distance to the power bisector, measured in pattern space then converted to real metres
-          const dx = B[0] - A[0], dy = B[1] - A[1], len = Math.hypot(dx, dy);
-          const ds = (d2 - d1) / (2 * len);
-          const nx = dx / len, ny = dy / len;
-          const dReal = ds / Math.hypot(nx / ANISO, ny);
-          a = Math.max(a, .5 + (RIB - dReal) * ppm);
-        }
-      }
-      const v = aa(a), k = (py * w + px) * 2;
-      out[k] = out[k + 1] = v;
-    }
-  }
-  postMessage(out, [out.buffer]);
-};
-</script>
-
-<!-- 3D scene: injected as a module only in scrolly mode (skipped for reduced motion / no WebGL) -->
 <script type="text/x-scene" id="scene">
-import * as THREE from 'three';
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
-import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
-import { Reflector } from 'three/addons/objects/Reflector.js';
-
 /* =========================================================
-   Parameters — all lengths in metres
+   Vídeo da casa, imagem a imagem (fontes em cenarios/casa/).
+   O percurso é um só, em volta da escada; cada ecrã é um ponto dele.
+   Imagens em vez de <video>: andar para trás e parar são instantâneos em qualquer browser.
    ========================================================= */
-const STEPS    = 14;
-const RISE     = 3.08 / 15;          // riser height fitted to the photo
-const LANDING  = STEPS * RISE;       // landing deck = top of the last tread (2.87 m; 3.3 m to the ceiling)
-const TURN     = 150 * Math.PI / 180; // ~half a turn, climbing to the left (fitted to the photo)
-const DTH      = TURN / STEPS;
-const RI = 0.52, RO = 1.84;        // inner / outer radius (no central column); treads 1.32 m
-const TREAD_T  = 0.06;
-const GUARD_UP = 0.95;              // guard height above the pitch line
-const GUARD_DN = 0.32;              // stringer depth below the pitch line
-const ROOM = { x0: -6.5, x1: 6.5, z0: -7, z1: 5.5, h: 6.2 };
-
-const small = Math.min(innerWidth, innerHeight) < 700;
-const QS = new URLSearchParams(location.search);
-let mirror = null, dust = null, warmLight = null; const lit = [];
-const DPR = Math.min(devicePixelRatio || 1, 2);
-
-const V3 = THREE.Vector3;
-const lineY = th => RISE * (th / DTH + 0.5);                       // pitch line
-const polar = (r, th, y) => new V3(r * Math.cos(th), y, -r * Math.sin(th));
+const FRAMES = 160, DIR = 'img/casa/', HD = 'img/casa-hd/';
+const AT = { login: 21, loja: 89.6, inicio: 144, fimScroll: 40 };   // em imagens (fórmula em casa.py)
+const SWING = { amp: 8, period: 24 };   // parado na loja: vídeo real (video.sh) deste vaivém; a imagem só o usa para sair sem salto
 const clamp01 = x => Math.min(1, Math.max(0, x));
-const smooth = (a, b, x) => { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); };
 const lerp = (a, b, t) => a + (b - a) * t;
+const pad = (n, l) => String(n).padStart(l, '0');
 
-function rng(seed) {             // mulberry32
-  return () => {
-    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
-    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
-    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-    return ((t ^ t >>> 14) >>> 0) / 4294967296;
-  };
-}
-
-/* Tileable value-noise fbm, used for onyx and concrete */
-function makeNoise(seed, N = 256) {
-  const r = rng(seed), g = new Float32Array(N * N);
-  for (let i = 0; i < g.length; i++) g[i] = r();
-  const at = (x, y) => g[((y % N + N) % N) * N + ((x % N + N) % N)];
-  const n = (x, y) => {
-    const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
-    const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
-    return lerp(lerp(at(xi, yi), at(xi + 1, yi), u), lerp(at(xi, yi + 1), at(xi + 1, yi + 1), u), v);
-  };
-  return (x, y, oct = 4) => {
-    let s = 0, a = .5, f = 1;
-    for (let o = 0; o < oct; o++) { s += a * n(x * f, y * f); a *= .5; f *= 2; }
-    return s;
-  };
-}
-
-function canvas(w, h) {
-  const c = document.createElement('canvas'); c.width = w; c.height = h;
-  return [c, c.getContext('2d')];
-}
-
-/* =========================================================
-   Procedural textures
-   ========================================================= */
-function onyxTexture() {
-  const S = 512, [c, x] = canvas(S, S), img = x.createImageData(S, S), fbm = makeNoise(7);
-  const A = [252, 245, 224], B = [246, 233, 200], V = [236, 214, 170];
-  for (let j = 0; j < S; j++) for (let i = 0; i < S; i++) {
-    const u = i / S * 8, v = j / S * 8;          // period 8 matches the 256 noise grid / 32
-    const w = fbm(u * 4, v * 4, 5);
-    const band = .5 + .5 * Math.sin((u * 1.3 + v * .5 + w * 5.5) * Math.PI);
-    const vein = Math.pow(1 - Math.abs(Math.sin((u * .7 - v * .9 + w * 7) * Math.PI)), 26);
-    const k = (j * S + i) * 4;
-    for (let ch = 0; ch < 3; ch++) {
-      let col = lerp(A[ch], B[ch], band * .35 + w * .3);
-      col = lerp(col, V[ch], vein * .15);
-      img.data[k + ch] = col;
-    }
-    img.data[k + 3] = 255;
-  }
-  x.putImageData(img, 0, 0);
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  t.wrapS = t.wrapT = THREE.RepeatWrapping;
-  t.repeat.set(1.4, 1.4);
-  return t;
-}
-
-function concreteTexture() {
-  const S = 512, [c, x] = canvas(S, S), img = x.createImageData(S, S), fbm = makeNoise(21), r = rng(3);
-  for (let j = 0; j < S; j++) for (let i = 0; i < S; i++) {
-    const u = i / S * 32, v = j / S * 32;
-    const m = fbm(u * .5, v * .5, 5) * .7 + fbm(u * 3, v * 3, 2) * .3;
-    const speck = r() < .004 ? -18 : 0;
-    const g = 118 + (m - .5) * 46 + speck;
-    const k = (j * S + i) * 4;
-    img.data[k] = g * .995; img.data[k + 1] = g; img.data[k + 2] = g * 1.01; img.data[k + 3] = 255;
-  }
-  x.putImageData(img, 0, 0);
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  t.wrapS = t.wrapT = THREE.RepeatWrapping;
-  return t;
-}
-
-/* Dusk outside: gradient sky, tree line, lawn — painted on a cylinder */
-function outsideTexture() {
-  const W = 2048, H = 512, [c, x] = canvas(W, H), r = rng(11);
-  const horizon = H * .80;
-  const sky = x.createLinearGradient(0, 0, 0, horizon);
-  sky.addColorStop(0, '#1a2840'); sky.addColorStop(.55, '#46668e'); sky.addColorStop(1, '#8ea7c2');
-  x.fillStyle = sky; x.fillRect(0, 0, W, horizon);
-  // Tree line: one continuous, ragged canopy silhouette (bumps of many widths + leafy jitter),
-  // a few taller crowns and palms, painted at 1/4 size and scaled up — the upscale is the blur
-  const S = 4, tw = W / S, th = 60, base = 54, [tc, tx] = canvas(tw, th);
-  const prof = new Float32Array(tw);
-  for (let i = 0; i < 70; i++) {                                    // canopy bumps
-    const cx = r() * tw, wd = 4 + r() * 22, ht = 5 + r() * 9;
-    for (let k = Math.floor(cx - wd); k <= cx + wd; k++) {
-      const q = 1 - ((k - cx) / wd) ** 2;
-      if (q > 0) prof[(k + tw) % tw] = Math.max(prof[(k + tw) % tw], ht * Math.sqrt(q));
-    }
-  }
-  const sil = (col, scale, jitter) => {
-    tx.fillStyle = col; tx.beginPath(); tx.moveTo(0, th);
-    for (let i = 0; i < tw; i++) tx.lineTo(i, base - prof[i] * scale - r() * jitter);
-    tx.lineTo(tw, th); tx.closePath(); tx.fill();
-  };
-  sil('#3c5068', 1.25, 2.2);           // far layer, almost sky-coloured
-  sil('#33465d', .8, 1.6);             // nearer, a touch darker
-  // janelas acesas ao longe: pontos quentes pequenos, a dar distância à paisagem
-  for (let i = 0; i < 26; i++) {
-    tx.fillStyle = r() > .3 ? 'rgba(255,196,120,.85)' : 'rgba(255,226,180,.7)';
-    tx.fillRect(r() * tw, base - 1 - r() * 5, .7, .6);
-  }
-  x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
-  x.drawImage(tc, 0, horizon - base * S, W, th * S);
-
-  // lawn + terrace
-  const lawn = x.createLinearGradient(0, horizon, 0, H);
-  lawn.addColorStop(0, '#34434a'); lawn.addColorStop(1, '#414d52');
-  x.fillStyle = lawn; x.fillRect(0, horizon, W, H - horizon);
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  t.wrapS = THREE.RepeatWrapping;
-  return t;
-}
-
-/* =========================================================
-   Guards: curved sheets that follow the helix.
-   UV = unrolled cylinder (u = arc length, v = height), so the
-   laser-cut Voronoi cells stay isotropic and are never sheared.
-   ========================================================= */
-function guardSpec(r, th0, th1, topFn, botFn) {
-  const W = r * (th1 - th0);
-  const H = topFn(th1) + .05;
-  return { r, th0, th1, topFn, botFn, W, H };
-}
-
-function guardGeometry(g, segs = 160) {
-  const pos = [], uv = [], idx = [];
-  for (let i = 0; i <= segs; i++) {
-    const th = lerp(g.th0, g.th1, i / segs);
-    const bot = g.botFn(th), top = Math.max(bot, g.topFn(th));
-    const a = polar(g.r, th, bot), b = polar(g.r, th, top);
-    pos.push(a.x, a.y, a.z, b.x, b.y, b.z);
-    const u = g.r * (th - g.th0) / g.W;
-    uv.push(u, bot / g.H, u, top / g.H);
-    if (i < segs) { const k = i * 2; idx.push(k, k + 2, k + 1, k + 1, k + 2, k + 3); }
-  }
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-  geo.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
-  geo.setIndex(idx);
-  geo.computeVertexNormals();
-  return geo;
-}
-
-/* The pixel loop runs in a worker (source in #voronoi-worker). The guard outline
-   only varies along u, so it is sent as per-column profiles instead of functions. */
-const workerURL = URL.createObjectURL(new Blob(
-  [document.getElementById('voronoi-worker').textContent], { type: 'text/javascript' }));
-
-function voronoiAlpha(g, seed, ppm) {
-  const w = Math.ceil(g.W * ppm), h = Math.ceil(g.H * ppm), BAND = .035;
-  const low = new Float32Array(w), high = new Float32Array(w);
-  for (let px = 0; px < w; px++) {
-    const th = g.th0 + (px + .5) / ppm / g.r;
-    low[px] = Math.max(lineY(th) + .12, g.botFn(th) + .12);   // solid foot: no cut cells touch the floor
-    high[px] = g.topFn(th) - BAND;
-    if (high[px] - low[px] < .25) high[px] = low[px];   // too low to cut cleanly: leave it solid
-  }
-  return new Promise((resolve, reject) => {
-    const wk = new Worker(workerURL);
-    wk.onmessage = ({ data }) => {
-      wk.terminate();
-      // rows arrive bottom-up, matching v = y / H, so no flip. RG8: alphaMap reads .g
-      const t = new THREE.DataTexture(data, w, h, THREE.RGFormat);
-      t.generateMipmaps = true;
-      t.minFilter = THREE.LinearMipmapLinearFilter;
-      t.magFilter = THREE.LinearFilter;
-      t.anisotropy = 8;
-      t.needsUpdate = true;
-      resolve(t);
-    };
-    wk.onerror = e => { wk.terminate(); reject(e); };
-    wk.postMessage({ w, h, ppm, W: g.W, H: g.H, seed, low, high }, [low.buffer, high.buffer]);
-  });
-}
-
-/* =========================================================
-   Renderer, scene, post
-   ========================================================= */
-const cv = document.getElementById('c');
-const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: false, powerPreference: 'high-performance' });
-renderer.setPixelRatio(DPR);
-renderer.setSize(innerWidth, innerHeight, false);
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = .95;
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-const scene = new THREE.Scene();
-scene.background = new THREE.Color('#121a28');
-const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, .05, 120);
-
-const rt = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: small ? 2 : 4 });
-const composer = new EffectComposer(renderer, rt);
-composer.setPixelRatio(DPR);
-composer.setSize(innerWidth, innerHeight);
-composer.addPass(new RenderPass(scene, camera));
-const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), .26, .4, .9);
-composer.addPass(bloom);
-composer.addPass(new OutputPass());
-const lens = new ShaderPass({
-  uniforms: { tDiffuse: { value: null }, seed: { value: 0 } },
-  vertexShader: 'varying vec2 vUv; void main() { vUv = uv; gl_Position = vec4(position.xy, 0., 1.); }',
-  fragmentShader: `
-    uniform sampler2D tDiffuse; uniform float seed; varying vec2 vUv;
-    float rnd(vec2 p) { return fract(sin(dot(p + seed, vec2(12.9898, 78.233))) * 43758.5453); }
-    void main() {
-      vec2 d = vUv - .5;
-      vec3 c = texture2D(tDiffuse, vUv).rgb;
-      c *= 1. - smoothstep(.28, .9, length(d)) * .42;
-      c += (rnd(gl_FragCoord.xy) - .5) * .022;
-      gl_FragColor = vec4(c, 1.);
-    }`
+const cv = document.getElementById('c'), cx = cv.getContext('2d', { alpha: false });
+const path = new Array(FRAMES).fill(null), steps = new Array(15).fill(null);
+const load = (url, put) => new Promise(ok => {
+  const im = new Image(); im.decoding = 'async';
+  im.onload = () => { put(im); ok(); }; im.onerror = () => ok(); im.src = url;
 });
-composer.addPass(lens);
+const loadPath = i => path[i] ? null : load(`${innerWidth >= 700 ? HD : DIR}f${pad(i, 3)}.jpg`, im => { path[i] = im; });
 
-function build() {
-  const msaa = true;
-  const shadowSize = small ? 512 : 2048;
+const film = document.createElement('video');
+film.muted = true; film.loop = true; film.playsInline = true; film.preload = 'auto'; film.src = HD + 'balanco.mp4';
+let filmSynced = false;
 
-  /* ---------- outside + environment ---------- */
-  const outside = new THREE.Mesh(
-    new THREE.CylinderGeometry(30, 30, 30, 64, 1, true),
-    new THREE.MeshBasicMaterial({ map: outsideTexture(), side: THREE.BackSide, fog: false })
-  );
-  outside.material.userData.fixed = true;
-  outside.position.y = 10;            // horizon (80% of the canvas) lands at ~y=1
-  outside.material.map.repeat.x = 2;
-  scene.add(outside);
-
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(80, 80),
-    new THREE.MeshBasicMaterial({ color: '#29353a' }));
-  ground.material.userData.fixed = true;
-  ground.rotation.x = -Math.PI / 2; ground.position.y = -.02;
-  scene.add(ground);
-
-  const pmrem = new THREE.PMREMGenerator(renderer);
-  const envScene = new THREE.Scene();
-  envScene.background = new THREE.Color('#1a2538');
-  envScene.add(outside.clone());
-  scene.environment = pmrem.fromScene(envScene, .04).texture;
-  scene.environmentIntensity = .7;
-
-  /* ---------- room ---------- */
-  const concrete = concreteTexture();
-  // o pavimento leva juntas de betonagem a cada 2,6 m: dão escala à sala
-  const [fc, fx] = canvas(concrete.image.width, concrete.image.height);
-  fx.drawImage(concrete.image, 0, 0);
-  fx.strokeStyle = 'rgba(30,30,32,.75)'; fx.lineWidth = 1.5;
-  fx.strokeRect(.75, .75, fc.width - 1.5, fc.height - 1.5);
-  const floorTex = new THREE.CanvasTexture(fc);
-  floorTex.colorSpace = THREE.SRGBColorSpace;
-  floorTex.wrapS = floorTex.wrapT = THREE.RepeatWrapping;
-  floorTex.repeat.set(5, 5); floorTex.anisotropy = 8;
-  const floorMat = new THREE.MeshPhysicalMaterial({
-    color: '#a4a5a6', map: floorTex, roughnessMap: floorTex, roughness: .62, metalness: 0,
-    clearcoat: .25, clearcoatRoughness: .55
-  });
-  const W = ROOM.x1 - ROOM.x0, D = ROOM.z1 - ROOM.z0;
-  const cx = (ROOM.x0 + ROOM.x1) / 2, cz = (ROOM.z0 + ROOM.z1) / 2;
-  const floor = new THREE.Mesh(new THREE.PlaneGeometry(W, D), floorMat);
-  floor.rotation.x = -Math.PI / 2; floor.position.set(cx, 0, cz);
-  floor.receiveShadow = true;
-  scene.add(floor);
-
-  // Betão polido: reflexo planar real da escada e dos LED, desfocado e mais forte a ângulo rasante
-  if (!small) {
-    mirror = new Reflector(new THREE.PlaneGeometry(W, D), {
-      textureWidth: 1024, textureHeight: 1024, clipBias: .003, multisample: 0,
-      shader: {
-        name: 'FloorSheen',
-        uniforms: { color: { value: null }, tDiffuse: { value: null }, textureMatrix: { value: null } },
-        vertexShader: `
-          uniform mat4 textureMatrix; varying vec4 vP; varying vec3 vW;
-          void main() {
-            vP = textureMatrix * vec4(position, 1.);
-            vW = (modelMatrix * vec4(position, 1.)).xyz;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
-          }`,
-        fragmentShader: `
-          uniform sampler2D tDiffuse; uniform vec3 color; varying vec4 vP; varying vec3 vW;
-          float n(vec2 p) { return fract(sin(dot(p, vec2(41.3, 289.1))) * 43758.5); }
-          void main() {
-            vec2 uv = vP.xy / vP.w; vec3 s = vec3(0.);
-            float r = .0045 + .006 * n(floor(vW.xz * 3.));
-            for (int i = 0; i < 12; i++) {
-              float a = float(i) * 2.399, q = sqrt(float(i) / 12.);
-              s += texture2D(tDiffuse, uv + r * q * vec2(cos(a), sin(a))).rgb;
-            }
-            vec3 V = normalize(cameraPosition - vW);
-            float f = .035 + .5 * pow(1. - clamp(V.y, 0., 1.), 4.);
-            gl_FragColor = vec4(min(s / 12., vec3(4.)) * f, 1.);
-          }`
-      }
-    });
-    mirror.material.transparent = true;
-    mirror.material.blending = THREE.AdditiveBlending;
-    mirror.material.depthWrite = false;
-    mirror.rotation.x = -Math.PI / 2; mirror.position.set(cx, .003, cz);
-    scene.add(mirror);
-  }
-
-  const white = new THREE.MeshStandardMaterial({ color: '#f1ece2', roughness: .9, emissive: '#77716a' }); // bounce light
-  const ceil = new THREE.Mesh(new THREE.PlaneGeometry(W, D), white);
-  ceil.rotation.x = Math.PI / 2; ceil.position.set(cx, ROOM.h, cz);   // faces down only
-  scene.add(ceil);
-
-  // Mezzanine: covers z > 0 so the stair arrives at its edge at θ = π
-  const slabTex = concrete.clone(); slabTex.repeat.set(4, 2); slabTex.needsUpdate = true;
-  const slabTop = floorMat.clone(); slabTop.map = slabTex;
-  // Landing: everything beyond the radial line where the stair arrives (θ = TURN)
-  const A = polar(RI, TURN, 0), dir = polar(1, TURN, 0);
-  const tB = (ROOM.x0 - A.x) / dir.x, B = new V3(ROOM.x0, 0, A.z + dir.z * tB);
-  const land = new THREE.Shape([
-    new THREE.Vector2(A.x, -A.z), new THREE.Vector2(B.x, -B.z),
-    new THREE.Vector2(ROOM.x0, -ROOM.z1), new THREE.Vector2(A.x, -ROOM.z1)
-  ]);
-  const SLAB_T = .3;
-  const slabGeo = new THREE.ExtrudeGeometry(land, { depth: SLAB_T, bevelEnabled: false });
-  slabGeo.rotateX(-Math.PI / 2);
-  // caps white, the exposed edge a warmer, darker plaster so the thickness reads
-  const edgeMat = new THREE.MeshStandardMaterial({ color: '#cbc2b2', roughness: .75, emissive: '#3a352e' });
-  const slab = new THREE.Mesh(slabGeo, [white, edgeMat]);
-  const deck = new THREE.Mesh(new THREE.ShapeGeometry(land).rotateX(-Math.PI / 2), slabTop);   // concrete top
-  deck.position.y = LANDING + .002; deck.receiveShadow = true; scene.add(deck);
-  slab.position.y = LANDING - SLAB_T;
-  slab.receiveShadow = true;           // no shadow: it was darkening the floor in the eye of the spiral
-  scene.add(slab);
-
-  const railGlass = new THREE.MeshPhysicalMaterial({
-    color: '#d6e0ea', transparent: true, opacity: .14, roughness: .05, depthWrite: false, side: THREE.DoubleSide
-  });
-  // same lacquered steel as the stair guards
-  const railTop = new THREE.MeshStandardMaterial({ color: '#ecd7a2', roughness: .42, metalness: .15, emissive: '#8a6428', emissiveIntensity: .8 });
-  const O = polar(RO + .04, TURN, 0);
-  const rimLed = new THREE.MeshBasicMaterial({ color: new THREE.Color(1, .66, .3).multiplyScalar(1.5) });
-  for (const [p, q] of [[A, B], [A, new V3(A.x, 0, ROOM.z1)]]) {     // LED line under the rim
-    const len = Math.hypot(q.x - p.x, q.z - p.z), ang = Math.atan2(-(q.z - p.z), q.x - p.x);
-    const m = new THREE.Mesh(new THREE.BoxGeometry(len, .012, .02), rimLed);
-    m.position.set((p.x + q.x) / 2, LANDING - SLAB_T - .006, (p.z + q.z) / 2); m.rotation.y = ang; scene.add(m);
-  }
-  for (const [p, q] of [[O, B], [A, new V3(A.x, 0, ROOM.z1)]]) {
-    const len = Math.hypot(q.x - p.x, q.z - p.z), ang = Math.atan2(-(q.z - p.z), q.x - p.x);
-    const g = new THREE.Mesh(new THREE.PlaneGeometry(len, 1), railGlass);
-    g.position.set((p.x + q.x) / 2, LANDING + .5, (p.z + q.z) / 2); g.rotation.y = ang; scene.add(g);
-    const t = new THREE.Mesh(new THREE.BoxGeometry(len, .04, .05), railTop);
-    t.position.set((p.x + q.x) / 2, LANDING + 1.0, (p.z + q.z) / 2); t.rotation.y = ang; scene.add(t);
-    const shoe = new THREE.Mesh(new THREE.BoxGeometry(len, .07, .06), railTop);   // base channel holding the glass
-    shoe.position.set((p.x + q.x) / 2, LANDING + .035, (p.z + q.z) / 2); shoe.rotation.y = ang; scene.add(shoe);
-  }
-
-  // Glass walls with dark mullions
-  const glass = new THREE.MeshPhysicalMaterial({
-    color: '#7f98b3', transparent: true, opacity: .1, roughness: .05,
-    metalness: 0, depthWrite: false, side: THREE.DoubleSide
-  });
-  const frame = new THREE.MeshStandardMaterial({ color: '#15181c', roughness: .6, metalness: .4 });
-  const walls = [
-    [ROOM.x0, ROOM.z0, ROOM.x1, ROOM.z0],
-    [ROOM.x1, ROOM.z0, ROOM.x1, ROOM.z1],
-    [ROOM.x1, ROOM.z1, ROOM.x0, ROOM.z1],
-    [ROOM.x0, ROOM.z1, ROOM.x0, ROOM.z0]
-  ];
-  for (const [ax, az, bx, bz] of walls) {
-    const len = Math.hypot(bx - ax, bz - az), ang = Math.atan2(-(bz - az), bx - ax);
-    const pane = new THREE.Mesh(new THREE.PlaneGeometry(len, ROOM.h), glass);
-    pane.position.set((ax + bx) / 2, ROOM.h / 2, (az + bz) / 2);
-    pane.rotation.y = ang;
-    scene.add(pane);
-    const n = Math.round(len / 1.6);
-    for (let i = 0; i <= n; i++) {
-      const t = i / n, m = new THREE.Mesh(new THREE.BoxGeometry(.06, ROOM.h, .08), frame);
-      m.position.set(lerp(ax, bx, t), ROOM.h / 2, lerp(az, bz, t));
-      m.rotation.y = ang; scene.add(m);
-    }
-    for (const y of [.04, LANDING - .1, ROOM.h - .04]) {
-      const m = new THREE.Mesh(new THREE.BoxGeometry(len, .07, .08), frame);
-      m.position.set((ax + bx) / 2, y, (az + bz) / 2); m.rotation.y = ang; scene.add(m);
-    }
-  }
-
-  // a round concrete column, like the one by the back window
-  const colMat = new THREE.MeshStandardMaterial({ color: '#8e949b', map: concrete, roughness: .8 });
-  const col = new THREE.Mesh(new THREE.CylinderGeometry(.24, .24, ROOM.h, 32), colMat);
-  col.position.set(4.6, ROOM.h / 2, -4.2); col.castShadow = col.receiveShadow = true;
-  scene.add(col);
-
-  /* ---------- stair ---------- */
-  const onyx = onyxTexture();
-  const treadMat = new THREE.MeshPhysicalMaterial({
-    color: '#f2dfae', map: onyx,
-    emissive: '#ffbf66', emissiveMap: onyx, emissiveIntensity: .36,
-    roughness: .32, clearcoat: .5, clearcoatRoughness: .3,
-    sheen: .4, sheenColor: '#ffd9a0'
-  });
-  const ledMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(1, .66, .32).multiplyScalar(2.1) });
-  const underMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(1, .72, .42).multiplyScalar(1.1), side: THREE.DoubleSide });
-  const noseMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(1, .8, .48).multiplyScalar(1) });
-
-  for (let k = 0; k < STEPS; k++) {
-    const a0 = k * DTH, a1 = k === STEPS - 1 ? TURN : (k + 1) * DTH + .025;   // last one stops at the slab edge
-    const s = new THREE.Shape();
-    s.absarc(0, 0, RO - .012, a0, a1, false);
-    s.absarc(0, 0, RI + .012, a1, a0, true);
-    const geo = new THREE.ExtrudeGeometry(s, {
-      depth: TREAD_T - .012, curveSegments: 18,
-      bevelEnabled: true, bevelThickness: .006, bevelSize: .006, bevelSegments: 2
-    });
-    geo.rotateX(-Math.PI / 2);
-    const top = (k + 1) * RISE;
-    const treadK = treadMat.clone(); treadK.userData.step = k;
-    const m = new THREE.Mesh(geo, treadK);
-    m.position.y = top - TREAD_T + .006;
-    m.castShadow = m.receiveShadow = true;
-    scene.add(m);
-
-    // Soft, even glow over the whole underside (no point sources), plus the LED line
-    // under the nosing running the full width
-    const stepped = mat => { const c = mat.clone(); c.userData.step = k; return c; };
-    const under = new THREE.Mesh(new THREE.ShapeGeometry(s, 18).rotateX(-Math.PI / 2), stepped(underMat));
-    under.position.y = top - TREAD_T - .002;
-    scene.add(under);
-    const led = new THREE.Mesh(new THREE.BoxGeometry(RO - RI - .03, .008, .03), stepped(ledMat));
-    const th = a0 + .06;
-    led.position.copy(polar((RI + RO) / 2, th + .02, top - TREAD_T - .004));
-    led.rotation.y = th;
-    scene.add(led);
-
-    // the front edge of the onyx glows brighter (light travelling through the slab)
-    const nose = new THREE.Mesh(new THREE.BoxGeometry(RO - RI - .04, TREAD_T - .008, .003), stepped(noseMat));
-    nose.position.copy(polar((RI + RO) / 2, a0 - .0025, top - TREAD_T / 2));
-    nose.rotation.y = a0;
-    scene.add(nose);
-  }
-
-  // Guards (also the stringers). Inner one starts at the floor with a diagonal cut.
-  const outer = guardSpec(RO, -.015, TURN + .02,     // vertical end flush with the first tread
-    th => lineY(th) + GUARD_UP,
-    th => Math.max(0, lineY(th) - GUARD_DN));
-  // inner: a gentle diagonal from a short vertical foot (no sharp point at the floor)
-  const CUT0 = -.62, CUT_K = 2.0;
-  const inner = guardSpec(RI, CUT0 + .1, TURN + .02,
-    th => Math.min(lineY(th) + GUARD_UP, Math.max(0, (th - CUT0) * CUT_K)),
-    th => Math.max(0, lineY(th) - GUARD_DN));
-
-  const ppm = small ? 380 : 520;     // 2x the previous density; edges carry a soft alpha ramp
-  const pending = [], footLed = ledMat.clone(); footLed.color.multiplyScalar(.55);
-  // Chapa pintada: a textura fina quebra o brilho, para não parecer uma superfície lisa de computador
-  const plateTex = concrete.clone(); plateTex.repeat.set(9, 5); plateTex.needsUpdate = true;
-  for (const [g, seed] of [[outer, 101], [inner, 202]]) {
-    const mat = new THREE.MeshStandardMaterial({
-      // lacquered steel: its own warm tone (emissive) so a face that only sees the blue dusk —
-      // like the inner guard from the photo viewpoint — still reads the same gold as the outer one
-      color: '#d9c08a', roughness: .62, metalness: .5, envMapIntensity: .8,
-      roughnessMap: plateTex, bumpMap: plateTex, bumpScale: .35,
-      emissive: '#9a7034', emissiveIntensity: .3,
-      alphaTest: .5, alphaToCoverage: msaa,
-      side: THREE.DoubleSide, shadowSide: THREE.DoubleSide
-    });
-    const m = new THREE.Mesh(guardGeometry(g), mat);
-    m.castShadow = m.receiveShadow = true;
-    m.visible = false;                 // shown once its cut pattern arrives from the worker
-    scene.add(m);
-    pending.push(voronoiAlpha(g, seed, ppm).then(tex => {
-      mat.alphaMap = tex; mat.needsUpdate = true;
-      m.visible = true;
-    }));
-
-    // LED line along the foot of the stringer, shining down
-    class Foot extends THREE.Curve {
-      getPoint(t, o = new V3()) {
-        const th = lerp(Math.max(g.th0, 0), g.th1, t);
-        const r = g.r + (g.r === RO ? -.03 : .03);
-        return o.copy(polar(r, th, Math.max(.012, g.botFn(th) + .01)));
-      }
-    }
-    scene.add(new THREE.Mesh(new THREE.TubeGeometry(new Foot(), 160, .007, 6), footLed));
-  }
-  const guardsReady = Promise.all(pending);
-
-  // Inner face of the outer stringer, lit hard by the LEDs: an emissive band just inside
-  // the solid (uncut) zone of the guard, brightest right under the treads
-  {
-    const r = RO - .006, rows = [[-GUARD_DN, .45], [-.16, .8], [-.03, 1], [.11, .7]];
-    const pos = [], col = [], idx = [], seg = 160, th0 = -.015, th1 = TURN;
-    const c = new THREE.Color(1, .62, .24);
-    for (let i = 0; i <= seg; i++) {
-      const th = lerp(th0, th1, i / seg), base = lineY(th);
-      rows.forEach(([dy, k]) => {
-        const p = polar(r, th, Math.max(.005, base + dy));
-        pos.push(p.x, p.y, p.z); col.push(c.r * k, c.g * k, c.b * k);
-      });
-      if (i < seg) for (let j = 0; j < rows.length - 1; j++) {
-        const a = i * rows.length + j, b = a + rows.length;
-        idx.push(a, b, a + 1, a + 1, b, b + 1);
-      }
-    }
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-    geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
-    geo.setIndex(idx);
-    const band = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide }));
-    band.material.color.setScalar(1.2);      // HDR so the bloom picks it up
-    scene.add(band);
-  }
-
-  /* ---------- light ---------- */
-  scene.add(new THREE.HemisphereLight('#86a3d0', '#2c3036', 1.35));
-
-  const dusk = new THREE.DirectionalLight('#9db8e6', .9);
-  dusk.position.set(-7, 9, -6);
-  dusk.castShadow = true;
-  Object.assign(dusk.shadow.camera, { left: -7, right: 7, top: 7, bottom: -7, near: 1, far: 30 });
-  dusk.shadow.mapSize.setScalar(shadowSize);
-  dusk.shadow.bias = -.0004; dusk.shadow.normalBias = .02; dusk.shadow.radius = 4;
-  scene.add(dusk);
-
-  // Warm wash from inside the helix — throws the cut pattern on the floor
-  const warm = new THREE.SpotLight('#ffb35c', 9, 9, 1.05, 1, 1.6);
-  warm.position.set(.3, 2.7, -.5);
-  warm.target.position.set(1.1, 0, -.7);
-  warm.castShadow = true;
-  warm.shadow.mapSize.setScalar(small ? 512 : 1024);
-  warm.shadow.bias = -.0005; warm.shadow.radius = 5;
-  scene.add(warm, warm.target);
-
-
-  // Light on the concrete: one soft ribbon following the base of the stair, fading as it climbs
-  {
-    const prof = [[0, .32], [RI * .5, .34], [RI, .4], [(RI + RO) / 2, .45], [RO - .08, .9], [RO + .18, .55], [RO + .55, 0]];
-    const pos = [], col = [], idx = [], seg = 120, th0 = -.15, th1 = TURN;
-    const c = new THREE.Color(1, .64, .32).multiplyScalar(.3);
-    for (let i = 0; i <= seg; i++) {
-      const th = lerp(th0, th1, i / seg), fade = Math.exp(-Math.max(0, lineY(th)) / 1.05) * smooth(th0, th0 + .3, th);
-      for (const [r, k] of prof) {
-        const p = polar(r, th, .004);
-        pos.push(p.x, p.y, p.z); col.push(c.r * k * fade, c.g * k * fade, c.b * k * fade);
-      }
-      if (i < seg) for (let j = 0; j < prof.length - 1; j++) {
-        const a = i * prof.length + j, b = a + prof.length;
-        idx.push(a, a + 1, b, a + 1, b + 1, b);
-      }
-    }
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-    geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
-    geo.setIndex(idx);
-    scene.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({
-      vertexColors: true, transparent: true, depthWrite: false,
-      blending: THREE.AdditiveBlending, side: THREE.DoubleSide
-    })));
-  }
-  {
-    const disc = new THREE.CircleGeometry(RO * 1.1, 64, 0, Math.PI * 2);
-    const n = disc.attributes.position.count, col = new Float32Array(n * 3), c = new THREE.Color(1, .66, .36);
-    for (let i = 0; i < n; i++) {
-      const r = Math.hypot(disc.attributes.position.getX(i), disc.attributes.position.getY(i)) / (RO * 1.1);
-      const k = .085 * Math.max(0, 1 - r) ** 1.5;   // clamp: a NaN here blacks out the whole frame via bloom
-      col[i * 3] = c.r * k; col[i * 3 + 1] = c.g * k; col[i * 3 + 2] = c.b * k;
-    }
-    disc.setAttribute('color', new THREE.BufferAttribute(col, 3));
-    disc.rotateX(-Math.PI / 2);
-    const m = new THREE.Mesh(disc, new THREE.MeshBasicMaterial({
-      vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
-    m.position.y = .005; scene.add(m);
-  }
-  // Sombra de contacto: onde a chapa toca no chão, a luz não chega
-  for (const [r0, r1] of [[RO, RO + .34], [RO, RO - .22], [RI, RI + .2], [RI, RI - .2]]) {
-    const pos = [], col = [], idx = [], seg = 120, th0 = -.1, th1 = 1.6;
-    for (let i = 0; i <= seg; i++) {
-      const th = lerp(th0, th1, i / seg), a = .62 * (1 - smooth(.15, .95, Math.max(0, lineY(th) - GUARD_DN + .3)));
-      for (const [r, k] of [[r0, a], [r1, 0]]) { const q = polar(r, th, .007); pos.push(q.x, q.y, q.z); col.push(0, 0, 0, k); }
-      if (i < seg) { const j = i * 2; idx.push(j, j + 1, j + 2, j + 1, j + 3, j + 2); }
-    }
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-    geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 4));
-    geo.setIndex(idx);
-    scene.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, depthWrite: false, side: THREE.DoubleSide })));
-  }
-  warmLight = warm;
-
-  // Pó em suspensão na luz quente: pouco, mas dá profundidade ao ar da sala
-  {
-    const n = small ? 90 : 220, r = rng(77), pos = new Float32Array(n * 3);
-    for (let i = 0; i < n; i++) {
-      const a = r() * Math.PI * 2, d = .6 + r() * 3.2;
-      pos[i * 3] = Math.cos(a) * d; pos[i * 3 + 1] = .15 + r() * 3.4; pos[i * 3 + 2] = Math.sin(a) * d - .4;
-    }
-    const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    const [dc, dx] = canvas(32, 32), g = dx.createRadialGradient(16, 16, 0, 16, 16, 16);
-    g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(1, 'rgba(255,255,255,0)');
-    dx.fillStyle = g; dx.fillRect(0, 0, 32, 32);
-    dust = new THREE.Points(geo, new THREE.PointsMaterial({
-      map: new THREE.CanvasTexture(dc), color: new THREE.Color(1, .78, .5).multiplyScalar(.32), size: .016,
-      transparent: true, opacity: .55, depthWrite: false, blending: THREE.AdditiveBlending
-    }));
-    dust.material.userData.fixed = true;
-    scene.add(dust);
-  }
-
-  // Tudo o que emite luz, para a sequência de acender
-  const seen = new Set();
-  scene.traverse(o => {
-    const m = o.material; if (!m || Array.isArray(m) || seen.has(m) || m.userData.fixed || o === mirror) return;
-    seen.add(m);
-    if (m.isMeshBasicMaterial) lit.push({ m, base: m.color.clone(), step: m.userData.step });
-    else if (m.emissive && m.emissiveIntensity && m.userData.step !== undefined) lit.push({ m, em: m.emissiveIntensity, step: m.userData.step });
-    else if (m.emissive && m.emissiveIntensity && m.metalness > .05) lit.push({ m, em: m.emissiveIntensity });
-  });
-  return guardsReady;
+function size() {
+  const d = Math.min(devicePixelRatio || 1, 2);
+  cv.width = Math.round(innerWidth * d); cv.height = Math.round(innerHeight * d); last = null;
+}
+// cobre o ecrã; em ecrãs estreitos o corte acompanha a escada
+function paint(im, alpha, focus) {
+  if (!im) return;
+  const iw = im.naturalWidth || im.videoWidth, ih = im.naturalHeight || im.videoHeight;
+  const W = cv.width, H = cv.height, s = Math.max(W / iw, H / ih);
+  const sw = W / s, sh = H / s, sx = (iw - sw) * focus, sy = (ih - sh) / 2;
+  cx.imageSmoothingQuality = 'high';
+  cx.globalAlpha = alpha; cx.drawImage(im, sx, sy, sw, sh, 0, 0, W, H); cx.globalAlpha = 1;
+}
+function paintPath(idx, focus) {            // funde as duas imagens mais próximas já carregadas
+  const f = Math.min(FRAMES - 1, Math.max(0, idx));
+  let a = Math.floor(f), b = Math.ceil(f);
+  while (a > 0 && !path[a]) a--;
+  while (b < FRAMES - 1 && !path[b]) b++;
+  if (!path[a]) a = b; if (!path[b]) b = a;
+  paint(path[a], 1, focus);
+  if (b !== a) paint(path[b], (f - a) / (b - a), focus);
 }
 
-/* Os degraus acendem de baixo para cima; o resto da luz vem atrás */
-// Ao entrar no login os degraus baixam e voltam a subir, um a um, enquanto a câmara viaja
-function waveSteps(age) {
-  const down = 1 - .85 * smooth(0, .5, age);
-  for (const l of lit) {
-    if (l.step === undefined) continue;
-    const v = Math.max(down, smooth(0, .6, age - .7 - l.step * .14));
-    if (l.base) l.m.color.copy(l.base).multiplyScalar(v); else l.m.emissiveIntensity = l.em * v;
-  }
-}
-function setLit(age) {
-  const g = smooth(.3, 2.8, age);
-  for (const l of lit) {
-    const v = l.step === undefined ? g : smooth(0, .6, age - .25 - l.step * .14);
-    if (l.base) l.m.color.copy(l.base).multiplyScalar(v);
-    else l.m.emissiveIntensity = l.em * (l.step === undefined ? .25 + .75 * v : v);
-  }
-  if (warmLight) warmLight.intensity = 9 * g;
-}
-
-
-/* =========================================================
-   Camera path
-   ========================================================= */
-// Orbit path (unchanged): starts at the pose of the original photo and does a full turn
-// while climbing. Content blocks and the final top-down framing are tuned to it.
-const PATH0 = { pos: new V3(2.15, 1.27, 1.61), tgt: new V3(.62, 1.03, -.97), vfov: 64 };
-const phi0 = Math.atan2(PATH0.pos.x, PATH0.pos.z);
-const R0 = Math.hypot(PATH0.pos.x, PATH0.pos.z);
-const CAM_TOP = 5.5;                // final camera height; the ceiling is at ROOM.h = 6.2
-// End-view centre, solved numerically so all 14 treads fit on phone, 4:3 and 16:9 from 5.5 m up
-const END_C = new V3(-.3, 0, -.9);
-
-// Opening view: low, behind and to the side, the whole curve climbing to the landing.
-// A lens shift (not a rotation, so perspective is untouched) puts the stair on the right,
-// leaving the left for the title; on portrait screens it lifts the stair above the text.
-// Over the first BLEND of the scroll the camera swings round the stair, outside it, onto the path.
-const START = {
-  pos: new V3(-1.45, .5, -4.5),
-  tgt: new V3(.2, 1.65, -.5),
-  vfov: 50, vfovPortrait: 84,
-  shiftX: .2,                       // fraction of the width (landscape)
-  shiftY: .14                       // fraction of the height (portrait)
-};
-const BLEND = .12;
-// Pose da loja: a mesma sala, vista de outro lado, com a escada à direita do texto
-const SHOP = { pos: new V3(-2.75, .4, -4.05), tgt: new V3(.3, 1.8, -.55), vfov: 47, vfovPortrait: 80, shiftX: .25, shiftY: .16 };
-const phiShop = Math.atan2(SHOP.pos.x, SHOP.pos.z), RShop = Math.hypot(SHOP.pos.x, SHOP.pos.z);
-// Pose do login: outro lado da escada, à esquerda do formulário, e sempre a rodar devagar (±10° em 26 s)
-const LOGIN = { pos: new V3(-4.3, .55, -2.3), tgt: new V3(.1, 1.75, -.5), vfov: 50, vfovPortrait: 82, shiftX: -.2, shiftY: .24, amp: THREE.MathUtils.degToRad(10), w: Math.PI * 2 / 26 };
-const log = { L: 0, from: 0, to: 0, t0: 0, dur: 1 };
-let waveAt = -1;
-const look = { x: 0, y: 0, tx: 0, ty: 0 };
-if (matchMedia('(pointer: fine)').matches) addEventListener('pointermove', e => {
-  look.tx = e.clientX / innerWidth * 2 - 1; look.ty = e.clientY / innerHeight * 2 - 1;
-}, { passive: true });
-const camQ = QS.get('cam');
-if (camQ) {
-  const v = camQ.split(',').map(Number);
-  START.pos.set(v[0], v[1], v[2]); START.tgt.set(v[3], v[4], v[5]); if (v[6]) START.vfov = v[6]; if (v[7]) START.vfovPortrait = v[7];
-}
-const phiS = Math.atan2(START.pos.x, START.pos.z), RS = Math.hypot(START.pos.x, START.pos.z);
-
-// idle sway before the first scroll: ±8° around the helix axis, peak speed 2°/s
-const SWAY = { amp: THREE.MathUtils.degToRad(8), w: 2 / 8 };
-let swayT = 0, scrolled = false;
-// Na abertura a escada só balança, devagar, enquanto a página está parada: ±4° em 14 s
-const REST = { amp: THREE.MathUtils.degToRad(4), w: Math.PI * 2 / 14 };
-let restT = 0, rest = 1, stillFor = 1, lastY = 0;
-
-const _p = new V3(), _t = new V3(), _up = new V3(0, 1, 0);
-function pathCamera(p, pos, tgt) {        // the original orbit; returns the fov
-  const aspect = camera.aspect, fov1 = aspect < 1 ? 68 : 46;
-  const fov0 = aspect < 1 ? 70 : PATH0.vfov;
-  const u = p;
-  const e = .5 - .5 * Math.cos(Math.PI * u);
-  const phi = phi0 - Math.PI * 2 * e;   // swing under the landing first, while still low
-  let R = lerp(R0, 5, smooth(0, .3, u));
-  R = lerp(R, .3, smooth(.62, 1, u));
-  // stay under the landing until past it (u≈.5), then climb fast to clear the guards,
-  // ending at CAM_TOP — below the ceiling — looking down into the spiral
-  const up = clamp01((u - .5) / .45);
-  const y = lerp(PATH0.pos.y, 2.4, smooth(0, .45, u)) + (CAM_TOP - 2.4) * (1 - (1 - up) ** 3);
-  // the orbit centre drifts from the helix axis to the middle of the footprint,
-  // so the final top-down view frames the whole stair from only 5.5 m up
-  const k = smooth(.6, 1, u), cx = END_C.x * k, cz = END_C.z * k;
-  pos.set(cx + R * Math.sin(phi), y, cz + R * Math.cos(phi));
-  tgt.set(cx, lerp(1.5, .2, smooth(.45, 1, u)), cz);
-  tgt.lerpVectors(PATH0.tgt, tgt, smooth(0, .25, u));
-  // final view: at least 54° vertical and ~40° horizontal, so narrow phones still fit the treads
-  const fovEnd = Math.max(54, 2 * THREE.MathUtils.radToDeg(Math.atan(Math.tan(THREE.MathUtils.degToRad(20)) / aspect)));
-  return lerp(lerp(fov0, fov1, smooth(0, .3, u)), fovEnd, smooth(.75, 1, u));
-}
-
-const _tgt = new V3(), _v = new V3();
-function placeCamera(p) {
-  const aspect = camera.aspect;
-  const q = p <= .1 ? 0 : (p - .1) / .9;          // path progress (the path starts at 10% of the scroll)
-  const fovP = pathCamera(q, _p, _t);
-  const b = smooth(0, BLEND, p);                  // 0 = opening view, 1 = on the path
-  if (b >= 1) { camera.position.copy(_p); _tgt.copy(_t); camera.fov = fovP; }
-  else {
-    // swing in polar coordinates, so the camera goes round the stair instead of through it
-    const phiP = Math.atan2(_p.x, _p.z), RP = Math.hypot(_p.x, _p.z);
-    let d = phiP - phiS; d = Math.atan2(Math.sin(d), Math.cos(d));
-    const phi = phiS + d * b, R = lerp(RS, RP, b) + Math.sin(Math.PI * b) * .6;
-    camera.position.set(R * Math.sin(phi), lerp(START.pos.y, _p.y, b), R * Math.cos(phi));
-    _tgt.lerpVectors(START.tgt, _t, b);
-    camera.fov = lerp(aspect < 1 ? START.vfovPortrait : START.vfov, fovP, b);
-  }
-  // idle sway: orbit position and target together around the helix axis, fading out with scroll
-  const T = shot.T;
-  const sway = SWAY.amp * Math.sin(SWAY.w * swayT) * (1 - smooth(0, .03, p)) * (1 - T);
-  if (sway) { camera.position.applyAxisAngle(_up, sway); _tgt.applyAxisAngle(_up, sway); }
-  // Viagem para a pose da loja: em polares e abrindo o raio primeiro, para contornar a escada
-  if (T > 0) {
-    const phiH = Math.atan2(camera.position.x, camera.position.z), RH = Math.hypot(camera.position.x, camera.position.z);
-    let d = phiShop - phiH; d = Math.atan2(Math.sin(d), Math.cos(d));
-    const phi = phiH + d * T, R = lerp(RH, RShop, smooth(0, .6, T)) + Math.sin(Math.PI * T) * .5;
-    const y = lerp(camera.position.y, SHOP.pos.y, smooth(.15, 1, T));
-    camera.position.set(R * Math.sin(phi), y, R * Math.cos(phi));
-    _tgt.lerp(SHOP.tgt, T);
-    camera.fov = lerp(camera.fov, aspect < 1 ? SHOP.vfovPortrait : SHOP.vfov, T);
-    const swing = REST.amp * Math.sin(REST.w * restT) * T;
-    camera.position.applyAxisAngle(_up, swing); _tgt.applyAxisAngle(_up, swing);
-  }
-  const L = log.L;
-  if (L > 0) {
-    const phiH = Math.atan2(camera.position.x, camera.position.z), RH = Math.hypot(camera.position.x, camera.position.z);
-    const phiL = Math.atan2(LOGIN.pos.x, LOGIN.pos.z), RL = Math.hypot(LOGIN.pos.x, LOGIN.pos.z);
-    let d = phiL - phiH; d = Math.atan2(Math.sin(d), Math.cos(d));
-    const phi = phiH + d * L, R = lerp(RH, RL, L);
-    camera.position.set(R * Math.sin(phi), lerp(camera.position.y, LOGIN.pos.y, L), R * Math.cos(phi));
-    _tgt.lerp(LOGIN.tgt, L);
-    camera.fov = lerp(camera.fov, aspect < 1 ? LOGIN.vfovPortrait : LOGIN.vfov, L);
-    const swing = LOGIN.amp * Math.sin(LOGIN.w * clock) * L;
-    camera.position.applyAxisAngle(_up, swing); _tgt.applyAxisAngle(_up, swing);
-  }
-  // No início: respiração lenta e o olhar a seguir o rato. Na abertura, nada disto.
-  camera.lookAt(_tgt);
-  camera.updateMatrixWorld();
-  const px = (look.x * .09 + Math.sin(clock * .23) * .012) * (1 - T), py = (-look.y * .05 + Math.sin(clock * .31) * .014) * (1 - T);
-  camera.position.add(_v.setFromMatrixColumn(camera.matrixWorld, 0).multiplyScalar(px));
-  camera.position.y += py;
-  camera.fov += Math.min(2.2, Math.abs(speed) * 26);   // abre ligeiramente a lente quando se desce depressa
-  camera.lookAt(_tgt);
-  // lens shift for the opening composition, gone by the end of the blend
-  const k = (1 - b) * (1 - T), W = innerWidth, H = innerHeight;
-  const sx = lerp(START.shiftX * k + SHOP.shiftX * T, LOGIN.shiftX, L), sy = lerp(START.shiftY * k + SHOP.shiftY * T, LOGIN.shiftY, L);
-  if (sx !== 0) camera.setViewOffset(W, H, aspect < 1 ? 0 : -sx * W, aspect < 1 ? sy * H : 0, W, H);
-  else camera.clearViewOffset();
-  camera.updateProjectionMatrix();
-}
-
-/* =========================================================
-   Scroll + render loop
-   ========================================================= */
 const state = { p: 0 };
 const shot = { T: window.HABINOX.T || 0, from: 0, to: window.HABINOX.T || 0, t0: 0, dur: 1 };
-let prevT = performance.now(), clock = 0, speed = 0, litAt = -1, lastAge = -1, ema = 1 / 60, tick = 0;
-const fixedQ = QS.has('fixed'), maxScroll = () => document.documentElement.scrollHeight - innerHeight;
-
-// curva forte de movimento em ecrã, cubic-bezier(.77,0,.175,1), resolvida por bisseção
+const log = { L: 0, from: 0, to: 0, t0: 0, dur: 1 };
+let prevT = performance.now(), clock = 0, litAt = -1, last = null, restT = 0, rest = 1, stillFor = 1, lastY = 0, skipWave = false;
+const maxScroll = () => document.documentElement.scrollHeight - innerHeight;
 const bez = (a, b, t) => 3 * a * t * (1 - t) ** 2 + 3 * b * t * t * (1 - t) + t ** 3;
-const easeIO = x => { let l = 0, h = 1; for (let i = 0; i < 18; i++) { const m = (l + h) / 2; if (bez(.77, .175, m) < x) l = m; else h = m; } return bez(0, 1, (l + h) / 2); };
+const easeIO = x => { let l = 0, h = 1; for (let i = 0; i < 18; i++) { const m = (l + h) / 2; if (bez(.77, .175, m) < x) l = m; else h = m; } return bez(0, 1, l); };
 
 function frame(now = performance.now()) {
   requestAnimationFrame(frame);
@@ -1741,109 +867,86 @@ function frame(now = performance.now()) {
   if (want) {
     H.shot = null;
     if (want.instant) { shot.T = shot.to = want.T; shot.dur = 0; }
-    else if (want.T !== shot.to) { shot.from = shot.T; shot.to = want.T; shot.t0 = now; shot.dur = 2300 * Math.max(.45, Math.abs(want.T - shot.T)); }
+    else if (want.T !== shot.to) { shot.from = shot.T; shot.to = want.T; shot.t0 = now; shot.dur = 2300 * Math.max(.45, Math.abs(want.T - shot.T)); skipWave = true; }
   }
   if (shot.T !== shot.to) {
     const x = clamp01((now - shot.t0) / shot.dur);
-    shot.T = lerp(shot.from, shot.to, easeIO(x));
-    if (x >= 1) shot.T = shot.to;
+    shot.T = x >= 1 ? shot.to : lerp(shot.from, shot.to, easeIO(x));
   }
   H.T = shot.T;
   const wantL = H.login;
   if (wantL) {
     H.login = null;
     if (wantL.instant) { log.L = log.to = wantL.on ? 1 : 0; }
-    else if ((wantL.on ? 1 : 0) !== log.to) {
-      log.from = log.L; log.to = wantL.on ? 1 : 0; log.t0 = now; log.dur = 2300 * Math.max(.45, Math.abs(log.to - log.L));
-      if (wantL.on && lastAge >= 4) waveAt = now;
-    }
+    else if ((wantL.on ? 1 : 0) !== log.to) { log.from = log.L; log.to = wantL.on ? 1 : 0; log.t0 = now; log.dur = 2300 * Math.max(.45, Math.abs(log.to - log.L)); skipWave = true; }
   }
   if (log.L !== log.to) {
     const x = clamp01((now - log.t0) / log.dur);
     log.L = x >= 1 ? log.to : lerp(log.from, log.to, easeIO(x));
   }
-  if (waveAt >= 0) {
-    const age = (now - waveAt) / 1000;
-    waveSteps(age);
-    if (age > 3.5) waveAt = -1;
-  }
   if (shot.T > .6) H.heroIn();
   // a inércia da roda não pode descer a loja enquanto a câmara ainda viaja
   if (H.route === 'loja' && shot.to === 1 && shot.T < .75 && scrollY > 0) scrollTo(0, 0);
-  // ao descer, o balanço abranda até parar; volta do mesmo ponto quando a página sossega
+  // ao descer, o vídeo abranda até parar; volta do mesmo ponto quando a página sossega
   stillFor = Math.abs(scrollY - lastY) > .5 ? 0 : stillFor + dt; lastY = scrollY;
   rest += ((stillFor > .4 ? 1 : 0) - rest) * (1 - Math.exp(-dt * (stillFor > .4 ? 1.5 : 7)));
-  restT += dt * rest;
-
-  // o scroll chega à câmara amortecido, sempre à mesma velocidade de resposta
   if (H.route === 'inicio') {
-    const target = clamp01(scrollY / Math.max(1, maxScroll())), before = state.p;
+    // assenta sempre numa imagem exata: parar entre duas mostraria a cena em duplicado
+    const span = AT.inicio - AT.fimScroll, target = Math.round(clamp01(scrollY / Math.max(1, maxScroll())) * span) / span;
     state.p += (target - state.p) * (1 - Math.exp(-dt * 3.2));
-    speed = lerp(speed, (state.p - before) / Math.max(dt, .001) / 8, .12);
-  } else speed *= .9;
-  look.x += (look.tx - look.x) * (1 - Math.exp(-dt * 2.2));
-  look.y += (look.ty - look.y) * (1 - Math.exp(-dt * 2.2));
-
-  if (state.p > 1e-3) scrolled = true;
-  if (!scrolled) swayT += dt;
-
-  // luz de entrada
-  if (litAt >= 0) {
-    const age = (now - litAt) / 1000;
-    if (lastAge < 4) { setLit(age); lastAge = age; }
-    if (age > 1.1) document.documentElement.classList.add('lit');
   }
+  const age = litAt < 0 ? -1 : (now - litAt) / 1000;
+  if (age > 1.1) document.documentElement.classList.add('lit');
+  const T = shot.T, L = log.L;
+  if (T > 0 || H.route === 'inicio') H.update(state.p);
+  if (T >= 1 && (document.documentElement.classList.contains('covered') || scrollY > innerHeight * 1.45)) { film.pause(); return; }
 
-  // por trás de conteúdo opaco não vale a pena desenhar
-  const hidden = shot.T >= 1 && (document.documentElement.classList.contains('covered') || scrollY > innerHeight * 1.45);
-  if (H.route === 'inicio' || shot.T > 0) H.update(state.p);
-  if (hidden) return;
+  const waving = litAt >= 0 && age < 3.2 && !skipWave && T === 1 && L === 0;
+  const focus = lerp(.56, .38, L);
+  if (T === 1 && L === 0 && age >= 3.2 - (skipWave ? 99 : 0) && film.readyState >= 2) {
+    if (!filmSynced) { filmSynced = true; film.currentTime = restT; }
+    if (rest < .07) film.pause();
+    else { film.playbackRate = rest; if (film.paused) film.play().catch(() => {}); }
+    if (!film.seeking) { restT = film.currentTime; paint(film, 1, focus); last = null; return; }
+  } else if (filmSynced) { filmSynced = false; film.pause(); }
 
-  if (dust && shot.T < 1) { dust.rotation.y = clock * .012; dust.position.y = Math.sin(clock * .15) * .05; }
-  if (shot.T < 1) lens.uniforms.seed.value = clock % 7;
-  placeCamera(state.p);
-  composer.render();
-
-  // fluidez primeiro: se a máquina não aguenta, baixa a resolução e depois os reflexos
-  ema = lerp(ema, dt, .05);
-  if (!fixedQ && ++tick % 45 === 0 && ema > 1 / 42) {
-    const dpr = renderer.getPixelRatio();
-    if (dpr > 1) { const v = Math.max(1, dpr - .25); renderer.setPixelRatio(v); composer.setPixelRatio(v); }
-    else if (mirror && mirror.visible) mirror.visible = false;
-    ema = 1 / 60;
-  }
+  const base = lerp(lerp(AT.inicio, AT.fimScroll, state.p), AT.loja, T);
+  const swung = lerp(base + SWING.amp * Math.sin(2 * Math.PI * restT / SWING.period) * T, AT.login, L);
+  const idx = T === 1 && L === 0 ? Math.round(swung) : swung;   // à espera do vídeo, fica numa imagem exata
+  const key = waving ? 'w' + age.toFixed(2) : idx.toFixed(2) + '|' + focus.toFixed(2);
+  if (key === last) return; last = key;
+  if (!waving) { paintPath(idx, focus); return; }
+  // os degraus acendem de baixo para cima (mesma pose da loja) e passam ao percurso sem salto
+  const k = clamp01((age - .25) / 2.2) * 14, a = Math.floor(k), b = Math.min(14, a + 1);
+  if (age > 2.8) paintPath(idx, focus);
+  paint(steps[a], age > 2.8 ? 1 - (age - 2.8) / .4 : 1, focus);
+  if (b !== a && age <= 2.8) paint(steps[b], k - a, focus);
 }
 
-let lastW = innerWidth, lastH = innerHeight;
+let resizeW = -1, resizeH = -1;
 addEventListener('resize', () => {
-  // ignore the mobile URL bar showing/hiding (height jitter only)
-  if (innerWidth === lastW && Math.abs(innerHeight - lastH) < 120) return;
-  lastW = innerWidth; lastH = innerHeight;
-  camera.aspect = innerWidth / innerHeight;
-  renderer.setSize(innerWidth, innerHeight, false);
-  composer.setSize(innerWidth, innerHeight);
+  if (innerWidth === resizeW && Math.abs(innerHeight - resizeH) < 120) return;   // barra do telemóvel
+  resizeW = innerWidth; resizeH = innerHeight; size();
 });
+resizeW = innerWidth; resizeH = innerHeight; size();
 
-// let the loading label paint before building the scene
-requestAnimationFrame(() => setTimeout(() => {
-  camera.aspect = innerWidth / innerHeight;
-  const guardsReady = build();
-  const qt = QS.get('t');
-  if (qt !== null) { shot.T = shot.to = +qt; }
-  const qp = QS.get('p');
+// primeiro o essencial; o resto entra por passagens, de 8 em 8 até estar completo
+const opening = [0, 8, 88, 96, 136, 144, 16, 24].map(loadPath).concat(steps.map((_, k) => load(`${innerWidth >= 700 ? HD : DIR}a${pad(k, 2)}.jpg`, im => { steps[k] = im; })));
+Promise.all(opening).then(async () => {
+  const qp = new URLSearchParams(location.search).get('p');
   if (qp !== null) state.p = +qp;
-  setLit(0);
   window.HABINOX.driven = true;
   requestAnimationFrame(frame);
-  const reveal = () => {
-    window.HABINOX.dock();
-    // o nome desaparece e só depois começam a acender; quem abre um ecrã interior não espera
-    if (litAt < 0) litAt = document.documentElement.classList.contains('covered') ? performance.now() - 9000 : performance.now() + 500;
-  };
-  guardsReady.then(() => { requestAnimationFrame(() => requestAnimationFrame(reveal)); window.__ready = true; },
-                   e => { reveal(); console.error('Voronoi worker failed', e); });
-}, 30));
+  window.HABINOX.dock();
+  litAt = document.documentElement.classList.contains('covered') ? performance.now() - 9000 : performance.now() + 500;
+  window.__ready = true;
+  for (const step of [8, 4, 2, 1]) {
+    const todo = []; for (let i = 0; i < FRAMES; i += step) todo.push(i);
+    for (let i = 0; i < todo.length; i += 6) await Promise.all(todo.slice(i, i + 6).map(loadPath));
+  }
+});
 </script>
+
 <script>
 /* =========================================================
    Navegação: início e loja são estados da mesma página.
