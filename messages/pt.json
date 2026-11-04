@@ -258,8 +258,8 @@
       "country": "País: Portugal",
       "notes": "Notas para a Habinox (opcional)",
       "notesHint": "Acesso à obra, horários, o que for útil.",
-      "acceptTerms": "Li e aceito os termos e condições e a política de privacidade.",
-      "acceptMeasures": "Confirmo que as medidas que indiquei estão corretas e que são da minha responsabilidade.",
+      "acceptTerms": "Li e aceito os <terms>termos e condições</terms> e a <privacy>política de privacidade</privacy>.",
+      "acceptMeasures": "Confirmo que as medidas que indiquei estão corretas e que são da minha responsabilidade, e que, por serem produtos feitos por medida, não há direito de livre resolução (<withdrawal>ponto 8 dos termos</withdrawal>).",
       "summary": "Resumo",
       "transport": "Transporte e instalação",
       "transportValue": "A confirmar pela Habinox",
@@ -295,6 +295,15 @@
       "next": "A Habinox contacta-o em breve para confirmar o transporte, a instalação e o pagamento.",
       "backToShop": "Voltar à loja",
       "allOrders": "As minhas encomendas"
+    },
+    "legal": {
+      "updated": "Última atualização: {date}",
+      "terms": "Termos e condições",
+      "privacy": "Privacidade",
+      "cookies": "Cookies",
+      "complaints": "Livro de Reclamações",
+      "disputes": "Resolução de litígios",
+      "nav": "Informação legal"
     }
   }
 }

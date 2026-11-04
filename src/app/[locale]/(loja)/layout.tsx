@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
+import { LegalLinks } from "@/components/shop/legal-links";
 import { Link } from "@/i18n/navigation";
 import { cartItemCount } from "@/server/store/cart";
 import { getCurrentCart } from "@/server/store/current-cart";
@@ -53,9 +54,12 @@ export default async function ShopLayout({ children }: LayoutProps<"/[locale]">)
       </header>
       <div className="flex flex-1 flex-col">{children}</div>
       <footer className="border-night-line text-night-faint border-t">
-        <div className="mx-auto flex w-full max-w-[1440px] flex-wrap justify-between gap-4 px-5 py-10 text-xs md:px-14">
-          <p>{t("footer.vat")}</p>
-          <p>{t("footer.rights", { year: new Date().getFullYear() })}</p>
+        <div className="mx-auto grid w-full max-w-[1440px] gap-6 px-5 py-10 text-xs md:px-14">
+          <LegalLinks className="text-night-soft" />
+          <div className="flex flex-wrap justify-between gap-4">
+            <p>{t("footer.vat")}</p>
+            <p>{t("footer.rights", { year: new Date().getFullYear() })}</p>
+          </div>
         </div>
       </footer>
     </div>

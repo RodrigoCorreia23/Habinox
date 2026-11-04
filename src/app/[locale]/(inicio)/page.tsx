@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
+import { LegalLinks } from "@/components/shop/legal-links";
 import { Link } from "@/i18n/navigation";
 import { HomeScene } from "./home-scene";
 import styles from "./home.module.css";
@@ -218,6 +219,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               {t("shop.quote")}
             </a>
           </div>
+          <LegalLinks className={styles.legal} />
         </section>
       </main>
     </>

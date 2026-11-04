@@ -211,7 +211,37 @@ export function CheckoutForm({ locale, totalCents }: { locale: string; totalCent
                 aria-invalid={errors[name] ? true : undefined}
                 className="accent-amber mt-0.5 size-5 shrink-0"
               />
-              {t(name)}
+              <span>
+                {t.rich(name, {
+                  terms: (chunks) => (
+                    <a
+                      href={`/${locale}/termos`}
+                      target="_blank"
+                      className="text-amber underline underline-offset-4"
+                    >
+                      {chunks}
+                    </a>
+                  ),
+                  withdrawal: (chunks) => (
+                    <a
+                      href={`/${locale}/termos#livre-resolucao`}
+                      target="_blank"
+                      className="text-amber underline underline-offset-4"
+                    >
+                      {chunks}
+                    </a>
+                  ),
+                  privacy: (chunks) => (
+                    <a
+                      href={`/${locale}/privacidade`}
+                      target="_blank"
+                      className="text-amber underline underline-offset-4"
+                    >
+                      {chunks}
+                    </a>
+                  ),
+                })}
+              </span>
             </label>
             {errors[name] && <p className="text-night-error mt-1 ml-8 text-xs">{errors[name]}</p>}
           </div>

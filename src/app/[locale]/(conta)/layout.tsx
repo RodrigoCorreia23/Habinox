@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
+import { LegalLinks } from "@/components/shop/legal-links";
 import { Link } from "@/i18n/navigation";
 
 // Conta (entrar, registo, área de cliente): ainda com a paleta clara; passa à da loja
@@ -25,6 +26,9 @@ export default async function AccountLayout({ children }: LayoutProps<"/[locale]
         </nav>
       </header>
       <div className="flex flex-1 flex-col">{children}</div>
+      <footer className="border-t">
+        <LegalLinks className="text-muted-foreground mx-auto max-w-6xl px-4 py-6 text-xs" />
+      </footer>
     </div>
   );
 }
