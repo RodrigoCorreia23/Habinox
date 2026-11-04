@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Configurator } from "@/components/shop/configurator";
 import { Link } from "@/i18n/navigation";
 import { getStoreProduct } from "@/server/store/catalog";
+import { getSetting } from "@/server/settings";
 
 export async function generateMetadata({
   params,
@@ -26,6 +27,7 @@ export default async function ProductPage({
   const data = await getStoreProduct(categoria, produto, locale);
   if (!data) notFound();
   const t = await getTranslations("Shop");
+  const { days } = await getSetting("quote_validity_days");
 
   return (
     <main className="mx-auto w-full max-w-[1440px] px-5 pt-10 pb-24 md:px-14 md:pt-14 md:pb-36">
@@ -47,7 +49,12 @@ export default async function ProductPage({
         </p>
       )}
       <div className="mt-12 md:mt-16">
-        <Configurator productId={data.product.id} locale={locale} data={data.configurator} />
+        <Configurator
+          productId={data.product.id}
+          locale={locale}
+          data={data.configurator}
+          validityDays={days}
+        />
       </div>
     </main>
   );

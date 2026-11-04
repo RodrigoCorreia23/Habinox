@@ -7,9 +7,12 @@
  */
 import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { addToCartAction } from "@/app/[locale]/(loja)/carrinho/actions";
 import { quoteAction } from "@/app/[locale]/(loja)/loja/actions";
+import { Link } from "@/i18n/navigation";
 import { formatEuros } from "@/lib/money";
 import { resolveConfig } from "@/lib/options";
+import type { AddResult } from "@/server/store/cart";
 import type { ConfiguratorData, ConfiguratorOption, QuoteResult } from "@/server/store/catalog";
 
 const UNIT_FACTOR = { mm: 1, cm: 10, m: 1000 } as const;
@@ -62,16 +65,20 @@ export function Configurator({
   productId,
   locale,
   data,
+  validityDays,
 }: {
   productId: string;
   locale: string;
   data: ConfiguratorData;
+  validityDays: number;
 }) {
   const t = useTranslations("Shop.configurator");
   const [raw, setRaw] = useState<Raw>(() => initialRaw(data.options));
   const [quote, setQuote] = useState<QuoteResult | null | "error">(null);
   const [pending, setPending] = useState(false);
   const request = useRef(0);
+  const [adding, setAdding] = useState(false);
+  const [added, setAdded] = useState<AddResult | null>(null);
 
   // Escolhas que deixaram de estar disponíveis passam ao valor por omissão (com aviso).
   const { resolved, changed, input } = useMemo(() => {
@@ -128,8 +135,10 @@ export function Configurator({
     return () => clearTimeout(timer);
   }, [valid, inputKey, productId, locale]);
 
-  const set = (key: string, value: string | boolean) =>
+  const set = (key: string, value: string | boolean) => {
+    setAdded(null);
     setRaw((current) => ({ ...current, [key]: value }));
+  };
   const dimensions = data.options.filter(
     (option) => option.type === "dimension" && resolved.state[option.key]?.visible,
   );
@@ -228,13 +237,35 @@ export function Configurator({
         <div className="border-night-line border-t pt-8">
           <button
             type="button"
-            disabled
-            className="bg-amber text-on-amber min-h-[60px] w-full px-6 text-base font-medium disabled:opacity-50"
+            disabled={!showQuote || adding}
+            onClick={async () => {
+              setAdding(true);
+              setAdded(null);
+              const result = await addToCartAction(productId, locale, input, 1).catch(() => null);
+              setAdded(result ?? { ok: false, reason: "invalid" });
+              setAdding(false);
+            }}
+            className="bg-amber text-on-amber hover:bg-amber-hover focus-visible:outline-night-text min-h-[60px] w-full px-6 text-base font-medium outline-offset-3 focus-visible:outline-2 disabled:opacity-50"
           >
-            {t("addToCart")}
-            {showQuote ? ` · ${formatEuros(quote.totalCents)}` : ""}
+            {adding ? t("adding") : t("addToCart")}
+            {showQuote && !adding ? ` · ${formatEuros(quote.totalCents)}` : ""}
           </button>
-          <p className="text-night-faint mt-3 text-xs">{t("cartSoon")}</p>
+          <p role="status" className="mt-3 text-sm">
+            {added?.ok ? (
+              <>
+                {t("added")}{" "}
+                <Link href="/carrinho" className="text-amber underline underline-offset-4">
+                  {t("viewCart")}
+                </Link>
+              </>
+            ) : added ? (
+              <span className="text-night-error">{t(`addFailed.${added.reason}`)}</span>
+            ) : (
+              <span className="text-night-faint text-xs">
+                {t("priceKept", { days: validityDays })}
+              </span>
+            )}
+          </p>
         </div>
       </div>
     </div>

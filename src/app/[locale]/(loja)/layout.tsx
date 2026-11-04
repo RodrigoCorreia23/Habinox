@@ -1,11 +1,15 @@
 import Image from "next/image";
+import { cookies } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { CART_COOKIE, cartItemCount, findCart } from "@/server/store/cart";
 
 // Loja: "arquitetura moderna, à noite" (DESIGN.md). Cabeçalho com fundo e linha;
 // na página inicial passa a transparente por cima da fotografia (protótipo em docs/site-inicial).
 export default async function ShopLayout({ children }: LayoutProps<"/[locale]">) {
   const t = await getTranslations("Shop");
+  const cart = await findCart((await cookies()).get(CART_COOKIE)?.value);
+  const count = cart ? await cartItemCount(cart.id) : 0;
   return (
     <div className="bg-night text-night-text selection:bg-amber selection:text-on-amber flex flex-1 flex-col">
       <header className="border-night-line border-b">
@@ -28,6 +32,21 @@ export default async function ShopLayout({ children }: LayoutProps<"/[locale]">)
             </Link>
             <Link href="/conta" className="hover:text-night-text flex min-h-11 items-center">
               {t("nav.account")}
+            </Link>
+            <Link
+              href="/carrinho"
+              aria-label={t("nav.cartCount", { count })}
+              className="hover:text-night-text flex min-h-11 items-center gap-2"
+            >
+              {t("nav.cart")}
+              {count > 0 && (
+                <span
+                  aria-hidden
+                  className="bg-amber text-on-amber min-w-5 rounded-full px-1.5 text-center font-mono text-xs leading-5"
+                >
+                  {count}
+                </span>
+              )}
             </Link>
           </div>
         </nav>

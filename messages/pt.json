@@ -65,7 +65,9 @@
     "nav": {
       "shop": "Loja",
       "account": "Conta",
-      "main": "Navegação principal"
+      "main": "Navegação principal",
+      "cart": "Carrinho",
+      "cartCount": "Carrinho, {count, plural, =0 {vazio} one {# artigo} other {# artigos}}"
     },
     "footer": {
       "vat": "Preços com IVA incluído.",
@@ -106,8 +108,36 @@
       "none": "Nenhum",
       "drawing": "Desenho com as medidas escolhidas",
       "addToCart": "Adicionar ao carrinho",
-      "cartSoon": "O carrinho fica disponível em breve.",
-      "error": "Não foi possível calcular o preço. Tente de novo."
+      "error": "Não foi possível calcular o preço. Tente de novo.",
+      "adding": "A adicionar…",
+      "added": "Adicionado ao carrinho.",
+      "viewCart": "Ver carrinho",
+      "addFailed": {
+        "invalid": "Não foi possível adicionar: verifique as opções.",
+        "unavailable": "Esta combinação já não está disponível.",
+        "not_found": "Este produto já não está disponível.",
+        "full": "O carrinho está cheio (50 linhas)."
+      },
+      "priceKept": "O preço fica garantido durante {days} dias."
+    },
+    "cart": {
+      "title": "Carrinho",
+      "empty": "O carrinho está vazio.",
+      "browse": "Ver a loja",
+      "quantity": "Quantidade",
+      "update": "Atualizar",
+      "remove": "Remover",
+      "unitPrice": "{amount} cada",
+      "validUntil": "Preço garantido até {date}.",
+      "repriced": "O preço guardado expirou e foi recalculado com os valores de hoje (era {amount}).",
+      "unavailable": "Este artigo já não está disponível e não entra no total.",
+      "subtotal": "Subtotal sem IVA",
+      "vat": "IVA ({rate}%)",
+      "total": "Total",
+      "checkout": "Finalizar pedido",
+      "checkoutSoon": "A finalização do pedido fica disponível em breve.",
+      "measuresNote": "As medidas são da responsabilidade do cliente: confirme-as antes de encomendar.",
+      "summary": "Escolhas"
     }
   }
 }

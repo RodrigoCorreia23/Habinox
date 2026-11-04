@@ -13,6 +13,8 @@ const decimalText = z.string().regex(/^\d+(\.\d{1,4})?$/);
 export const SETTING_SCHEMAS = {
   /** Taxa de IVA em fração ("0.2300"). Cada encomenda guarda a taxa usada. */
   vat_rate: z.object({ rate: decimalText }),
+  /** Dias durante os quais um orçamento guardado mantém o preço. */
+  quote_validity_days: z.object({ days: z.number().int().min(1).max(365) }),
 } as const;
 
 export type SettingKey = keyof typeof SETTING_SCHEMAS;
@@ -20,6 +22,7 @@ export type SettingKey = keyof typeof SETTING_SCHEMAS;
 /** Valores por omissão gravados pelo seed (só se a chave não existir). */
 export const SETTING_DEFAULTS: { [K in SettingKey]: z.infer<(typeof SETTING_SCHEMAS)[K]> } = {
   vat_rate: { rate: "0.2300" },
+  quote_validity_days: { days: 30 },
 };
 
 export async function getSetting<K extends SettingKey>(key: K) {

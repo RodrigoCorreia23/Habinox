@@ -4,12 +4,19 @@
  * nem margens; o preço calcula-se sempre aqui no servidor.
  */
 import { and, asc, count, eq, inArray, isNotNull, isNull, sql } from "drizzle-orm";
+import { getTranslations } from "next-intl/server";
 import { db } from "@/db/client";
 import { categories, formulaVariables, products } from "@/db/schema";
 import { type LocalizedText, localize } from "@/lib/localized";
-import { vatCents as vatCentsOf } from "@/lib/money";
-import { type ConfigError, type ProductOptionDef, resolveConfig, type Rule } from "@/lib/options";
-import { calculatePrice } from "@/lib/pricing";
+import { type Decimal, vatCents as vatCentsOf } from "@/lib/money";
+import {
+  type ConfigError,
+  type ProductOptionDef,
+  type ResolvedValues,
+  resolveConfig,
+  type Rule,
+} from "@/lib/options";
+import { calculatePrice, type PricingResult } from "@/lib/pricing";
 import { loadPricingModel } from "@/server/catalog/formula";
 import { listVersionOptions } from "@/server/catalog/products";
 import { getVatRate } from "@/server/settings";
@@ -196,18 +203,47 @@ export type QuoteResult =
     }
   | { ok: false; errors: ConfigError[]; unavailable: boolean };
 
-/** Preço de uma configuração do produto publicado. Recalcula sempre do zero. */
-export async function quoteProduct(
+export interface ChoiceSummary {
+  key: string;
+  name: string;
+  value: string;
+}
+
+/** Tudo o que um preço calculado sabe: o público e o interno (snapshot). */
+export type PricedConfiguration =
+  | {
+      ok: true;
+      productVersionId: string;
+      values: ResolvedValues;
+      netCents: number;
+      vatRate: Decimal;
+      vatCents: number;
+      totalCents: number;
+      facts: { label: string; value: number }[];
+      summary: ChoiceSummary[];
+      /** Decomposição com custos e margens: só para o snapshot, nunca para o browser. */
+      pricing: Extract<PricingResult, { ok: true }>;
+    }
+  | { ok: false; errors: ConfigError[]; unavailable: boolean };
+
+const UNIT_FACTOR = { mm: 1, cm: 10, m: 1000 } as const;
+
+/**
+ * Calcula o preço de uma configuração do produto publicado, do zero.
+ * Serve o preço ao vivo, o carrinho e (mais tarde) a encomenda.
+ */
+export async function priceConfiguration(
   productId: string,
   input: Record<string, unknown>,
   locale: string,
-): Promise<QuoteResult | null> {
+): Promise<PricedConfiguration | null> {
   const [product] = await db
     .select({ versionId: products.publishedVersionId })
     .from(products)
     .where(and(eq(products.id, productId), isNull(products.archivedAt)));
   if (!product?.versionId) return null;
-  const model = await loadPricingModel(product.versionId);
+  const versionId = product.versionId;
+  const model = await loadPricingModel(versionId);
   if (!model) return null;
 
   const config = resolveConfig(model.input.options, model.rules, input);
@@ -222,19 +258,23 @@ export async function quoteProduct(
       unavailable: true,
     };
   }
-  // IVA uma vez, ao total (o mesmo cálculo que vatCents da lib/money).
-  const vatCents = vatCentsOf(result.netCents, await getVatRate());
+  const vatRate = await getVatRate();
+  // IVA uma vez, ao total.
+  const vatCents = vatCentsOf(result.netCents, vatRate);
 
-  const visible = await db
-    .select({ name: formulaVariables.name, label: formulaVariables.label })
-    .from(formulaVariables)
-    .where(
-      and(
-        eq(formulaVariables.productVersionId, product.versionId),
-        eq(formulaVariables.showToCustomer, true),
-      ),
-    )
-    .orderBy(asc(formulaVariables.position));
+  const [visible, versionOptions] = await Promise.all([
+    db
+      .select({ name: formulaVariables.name, label: formulaVariables.label })
+      .from(formulaVariables)
+      .where(
+        and(
+          eq(formulaVariables.productVersionId, versionId),
+          eq(formulaVariables.showToCustomer, true),
+        ),
+      )
+      .orderBy(asc(formulaVariables.position)),
+    listVersionOptions(versionId),
+  ]);
   const facts = visible.flatMap((variable) => {
     const value = result.variables[variable.name];
     return value === undefined
@@ -247,11 +287,57 @@ export async function quoteProduct(
         ];
   });
 
+  // Resumo legível das escolhas, como o cliente as fez (fica no snapshot).
+  const t = await getTranslations({ locale, namespace: "Shop.configurator" });
+  const numbers = new Intl.NumberFormat(locale === "pt" ? "pt-PT" : locale, {
+    useGrouping: "always",
+    maximumFractionDigits: 3,
+  });
+  const summary: ChoiceSummary[] = versionOptions.flatMap(({ option, libraryValues }) => {
+    const value = config.values[option.key];
+    if (value === undefined) return [];
+    let text: string;
+    if (option.type === "dimension" && typeof value === "number") {
+      const unit = (option.unit as keyof typeof UNIT_FACTOR | null) ?? "mm";
+      text = `${numbers.format(value / UNIT_FACTOR[unit])} ${unit}`;
+    } else if (option.type === "choice") {
+      const chosen = libraryValues.find((candidate) => candidate.key === value);
+      text = chosen ? localize(chosen.label, locale) : String(value);
+    } else if (option.type === "boolean") {
+      text = value === true ? t("yes") : t("no");
+    } else {
+      text = typeof value === "number" ? numbers.format(value) : String(value);
+    }
+    return [{ key: option.key, name: localize(option.name, locale), value: text }];
+  });
+
   return {
     ok: true,
+    productVersionId: versionId,
+    values: config.values,
     netCents: result.netCents,
+    vatRate,
     vatCents,
     totalCents: result.netCents + vatCents,
     facts,
+    summary,
+    pricing: result,
+  };
+}
+
+/** Preço ao vivo do configurador: só a parte pública. */
+export async function quoteProduct(
+  productId: string,
+  input: Record<string, unknown>,
+  locale: string,
+): Promise<QuoteResult | null> {
+  const priced = await priceConfiguration(productId, input, locale);
+  if (!priced || !priced.ok) return priced;
+  return {
+    ok: true,
+    netCents: priced.netCents,
+    vatCents: priced.vatCents,
+    totalCents: priced.totalCents,
+    facts: priced.facts,
   };
 }
