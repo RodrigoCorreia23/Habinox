@@ -25,7 +25,8 @@ export function SignInForm({ next }: { next: string | null }) {
     const { error } = await authClient.signIn.email({
       email: String(form.get("email")),
       password: String(form.get("password")),
-      callbackURL: `/${locale}/conta`,
+      // O mesmo destino do router.push abaixo; senão os dois redirecionamentos competem.
+      callbackURL: next ?? `/${locale}/conta`,
     });
     setPending(false);
     if (error) {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { fontVariables } from "@/lib/fonts";
 import { requireAdmin } from "@/server/auth/session";
+import { AdminNav } from "./nav";
 import "../globals.css";
 
 // Backoffice: só em PT, fora do routing de locale.
@@ -16,13 +17,14 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
 
   return (
     <html lang="pt" className={`${fontVariables} h-full antialiased`}>
-      <body className="flex min-h-full">
-        <aside className="w-56 shrink-0 border-r px-4 py-4">
+      <body className="bg-canvas text-ink flex min-h-full flex-col md:flex-row">
+        <aside className="border-line shrink-0 border-b px-4 py-4 md:w-56 md:border-r md:border-b-0">
           <Image src="/brand/habinox-logo-sem-slogan.svg" alt="Habinox" width={125} height={24} />
           <p className="mt-2 font-semibold tracking-tight">Backoffice</p>
           <p className="text-muted-foreground mt-1 truncate text-xs">{session.user.email}</p>
+          <AdminNav />
         </aside>
-        <div className="flex flex-1 flex-col">{children}</div>
+        <div className="flex min-w-0 flex-1 flex-col">{children}</div>
       </body>
     </html>
   );
