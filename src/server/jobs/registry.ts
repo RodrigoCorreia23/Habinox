@@ -1,4 +1,6 @@
+import { db } from "@/db/client";
 import type { Logger } from "@/lib/log";
+import { getErpClient, syncErpMaterials } from "@/server/sync/odoo";
 
 export interface JobContext {
   jobId: string;
@@ -19,6 +21,12 @@ export type Job = (ctx: JobContext) => Promise<JobResult>;
 export const jobs = {
   // Verifica apenas que o mecanismo de cron funciona.
   health: async () => ({}),
+  // Cópia local dos artigos e custos do Odoo, uma vez por dia.
+  "odoo-sync": async ({ log }) => {
+    const summary = await syncErpMaterials(db, getErpClient(), log);
+    if (summary.status === "failed") throw new Error("Sincronização do ERP falhou");
+    return { items: summary.inserted + summary.updated + summary.missing, details: { ...summary } };
+  },
 } satisfies Record<string, Job>;
 
 export type JobName = keyof typeof jobs;
