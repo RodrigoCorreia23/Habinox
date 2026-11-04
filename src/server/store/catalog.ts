@@ -7,6 +7,7 @@ import { and, asc, count, eq, inArray, isNotNull, isNull, sql } from "drizzle-or
 import { getTranslations } from "next-intl/server";
 import { db } from "@/db/client";
 import { categories, formulaVariables, products } from "@/db/schema";
+import type { Focus } from "@/lib/images";
 import { type LocalizedText, localize } from "@/lib/localized";
 import { type Decimal, vatCents as vatCentsOf } from "@/lib/money";
 import {
@@ -28,6 +29,7 @@ export interface StoreCategory {
   description: string | null;
   parentId: string | null;
   imageUrl: string | null;
+  imageFocus: Focus | null;
   productCount: number;
 }
 
@@ -41,6 +43,7 @@ export async function listStoreCategories(locale: string): Promise<StoreCategory
       description: categories.description,
       parentId: categories.parentId,
       imageUrl: categories.imageUrl,
+      imageFocus: categories.imageFocus,
     })
     .from(categories)
     .where(isNull(categories.archivedAt))
@@ -66,6 +69,7 @@ export async function listStoreCategories(locale: string): Promise<StoreCategory
       description: row.description ? localize(row.description, locale) : null,
       parentId: row.parentId,
       imageUrl: row.imageUrl,
+      imageFocus: row.imageFocus,
       productCount: row.parentId ? countOf(row.id) : total(row.id),
     }))
     .filter((row) => row.productCount > 0);
@@ -84,6 +88,8 @@ export async function getStoreCategory(slug: string, locale: string) {
       name: products.name,
       description: products.description,
       categoryId: products.categoryId,
+      imageUrl: products.imageUrl,
+      imageFocus: products.imageFocus,
     })
     .from(products)
     .where(

@@ -16,6 +16,8 @@ export interface RailTile {
   name: string;
   sub: string;
   image: string;
+  /** object-position do recorte (ponto de foco marcado no backoffice). */
+  position: string;
 }
 
 /** Repete as peças até a fila encher bem o ecrã (com poucas categorias o ciclo teria buracos). */
@@ -201,7 +203,14 @@ export function CategoryRails({
       // a segunda cópia só serve para o ciclo não ter emenda: fora do teclado e dos leitores
       tabIndex={copy ? -1 : undefined}
     >
-      <Image src={item.image} alt="" fill sizes="(max-width: 760px) 68vw, 28vw" draggable={false} />
+      <Image
+        src={item.image}
+        alt=""
+        fill
+        sizes="(max-width: 760px) 68vw, 28vw"
+        draggable={false}
+        style={{ objectPosition: item.position }}
+      />
       <div>
         <b>{item.name}</b>
         <span>{item.sub}</span>

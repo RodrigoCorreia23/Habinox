@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { LegalLinks } from "@/components/shop/legal-links";
 import { Link } from "@/i18n/navigation";
+import { objectPosition } from "@/lib/images";
 import { getSession } from "@/server/auth/session";
 import { cartItemCount } from "@/server/store/cart";
 import { firstPublishedProductPath, listStoreCategories } from "@/server/store/catalog";
@@ -98,6 +99,7 @@ export default async function HomePage({ params, searchParams }: PageProps<"/[lo
       category.description?.split(/(?<=\.)\s/)[0] ??
       t("catalog.models", { count: category.productCount }),
     image: category.imageUrl ?? PROVISIONAL_PHOTOS[i % PROVISIONAL_PHOTOS.length]!,
+    position: objectPosition(category.imageUrl ? category.imageFocus : null),
   }));
   // Duas filas, alternando as categorias (como no protótipo).
   const rows =
