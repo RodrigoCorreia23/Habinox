@@ -26,6 +26,23 @@
   --color-brand: #2005a2;
   --color-graphite: #383e42;
   --color-error: #b3261e;
+  /* Loja: "arquitetura moderna, à noite" (DESIGN.md › Paleta (loja)) */
+  --color-night: #0f0e0d;
+  --color-night-surface: #181715;
+  --color-night-stage: #141210;
+  --color-night-line: #2a2724;
+  --color-night-line-strong: #706960;
+  --color-night-text: #eee9e2;
+  --color-night-soft: #c9c2b8;
+  --color-night-muted: #a8a095;
+  --color-night-faint: #8e867b;
+  --color-amber: #d6a25e;
+  --color-amber-hover: #e4b676;
+  --color-on-amber: #15120e;
+  --color-paper: #e9e4dc;
+  --color-dim: #8a5a1e;
+  --color-night-error-border: #e5796f;
+  --color-night-error: #f0a39b;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -156,4 +173,11 @@
   a:hover {
     @apply text-brand underline;
   }
+}
+
+/* Títulos da loja: Archivo larga e fina (DESIGN.md › Tipografia). */
+@utility font-display {
+  font-family: var(--font-archivo);
+  font-stretch: 115%;
+  font-weight: 300;
 }

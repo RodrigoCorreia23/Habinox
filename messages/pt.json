@@ -60,5 +60,54 @@
       "INVALID_TOKEN": "Este link é inválido ou expirou. Peça um novo.",
       "TOO_MANY_REQUESTS": "Demasiadas tentativas. Aguarde um pouco e tente novamente."
     }
+  },
+  "Shop": {
+    "nav": {
+      "shop": "Loja",
+      "account": "Conta",
+      "main": "Navegação principal"
+    },
+    "footer": {
+      "vat": "Preços com IVA incluído.",
+      "rights": "© {year} Bruno Miguel Freitas, Lda."
+    },
+    "catalog": {
+      "title": "Loja",
+      "intro": "Portões, escadas, guardas e chaminés feitos à medida. Escolha as medidas e veja o preço na hora.",
+      "empty": "Ainda não há produtos na loja.",
+      "models": "{count, plural, one {# modelo} other {# modelos}}"
+    },
+    "category": {
+      "configure": "Configurar",
+      "empty": "Ainda não há modelos nesta categoria.",
+      "breadcrumb": "Caminho"
+    },
+    "configurator": {
+      "price": "Preço",
+      "vatIncluded": "IVA incluído",
+      "withoutVat": "{amount} sem IVA",
+      "calculating": "A calcular…",
+      "fillIn": "Preencha as medidas para ver o preço.",
+      "fixErrors": "Corrija os campos assinalados para ver o preço.",
+      "unavailable": "Esta combinação não está disponível. Contacte-nos para um orçamento.",
+      "range": "Entre {min} e {max} {unit}",
+      "rangeMin": "A partir de {min} {unit}",
+      "rangeMax": "Até {max} {unit}",
+      "errors": {
+        "required": "Obrigatório",
+        "out_of_range": "Fora dos limites",
+        "step": "Medida fora do passo permitido",
+        "invalid_type": "Valor inválido",
+        "not_allowed": "Não disponível com as escolhas acima"
+      },
+      "changed": "{option} passou para {value}: a escolha anterior não está disponível com estas opções.",
+      "yes": "Sim",
+      "no": "Não",
+      "none": "Nenhum",
+      "drawing": "Desenho com as medidas escolhidas",
+      "addToCart": "Adicionar ao carrinho",
+      "cartSoon": "O carrinho fica disponível em breve.",
+      "error": "Não foi possível calcular o preço. Tente de novo."
+    }
   }
 }

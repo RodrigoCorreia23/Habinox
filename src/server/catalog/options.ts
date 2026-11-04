@@ -1,4 +1,4 @@
-import { and, asc, count, eq, isNull, ne, sql } from "drizzle-orm";
+import { and, asc, count, eq, isNotNull, isNull, ne } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
 import { materials, optionDefinitions, optionValues } from "@/db/schema";
@@ -16,22 +16,31 @@ export const OPTION_TYPES: Record<OptionType, string> = {
 };
 
 export async function listOptions({ archived = false } = {}) {
-  return db
-    .select({
-      id: optionDefinitions.id,
-      key: optionDefinitions.key,
-      name: optionDefinitions.name,
-      type: optionDefinitions.type,
-      archivedAt: optionDefinitions.archivedAt,
-      values: sql<number>`(select count(*)::int from ${optionValues} where ${optionValues.optionId} = ${optionDefinitions.id} and ${optionValues.archivedAt} is null)`,
-    })
-    .from(optionDefinitions)
-    .where(
-      archived
-        ? sql`${optionDefinitions.archivedAt} is not null`
-        : isNull(optionDefinitions.archivedAt),
-    )
-    .orderBy(asc(optionDefinitions.key));
+  // Contagem à parte (ver listStoreCategories: subconsultas sem join ficam sem tabela).
+  const [rows, counts] = await Promise.all([
+    db
+      .select({
+        id: optionDefinitions.id,
+        key: optionDefinitions.key,
+        name: optionDefinitions.name,
+        type: optionDefinitions.type,
+        archivedAt: optionDefinitions.archivedAt,
+      })
+      .from(optionDefinitions)
+      .where(
+        archived ? isNotNull(optionDefinitions.archivedAt) : isNull(optionDefinitions.archivedAt),
+      )
+      .orderBy(asc(optionDefinitions.key)),
+    db
+      .select({ optionId: optionValues.optionId, n: count() })
+      .from(optionValues)
+      .where(isNull(optionValues.archivedAt))
+      .groupBy(optionValues.optionId),
+  ]);
+  return rows.map((row) => ({
+    ...row,
+    values: counts.find((entry) => entry.optionId === row.id)?.n ?? 0,
+  }));
 }
 
 export async function getOption(id: string) {

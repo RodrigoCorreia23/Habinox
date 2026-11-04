@@ -6,7 +6,7 @@
  * apontam para ela). Para mudar um produto publicado cria-se um rascunho novo,
  * copiado da versão publicada.
  */
-import { and, asc, desc, eq, inArray, isNull, max, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNull, max, ne, sql } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
 import {
@@ -30,6 +30,11 @@ type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
 export type ProductVersionRow = typeof productVersions.$inferSelect;
 
 export async function listProducts() {
+  const drafts = await db
+    .selectDistinct({ productId: productVersions.productId })
+    .from(productVersions)
+    .where(ne(productVersions.status, "published"));
+  const withDraft = new Set(drafts.map((row) => row.productId));
   const published = db
     .select({ id: productVersions.id, version: productVersions.version })
     .from(productVersions)
@@ -42,12 +47,12 @@ export async function listProducts() {
       archivedAt: products.archivedAt,
       category: categories.name,
       publishedVersion: published.version,
-      hasDraft: sql<boolean>`exists (select 1 from ${productVersions} where ${productVersions.productId} = ${products.id} and ${productVersions.status} <> 'published')`,
     })
     .from(products)
     .innerJoin(categories, eq(categories.id, products.categoryId))
     .leftJoin(published, eq(published.id, products.publishedVersionId))
-    .orderBy(asc(products.archivedAt), asc(sql`${products.name}->>'pt'`));
+    .orderBy(asc(products.archivedAt), asc(sql`${products.name}->>'pt'`))
+    .then((rows) => rows.map((row) => ({ ...row, hasDraft: withDraft.has(row.id) })));
 }
 
 /** Categorias onde pode haver produtos: subcategorias e categorias sem subcategorias. */

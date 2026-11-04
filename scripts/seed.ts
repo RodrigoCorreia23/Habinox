@@ -5,9 +5,10 @@
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
-import { account, user } from "@/db/schema";
+import { account, settings, user } from "@/db/schema";
 import { log } from "@/lib/log";
 import { auth } from "@/server/auth/auth";
+import { SETTING_DEFAULTS } from "@/server/settings";
 
 const seedEnv = z
   .object({
@@ -51,7 +52,20 @@ async function seedAdmin() {
   });
 }
 
+/** Parâmetros de negócio com valor por omissão; nunca altera um valor já definido. */
+async function seedSettings() {
+  for (const [key, value] of Object.entries(SETTING_DEFAULTS)) {
+    const inserted = await db
+      .insert(settings)
+      .values({ key, value })
+      .onConflictDoNothing({ target: settings.key })
+      .returning({ key: settings.key });
+    if (inserted.length) log.info("seed.setting.created", { key });
+  }
+}
+
 seedAdmin()
+  .then(seedSettings)
   .then(() => process.exit(0))
   .catch((error: unknown) => {
     log.error("seed.failed", { error });

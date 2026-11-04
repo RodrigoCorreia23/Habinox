@@ -1,10 +1,11 @@
 import { Archivo, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 
 // Ver DESIGN.md: Archivo (títulos, preços), IBM Plex Sans (corpo), IBM Plex Mono (medidas, códigos).
+// Fonte variável com o eixo de largura: a loja usa-a a 115% e peso 300 (DESIGN.md).
 const archivo = Archivo({
   variable: "--font-archivo",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  axes: ["wdth"],
 });
 
 const plexSans = IBM_Plex_Sans({
