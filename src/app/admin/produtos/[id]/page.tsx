@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { z } from "zod";
+import { ImageField } from "@/components/admin/image-field";
 import { Button } from "@/components/ui/button";
 import type { OptionType } from "@/lib/options";
 import { requireAdmin } from "@/server/auth/session";
@@ -175,6 +176,23 @@ export default async function ProductPage({ params }: PageProps<"/admin/produtos
           warnings={problems.warnings}
         />
       )}
+
+      <details className="border-line bg-surface border" open={!product.imageUrl || undefined}>
+        <summary className="cursor-pointer px-4 py-3 font-semibold">
+          Imagem{" "}
+          {!product.imageUrl && (
+            <span className="text-error text-xs font-normal">· sem imagem</span>
+          )}
+        </summary>
+        <div className="px-4 pb-4">
+          <ImageField
+            slot="product"
+            id={product.id}
+            initialUrl={product.imageUrl}
+            initialFocus={product.imageFocus}
+          />
+        </div>
+      </details>
 
       <details className="border-line bg-surface border">
         <summary className="cursor-pointer px-4 py-3 font-semibold">Dados do produto</summary>

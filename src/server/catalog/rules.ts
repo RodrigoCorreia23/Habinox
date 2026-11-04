@@ -108,6 +108,14 @@ export async function checkVersion(versionId: string): Promise<VersionProblems> 
   const { options, variables = [], lines } = model.input;
 
   if (options.length === 0) blocking.push("O produto não tem opções");
+  const [owner] = await db
+    .select({ imageUrl: products.imageUrl })
+    .from(productVersions)
+    .innerJoin(products, eq(products.id, productVersions.productId))
+    .where(eq(productVersions.id, versionId));
+  if (owner && !owner.imageUrl) {
+    warnings.push("O produto não tem imagem: na loja aparece um cartão vazio");
+  }
   if (lines.length === 0) blocking.push("A fórmula não tem linhas de custo");
   for (const option of options) {
     if (option.type === "choice" && (option.values?.length ?? 0) === 0) {

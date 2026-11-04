@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { z } from "zod";
 import { requireAdmin } from "@/server/auth/session";
 import { getCategory, listCategoryTree } from "@/server/catalog/categories";
+import { ImageField } from "@/components/admin/image-field";
 import { CategoryForm } from "../forms";
 
 export const metadata: Metadata = { title: "Editar categoria · Habinox" };
@@ -30,6 +31,21 @@ export default async function EditCategoryPage({ params }: PageProps<"/admin/cat
           .filter((root) => root.id !== category.id)
           .map((root) => ({ id: root.id, name: root.name.pt }))}
       />
+
+      <section
+        aria-labelledby="imagem"
+        className="border-line bg-surface grid max-w-4xl gap-3 border px-4 py-4"
+      >
+        <h2 id="imagem" className="font-semibold">
+          Imagem
+        </h2>
+        <ImageField
+          slot="category"
+          id={category.id}
+          initialUrl={category.imageUrl}
+          initialFocus={category.imageFocus}
+        />
+      </section>
     </main>
   );
 }
