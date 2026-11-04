@@ -16,7 +16,12 @@ import {
 } from "@/server/catalog/formula";
 import { getProduct, listLeafCategories, listVersionOptions } from "@/server/catalog/products";
 import { createDraftAction, moveOptionAction, removeOptionAction } from "../actions";
-import { AddOptionForm, ProductForm, ProductOptionForm } from "../forms";
+import { AddOptionForm, ProductForm, ProductOptionForm, PublishPanel } from "../forms";
+import { removeRuleAction } from "../../rule-actions";
+import { describeRule } from "@/components/admin/describe-rule";
+import { RuleForm } from "@/components/admin/rule-form";
+import { checkVersion, listRules } from "@/server/catalog/rules";
+import { validateRules } from "@/lib/options";
 import { moveFormulaItemAction, removeFormulaItemAction } from "../formula-actions";
 import {
   ConsumablesForm,
@@ -63,6 +68,21 @@ export default async function ProductPage({ params }: PageProps<"/admin/produtos
       shown ? loadPricingModel(shown.id) : Promise.resolve(null),
     ],
   );
+  const [rules, problems] = await Promise.all([
+    shown ? listRules(shown.id) : Promise.resolve([]),
+    working ? checkVersion(working.id) : Promise.resolve(null),
+  ]);
+  const ruleValues = rules.map((rule) => ({
+    conditions: rule.conditions,
+    effect: rule.effect,
+    message: rule.message?.pt ?? "",
+  }));
+  const ruleIssues = model
+    ? validateRules(
+        model.input.options,
+        ruleValues.map(({ conditions, effect }) => ({ conditions, effect })),
+      )
+    : [];
 
   // Opções para as condições, o preço de exemplo e o artigo "conforme a opção".
   const optionInfo: OptionInfo[] = (model?.meta ?? []).map((option) => ({
@@ -144,6 +164,16 @@ export default async function ProductPage({ params }: PageProps<"/admin/produtos
             </Button>
           </form>
         </div>
+      )}
+
+      {working && problems && (
+        <PublishPanel
+          productId={product.id}
+          versionId={working.id}
+          status={working.status}
+          blocking={problems.blocking}
+          warnings={problems.warnings}
+        />
       )}
 
       <details className="border-line bg-surface border">
@@ -295,6 +325,94 @@ export default async function ProductPage({ params }: PageProps<"/admin/produtos
           </div>
         )}
       </section>
+
+      {shown && (
+        <section aria-labelledby="regras" className="grid gap-3">
+          <div>
+            <h2 id="regras" className="font-semibold">
+              Regras deste produto
+            </h2>
+            <p className="text-steel text-sm">
+              Juntam-se às{" "}
+              <Link
+                href="/admin/opcoes/regras"
+                className="text-brand underline-offset-4 hover:underline"
+              >
+                regras da biblioteca
+              </Link>{" "}
+              (ex.: inox → escovado ou polido), que valem em todos os produtos.
+            </p>
+          </div>
+          {rules.length > 0 && (
+            <ol className="border-line bg-surface divide-line-soft divide-y border">
+              {rules.map((rule, index) => {
+                const issues = ruleIssues
+                  .filter((issue) => issue.index === index)
+                  .map((issue) => issue.message);
+                return (
+                  <li key={rule.id}>
+                    <details className="group">
+                      <summary className="hover:bg-canvas flex cursor-pointer list-none flex-wrap items-center gap-x-4 gap-y-1 px-4 py-3 text-sm">
+                        <span>{describeRule(ruleValues[index]!, optionInfo)}</span>
+                        {issues.length > 0 && (
+                          <span className="text-error text-xs">{issues[0]}</span>
+                        )}
+                        {editable && (
+                          <span className="text-brand ml-auto text-xs group-open:hidden">
+                            Editar
+                          </span>
+                        )}
+                      </summary>
+                      {editable && (
+                        <div className="grid gap-3 px-4 pt-1 pb-4">
+                          <RuleForm
+                            scope={{ productId: product.id, versionId: shown.id }}
+                            ruleId={rule.id}
+                            initial={ruleValues[index]!}
+                            options={optionInfo}
+                            issues={issues}
+                          />
+                          <form
+                            action={removeRuleAction.bind(
+                              null,
+                              { productId: product.id, versionId: shown.id },
+                              rule.id,
+                            )}
+                            className="flex justify-end"
+                          >
+                            <Button type="submit" size="sm" variant="ghost">
+                              Apagar regra
+                            </Button>
+                          </form>
+                        </div>
+                      )}
+                    </details>
+                  </li>
+                );
+              })}
+            </ol>
+          )}
+          {editable && optionInfo.length > 0 && (
+            <details className="border-line bg-surface border">
+              <summary className="text-brand cursor-pointer px-4 py-3 text-sm">
+                + Nova regra
+              </summary>
+              <div className="px-4 pb-4">
+                <RuleForm
+                  scope={{ productId: product.id, versionId: shown.id }}
+                  ruleId={null}
+                  initial={{
+                    conditions: [],
+                    effect: { type: "restrict", option: "", values: [] },
+                    message: "",
+                  }}
+                  options={optionInfo}
+                />
+              </div>
+            </details>
+          )}
+        </section>
+      )}
 
       {shown && (
         <section aria-labelledby="formula" className="grid gap-6">

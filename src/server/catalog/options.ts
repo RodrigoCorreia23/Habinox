@@ -233,3 +233,26 @@ export async function listArticlesForPicker() {
     .from(materials)
     .orderBy(asc(materials.name));
 }
+
+/** Todas as opções ativas, com os valores ativos, para o editor das regras da biblioteca. */
+export async function listLibraryOptionInfo() {
+  const options = await db
+    .select()
+    .from(optionDefinitions)
+    .where(isNull(optionDefinitions.archivedAt))
+    .orderBy(asc(optionDefinitions.key));
+  const values = await db
+    .select()
+    .from(optionValues)
+    .where(isNull(optionValues.archivedAt))
+    .orderBy(asc(optionValues.position));
+  return options.map((option) => ({
+    key: option.key,
+    name: option.name.pt,
+    type: option.type as OptionType,
+    unit: option.unit,
+    values: values
+      .filter((value) => value.optionId === option.id)
+      .map((value) => ({ key: value.key, label: value.label.pt })),
+  }));
+}

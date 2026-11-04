@@ -16,6 +16,7 @@ import {
   updateProduct,
   updateVersionOption,
 } from "@/server/catalog/products";
+import { publishVersion, validateVersion } from "@/server/catalog/rules";
 
 export type FormState = {
   ok: boolean;
@@ -153,4 +154,35 @@ export async function removeOptionAction(productId: string, productOptionId: str
     log.info("product.option_removed", { productId, productOptionId, userId: session.user.id });
   }
   revalidatePath(`${PATH}/${productId}`);
+}
+
+export type PublishState = { ok: boolean; message: string; problems?: string[] } | null;
+
+export async function validateVersionAction(
+  productId: string,
+  versionId: string,
+): Promise<PublishState> {
+  const session = await requireAdmin(PATH);
+  if (!uuid.safeParse(versionId).success) return { ok: false, message: "Pedido inválido" };
+  const { ok, problems } = await validateVersion(versionId);
+  if (!ok) {
+    return { ok: false, message: "Há problemas por resolver", problems: problems.blocking };
+  }
+  log.info("product.version_validated", { productId, versionId, userId: session.user.id });
+  revalidatePath(`${PATH}/${productId}`);
+  return { ok: true, message: "Validada. Já pode publicar." };
+}
+
+export async function publishVersionAction(
+  productId: string,
+  versionId: string,
+): Promise<PublishState> {
+  const session = await requireAdmin(PATH);
+  if (!uuid.safeParse(versionId).success) return { ok: false, message: "Pedido inválido" };
+  const result = await publishVersion(versionId);
+  if (!result.ok) return { ok: false, message: result.message };
+  log.info("product.version_published", { productId, versionId, userId: session.user.id });
+  revalidatePath(PATH);
+  revalidatePath(`${PATH}/${productId}`);
+  return { ok: true, message: "Publicada" };
 }

@@ -23,9 +23,14 @@ export default async function OptionsPage() {
             seus limites e valores permitidos.
           </p>
         </div>
-        <Button asChild>
-          <Link href="/admin/opcoes/nova">Nova opção</Link>
-        </Button>
+        <div className="flex gap-2">
+          <Button asChild variant="outline">
+            <Link href="/admin/opcoes/regras">Regras da biblioteca</Link>
+          </Button>
+          <Button asChild>
+            <Link href="/admin/opcoes/nova">Nova opção</Link>
+          </Button>
+        </div>
       </header>
 
       {active.length === 0 ? (

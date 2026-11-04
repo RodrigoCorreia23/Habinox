@@ -10,6 +10,9 @@ import {
   addOptionAction,
   createProductAction,
   type FormState,
+  publishVersionAction,
+  type PublishState,
+  validateVersionAction,
   updateProductAction,
   updateProductOptionAction,
 } from "./actions";
@@ -316,5 +319,61 @@ export function ProductOptionForm({
         <FormStatus pending={pending} state={state} />
       </div>
     </form>
+  );
+}
+
+export function PublishPanel({
+  productId,
+  versionId,
+  status,
+  blocking,
+  warnings,
+}: {
+  productId: string;
+  versionId: string;
+  status: string;
+  blocking: string[];
+  warnings: string[];
+}) {
+  const [state, action, pending] = useActionState<PublishState>(
+    status === "validated"
+      ? publishVersionAction.bind(null, productId, versionId)
+      : validateVersionAction.bind(null, productId, versionId),
+    null,
+  );
+  // Os problemas vêm sempre do servidor (recalculados a cada alteração).
+  const problems = blocking;
+  return (
+    <div className="border-line bg-surface grid gap-3 border px-4 py-3 text-sm">
+      {problems.length > 0 ? (
+        <div>
+          <p className="font-semibold">Falta resolver antes de publicar</p>
+          <ul className="text-error mt-1 grid list-disc gap-0.5 pl-5">
+            {problems.map((problem) => (
+              <li key={problem}>{problem}</li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <p>
+          {status === "validated"
+            ? "Validada. Ao publicar, passa a ser esta versão que a loja mostra."
+            : "Sem problemas. Compare o preço de exemplo com orçamentos reais e valide."}
+        </p>
+      )}
+      {warnings.length > 0 && (
+        <ul className="text-steel grid list-disc gap-0.5 pl-5 text-xs">
+          {warnings.map((warning) => (
+            <li key={warning}>{warning}</li>
+          ))}
+        </ul>
+      )}
+      <form onSubmit={submitKeepingValues(action)} className="flex items-center gap-3">
+        <Button type="submit" size="sm" disabled={pending || problems.length > 0}>
+          {status === "validated" ? "Publicar na loja" : "Validar"}
+        </Button>
+        <FormStatus pending={pending} state={state} />
+      </form>
+    </div>
   );
 }
