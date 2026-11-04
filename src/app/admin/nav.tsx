@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 // Só as secções que já existem; as outras entram quando forem feitas.
 const SECTIONS = [
   { href: "/admin", label: "Painel" },
+  { href: "/admin/categorias", label: "Categorias" },
   { href: "/admin/materiais", label: "Materiais e custos" },
 ] as const;
 
