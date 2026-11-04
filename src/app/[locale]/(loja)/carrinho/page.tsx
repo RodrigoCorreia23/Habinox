@@ -146,16 +146,16 @@ export default async function CartPage({ params }: PageProps<"/[locale]/carrinho
                 {formatEuros(view!.totalCents)}
               </dd>
             </dl>
-            <button
-              type="button"
-              disabled
-              className="bg-amber text-on-amber mt-8 min-h-[60px] w-full px-6 font-medium disabled:opacity-50"
-            >
-              {t("checkout")}
-            </button>
-            <p className="text-night-faint mt-3 text-xs">
-              {anyAvailable ? t("checkoutSoon") : t("unavailable")}
-            </p>
+            {anyAvailable ? (
+              <Link
+                href="/checkout"
+                className="bg-amber text-on-amber hover:bg-amber-hover focus-visible:outline-night-text mt-8 flex min-h-[60px] w-full items-center justify-center px-6 font-medium outline-offset-3 focus-visible:outline-2"
+              >
+                {t("checkout")}
+              </Link>
+            ) : (
+              <p className="text-night-error mt-8 text-sm">{t("unavailable")}</p>
+            )}
             <p className="text-night-muted mt-6 text-sm">{t("measuresNote")}</p>
           </aside>
         </div>

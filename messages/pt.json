@@ -135,9 +135,62 @@
       "vat": "IVA ({rate}%)",
       "total": "Total",
       "checkout": "Finalizar pedido",
-      "checkoutSoon": "A finalização do pedido fica disponível em breve.",
       "measuresNote": "As medidas são da responsabilidade do cliente: confirme-as antes de encomendar.",
       "summary": "Escolhas"
+    },
+    "checkout": {
+      "title": "Finalizar pedido",
+      "contact": "Contacto",
+      "phone": "Telefone",
+      "nif": "NIF (opcional)",
+      "nifHint": "Para a fatura em nome de uma empresa ou com contribuinte.",
+      "billing": "Morada de faturação",
+      "shipping": "Morada de entrega",
+      "sameShipping": "Entregar na morada de faturação",
+      "name": "Nome",
+      "line1": "Morada",
+      "line2": "Andar, porta (opcional)",
+      "postalCode": "Código postal",
+      "city": "Localidade",
+      "country": "País: Portugal",
+      "notes": "Notas para a Habinox (opcional)",
+      "notesHint": "Acesso à obra, horários, o que for útil.",
+      "acceptTerms": "Li e aceito os termos e condições e a política de privacidade.",
+      "acceptMeasures": "Confirmo que as medidas que indiquei estão corretas e que são da minha responsabilidade.",
+      "summary": "Resumo",
+      "transport": "Transporte e instalação",
+      "transportValue": "A confirmar pela Habinox",
+      "submit": "Enviar encomenda · {amount}",
+      "submitting": "A enviar…",
+      "paymentNote": "Ainda não pagamos online: a Habinox contacta-o para confirmar o transporte e o pagamento.",
+      "signedInAs": "Encomenda em nome de {email}.",
+      "errors": {
+        "empty": "O carrinho está vazio.",
+        "unavailable": "Já não estão disponíveis: {products}. Remova-os do carrinho para continuar.",
+        "invalid": "Verifique os campos assinalados.",
+        "failed": "Não foi possível enviar a encomenda. Tente de novo.",
+        "price_changed": "O preço mudou desde que abriu esta página (um orçamento expirou). Reveja o novo total e envie de novo."
+      }
+    },
+    "order": {
+      "title": "Encomenda {number}",
+      "thanks": "Obrigado. Recebemos a sua encomenda.",
+      "emailSent": "Enviámos a confirmação para {email}.",
+      "status": "Estado",
+      "statuses": {
+        "pending_payment": "A aguardar confirmação e pagamento",
+        "paid": "Paga",
+        "in_production": "Em produção",
+        "ready": "Pronta",
+        "shipped": "Enviada",
+        "delivered": "Entregue",
+        "cancelled": "Cancelada",
+        "expired": "Expirada"
+      },
+      "deliverTo": "Entrega",
+      "items": "Artigos",
+      "next": "A Habinox contacta-o em breve para confirmar o transporte, a instalação e o pagamento.",
+      "backToShop": "Voltar à loja"
     }
   }
 }
