@@ -35,10 +35,10 @@ export async function findCart(token: string | undefined) {
   return cart ?? null;
 }
 
-export async function createCart(token: string) {
+export async function createCart(token: string, userId: string | null = null) {
   const [cart] = await db
     .insert(carts)
-    .values({ tokenHash: hashToken(token) })
+    .values({ tokenHash: hashToken(token), userId })
     .returning();
   return cart!;
 }

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { formatEuros } from "@/lib/money";
-import { CART_COOKIE, findCart, getCartView, MAX_QUANTITY } from "@/server/store/cart";
+import { getCartView, MAX_QUANTITY } from "@/server/store/cart";
 import { removeItemAction, setQuantityAction } from "./actions";
+import { getCurrentCart } from "@/server/store/current-cart";
 
 export async function generateMetadata({
   params,
@@ -23,7 +23,7 @@ export default async function CartPage({ params }: PageProps<"/[locale]/carrinho
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("Shop.cart");
-  const cart = await findCart((await cookies()).get(CART_COOKIE)?.value);
+  const cart = await getCurrentCart();
   const view = cart ? await getCartView(cart.id, locale) : null;
   const lines = view?.lines ?? [];
   const anyAvailable = lines.some((line) => !line.unavailable);

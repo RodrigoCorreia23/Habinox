@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CheckoutForm } from "@/components/shop/checkout-form";
 import { formatEuros } from "@/lib/money";
 import { requireUser } from "@/server/auth/session";
-import { CART_COOKIE, findCart, getCartView } from "@/server/store/cart";
+import { getCartView } from "@/server/store/cart";
+import { getCurrentCart } from "@/server/store/current-cart";
 
 export async function generateMetadata({
   params,
@@ -19,7 +19,7 @@ export default async function CheckoutPage({ params }: PageProps<"/[locale]/chec
   const { locale } = await params;
   setRequestLocale(locale);
   const session = await requireUser(`/${locale}/checkout`, locale);
-  const cart = await findCart((await cookies()).get(CART_COOKIE)?.value);
+  const cart = await getCurrentCart();
   const view = cart ? await getCartView(cart.id, locale) : null;
   if (!view || view.lines.length === 0) redirect(`/${locale}/carrinho`);
   const t = await getTranslations("Shop.checkout");

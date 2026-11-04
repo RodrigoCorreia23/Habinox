@@ -1,12 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { log } from "@/lib/log";
 import { requireUser } from "@/server/auth/session";
 import { checkoutInputSchema, placeOrder } from "@/server/orders/place";
-import { CART_COOKIE, findCart } from "@/server/store/cart";
+import { getCurrentCart } from "@/server/store/current-cart";
 
 export type CheckoutState = {
   error?: "empty" | "unavailable" | "invalid" | "failed" | "price_changed";
@@ -48,7 +47,7 @@ export async function placeOrderAction(
     return { error: "invalid", fieldErrors };
   }
 
-  const cart = await findCart((await cookies()).get(CART_COOKIE)?.value);
+  const cart = await getCurrentCart();
   if (!cart) return { error: "empty" };
 
   let result;
