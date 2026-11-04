@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { submitKeepingValues } from "@/components/admin/submit-keeping-values";
 import { Button } from "@/components/ui/button";
 import { type ActionState, syncNowAction, updateMarginAction } from "./actions";
 
@@ -8,7 +9,7 @@ export function MarginForm({ id, name, percent }: { id: string; name: string; pe
   const [state, action, pending] = useActionState<ActionState, FormData>(updateMarginAction, null);
 
   return (
-    <form action={action} className="flex items-center gap-2">
+    <form onSubmit={submitKeepingValues(action)} className="flex items-center gap-2">
       <input type="hidden" name="id" value={id} />
       <div className="relative">
         <input
@@ -41,7 +42,7 @@ export function SyncNowButton() {
   const [state, action, pending] = useActionState<ActionState>(syncNowAction, null);
 
   return (
-    <form action={action} className="flex items-center gap-3">
+    <form onSubmit={submitKeepingValues(action)} className="flex items-center gap-3">
       <span
         role="status"
         className={`text-sm ${state?.ok === false ? "text-error" : "text-steel"}`}

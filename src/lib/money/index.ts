@@ -5,6 +5,7 @@
 import { decimalFromCents, mul, toCents, type Decimal } from "./decimal";
 
 export * from "./decimal";
+export * from "./input";
 
 export function assertCents(value: number): number {
   if (!Number.isSafeInteger(value)) throw new Error(`Cêntimos não inteiros: ${value}`);

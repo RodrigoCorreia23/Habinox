@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useActionState, useState } from "react";
+import { submitKeepingValues } from "@/components/admin/submit-keeping-values";
 import { Button } from "@/components/ui/button";
 import { slugify } from "@/lib/slug";
 import {
@@ -52,7 +53,7 @@ export function CategoryForm({
   const errors = state?.fieldErrors ?? {};
 
   return (
-    <form action={action} className="grid max-w-xl gap-5">
+    <form onSubmit={submitKeepingValues(action)} className="grid max-w-xl gap-5">
       <div>
         <label htmlFor="name" className="text-sm font-medium">
           Nome
@@ -190,7 +191,7 @@ export function RowAction({
     null,
   );
   return (
-    <form action={action} className="flex items-center gap-2">
+    <form onSubmit={submitKeepingValues(action)} className="flex items-center gap-2">
       <Button type="submit" size="sm" variant="ghost" disabled={pending}>
         {label}
       </Button>
