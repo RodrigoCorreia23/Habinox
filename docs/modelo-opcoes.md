@@ -39,7 +39,7 @@ Cores RAL são uma `choice` com `display: swatches`; cada valor tem `ral_code` e
 
 Há três vias, que se combinam:
 
-1. **Componente:** o valor traz um componente comprado, com custo e margem próprios (o motor pode ter margem 0). Exemplo: "Motor e 2 comandos" → componente "Kit motor correr 400 kg" a 535 €.
+1. **Componente:** o valor traz um artigo comprado, com quantidade 1. Os componentes (motores, comandos, LED…) são **artigos do ERP**, como os materiais: custo do Odoo, margem da loja (o motor pode ter margem 0). Exemplo: "Motor e 2 comandos" → artigo "Kit motor correr 400 kg" a 535 €. (Decidido a 2026-11-04: não há tabela `components` própria.)
 2. **Condição numa linha:** a linha só conta se as condições se cumprirem (coluna "Aplica-se" do wireframe das fórmulas). Exemplo: a linha "Chapa lisa" só se aplica se `enchimento = chapa`. Exemplo: a linha "Lacagem (serviço externo)" só se aplica se `acabamento = lacado`.
 3. **Números nas expressões:**
    - medidas (`L`, `H`) e opções `number`;
@@ -80,7 +80,7 @@ Os quatro efeitos são os do wireframe "Produto e opções".
 ## 4. Versões e histórico
 
 - A configuração de um produto (opções, limites, regras do produto, variáveis, linhas, consumíveis) fica numa **versão do produto**: rascunho → validada → publicada, como o wireframe já mostra ("Publicar alterações"). Proposta: `formula_versions` passa a `product_versions`, porque as linhas dependem das opções e têm de ser publicadas juntas.
-- A **biblioteca** (opções, valores, componentes, regras gerais) **não tem versões**: mudar um nome, o custo ou a margem de um componente vale logo para todos os produtos, tal como um custo do PHC. O aviso "afeta todos os produtos que o usam" já está no wireframe.
+- A **biblioteca** (opções, valores, sectores, regras gerais) **não tem versões**: mudar um nome ou uma margem vale logo para todos os produtos, tal como um custo do Odoo. O aviso "afeta todos os produtos que o usam" já está no wireframe.
 - Orçamentos e encomendas guardam `config` (chaves) **e** o snapshot (nomes, números, artigos, custos, componentes, versão do produto). Dentro dos 30 dias mostra-se o snapshot. Depois recalcula-se; se um valor estiver arquivado ou já não for permitido, o orçamento aparece como "esta configuração já não está disponível".
 
 ---
@@ -91,9 +91,8 @@ Os quatro efeitos são os do wireframe "Produto e opções".
 option_definitions  (id, key UNIQUE, name, type: dimension|number|choice|boolean,
                      unit, display: pills|list|swatches, help_text, archived_at)
 option_values       (id, option_id, key, label, position, params jsonb,
-                     ral_code, swatch_hex, component_id NULL, asks_text bool, archived_at)
+                     ral_code, swatch_hex, material_id NULL, asks_text bool, archived_at)
                      UNIQUE (option_id, key)
-components          (id, name, cost_cents, margin, active)         -- custo s/ IVA + margem própria
 sectors             (id, name, hourly_rate_cents, margin)           -- serralharia, corte laser, instalação…
 
 products            (id, category_id, slug, name, model_glb_url, published_version_id)
@@ -109,7 +108,7 @@ formula_variables   (id, product_version_id, name, expr, position, label, show_t
 formula_lines       (id, product_version_id, position, label,
                      kind: material|labour|external|component, quantity_expr, unit,
                      conditions jsonb, material_id NULL, article_option_id NULL,
-                     sector_id NULL, component_id NULL)
+                     sector_id NULL)    -- labour → sector; o resto → artigo fixo ou por opção
 formula_line_materials (formula_line_id, option_value_id, material_id)
                      -- artigo pelo valor escolhido na opção article_option_id
 ```
@@ -119,7 +118,7 @@ formula_line_materials (formula_line_id, option_value_id, material_id)
 
 ### Margem (decidida a 2026-11-04)
 
-- **Cada item tem a sua margem:** cada material (inclui acabamentos e serviços externos), cada componente (motores…) e cada sector de mão de obra. Fica na biblioteca, por isso vale em todos os produtos que usam o item.
+- **Cada item tem a sua margem:** cada material (inclui acabamentos e serviços externos), cada componente (motores…, também artigos do ERP) e cada sector de mão de obra. Fica na biblioteca, por isso vale em todos os produtos que usam o item.
 - Fórmula: `preço da linha = custo da linha × (1 + margem)`, margem em fração (`numeric(5,4)`, 5% = 0,0500).
 - **Consumíveis** (% sobre os materiais) herdam a margem do material a que se aplicam.
 - `margin` é **NULL até o Bruno a decidir.** Um produto que use um item sem margem decidida não se publica. Margem 0 (motores) tem de ser escolhida explicitamente, nunca por omissão.
@@ -128,7 +127,7 @@ formula_line_materials (formula_line_id, option_value_id, material_id)
 
 ### Textos traduzíveis
 
-- Os textos que o cliente vê (nomes e descrições de categorias, produtos, opções, valores, componentes; mensagens das regras; `label` das variáveis visíveis) guardam-se em `jsonb` por língua: `{ "pt": "Portão de correr" }`. Validados com Zod; `pt` é obrigatório.
+- Os textos que o cliente vê (nomes e descrições de categorias, produtos, opções, valores; mensagens das regras; `label` das variáveis visíveis) guardam-se em `jsonb` por língua: `{ "pt": "Portão de correr" }`. Validados com Zod; `pt` é obrigatório.
 - Chaves técnicas (`key`, `var`, `slug` por língua fica para a internacionalização) não se traduzem.
 
 ## 6. Onde fica o código

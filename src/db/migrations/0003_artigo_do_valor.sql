@@ -1,0 +1,2 @@
+ALTER TABLE "option_values" ADD COLUMN "material_id" uuid;--> statement-breakpoint
+ALTER TABLE "option_values" ADD CONSTRAINT "option_values_material_id_materials_id_fk" FOREIGN KEY ("material_id") REFERENCES "public"."materials"("id") ON DELETE no action ON UPDATE no action;

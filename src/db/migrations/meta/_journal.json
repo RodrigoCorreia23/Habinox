@@ -15,6 +15,20 @@
       "when": 1793824575935,
       "tag": "0001_catalogo",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793825752065,
+      "tag": "0002_sem_componentes",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793825753154,
+      "tag": "0003_artigo_do_valor",
+      "breakpoints": true
     }
   ]
 }

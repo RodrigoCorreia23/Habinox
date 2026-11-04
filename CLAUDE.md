@@ -193,8 +193,7 @@ material_costs   (id, material_id, cost, observed_at)          -- histórico
 categories       (id, parent_id, slug, name, position)                 -- árvore: categoria → subcategoria
 -- Opções, regras e fórmulas: desenho completo em docs/modelo-opcoes.md
 option_definitions (id, key UNIQUE, name, type: dimension|number|choice|boolean, unit, display, help_text, archived_at)  -- biblioteca
-option_values    (id, option_id, key, label, position, params jsonb, ral_code, swatch_hex, component_id, asks_text, archived_at)
-components       (id, name, cost_cents, margin, active)        -- custo s/ IVA + margem própria (motor pode ter 0)
+option_values    (id, option_id, key, label, position, params jsonb, ral_code, swatch_hex, material_id, asks_text, archived_at)  -- material_id: artigo do ERP que o valor acrescenta (ex.: motor)
 sectors          (id, name, hourly_rate_cents, margin)
 products         (id, category_id, slug, name, model_glb_url, published_version_id)
 product_versions (id, product_id, version, status: draft|validated|published, consumables_pct, created_by, published_at)
@@ -202,7 +201,7 @@ product_options  (id, product_version_id, option_id, position, var, required, mi
 product_option_values (product_option_id, option_value_id, position, is_default)
 option_rules     (id, product_version_id NULL = biblioteca, position, conditions jsonb, effect: restrict|hide|require|forbid, message)
 formula_variables (id, product_version_id, name, expr, position, label, show_to_customer)
-formula_lines    (id, product_version_id, position, label, kind: material|labour|external|component, quantity_expr, unit, conditions jsonb, material_id, article_option_id, sector_id, component_id)
+formula_lines    (id, product_version_id, position, label, kind: material|labour|external|component, quantity_expr, unit, conditions jsonb, material_id, article_option_id, sector_id)
 formula_line_materials (formula_line_id, option_value_id, material_id)  -- o artigo/custo depende do valor escolhido (material, tipo de vidro…)
 quotes           (id, user_id, product_id, config_json, price_cents, pricing_snapshot jsonb, valid_until)
 orders           (id, user_id, status, total_cents, vat_rate, billing_address, shipping_address)
@@ -277,7 +276,7 @@ Requisito do cliente: **as IAs têm de falar umas com as outras para perceber se
 7. Relatórios da fase 6 só com dados internos.
 8. Uma única app Next.js, sem monorepo; módulos de domínio em `src/server/`.
 9. Fórmulas de preço estruturadas por linhas de custo, versionadas, com snapshot em orçamentos e encomendas. Sem expressão livre nem `eval`.
-17. **Margem sobre o custo:** `preço = custo × (1 + margem)`, margem guardada em fração (5% = 0,05). Confirmada pelo Bruno a 2026-11-04; substitui o `custo ÷ (1 − margem)` deduzido dos Excel. **Cada item tem a sua margem** (material, acabamento, componente, sector de mão de obra), decidida pelo Bruno; NULL = por decidir e bloqueia a publicação. Transporte fora da margem. Ver `docs/modelo-opcoes.md`.
+17. **Margem sobre o custo:** `preço = custo × (1 + margem)`, margem guardada em fração (5% = 0,05). Confirmada pelo Bruno a 2026-11-04; substitui o `custo ÷ (1 − margem)` deduzido dos Excel. **Cada item tem a sua margem** (material, acabamento, componente, sector de mão de obra), decidida pelo Bruno; NULL = por decidir e bloqueia a publicação. Transporte fora da margem. Os **componentes comprados (motores, comandos, LED…) são artigos do ERP**, como os materiais: custo do Odoo, margem da loja (decidido a 2026-11-04; não há tabela `components`). Ver `docs/modelo-opcoes.md`.
 18. Textos visíveis ao cliente na BD em `jsonb` por língua (`{"pt": …}`).
 10. Infraestrutura: Vercel + Neon + R2 + Vercel Cron.
 11. Autenticação: Better Auth (dados na nossa BD).

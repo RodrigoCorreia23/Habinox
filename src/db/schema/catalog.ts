@@ -1,7 +1,7 @@
 /**
  * Catálogo, biblioteca de opções e fórmulas (desenho em docs/modelo-opcoes.md).
  *
- * - A biblioteca (opções, valores, componentes, sectores, regras gerais) não tem
+ * - A biblioteca (opções, valores, sectores, regras gerais) não tem
  *   versões: mudar vale logo para todos os produtos.
  * - Tudo o que é de um produto (opções usadas, limites, regras, variáveis,
  *   linhas) pertence a uma versão: rascunho → validada → publicada.
@@ -34,24 +34,6 @@ const createdAt = () => timestamp({ withTimezone: true }).notNull().defaultNow()
 const margin = () => numeric({ precision: 5, scale: 4 });
 
 // ── Biblioteca ──────────────────────────────────────────────────────────────
-
-/** Componentes comprados (motores, comandos, LED…), com custo e margem próprios. */
-export const components = pgTable(
-  "components",
-  {
-    id: uuid().defaultRandom().primaryKey(),
-    name: jsonb().$type<LocalizedText>().notNull(),
-    costCents: integer().notNull(),
-    /** null = por decidir; 0 tem de ser escolhido (ex.: motores). */
-    margin: margin(),
-    archivedAt: archivedAt(),
-    createdAt: createdAt(),
-  },
-  (table) => [
-    check("components_cost_not_negative", sql`${table.costCents} >= 0`),
-    check("components_margin_not_negative", sql`${table.margin} >= 0`),
-  ],
-);
 
 /** Sectores de mão de obra (serralharia, corte laser, instalação…). */
 export const sectors = pgTable(
@@ -109,7 +91,11 @@ export const optionValues = pgTable(
     params: jsonb().$type<Record<string, number>>().notNull().default({}),
     ralCode: text(),
     swatchHex: text(),
-    componentId: uuid().references(() => components.id),
+    /**
+     * Artigo comprado que este valor acrescenta, quantidade 1 (ex.: "Motor e 2
+     * comandos" → kit do motor). Vem do ERP como os materiais, com a margem da loja.
+     */
+    materialId: uuid().references(() => materials.id),
     /** Pede texto ao cliente (ex.: "Outra cor RAL → qual?"). */
     asksText: boolean().notNull().default(false),
     archivedAt: archivedAt(),
@@ -279,20 +265,19 @@ export const formulaLines = pgTable(
     /** …ou escolhido pelo valor desta opção (ver formula_line_materials). */
     articleOptionId: uuid().references(() => optionDefinitions.id),
     sectorId: uuid().references(() => sectors.id),
-    componentId: uuid().references(() => components.id),
   },
   (table) => [
     check(
       "formula_lines_kind",
       sql`${table.kind} in ('material', 'labour', 'external', 'component')`,
     ),
-    // Cada tipo aponta para exatamente uma origem de custo.
+    // Mão de obra aponta para um sector; o resto (materiais, serviços externos e
+    // componentes, todos artigos do ERP) para um artigo fixo ou escolhido por opção.
     check(
       "formula_lines_source",
       sql`case ${table.kind}
-        when 'labour' then ${table.sectorId} is not null and ${table.materialId} is null and ${table.articleOptionId} is null and ${table.componentId} is null
-        when 'component' then ${table.componentId} is not null and ${table.materialId} is null and ${table.articleOptionId} is null and ${table.sectorId} is null
-        else ${table.sectorId} is null and ${table.componentId} is null and ((${table.materialId} is null) <> (${table.articleOptionId} is null))
+        when 'labour' then ${table.sectorId} is not null and ${table.materialId} is null and ${table.articleOptionId} is null
+        else ${table.sectorId} is null and ((${table.materialId} is null) <> (${table.articleOptionId} is null))
       end`,
     ),
     index("formula_lines_version_idx").on(table.productVersionId),
