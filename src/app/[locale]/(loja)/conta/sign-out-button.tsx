@@ -2,7 +2,6 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 
 export function SignOutButton() {
@@ -17,8 +16,12 @@ export function SignOutButton() {
   }
 
   return (
-    <Button variant="outline" onClick={onClick}>
+    <button
+      type="button"
+      onClick={onClick}
+      className="text-night-soft hover:text-amber min-h-11 text-sm underline underline-offset-4"
+    >
       {t("signOut")}
-    </Button>
+    </button>
   );
 }

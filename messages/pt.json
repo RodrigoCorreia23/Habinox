@@ -14,7 +14,13 @@
   "Account": {
     "title": "A minha conta",
     "signedInAs": "Sessão iniciada como {email}",
-    "signOut": "Terminar sessão"
+    "signOut": "Terminar sessão",
+    "orders": "As minhas encomendas",
+    "noOrders": "Ainda não fez nenhuma encomenda.",
+    "browse": "Ver a loja",
+    "items": "{count, plural, one {# artigo} other {# artigos}}",
+    "placedOn": "Feita a {date}",
+    "open": "Ver encomenda {number}"
   },
   "Auth": {
     "email": "Email",
@@ -190,7 +196,8 @@
       "deliverTo": "Entrega",
       "items": "Artigos",
       "next": "A Habinox contacta-o em breve para confirmar o transporte, a instalação e o pagamento.",
-      "backToShop": "Voltar à loja"
+      "backToShop": "Voltar à loja",
+      "allOrders": "As minhas encomendas"
     }
   }
 }

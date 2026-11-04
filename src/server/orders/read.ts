@@ -1,4 +1,4 @@
-import { and, asc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { orderItems, orders } from "@/db/schema";
 
@@ -15,4 +15,21 @@ export async function getOrderForUser(number: string, userId: string) {
     .where(eq(orderItems.orderId, order.id))
     .orderBy(asc(orderItems.position));
   return { order, items };
+}
+
+/** Encomendas do cliente, da mais recente para a mais antiga. */
+export async function listOrdersForUser(userId: string) {
+  const rows = await db
+    .select({
+      id: orders.id,
+      number: orders.number,
+      status: orders.status,
+      totalCents: orders.totalCents,
+      createdAt: orders.createdAt,
+      items: sql<number>`(select coalesce(sum(oi.quantity), 0)::int from order_items oi where oi.order_id = "orders"."id")`,
+    })
+    .from(orders)
+    .where(eq(orders.userId, userId))
+    .orderBy(desc(orders.createdAt));
+  return rows;
 }

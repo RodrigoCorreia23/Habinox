@@ -95,12 +95,20 @@ export default async function OrderPage({ params }: PageProps<"/[locale]/encomen
               <span className="font-mono">{address.postalCode}</span> {address.city}
             </address>
           </div>
-          <Link
-            href="/loja"
-            className="text-night-soft hover:text-amber text-sm underline underline-offset-4"
-          >
-            {t("backToShop")}
-          </Link>
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            <Link
+              href="/conta"
+              className="text-night-soft hover:text-amber underline underline-offset-4"
+            >
+              {t("allOrders")}
+            </Link>
+            <Link
+              href="/loja"
+              className="text-night-soft hover:text-amber underline underline-offset-4"
+            >
+              {t("backToShop")}
+            </Link>
+          </div>
         </aside>
       </div>
     </main>
