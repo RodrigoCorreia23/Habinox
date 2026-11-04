@@ -18,6 +18,8 @@ export const serverEnvSchema = z
     // Email: sem RESEND_API_KEY os emails são escritos no log (só em development).
     RESEND_API_KEY: z.string().min(1).optional(),
     EMAIL_FROM: z.string().min(1).optional(),
+    // Pasta das imagens enviadas no backoffice (só em development; em produção usa-se o R2).
+    STORAGE_DIR: z.string().min(1).optional(),
   })
   .superRefine((env, ctx) => {
     if (env.NEXT_PUBLIC_APP_ENV !== "development" && !env.RESEND_API_KEY) {

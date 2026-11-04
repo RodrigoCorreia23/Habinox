@@ -43,6 +43,13 @@
       "when": 1793829729338,
       "tag": "0005_encomendas",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793835811724,
+      "tag": "0006_imagens",
+      "breakpoints": true
     }
   ]
 }

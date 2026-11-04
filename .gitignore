@@ -49,3 +49,6 @@ next-env.d.ts
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# imagens enviadas no backoffice em desenvolvimento (STORAGE_DIR)
+/.data/

@@ -24,6 +24,7 @@ import {
   unique,
   uuid,
 } from "drizzle-orm/pg-core";
+import type { Focus } from "@/lib/images";
 import type { LocalizedText } from "@/lib/localized";
 import type { Condition, RuleEffect } from "@/lib/options";
 import { user } from "./auth";
@@ -117,7 +118,9 @@ export const categories = pgTable(
     slug: text().notNull().unique(),
     name: jsonb().$type<LocalizedText>().notNull(),
     description: jsonb().$type<LocalizedText>(),
+    /** Uma imagem (mín. 2400 × 1000) para o mosaico 4:3 e a capa 12:5, recortada à volta do foco. */
     imageUrl: text(),
+    imageFocus: jsonb().$type<Focus>(),
     position: integer().notNull().default(0),
     archivedAt: archivedAt(),
     createdAt: createdAt(),
@@ -135,6 +138,9 @@ export const products = pgTable(
     slug: text().notNull().unique(),
     name: jsonb().$type<LocalizedText>().notNull(),
     description: jsonb().$type<LocalizedText>(),
+    /** Imagem do cartão 4:5 (mín. 960 × 1200), recortada à volta do foco. */
+    imageUrl: text(),
+    imageFocus: jsonb().$type<Focus>(),
     modelGlbUrl: text(),
     /** A versão que a loja mostra; null = ainda não publicado. */
     publishedVersionId: uuid().references((): AnyPgColumn => productVersions.id),
