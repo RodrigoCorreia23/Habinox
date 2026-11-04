@@ -9,6 +9,8 @@ import { firstPublishedProductPath, listStoreCategories } from "@/server/store/c
 import { getCurrentCart } from "@/server/store/current-cart";
 import { CategoryRails, type RailTile } from "./category-rails";
 import { HomeScene } from "./home-scene";
+import { SceneSignIn } from "./scene-sign-in";
+import { safeNextPath } from "@/lib/safe-redirect";
 import styles from "./home.module.css";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
@@ -70,8 +72,9 @@ function blockProps(id: keyof typeof BLOCKS, side: "left" | "right") {
   return { id, "data-block": true, "data-in": a, "data-out": b, "data-side": side };
 }
 
-export default async function HomePage({ params }: PageProps<"/[locale]">) {
+export default async function HomePage({ params, searchParams }: PageProps<"/[locale]">) {
   const { locale } = await params;
+  const next = safeNextPath((await searchParams).next);
   setRequestLocale(locale);
   const t = await getTranslations("Home");
   const tShop = await getTranslations("Shop");
@@ -121,7 +124,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             {session ? (
               <Link href="/conta">{t("nav.account")}</Link>
             ) : (
-              <Link href="/entrar">{t("nav.signIn")}</Link>
+              <a href="#entrar">{t("nav.signIn")}</a>
             )}
             <Link
               href="/carrinho"
@@ -303,6 +306,13 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           <LegalLinks className={styles.legal} />
         </section>
       </main>
+
+      {/* Estado "entrar": a câmara dá a volta à escada; o formulário à direita. */}
+      <section className={styles.login} data-login>
+        <div className={styles.wrap}>
+          <SceneSignIn next={next} signedInAs={session?.user.email ?? null} />
+        </div>
+      </section>
 
       {/* Estado "loja": a câmara pára na escada; por baixo, as categorias. */}
       <div className={styles.shop}>

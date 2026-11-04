@@ -125,6 +125,18 @@
       "resume": "Retomar",
       "models": "{count, plural, one {# modelo} other {# modelos}}",
       "empty": "Ainda não há produtos na loja."
+    },
+    "login": {
+      "title": "Entrar",
+      "accent": "na sua conta.",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Entrar",
+      "submitting": "A entrar…",
+      "forgot": "Esqueci-me da password",
+      "create": "Criar conta",
+      "signedInAs": "Já tem sessão iniciada como {email}.",
+      "account": "Ir para a conta"
     }
   },
   "Account": {

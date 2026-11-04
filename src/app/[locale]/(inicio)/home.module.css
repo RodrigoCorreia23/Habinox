@@ -80,7 +80,7 @@
   background: color-mix(in srgb, var(--night) 82%, transparent);
   backdrop-filter: blur(10px);
 }
-:global(html[data-route="loja"][data-home="scrolly"]) .top {
+:global(html:not([data-route="inicio"])[data-home="scrolly"]) .top {
   background: linear-gradient(color-mix(in srgb, var(--night) 70%, transparent), transparent);
 }
 /* à entrada, o cabeçalho aparece enquanto os degraus acendem */
@@ -143,7 +143,7 @@
 .navSite .shopLink {
   color: var(--gold);
 }
-:global(html[data-route="loja"]) .navSite {
+:global(html:not([data-route="inicio"])) .navSite {
   opacity: 0;
   transform: translateY(calc(-50% - 8px));
   visibility: hidden;
@@ -653,7 +653,7 @@
 /* =========================================================
    Estado "loja": o mesmo palco, a câmara na loja, o herói e as categorias.
    ========================================================= */
-:global(html[data-route="loja"]) .page {
+:global(html:not([data-route="inicio"])) .page {
   --night: var(--color-night);
   --cream: var(--color-night-text);
   --gold: var(--color-amber);
@@ -667,17 +667,17 @@
 :global(html[data-route="loja"]) .shop {
   display: block;
 }
-:global(html[data-route="loja"]) .track {
+:global(html:not([data-route="inicio"])) .track {
   display: none;
 }
-:global(html[data-route="loja"]) .scrim,
-:global(html[data-route="loja"]) .progress {
+:global(html:not([data-route="inicio"])) .scrim,
+:global(html:not([data-route="inicio"])) .progress {
   opacity: 0 !important;
 }
 .progress {
   transition: opacity 0.35s ease-out;
 }
-:global(html[data-route="loja"]) .view {
+:global(html:not([data-route="inicio"])) .view {
   background: var(--night);
 }
 /* longe do herói, a cena deixa de se ver (e de gastar) */
@@ -972,4 +972,157 @@
   .sHero {
     padding-bottom: 40px;
   }
+}
+
+/* =========================================================
+   Estado "entrar": a mesma escada por trás, com a câmara a dar-lhe a volta;
+   o formulário à direita (como no protótipo).
+   ========================================================= */
+.login {
+  position: relative;
+  z-index: 2;
+  display: none;
+  min-height: 100svh;
+  align-items: center;
+  padding-block: 112px 56px;
+}
+:global(html[data-route="entrar"]) .login {
+  display: flex;
+}
+.login::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    270deg,
+    color-mix(in srgb, var(--night) 90%, transparent),
+    color-mix(in srgb, var(--night) 72%, transparent) 38%,
+    transparent 66%
+  );
+}
+:global(html:not([data-home="scrolly"])) .login {
+  background: center / cover url(/home/provisorio/hero-escada-luz.webp);
+}
+.login .wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.loginBox {
+  width: min(420px, 100%);
+}
+.loginBox h1 {
+  font-family: var(--font-archivo), sans-serif;
+  font-stretch: 115%;
+  font-weight: 300;
+  font-size: clamp(40px, 4.4vw, 64px);
+  line-height: 1.02;
+}
+.loginBox h1 em {
+  display: block;
+  font-style: normal;
+  color: var(--gold);
+}
+.fields {
+  display: grid;
+  gap: 16px;
+  margin-block: 32px 28px;
+}
+.fields label {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+}
+.fields input {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 6px;
+  padding: 0 12px;
+  border-radius: 2px;
+  border: 1px solid var(--color-night-line-strong);
+  background: var(--color-night-surface);
+  color: var(--cream);
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 16px;
+  transition: border-color 0.2s;
+}
+.fields input:focus {
+  border-color: var(--gold);
+}
+.fields input[aria-invalid="true"] {
+  border: 2px solid var(--color-night-error-border);
+}
+.primaryFull {
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+}
+.primaryFull:disabled {
+  opacity: 0.6;
+}
+.loginRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-top: 16px;
+}
+.loginError {
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--color-night-error);
+}
+.loginNote {
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.login .lstag {
+  opacity: 0;
+  transform: translateY(22px);
+}
+.login[data-in] .lstag {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.9s cubic-bezier(0.23, 1, 0.32, 1),
+    transform 0.9s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.login[data-in] .lstag:nth-child(2) {
+  transition-delay: 120ms;
+}
+.login[data-in] .lstag:nth-child(3) {
+  transition-delay: 220ms;
+}
+.login[data-in] .lstag:nth-child(4) {
+  transition-delay: 300ms;
+}
+@media (max-width: 760px) {
+  .login {
+    align-items: flex-end;
+    padding-block: 88px 32px;
+  }
+  .login::before {
+    background: linear-gradient(
+      0deg,
+      color-mix(in srgb, var(--night) 94%, transparent),
+      color-mix(in srgb, var(--night) 82%, transparent) 56%,
+      transparent 82%
+    );
+  }
+  .fields {
+    margin-block: 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .login .lstag {
+    opacity: 1;
+    transform: none;
+  }
+}
+:global(html[data-route="entrar"]) .tools a[href="#entrar"] {
+  color: var(--cream);
 }

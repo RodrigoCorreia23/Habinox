@@ -12,19 +12,19 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./home.module.css";
 
-const AT = { inicio: 144, fimScroll: 40, loja: 89.6 }; // posições no percurso, em imagens
-const FIRST = 40;
+const AT = { inicio: 144, fimScroll: 40, loja: 89.6, login: 21 }; // posições no percurso, em imagens
+const FIRST = 20;
 const LAST = 144;
 const SPAN = AT.inicio - AT.fimScroll;
 const STEPS = 15; // luzes dos degraus a acender (a00–a14)
 const SWING = { amp: 8, period: 24 }; // vaivém da câmara parada na loja (igual ao vídeo)
-const FOCUS = 0.56; // em ecrãs estreitos o corte acompanha a escada
+const FOCUS = { shop: 0.56, login: 0.38 }; // em ecrãs estreitos o corte acompanha a escada
 const FADE = 0.015; // entradas e saídas dos textos, em fração do scroll
 const HOME_HASHES = ["inicio", "empresa", "servicos", "contactos"];
 const SPLASH_MIN_MS = 2500; // o nome fica pelo menos este tempo no centro, a respirar
 const DOCK_MS = 2200; // viagem do nome até ao logótipo do cabeçalho
 
-type Route = "inicio" | "loja";
+type Route = "inicio" | "loja" | "entrar";
 
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -45,8 +45,11 @@ const easeInOut = (x: number) => {
   }
   return bez(0, 1, lo);
 };
-const routeOfHash = (hash: string): Route =>
-  HOME_HASHES.includes(hash.replace(/^#/, "")) ? "inicio" : "loja";
+const routeOfHash = (hash: string): Route => {
+  const name = hash.replace(/^#/, "");
+  if (name === "entrar") return "entrar";
+  return HOME_HASHES.includes(name) ? "inicio" : "loja";
+};
 
 interface Block {
   el: HTMLElement;
@@ -74,6 +77,7 @@ export function HomeScene({ labels }: { labels: { text: string; at: number }[] }
     if (motion) html.dataset.home = "scrolly";
     const scrolly = html.dataset.home === "scrolly";
     const hero = document.querySelector<HTMLElement>("[data-shop-hero]");
+    const loginSection = document.querySelector<HTMLElement>("[data-login]");
     const maxScroll = () => document.documentElement.scrollHeight - innerHeight;
     let stopped = false;
     const cleanups: (() => void)[] = [];
@@ -89,9 +93,21 @@ export function HomeScene({ labels }: { labels: { text: string; at: number }[] }
     // ── Estado (loja / início) ────────────────────────────────────────────
     let route: Route = (html.dataset.route as Route | undefined) ?? routeOfHash(location.hash);
     html.dataset.route = route;
-    const scrollOf: Record<Route, number> = { inicio: 0, loja: 0 };
+    const scrollOf: Record<Route, number> = { inicio: 0, loja: 0, entrar: 0 };
     const start = route === "inicio" ? 0 : 1;
     const shot = { T: start, from: start, to: start, t0: 0, dur: 1 };
+    // câmara do login: dá a volta à escada a partir da loja (0 = loja, 1 = login)
+    const startL = route === "entrar" ? 1 : 0;
+    const log = { L: startL, from: startL, to: startL, t0: 0, dur: 1 };
+    const showLogin = (value: boolean) => {
+      loginSection?.toggleAttribute("data-in", false);
+      if (value) {
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => loginSection?.toggleAttribute("data-in", true)),
+        );
+      }
+    };
+    showLogin(route === "entrar");
     let skipWave = false;
 
     const setHeroIn = (value: boolean) => hero?.toggleAttribute("data-in", value);
@@ -107,16 +123,28 @@ export function HomeScene({ labels }: { labels: { text: string; at: number }[] }
       route = next;
       html.dataset.route = next;
       const target = next === "inicio" ? 0 : 1;
+      const targetL = next === "entrar" ? 1 : 0;
       if (!scrolly) {
         shot.T = shot.to = target;
-      } else if (target !== shot.to) {
-        shot.from = shot.T;
-        shot.to = target;
-        shot.t0 = performance.now();
-        shot.dur = 2300 * Math.max(0.45, Math.abs(target - shot.T));
-        skipWave = true;
+        log.L = log.to = targetL;
+      } else {
+        if (target !== shot.to) {
+          shot.from = shot.T;
+          shot.to = target;
+          shot.t0 = performance.now();
+          shot.dur = 2300 * Math.max(0.45, Math.abs(target - shot.T));
+          skipWave = true;
+        }
+        if (targetL !== log.to) {
+          log.from = log.L;
+          log.to = targetL;
+          log.t0 = performance.now();
+          log.dur = 2300 * Math.max(0.45, Math.abs(targetL - log.L));
+          skipWave = true;
+        }
       }
-      if (next === "inicio" || !scrolly) setHeroIn(next === "loja");
+      if (next !== "loja" || !scrolly) setHeroIn(next === "loja");
+      showLogin(next === "entrar");
       if (changed) scrollTo({ top: scrollOf[next], behavior: "auto" });
     };
 
@@ -295,7 +323,11 @@ export function HomeScene({ labels }: { labels: { text: string; at: number }[] }
       canvas.height = Math.round(innerHeight * ratio);
       lastKey = "";
     };
-    const paint = (image: HTMLImageElement | HTMLVideoElement | null, alpha: number) => {
+    const paint = (
+      image: HTMLImageElement | HTMLVideoElement | null,
+      alpha: number,
+      focus: number,
+    ) => {
       if (!image) return;
       const iw = image instanceof HTMLVideoElement ? image.videoWidth : image.naturalWidth;
       const ih = image instanceof HTMLVideoElement ? image.videoHeight : image.naturalHeight;
@@ -307,11 +339,11 @@ export function HomeScene({ labels }: { labels: { text: string; at: number }[] }
       const sh = H / s;
       cx.imageSmoothingQuality = "high";
       cx.globalAlpha = alpha;
-      cx.drawImage(image, (iw - sw) * FOCUS, (ih - sh) / 2, sw, sh, 0, 0, W, H);
+      cx.drawImage(image, (iw - sw) * focus, (ih - sh) / 2, sw, sh, 0, 0, W, H);
       cx.globalAlpha = 1;
     };
     // Funde as duas imagens mais próximas já carregadas.
-    const paintPath = (index: number) => {
+    const paintPath = (index: number, focus: number) => {
       const f = Math.min(LAST, Math.max(FIRST, index));
       let a = Math.floor(f);
       let b = Math.ceil(f);
@@ -319,8 +351,8 @@ export function HomeScene({ labels }: { labels: { text: string; at: number }[] }
       while (b < LAST && !frames[b]) b++;
       if (!frames[a]) a = b;
       if (!frames[b]) b = a;
-      paint(frames[a] ?? null, 1);
-      if (b !== a) paint(frames[b] ?? null, (f - a) / (b - a));
+      paint(frames[a] ?? null, 1, focus);
+      if (b !== a) paint(frames[b] ?? null, (f - a) / (b - a), focus);
     };
 
     let p = 0;
@@ -343,7 +375,11 @@ export function HomeScene({ labels }: { labels: { text: string; at: number }[] }
         const x = clamp01((now - shot.t0) / shot.dur);
         shot.T = x >= 1 ? shot.to : lerp(shot.from, shot.to, easeInOut(x));
       }
-      if (shot.T > 0.6 && route === "loja") setHeroIn(true);
+      if (log.L !== log.to) {
+        const x = clamp01((now - log.t0) / log.dur);
+        log.L = x >= 1 ? log.to : lerp(log.from, log.to, easeInOut(x));
+      }
+      if (shot.T > 0.6 && log.L < 0.4 && route === "loja") setHeroIn(true);
       // a inércia da roda não pode descer a loja enquanto a câmara ainda viaja
       if (route === "loja" && shot.to === 1 && shot.T < 0.75 && scrollY > 0) scrollTo(0, 0);
       // ao descer, o vídeo abranda até parar; volta do mesmo ponto quando a página sossega
@@ -357,6 +393,7 @@ export function HomeScene({ labels }: { labels: { text: string; at: number }[] }
       }
       const age = litAt < 0 ? -1 : (now - litAt) / 1000;
       const T = shot.T;
+      const L = log.L;
       if (T > 0 || route === "inicio") update(p);
       // longe do herói, a cena fica atrás da loja: não se desenha
       if (T >= 1 && scrollY > innerHeight * 1.45) {
@@ -364,8 +401,9 @@ export function HomeScene({ labels }: { labels: { text: string; at: number }[] }
         return;
       }
 
-      const waving = litAt >= 0 && age < 3.2 && !skipWave && T === 1;
-      if (T === 1 && age >= 3.2 - (skipWave ? 99 : 0) && film.readyState >= 2) {
+      const waving = litAt >= 0 && age < 3.2 && !skipWave && T === 1 && L === 0;
+      const focus = lerp(FOCUS.shop, FOCUS.login, L);
+      if (T === 1 && L === 0 && age >= 3.2 - (skipWave ? 99 : 0) && film.readyState >= 2) {
         if (!filmSynced) {
           filmSynced = true;
           film.currentTime = restT;
@@ -377,7 +415,7 @@ export function HomeScene({ labels }: { labels: { text: string; at: number }[] }
         }
         if (!film.seeking) {
           restT = film.currentTime;
-          paint(film, 1);
+          paint(film, 1, focus);
           lastKey = "";
           return;
         }
@@ -387,22 +425,27 @@ export function HomeScene({ labels }: { labels: { text: string; at: number }[] }
       }
 
       const base = lerp(lerp(AT.inicio, AT.fimScroll, p), AT.loja, T);
-      const swung = base + SWING.amp * Math.sin((2 * Math.PI * restT) / SWING.period) * T;
-      const index = T === 1 ? Math.round(swung) : swung; // à espera do vídeo, fica numa imagem exata
-      const key = waving ? `w${age.toFixed(2)}` : index.toFixed(2);
+      const swung = lerp(
+        base + SWING.amp * Math.sin((2 * Math.PI * restT) / SWING.period) * T,
+        AT.login,
+        L,
+      );
+      // à espera do vídeo, fica numa imagem exata
+      const index = T === 1 && L === 0 ? Math.round(swung) : swung;
+      const key = waving ? `w${age.toFixed(2)}` : `${index.toFixed(2)}|${focus.toFixed(2)}`;
       if (key === lastKey) return;
       lastKey = key;
       if (!waving) {
-        paintPath(index);
+        paintPath(index, focus);
         return;
       }
       // os degraus acendem de baixo para cima e passam ao percurso sem salto
       const k = clamp01((age - 0.25) / 2.2) * (STEPS - 1);
       const a = Math.floor(k);
       const b = Math.min(STEPS - 1, a + 1);
-      if (age > 2.8) paintPath(index);
-      paint(steps[a] ?? null, age > 2.8 ? 1 - (age - 2.8) / 0.4 : 1);
-      if (b !== a && age <= 2.8) paint(steps[b] ?? null, k - a);
+      if (age > 2.8) paintPath(index, focus);
+      paint(steps[a] ?? null, age > 2.8 ? 1 - (age - 2.8) / 0.4 : 1, focus);
+      if (b !== a && age <= 2.8) paint(steps[b] ?? null, k - a, focus);
     };
 
     let resizeW = innerWidth;
@@ -416,7 +459,7 @@ export function HomeScene({ labels }: { labels: { text: string; at: number }[] }
     size();
 
     // Primeiro o essencial; o resto entra por passagens, de 8 em 8 até estar completo.
-    const opening = [88, 96, 80, 144, 136, 40, 48]
+    const opening = [88, 96, 80, 144, 136, 40, 48, 24, 32]
       .map(loadFrame)
       .concat(
         steps.map((_, i) =>

@@ -19,8 +19,10 @@ export default function proxy(request: NextRequest) {
 
   if ((isAdmin || accountMatch) && !getSessionCookie(request)) {
     const locale = accountMatch?.[1] ?? routing.defaultLocale;
-    const url = new URL(`/${locale}/entrar`, request.url);
+    // O login é o estado "entrar" da página inicial (a câmara dá a volta à escada).
+    const url = new URL(`/${locale}`, request.url);
     url.searchParams.set("next", pathname + search);
+    url.hash = "entrar";
     return NextResponse.redirect(url);
   }
 

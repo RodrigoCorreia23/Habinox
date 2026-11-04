@@ -8,7 +8,7 @@ import { auth } from "./auth";
 export const getSession = cache(async () => auth.api.getSession({ headers: await headers() }));
 
 function loginPath(next: string, locale: string = routing.defaultLocale) {
-  return `/${locale}/entrar?next=${encodeURIComponent(next)}`;
+  return `/${locale}?next=${encodeURIComponent(next)}#entrar`;
 }
 
 /** Exige utilizador autenticado; senão redireciona para o login. */
