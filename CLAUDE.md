@@ -6,6 +6,8 @@
 
 Contexto do projeto para desenvolvimento assistido. Lê este ficheiro antes de propor arquitetura, escrever código ou tomar decisões de produto.
 
+> **Para saber onde o trabalho está, o que falta e as regras de commit:** `docs/estado.md`, secção 1 ("Resumo rápido"). Fase 1 em curso desde 2026-11-04.
+
 ---
 
 ## 1. Contexto de negócio

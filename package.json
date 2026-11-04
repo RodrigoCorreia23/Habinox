@@ -18,7 +18,9 @@
     "db:migrate": "drizzle-kit migrate",
     "db:check": "drizzle-kit check",
     "db:studio": "drizzle-kit studio",
-    "db:seed": "node --env-file-if-exists=.env.local --import tsx scripts/seed.ts"
+    "db:seed": "node --env-file-if-exists=.env.local --import tsx scripts/seed.ts",
+    "db:demo": "docker compose exec -T db psql -U abinox -d abinox -q -v ON_ERROR_STOP=1 < scripts/demo/loja-demo.sql",
+    "db:demo:clean": "docker compose exec -T db psql -U abinox -d abinox -q -v ON_ERROR_STOP=1 < scripts/demo/limpar.sql"
   },
   "dependencies": {
     "@sentry/nextjs": "^11.4.0",

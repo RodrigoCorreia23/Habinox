@@ -6,22 +6,85 @@
 
 ---
 
-## 1. Resumo rápido
+## 1. Resumo rápido (ler isto primeiro)
 
-- **Fase atual:** esqueleto técnico feito (passos 1–6 de 7). **Fase 0 quase fechada**: as regras de preço, pagamento, IVA e transporte estão todas respondidas pelo Bruno (`docs/fase-0.md`, respostas de 14/10 e 26/10); 14 wireframes com a marca **Habinox**, o azul do logótipo e duas revisões feitas. Logótipo redesenhado em SVG (`public/brand/`) e aplicado na app e nos wireframes. O mockup v1 (`docs/mockup/`, "catálogo técnico") foi recusado pelo Bruno ("muitas caixas"); o **mockup v2** (`docs/mockup-v2/`: loja escura de arquitetura moderna, com vista 3D) foi **aprovado a 2026-10-27** e o `DESIGN.md` reescrito. Falta: o Bruno aprovar os wireframes e o logótipo; fotografias recentes das obras; GLB de teste do TopSolid; contrato assinado; e o deploy (passo 7). Depois: fase 1 a começar por `lib/money` + `lib/pricing`.
+> Atualizado a **2026-11-04**, no fim de uma sessão longa em que se fez quase toda a fase 1.
+> O detalhe de cada peça está na secção 6 ("Fase 1"); o histórico em `git log`.
+
+### Onde estamos
+
+- **Fase 1 em curso e bem avançada.** A reunião de 30/10 com o Bruno fechou as decisões (`docs/reuniao-2026-10-30.md`) e a fase 1 arrancou a 2026-11-04. O fluxo completo já funciona localmente, **de ponta a ponta**:
+  **backoffice** (materiais do ERP → margens → mão de obra → opções e regras → categorias → produto com fórmula → validar → publicar) → **loja** (página inicial com a cena, categorias, configurador com preço ao vivo) → **carrinho** (orçamento guardado 30 dias) → **entrar** → **finalizar pedido** → **encomenda** (emails, estado, histórico) → **backoffice de encomendas** e **"As minhas encomendas"**.
+- **Não há deploy.** Tudo corre só localmente (bloqueado pelas contas Vercel/Neon/Resend/R2 em nome da Habinox).
+- **Ver a funcionar num PC novo:** seguir a secção 5, depois `pnpm db:demo` (carrega um portão de correr de demonstração) e abrir http://localhost:3000/pt. Entrar no backoffice (`/admin`) com o `SEED_ADMIN_EMAIL`/`SEED_ADMIN_PASSWORD` do `.env.local`. `pnpm db:demo:clean` apaga a demonstração.
 - **Cliente:** marca **HABINOX®** (não "Abinox"), Bruno Miguel Freitas, Lda, Núcleo Industrial de Antas, 4740-016 Antas, **Esposende**. Domínio `habinox.pt`, email `geral@habinox.pt`.
-- **Repositório:** `github.com/RodrigoCorreia23/Habinox`, ramo `main`. CI no GitHub Actions verde.
-- **Nada de lógica de negócio ainda** (catálogo, preços, Odoo, encomendas): só infraestrutura, autenticação e páginas placeholder.
+- **Repositório:** `github.com/RodrigoCorreia23/Habinox`, ramo `main`, CI verde (formatação, lint, tipos, migrações, 216 testes unitários, build, 6 e2e).
 
-- **Reunião com o Bruno a 2026-10-30.** Notas e discussão (2026-11-04) em `docs/reuniao-2026-10-30.md`. Decidido:
-  - **Odoo em vez do PHC GO** (Odoo Online; API só no plano Custom; o Bruno regista os artigos, sem dados de teste);
-  - **sem produtos-piloto**: o Bruno cria tudo de raiz no backoffice; o Rodrigo testa como se fosse ele;
-  - BD preparada para 7 línguas (PT, EN, DE, FR, IT, ES, NL), lançamento só em PT, traduções no fim pelo Rodrigo;
-  - **página inicial entra na fase 1 sem acréscimo**.
-  - **margem confirmada: `custo × (1 + margem)`** (5% → × 1,05), **com margem própria em cada item** (material, acabamento, componente, sector), decidida pelo Bruno;
-  - textos da BD em `jsonb` por língua;
-  - **a fase 1 pode arrancar** (2026-11-04).
-- **Pendente:** preço fixo por intervalo de medida; regra de transporte.
+### Decisões que mudaram desde o plano original (já no `CLAUDE.md`)
+
+- **ERP = Odoo** (Odoo Online, API JSON-2, só no plano Custom), não PHC GO. O Bruno regista os artigos; não há dados de teste. Lista de campos para ele: `docs/odoo-artigos.md`.
+- **Sem produtos-piloto:** o Bruno cria tudo de raiz no backoffice.
+- **Margem sobre o custo, por item:** `preço = custo × (1 + margem)`; cada material, componente e sector tem a sua; `null` = por decidir e bloqueia a publicação. Componentes (motores…) são artigos do ERP.
+- **Línguas:** BD com texto por língua (`jsonb`, `src/lib/localized.ts`); lançamento só em PT; 7 línguas no fim (PT, EN, DE, FR, IT, ES, NL), traduzidas pelo Rodrigo.
+- **Página inicial na fase 1, sem acréscimo**, igual ao artefacto/protótipo (`docs/site-inicial/`).
+
+### Fase 1 — ponto de situação
+
+| Área                                                                                                                                                                                 | Estado                                                    | Onde                                                 |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------- | ---------------------------------------------------- |
+| Dinheiro, IVA, percentagens                                                                                                                                                          | ✅                                                        | `src/lib/money/`, `src/lib/percent.ts`               |
+| Motor de preços (expressões sem `eval`, variáveis, linhas, margem por item, consumíveis)                                                                                             | ✅                                                        | `src/lib/pricing/`                                   |
+| Opções e regras (`restrict`/`hide`/`require`/`forbid`, ordem)                                                                                                                        | ✅                                                        | `src/lib/options/`                                   |
+| Schema e migrações (catálogo, ERP, orçamentos, carrinho, encomendas, consentimentos)                                                                                                 | ✅                                                        | `src/db/schema/`, migrações `0000`–`0005`            |
+| Sincronização do ERP (cópia local, histórico, desaparecidos)                                                                                                                         | 🟡 só com o adaptador **fake**                            | `src/server/sync/odoo/`                              |
+| Backoffice: materiais e margens, mão de obra, opções e regras da biblioteca, categorias, produtos (opções, regras, fórmula, preço de exemplo, validar/publicar, versões), encomendas | ✅                                                        | `src/app/admin/`                                     |
+| Página inicial (cena da casa: loja ↔ apresentação ↔ entrar, como o artefacto)                                                                                                        | ✅                                                        | `src/app/[locale]/(inicio)/`                         |
+| Loja: categoria, configurador com preço ao vivo (custos nunca saem do servidor)                                                                                                      | ✅                                                        | `src/app/[locale]/(loja)/loja/`, `src/server/store/` |
+| Carrinho (cookie, orçamentos 30 dias, junta-se à conta ao entrar)                                                                                                                    | ✅                                                        | `src/server/store/cart*.ts`                          |
+| Finalizar pedido, encomendas, máquina de estados, emails, "As minhas encomendas"                                                                                                     | ✅                                                        | `src/server/orders/`, `src/lib/orders/`              |
+| Termos, privacidade, cookies                                                                                                                                                         | 🟡 rascunho para jurista; faltam NIPC, matrícula, capital | `src/content/legal/`                                 |
+| Imagens (categorias, produtos) e R2                                                                                                                                                  | ⬜ fotografias **provisórias** do Unsplash nas categorias | `public/home/provisorio/`                            |
+| Visualizador 3D (GLB do TopSolid)                                                                                                                                                    | ⬜ à espera dos GLB                                       | —                                                    |
+| Adaptador Odoo real                                                                                                                                                                  | ⬜ à espera do plano Custom e dos artigos                 | —                                                    |
+| Deploy (staging/produção), cron diário do ERP                                                                                                                                        | ⬜ à espera das contas                                    | —                                                    |
+| Rate limiting das ações públicas, limpeza de carrinhos antigos, expirar encomendas                                                                                                   | ⬜                                                        | —                                                    |
+| Páginas de registo/recuperar password no visual escuro, seletor de línguas, 404, emails em HTML                                                                                      | ⬜                                                        | —                                                    |
+
+### Próximos passos sugeridos (por ordem)
+
+1. **Envio de imagens no backoffice** (categorias e produtos), com tamanhos mínimos, recorte e ponto de foco (tabela na secção 6 › "Imagens e R2"); guardar localmente até haver R2.
+2. **Rate limiting** de `quoteAction`, `addToCartAction` e do checkout (são públicos).
+3. **Jobs do cron:** limpar carrinhos antigos; expirar encomendas não pagas (prazo a perguntar ao Bruno); `vercel.json` com o `odoo-sync` diário.
+4. **Registo e recuperação de password** no visual da loja; página 404.
+5. **Visualizador GLB** quando chegarem os ficheiros do TopSolid.
+6. **Deploy** quando houver contas; depois o **adaptador Odoo real**.
+7. Fase 1B (pagamentos) só depois de fechar a fase 1.
+
+### À espera do Bruno
+
+- Odoo: **plano Custom** (sem ele não há API) e os artigos registados conforme `docs/odoo-artigos.md`.
+- **Contas** em nome da Habinox: Vercel, Neon, Resend, Cloudflare R2. DNS do `habinox.pt`.
+- **Fotografias** das obras (tamanhos na secção 6) — ele arranja-as.
+- **GLB** de teste exportados do TopSolid.
+- **NIPC, conservatória/matrícula e capital social** (páginas legais); revisão dos textos legais por jurista.
+- **Números** de clientes e toneladas da página inicial (retirados por serem provisórios).
+- **Pendentes da reunião:** preço fixo por intervalo de medida; regra de transporte; prazo para expirar encomendas não pagas; diferença aceitável face a orçamentos reais antes de validar um produto.
+
+### Regras de trabalho neste repositório
+
+- Ler o `CLAUDE.md` (negócio, decisões, regras de código) e este ficheiro. Comunicar com o Rodrigo em **português de Portugal**.
+- **Commits e push só quando o Rodrigo pedir.** Mensagens em português, um commit por passo lógico, autor **Rodrigo Correia** (`git -c user.name="Rodrigo Correia" commit …`; o git desta máquina pode estar com outro nome). **Nunca** acrescentar atribuição ao Claude (nem `Co-Authored-By`, nem "Generated with").
+- Antes de cada commit: `pnpm format:check && pnpm lint && pnpm typecheck && pnpm test` (e `pnpm test:e2e` se mexer em páginas). Ensaiar no browser (Playwright) o que se muda na interface.
+- Dados de ensaio criados para testar: **apagá-los** no fim (`pnpm db:demo:clean`), salvo se o Rodrigo os quiser ver.
+- Os Excel dos orçamentos do Bruno **não entram no git** (nomes de clientes, custos internos).
+
+### Armadilhas conhecidas (já resolvidas, não repetir)
+
+- **Drizzle:** numa consulta sem join, as colunas dentro de subconsultas `sql` ficam sem o nome da tabela; usar consultas agrupadas à parte.
+- **React 19:** `<form action>` limpa os campos depois de cada envio, mesmo com erro; no backoffice usar `submitKeepingValues` (`src/components/admin/`).
+- **Preço no checkout:** a encomenda é recusada se o total não for o que o cliente viu no botão (um orçamento pode expirar entretanto).
+- **drizzle-kit generate** pergunta (sem terminal interativo) quando se renomeia uma coluna: fazer em duas migrações (remover, depois acrescentar).
+- **Next dev:** depois de mover rotas, apagar `.next/dev/types` se o typecheck se queixar de ficheiros que já não existem.
 
 ---
 
@@ -273,6 +336,7 @@ cp .env.example .env.local
 #   (DATABASE_URL e BETTER_AUTH_URL já vêm com os valores locais)
 
 pnpm db:up && pnpm db:migrate && pnpm db:seed
+pnpm db:demo              # opcional: um portão de correr de demonstração (pnpm db:demo:clean apaga)
 pnpm dev                  # http://localhost:3000 → /pt ; backoffice em /admin
 ```
 
@@ -333,7 +397,7 @@ Notas:
 - **P2 da revisão por fazer** (na implementação): dicionário único de estados da encomenda (rótulo cliente + interno); "Removido. Desfazer" no carrinho e nas linhas da fórmula; separadores/filtros com `tablist`/radio e estado no URL; pesquisa e ordenação em Encomendas e Materiais; ajuda de sintaxe junto às expressões das fórmulas.
 - Ideias a discutir com o Bruno: ficha de fabrico "assinada" em PDF na encomenda; medição no local com preço descontado; etiquetas tipo carimbo.
 
-### Fase 1 (depois da fase 0), pela ordem do CLAUDE.md
+### Fase 1 — detalhe do que foi feito (2026-11-04)
 
 1. ✅ **Feito a 2026-11-04:** `lib/money` (decimal de ponto fixo sobre BigInt, 8 casas; cêntimos; IVA; formatação pt-PT), `lib/options` (condições e regras validadas com Zod; `resolveConfig` aplica `restrict`/`hide`/`require`/`forbid` numa passagem) e `lib/pricing` (parser de expressões sem `eval`, com vírgula decimal e `;` entre argumentos; `ceil`/`floor`/`round` encostam ao inteiro o erro de float; variáveis calculadas; linhas condicionadas; artigo escolhido por opção; componentes dos valores; consumíveis com a margem do material; margem por item, `null` bloqueia). Testes em `tests/unit/{money,expression,options,pricing}.test.ts`, com o portão de correr e a escada calculados à mão. Falta: validação das fórmulas para o backoffice (variáveis desconhecidas, dependências das regras pela ordem), preço fixo por intervalo de medida (pendente).
 2. 🟡 **Schema do catálogo feito a 2026-11-04** (migração `0001_catalogo`): `materials` (margem da loja, peso por unidade, `erp_missing_at`), `material_costs`, `sync_runs`, `sectors` (taxa + margem), `option_definitions`, `option_values`, `categories` (árvore por `parent_id`), `products`, `product_versions`, `product_options`, `product_option_values`, `option_rules`, `formula_variables`, `formula_lines`, `formula_line_materials`. Textos visíveis em `jsonb` por língua (`src/lib/localized.ts`). Restrições na BD: chaves em minúsculas, margens e custos ≥ 0, mín ≤ máx, cada linha da fórmula com exatamente uma origem de custo; nada apaga em cascata o que um orçamento possa referir. Falta: `quotes`, `orders`, `order_items`, `payments`, `webhook_events`, `consents`, zonas (instalação/transporte), `discount_groups`.
@@ -376,7 +440,7 @@ Notas:
 - Emails só em texto simples; falta template HTML com a marca.
 - Sem página de erro/404 personalizada.
 - O build descarrega as fontes do Google (`next/font/google`); a 2026-10-09 o CI falhou uma vez a obter a IBM Plex Sans e passou ao repetir. Se voltar a acontecer (ou na Vercel), passar a fontes locais (`next/font/local` com os ficheiros no repositório).
-- Página `/admin` não tem login próprio: usa `/pt/entrar?next=/admin`.
+- Página `/admin` não tem login próprio: usa o estado "entrar" da página inicial (`/pt?next=/admin#entrar`).
 
 ---
 
