@@ -39,7 +39,7 @@ Cores RAL são uma `choice` com `display: swatches`; cada valor tem `ral_code` e
 
 Há três vias, que se combinam:
 
-1. **Componente:** o valor traz um componente comprado, a preço de venda (entra depois da margem). Exemplo: "Motor e 2 comandos" → componente "Kit motor correr 400 kg" a 535 €.
+1. **Componente:** o valor traz um componente comprado, com custo e margem próprios (o motor pode ter margem 0). Exemplo: "Motor e 2 comandos" → componente "Kit motor correr 400 kg" a 535 €.
 2. **Condição numa linha:** a linha só conta se as condições se cumprirem (coluna "Aplica-se" do wireframe das fórmulas). Exemplo: a linha "Chapa lisa" só se aplica se `enchimento = chapa`. Exemplo: a linha "Lacagem (serviço externo)" só se aplica se `acabamento = lacado`.
 3. **Números nas expressões:**
    - medidas (`L`, `H`) e opções `number`;
@@ -79,8 +79,8 @@ Os quatro efeitos são os do wireframe "Produto e opções".
 
 ## 4. Versões e histórico
 
-- A configuração de um produto (opções, limites, regras do produto, variáveis, linhas, margem, consumíveis) fica numa **versão do produto**: rascunho → validada → publicada, como o wireframe já mostra ("Publicar alterações"). Proposta: `formula_versions` passa a `product_versions`, porque as linhas dependem das opções e têm de ser publicadas juntas.
-- A **biblioteca** (opções, valores, componentes, regras gerais) **não tem versões**: mudar um nome ou o preço de um componente vale logo para todos os produtos, tal como um custo do PHC. O aviso "afeta todos os produtos que o usam" já está no wireframe.
+- A configuração de um produto (opções, limites, regras do produto, variáveis, linhas, consumíveis) fica numa **versão do produto**: rascunho → validada → publicada, como o wireframe já mostra ("Publicar alterações"). Proposta: `formula_versions` passa a `product_versions`, porque as linhas dependem das opções e têm de ser publicadas juntas.
+- A **biblioteca** (opções, valores, componentes, regras gerais) **não tem versões**: mudar um nome, o custo ou a margem de um componente vale logo para todos os produtos, tal como um custo do PHC. O aviso "afeta todos os produtos que o usam" já está no wireframe.
 - Orçamentos e encomendas guardam `config` (chaves) **e** o snapshot (nomes, números, artigos, custos, componentes, versão do produto). Dentro dos 30 dias mostra-se o snapshot. Depois recalcula-se; se um valor estiver arquivado ou já não for permitido, o orçamento aparece como "esta configuração já não está disponível".
 
 ---
@@ -93,12 +93,12 @@ option_definitions  (id, key UNIQUE, name, type: dimension|number|choice|boolean
 option_values       (id, option_id, key, label, position, params jsonb,
                      ral_code, swatch_hex, component_id NULL, asks_text bool, archived_at)
                      UNIQUE (option_id, key)
-components          (id, name, price_cents, active)                -- preço de venda s/ IVA
-sectors             (id, name, hourly_rate_cents)                   -- serralharia, corte laser, instalação…
+components          (id, name, cost_cents, margin, active)         -- custo s/ IVA + margem própria
+sectors             (id, name, hourly_rate_cents, margin)           -- serralharia, corte laser, instalação…
 
 products            (id, category_id, slug, name, model_glb_url, published_version_id)
 product_versions    (id, product_id, version, status: draft|validated|published,
-                     margin, consumables_pct, created_by, created_at, published_at)
+                     consumables_pct, created_by, created_at, published_at)
 product_options     (id, product_version_id, option_id, position, var, required,
                      min, max, step, default jsonb)                 -- min/max/step em mm nas medidas
                      UNIQUE (product_version_id, option_id), UNIQUE (product_version_id, var)
@@ -117,10 +117,24 @@ formula_line_materials (formula_line_id, option_value_id, material_id)
 - `conditions` e `effect` são JSON **estruturado**, validado com Zod (o mesmo formato nas regras e nas linhas): `[{ "option": "material", "op": "in", "values": ["inox"] }]`. Nada de texto livre.
 - `config` em orçamentos e encomendas: `{ "largura": 4000, "material": "ferro", "cor": "7016", "motorizacao": "sem" }` (chaves de opção → chave de valor, mm ou número).
 
+### Margem (decidida a 2026-11-04)
+
+- **Cada item tem a sua margem:** cada material (inclui acabamentos e serviços externos), cada componente (motores…) e cada sector de mão de obra. Fica na biblioteca, por isso vale em todos os produtos que usam o item.
+- Fórmula: `preço da linha = custo da linha × (1 + margem)`, margem em fração (`numeric(5,4)`, 5% = 0,0500).
+- **Consumíveis** (% sobre os materiais) herdam a margem do material a que se aplicam.
+- `margin` é **NULL até o Bruno a decidir.** Um produto que use um item sem margem decidida não se publica. Margem 0 (motores) tem de ser escolhida explicitamente, nunca por omissão.
+- A margem dos materiais é um campo **da loja**: a sincronização com o Odoo nunca a altera.
+- O **transporte** não leva margem: soma-se depois.
+
+### Textos traduzíveis
+
+- Os textos que o cliente vê (nomes e descrições de categorias, produtos, opções, valores, componentes; mensagens das regras; `label` das variáveis visíveis) guardam-se em `jsonb` por língua: `{ "pt": "Portão de correr" }`. Validados com Zod; `pt` é obrigatório.
+- Chaves técnicas (`key`, `var`, `slug` por língua fica para a internacionalização) não se traduzem.
+
 ## 6. Onde fica o código
 
 - `src/lib/options/` (puro, sem BD): tipos, avaliação de condições, `resolveConfig(versão, escolhas)` → opções visíveis, valores permitidos, obrigatórias, erros. Usado **no configurador e no servidor**.
-- `src/lib/pricing/`: parser de expressões, variáveis calculadas, linhas, consumíveis, margem, componentes, IVA. Recebe a configuração já validada por `lib/options`.
+- `src/lib/pricing/`: parser de expressões, variáveis calculadas, linhas, consumíveis, margem por item, componentes, IVA. Recebe a configuração já validada por `lib/options`.
 - O servidor **recalcula sempre** o preço a partir de `config`; o preço que vem do browser é ignorado.
 - Testes: os 5 produtos da secção 7 como casos de teste.
 

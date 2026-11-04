@@ -2,7 +2,7 @@
 
 > Documento vivo. **Atualizar no fim de cada sessão de trabalho** (secções 2, 6 e 7).
 > O `CLAUDE.md` tem o contexto de negócio, as decisões e as regras; este ficheiro tem
-> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-11-01.
+> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-11-04.
 
 ---
 
@@ -11,10 +11,17 @@
 - **Fase atual:** esqueleto técnico feito (passos 1–6 de 7). **Fase 0 quase fechada**: as regras de preço, pagamento, IVA e transporte estão todas respondidas pelo Bruno (`docs/fase-0.md`, respostas de 14/10 e 26/10); 14 wireframes com a marca **Habinox**, o azul do logótipo e duas revisões feitas. Logótipo redesenhado em SVG (`public/brand/`) e aplicado na app e nos wireframes. O mockup v1 (`docs/mockup/`, "catálogo técnico") foi recusado pelo Bruno ("muitas caixas"); o **mockup v2** (`docs/mockup-v2/`: loja escura de arquitetura moderna, com vista 3D) foi **aprovado a 2026-10-27** e o `DESIGN.md` reescrito. Falta: o Bruno aprovar os wireframes e o logótipo; fotografias recentes das obras; GLB de teste do TopSolid; contrato assinado; e o deploy (passo 7). Depois: fase 1 a começar por `lib/money` + `lib/pricing`.
 - **Cliente:** marca **HABINOX®** (não "Abinox"), Bruno Miguel Freitas, Lda, Núcleo Industrial de Antas, 4740-016 Antas, **Esposende**. Domínio `habinox.pt`, email `geral@habinox.pt`.
 - **Repositório:** `github.com/RodrigoCorreia23/Habinox`, ramo `main`. CI no GitHub Actions verde.
-- **Nada de lógica de negócio ainda** (catálogo, preços, PHC, encomendas): só infraestrutura, autenticação e páginas placeholder.
+- **Nada de lógica de negócio ainda** (catálogo, preços, Odoo, encomendas): só infraestrutura, autenticação e páginas placeholder.
 
-- **Próximo passo: reunião presencial com o Bruno (por marcar).** O Rodrigo perguntou-lhe se podiam arrancar a fase 1; ele **não deu luz verde** e respondeu: "Temos que agendar uma reunião presencial, para entender bem o que estás a desenvolver e outras questões de como vai funcionar." A fase 1 **não começa** antes da reunião e do contrato assinado. Levar `docs/plano/Habinox-plano.pdf`; os pontos a decidir estão na secção 12 desse PDF.
-- **A confirmar na reunião:** a fórmula da margem e os valores por fase do PDF (ver secção 7).
+- **Reunião com o Bruno a 2026-10-30.** Notas e discussão (2026-11-04) em `docs/reuniao-2026-10-30.md`. Decidido:
+  - **Odoo em vez do PHC GO** (Odoo Online; API só no plano Custom; o Bruno regista os artigos, sem dados de teste);
+  - **sem produtos-piloto**: o Bruno cria tudo de raiz no backoffice; o Rodrigo testa como se fosse ele;
+  - BD preparada para 7 línguas (PT, EN, DE, FR, IT, ES, NL), lançamento só em PT, traduções no fim pelo Rodrigo;
+  - **página inicial entra na fase 1 sem acréscimo**.
+  - **margem confirmada: `custo × (1 + margem)`** (5% → × 1,05), **com margem própria em cada item** (material, acabamento, componente, sector), decidida pelo Bruno;
+  - textos da BD em `jsonb` por língua;
+  - **a fase 1 pode arrancar** (2026-11-04).
+- **Pendente:** preço fixo por intervalo de medida; regra de transporte.
 
 ---
 
@@ -106,17 +113,17 @@
 - **Movimento parado como vídeo (pedido do Rodrigo, 2026-11-01):** a fusão de imagens a cerca de 4 por segundo deixava fantasmas. Na loja passa a tocar `img/casa/balanco.mp4` (`cenarios/casa/video.sh`: 66 posições renderizadas, interpolação com `minterpolate`, 24 s a 24 i/s, vaivém de ±3°, pinta no mesmo canvas); abranda ao fazer scroll e, nas viagens, volta às imagens a partir da mesma posição. No login a imagem fica parada.
 - **Alta qualidade (pedido do Rodrigo, 2026-11-02):** `img/casa-hd/` tem as 175 imagens a 2560 × 1440 com 128 amostras (65 MB) e o `balanco.mp4` (12 MB, limite da publicação: 15 MB por ficheiro), gerados por `cenarios/casa/hd.sh` (cerca de 13 h de render). Ecrãs com 700 px ou mais usam `casa-hd`; os mais estreitos usam as imagens de 1440 px de `img/casa/`, mas o vídeo é sempre o de 2560 px. Pesa demasiado para um site real: em produção, rever formatos (AVIF/WebP) e o carregamento. A página para sempre numa imagem exata, porque a fusão de duas imagens vizinhas duplicava a cena.
 - **Em produção (Next 16):** `<ViewTransition>` do React para os ecrãs da loja (`next/dist/docs/01-app/02-guides/view-transitions.md`) e o canvas persistente no layout de `[locale]`, sem ser desmontado entre rotas.
-- **Por decidir com o Bruno:** fontes e cores (início Fraunces/noite, loja Archivo/grafite aprovados a 27/10; a passagem interpola as cores, as fontes mudam); a página inicial não consta do plano de fases, por isso é preciso acordar horas e valor; números de clientes e toneladas provisórios; falta a fotografia `escada.png`; a cena é pesada para telemóveis fracos e só foi testada em renderização por software.
+- **Por decidir com o Bruno:** fontes e cores (início Fraunces/noite, loja Archivo/grafite aprovados a 27/10; a passagem interpola as cores, as fontes mudam); a página inicial entra na fase 1 sem acréscimo (decidido a 2026-11-04); números de clientes e toneladas provisórios; falta a fotografia `escada.png`; a cena é pesada para telemóveis fracos e só foi testada em renderização por software.
 
 Regras do motor de preços que saíram dos orçamentos e das respostas (detalhe em `docs/fase-0.md` e `docs/orcamentos-analise.md`):
 
 ```
-custo direto  = Σ materiais (qtd × custo, por material escolhido) + consumíveis (% dos materiais) + Σ horas × taxa do sector
-preço s/ IVA  = custo direto / (1 − margem)  + Σ componentes (preço de venda)  + instalação (zona + horas)  + portes
+linha         = custo da linha × (1 + margem do item)       (material + consumíveis, horas × taxa do sector, componente)
+preço s/ IVA  = Σ linhas  + instalação (zona + horas)  + transporte (sem margem)
 IVA           = round(preço s/ IVA × taxa)   (uma vez, ao total; taxa em settings com snapshot)
 ```
 
-- **Margem sobre o preço de venda** (50% → preço = 2 × custo), não markup. **Deduzida dos Excel do Bruno; ainda não confirmada por ele por palavras** (ver secção 7).
+- **Margem sobre o custo, por item** (confirmada a 2026-11-04): cada material, componente e sector tem a sua; 5% → × 1,05. Substitui o `÷ (1 − margem)` deduzido dos Excel.
 - **Taxa horária por sector** (23,50 €/h geral; corte laser 120 €/h).
 - Pagamento: > 1 000 € **com IVA** → 50% na adjudicação + 50% no despacho; ≤ 1 000 € → total (resposta de 26/10, substitui os 40/60). Sem arredondamentos. Preços mostrados sempre com IVA. Instalação à parte. Transporte por m³ × km, com valores definidos pelo Bruno no backoffice. Linhas e valores de cada produto definidos pelo Bruno ao criá-lo. Validade dos orçamentos: 30 dias. Transporte: próprio, transportadora (por zona no beta) ou levantamento. Prazo de produção pela capacidade mensal (fora do âmbito original — estimar antes de prometer). Cliente envia foto ou rascunho do espaço (upload).
 
@@ -331,7 +338,7 @@ Notas:
 1. `lib/money` + `lib/pricing` (puro, sem BD) com testes — **antes de qualquer UI**. Fórmulas por linhas de custo, versionadas, parser seguro (nunca `eval`).
 2. Schema (opções, regras e fórmulas segundo `docs/modelo-opcoes.md`): `materials`, `material_costs`, `categories`, `products`, `option_definitions`, `option_values`, `product_versions`, `product_options`, `product_option_values`, `option_rules`, `formula_variables`, `formula_lines`, `formula_line_materials`, `components`, sectores/taxas horárias, zonas (instalação e transporte), `finishes`, `quotes`, `orders`, `order_items`, `payments`, `webhook_events`, `discount_groups`, `consents`, … (ver secção 4 do CLAUDE.md).
 3. Catálogo, configurador, carrinho, pedido; backoffice (shadcn + TanStack Table).
-4. Sincronização PHC: interface `PhcClient` + adaptador fake primeiro; real quando houver AppID/token.
+4. Sincronização Odoo: interface `ErpClient` + adaptador fake primeiro; real quando o Bruno tiver o plano Custom e os artigos registados.
 5. RGPD: tabela `consents` e checkbox de termos/privacidade no registo (ainda **não** existe); apagamento de conta no backoffice; cookies.
 6. Visualizador GLB (react-three-fiber), SEO básico, templates HTML de email.
 
@@ -349,7 +356,7 @@ Notas:
 
 Ver secção 8 do `CLAUDE.md`. Além disso:
 
-- **Margem:** a fórmula `custo ÷ (1 − margem)` foi deduzida dos Excel do Bruno (`docs/orcamentos-analise.md`); por palavras, ele só disse que a margem é por produto (26/10). O `docs/fase-0.md` e o PDF do plano dizem "fechado", mas falta a confirmação dele: "custo de 100 € com margem de 50% = 200 €, em todos os produtos?".
+- **Margem:** confirmada a 2026-11-04, `custo × (1 + margem)`. O PDF do plano, os wireframes e os mockups ainda mostram a fórmula antiga (`÷ (1 − margem)`); são documentos de fase 0 e não foram alterados.
 - **Valores por fase no PDF:** calculados a 15 €/h (7 800 € ÷ 520 h); confirmar com o contrato.
 
 - Titularidade das contas: **decidido — ficam em nome da Habinox** (Vercel, Neon, Sentry, Resend). Falta criá-las.

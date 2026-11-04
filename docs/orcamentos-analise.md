@@ -22,6 +22,8 @@ Todos seguem o mesmo modelo, que encaixa no nosso desenho de "linhas de custo":
 4. Preço s/ IVA  =  custo direto / (1 − margem)              margem 50% → preço = 2 × custo
 ```
 
+> **2026-11-04:** a margem foi confirmada pelo Bruno como **sobre o custo**, `custo × (1 + margem)`. A conclusão abaixo (`custo / (1 − margem)`) já não vale.
+
 Conclusões para o `lib/pricing`:
 
 - **A margem é sobre o preço de venda, não sobre o custo.** Com 50%, o preço é o dobro do custo (não 1,5×). A fórmula tem de ser `custo / (1 − margem)`, e o backoffice tem de dizer isto claramente.

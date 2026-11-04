@@ -2,6 +2,8 @@
 
 Objetivo: fechar a lista de produtos e campos, as regras de preço e os wireframes antes de escrever lógica de negócio.
 
+> **Atualização de 2026-11-04 (reunião de 30/10, ver `docs/reuniao-2026-10-30.md`):** o ERP passa a ser o **Odoo** em vez do PHC GO; as referências ao PHC abaixo valem para o Odoo. **Não há produtos-piloto**: o Bruno cria tudo de raiz no backoffice, por isso as perguntas 1 e 43 caem. A margem passa a ser **sobre o custo**: `preço = custo × (1 + margem)` (confirmado a 2026-11-04); onde abaixo aparece `custo / (1 − margem)`, já não vale.
+
 Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para analisar mais tarde · 🔴 bloqueia trabalho
 
 ---

@@ -34,7 +34,7 @@ As fases são sequenciais. Não começar trabalho de uma fase seguinte sem a ant
 | Fase | Conteúdo | Horas |
 |---|---|---|
 | 0 | Definição, lista de produtos e campos, regras de preço, wireframes | 20h |
-| 1 | Loja online (beta) **+ integração PHC GO** | 210h |
+| 1 | Loja online (beta) **+ integração Odoo** + página inicial (sem acréscimo, decidido a 2026-11-04) | 210h |
 | 1B | Pagamento online (Stripe ou equivalente) | 40h |
 | 2 | Métricas e análise do site | 35h |
 | 3 | Integração com o CRM GoHighLevel | 35h |
@@ -51,16 +51,18 @@ As fases são sequenciais. Não começar trabalho de uma fase seguinte sem a ant
 - **Motor de preços paramétrico**: preço = f(matéria-prima, quantidade de material em função das medidas, custo/hora de mão de obra, tempo estimado, margem). Alterar o custo de um material recalcula todos os produtos que o usam. As fórmulas por produto são configuráveis em backoffice, não escritas em código.
 - Visualizador 3D: ficheiros **GLB** exportados pelo cliente a partir do TopSolid. **No beta o 3D muda cor e material, não muda de tamanho.** As medidas afetam apenas o preço. (3D por medida = fase 8.)
 - Registo e login de clientes, carrinho, envio de pedido, emails transacionais.
-- Backoffice: produtos, categorias, materiais, cores, fórmulas de preço, pedidos.
+- Backoffice: produtos, categorias, materiais, cores, fórmulas de preço, pedidos. **É o centro da fase 1:** não há produtos-piloto nem dados criados por nós; o Bruno monta tudo de raiz (categoria → subcategoria → produto, materiais vindos do Odoo, opções, fórmulas). Tem de ser usável por alguém sem conhecimentos técnicos. Os testes de utilização são feitos pelo Rodrigo, como se fosse o Bruno.
+- Página inicial (protótipo em `docs/site-inicial/`) ligada à loja sem cortes entre páginas; tem de ser otimizada (cena 3D e imagens pesadas).
 - RGPD (consentimentos e cookies), SEO básico.
 
-**Fase 1 — Integração PHC GO (ERP do cliente)**
-- Só **leitura** de artigos (materiais) e custos. A Simple API do PHC GO chega.
-- Necessário AppID + token; o cliente fornece acessos e ambiente de testes.
-- **Padrão obrigatório: cópia local.** Um job sincroniza (1x/dia) e grava na BD da loja. A loja lê **sempre** a cópia local, nunca o PHC em tempo real de request.
+**Fase 1 — Integração Odoo (ERP do cliente; substitui o PHC GO, decidido a 2026-10-30)**
+- Muito provavelmente **Odoo Online**. A API externa só existe no **plano Custom**; usar a **API JSON-2** (XML-RPC e JSON-RPC saem no Odoo 20).
+- Só **leitura** de artigos (materiais) e custos. Escrever no Odoo (encomendas, faturas) fica para decidir depois.
+- **Não há ambiente nem dados de teste:** o Bruno regista os artigos e os custos no Odoo. Até lá, adaptador fake. Entregar-lhe a lista de campos a preencher em cada artigo.
+- **Padrão obrigatório: cópia local.** Um job sincroniza (1x/dia) e grava na BD da loja. A loja lê **sempre** a cópia local, nunca o Odoo em tempo real de request.
 - Botão "sincronizar agora" no backoffice.
-- Se o PHC falhar: a loja continua com os últimos valores conhecidos + aviso no backoffice com data da última sincronização.
-- Se um artigo desaparecer do PHC: **nunca apagar nem pôr preço a zero**; manter o último custo e marcar para revisão humana.
+- Se o Odoo falhar: a loja continua com os últimos valores conhecidos + aviso no backoffice com data da última sincronização.
+- Se um artigo desaparecer do Odoo: **nunca apagar nem pôr preço a zero**; manter o último custo e marcar para revisão humana.
 - Guardar histórico de custos (serve para relatórios e para auditoria de preços).
 
 **Fase 1B — Pagamentos**
@@ -106,13 +108,13 @@ Escolhida para um programador sozinho, com manutenção baixa e muito trabalho f
 **Infraestrutura**
 - **Vercel** para a app + **Neon** para Postgres (branches de BD para staging, backups com point-in-time restore). Motivo: a operação de servidor (backups, updates, restauro) comeria as 5h/mês de manutenção. Só considerar VPS (Hetzner + Coolify) perante um requisito concreto (jobs longos, custo recusado pelo cliente).
 - **Cloudflare R2** para GLB, imagens e ficheiros técnicos.
-- **Vercel Cron** a chamar `app/api/cron/[job]`, protegido por segredo, para sincronização PHC, agentes, relatórios e verificações.
+- **Vercel Cron** a chamar `app/api/cron/[job]`, protegido por segredo, para sincronização Odoo, agentes, relatórios e verificações.
 - **Resend** para email transacional.
 - **Sentry** para erros; **Umami** ou GA4 + **Microsoft Clarity** para analytics.
 - Ambientes: `dev` local, `staging`, `prod`. Migrações versionadas no repositório.
 
 **Integrações**
-- PHC GO (Simple API) — leitura de artigos/custos.
+- Odoo (API JSON-2) — leitura de artigos/custos.
 - GoHighLevel — contactos e tags.
 - Stripe / IfthenPay / Eupago — pagamentos.
 - Anthropic API — agentes (ver secção 5).
@@ -128,7 +130,7 @@ src/
     admin/                    backoffice (só PT)
     api/
       webhooks/[provider]/    pagamentos (fase 1B)
-      cron/[job]/             phc-sync, agentes, relatórios (protegidos por segredo)
+      cron/[job]/             odoo-sync, agentes, relatórios (protegidos por segredo)
   lib/
     pricing/                  PURO: sem BD nem I/O; recebe dados e devolve preço + decomposição
     money/                    cêntimos e IVA (nada de float)
@@ -136,7 +138,7 @@ src/
     catalog/
     quotes/
     orders/                   máquina de estados explícita
-    sync/phc/                 interface PhcClient + adaptador real + adaptador fake
+    sync/odoo/                interface ErpClient + adaptador Odoo + adaptador fake
     payments/                 interface PaymentProvider (fase 1B)
     crm/                      fase 3
     agents/                   fase 5 (prompts versionados em agents/prompts/)
@@ -150,13 +152,13 @@ tests/
 
 **Regras de código**
 - Lógica de preço isolada num módulo puro e testado (`lib/pricing`), com testes unitários. É a parte onde um erro custa dinheiro real. `lib/pricing` não importa nada de `server/` nem de `db/`.
-- Cada integração externa (PHC, gateway, GHL, Anthropic) fica atrás de uma **interface com adaptador fake**. Permite desenvolver e testar sem os acessos reais.
+- Cada integração externa (Odoo, gateway, GHL, Anthropic) fica atrás de uma **interface com adaptador fake**. Permite desenvolver e testar sem os acessos reais.
 - Dinheiro em **cêntimos (integer)**; custos de material em `numeric(12,4)`. Nunca `float` para valores monetários.
 - Parâmetros de negócio (margem do gateway, validade dos orçamentos, custo/hora, taxa de IVA…) vivem na tabela `settings`, não em constantes no código.
 - Sem segredos no repositório; variáveis de ambiente.
 - Jobs idempotentes: correr duas vezes não pode duplicar nada.
 - Logs estruturados com `jobId`/`correlationId`.
-- Testes: **Vitest** para `pricing`, `money`, sincronização PHC (com o adaptador fake) e máquina de estados das encomendas. **Playwright** só para o fluxo configurar → carrinho → pedido.
+- Testes: **Vitest** para `pricing`, `money`, sincronização Odoo (com o adaptador fake) e máquina de estados das encomendas. **Playwright** só para o fluxo configurar → carrinho → pedido.
 
 **Fórmulas de preço: estruturadas por linhas de custo** (não expressão livre)
 
@@ -166,7 +168,7 @@ Portão de correr =
   linha "tubo"       material: tubo_40x40 qtd = 2×L + 3×H         (m)
   linha "soldadura"  mão de obra          horas = 2 + 0.5 × L
   linha "pintura"    acabamento           qtd = L × H
-  margem: 35%   arredondamento: 5 €
+  margem: a de cada material / sector / componente   sem arredondamento
 ```
 
 - Só as **quantidades** (e as variáveis calculadas) são expressões: variáveis das opções do produto, `+ - × ÷`, `min`, `max`, `ceil`, `floor`, `round`, `sqrt`. Parser pequeno e seguro, **nunca `eval`**. O "só se" de uma linha é uma condição estruturada, não uma expressão (ver `docs/modelo-opcoes.md`).
@@ -186,16 +188,16 @@ Portão de correr =
 ## 4. Modelo de dados (esboço)
 
 ```
-materials        (id, phc_code, name, unit, cost numeric(12,4), cost_updated_at, phc_missing_at)
+materials        (id, erp_code, name, unit, cost numeric(12,4), weight_per_unit, margin, cost_updated_at, erp_missing_at)  -- margin é da loja, a sync não lhe toca
 material_costs   (id, material_id, cost, observed_at)          -- histórico
 categories       (id, parent_id, slug, name, position)                 -- árvore: categoria → subcategoria
 -- Opções, regras e fórmulas: desenho completo em docs/modelo-opcoes.md
 option_definitions (id, key UNIQUE, name, type: dimension|number|choice|boolean, unit, display, help_text, archived_at)  -- biblioteca
 option_values    (id, option_id, key, label, position, params jsonb, ral_code, swatch_hex, component_id, asks_text, archived_at)
-components       (id, name, price_cents, active)               -- preço de venda s/ IVA, entra depois da margem
-sectors          (id, name, hourly_rate_cents)
+components       (id, name, cost_cents, margin, active)        -- custo s/ IVA + margem própria (motor pode ter 0)
+sectors          (id, name, hourly_rate_cents, margin)
 products         (id, category_id, slug, name, model_glb_url, published_version_id)
-product_versions (id, product_id, version, status: draft|validated|published, margin, consumables_pct, created_by, published_at)
+product_versions (id, product_id, version, status: draft|validated|published, consumables_pct, created_by, published_at)
 product_options  (id, product_version_id, option_id, position, var, required, min, max, step, default)  -- medidas sempre em mm
 product_option_values (product_option_id, option_value_id, position, is_default)
 option_rules     (id, product_version_id NULL = biblioteca, position, conditions jsonb, effect: restrict|hide|require|forbid, message)
@@ -230,7 +232,7 @@ Requisito do cliente: **as IAs têm de falar umas com as outras para perceber se
 | Agente | Função | Lê | Escreve |
 |---|---|---|---|
 | **Atendimento** | Responde a dúvidas no site e WhatsApp, pede fotos do espaço, qualifica, marca reuniões, passa a humano | Catálogo, FAQ, estado de encomendas | `agent_messages`, CRM |
-| **Operações** | Vigia saúde: sincronização PHC, webhooks de pagamento, erros, latência, jobs falhados | `sync_runs`, logs, Sentry, estados de pedidos | `agent_messages` |
+| **Operações** | Vigia saúde: sincronização Odoo, webhooks de pagamento, erros, latência, jobs falhados | `sync_runs`, logs, Sentry, estados de pedidos | `agent_messages` |
 | **Comercial** | Vigia sinais de negócio: quebras de conversão, carrinhos abandonados acima do normal, produtos sem procura, variações bruscas de custo | `events`, `orders`, `material_costs` | `agent_messages`, relatórios |
 | **Supervisor** | Lê o que os outros produziram, cruza, decide o que é ruído e o que é problema, prioriza e escala | `agent_messages` | Resumo diário, alertas a humano |
 
@@ -241,11 +243,11 @@ Requisito do cliente: **as IAs têm de falar umas com as outras para perceber se
 - `facts` contém **números verificáveis** retirados da base de dados, não impressões. Um agente nunca afirma algo sem o facto correspondente.
 - Ciclo: os agentes Operações e Comercial correm por **cron** (ex.: de hora a hora e diariamente). O Supervisor corre a seguir, lê as mensagens não resolvidas, agrega e produz um resumo. O agente de Atendimento corre a pedido do utilizador e pode abrir mensagens para os outros (ex.: "três clientes relataram preço estranho no portão X").
 - Escalonamento: `critical` → WhatsApp/email imediato ao Bruno e ao programador. `warn` → entra no resumo diário. `info` → fica no painel.
-- Exemplo de cadeia: Operações deteta que a sincronização do PHC falhou há 36h → mensagem `warn` → Comercial reporta queda de 40% em pedidos no mesmo período → Supervisor cruza as duas, classifica como `critical`, propõe "verificar token do PHC" e escala.
+- Exemplo de cadeia: Operações deteta que a sincronização do Odoo falhou há 36h → mensagem `warn` → Comercial reporta queda de 40% em pedidos no mesmo período → Supervisor cruza as duas, classifica como `critical`, propõe "verificar a chave de API do Odoo" e escala.
 
 ### Guardrails (obrigatórios)
 
-- Os agentes **não escrevem nada no PHC** nem alteram preços, produtos ou encomendas. Só **leem** e **propõem**. Qualquer ação com efeito comercial exige confirmação humana no backoffice.
+- Os agentes **não escrevem nada no Odoo** nem alteram preços, produtos ou encomendas. Só **leem** e **propõem**. Qualquer ação com efeito comercial exige confirmação humana no backoffice.
 - **Teto de custo** por dia e por agente nas chamadas à API; ao atingir o teto, degrada para verificações determinísticas (sem LLM) e avisa.
 - Muita da "vigilância" deve ser feita por **regras simples** (thresholds em SQL). O LLM entra para interpretar, agregar e escrever em linguagem natural, não para detetar o que uma query deteta melhor e mais barato.
 - Dedup: a mesma condição não gera alerta repetido antes de ser resolvida ou de passar uma janela definida.
@@ -268,16 +270,18 @@ Requisito do cliente: **as IAs têm de falar umas com as outras para perceber se
 
 1. 3D no beta: só cor e material. Medidas afetam o preço.
 2. Ficheiros 3D: GLB exportado pelo TopSolid pelo cliente. Sem pipeline de conversão no servidor.
-3. PHC GO: só leitura, com cópia local e sincronização diária.
+3. ERP: Odoo (substitui o PHC GO), só leitura, com cópia local e sincronização diária.
 4. Área Pro: por convite, com desconto, sem comissões.
 5. Sem taxas de pagamento cobradas ao cliente final.
 6. Fases 7 e 8 fora do plano base.
 7. Relatórios da fase 6 só com dados internos.
 8. Uma única app Next.js, sem monorepo; módulos de domínio em `src/server/`.
 9. Fórmulas de preço estruturadas por linhas de custo, versionadas, com snapshot em orçamentos e encomendas. Sem expressão livre nem `eval`.
+17. **Margem sobre o custo:** `preço = custo × (1 + margem)`, margem guardada em fração (5% = 0,05). Confirmada pelo Bruno a 2026-11-04; substitui o `custo ÷ (1 − margem)` deduzido dos Excel. **Cada item tem a sua margem** (material, acabamento, componente, sector de mão de obra), decidida pelo Bruno; NULL = por decidir e bloqueia a publicação. Transporte fora da margem. Ver `docs/modelo-opcoes.md`.
+18. Textos visíveis ao cliente na BD em `jsonb` por língua (`{"pt": …}`).
 10. Infraestrutura: Vercel + Neon + R2 + Vercel Cron.
 11. Autenticação: Better Auth (dados na nossa BD).
-12. i18n com next-intl desde o início (rotas `/[locale]`); beta só em PT.
+12. i18n com next-intl desde o início (rotas `/[locale]`); beta só em PT. Línguas futuras: PT, EN, DE, FR, IT, ES, NL. A BD guarda texto por língua desde a fase 1; nenhum texto escrito diretamente no código; as traduções (interface e conteúdo) fazem-se no fim, de uma vez, pelo Rodrigo. Internacionalização (OSS, pagamentos, transporte) é fase à parte.
 13. Backoffice próprio (shadcn/ui + TanStack Table), sem CMS.
 14. IVA: 23% PT no beta, parametrizado em `settings`; OSS só na expansão.
 15. Integrações externas atrás de interfaces com adaptador fake.
@@ -285,19 +289,19 @@ Requisito do cliente: **as IAs têm de falar umas com as outras para perceber se
 
 ### Ordem de trabalho
 
-1. Fase 0: lista de produtos e fórmulas reais de 2–3 produtos-piloto (portão de correr, guarda, caixa de correio).
+1. Fase 0: modelo de opções e de fórmulas (`docs/modelo-opcoes.md`). Sem produtos-piloto: os produtos são criados pelo Bruno no backoffice.
 2. Esqueleto: Next.js, Drizzle, Neon, Better Auth, next-intl, CI, Sentry, staging.
 3. `lib/pricing` + testes, **antes** de qualquer UI.
 4. Catálogo, configurador e backoffice.
-5. Sincronização PHC: primeiro com o adaptador fake, depois com o real quando chegarem os acessos.
+5. Sincronização Odoo: primeiro com o adaptador fake, depois com o real quando o Bruno tiver o Odoo (plano Custom) e os artigos registados.
 
 ## 8. Por confirmar com o cliente
 
-- Acessos à API do PHC GO (AppID, token, ambiente de testes) — **bloqueia a integração real e o fecho da fase 1** (o desenvolvimento avança com o adaptador fake).
+- Odoo: plano Custom (API) e artigos registados pelo Bruno — **bloqueia a integração real e o fecho da fase 1** (o desenvolvimento avança com o adaptador fake).
+- Preço fixo por intervalo de medida (pendente).
 - Gateway de pagamento escolhido e confirmação do suporte a MB WAY.
-- Faturação automática no PHC quando o pagamento entra, ou manual? (Automática alarga a integração e sobe a fase 1B para ~50h.)
-- Lista final de produtos e respetivas fórmulas de preço.
-- Regras de portes de envio.
+- Faturação automática no Odoo quando o pagamento entra, ou manual? (Automática alarga a integração e sobe a fase 1B para ~50h.)
+- Regras de transporte (volume, peso, distância; pendente, o Bruno ficou de se informar).
 - Prazo de validade dos orçamentos guardados.
 
 ---
@@ -308,6 +312,6 @@ Requisito do cliente: **as IAs têm de falar umas com as outras para perceber se
 - Prefere bibliotecas estáveis e documentadas a soluções criativas.
 - Nada de dependências novas sem justificação.
 - Em pagamentos, autenticação e preços: código explícito, testado e revisto linha a linha. É onde erros custam dinheiro e confiança.
-- Escreve testes para o motor de preços e para a sincronização PHC.
+- Escreve testes para o motor de preços e para a sincronização Odoo.
 - Mensagens de commit e comentários em português; nomes de código em inglês.
 - **No fim de cada sessão, atualizar `docs/estado.md`** (o que foi feito, como, e o que falta). É o que permite continuar o trabalho noutra máquina ou sessão.
