@@ -1,4 +1,4 @@
-import { Archivo, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import { Archivo, Fraunces, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 
 // Ver DESIGN.md: Archivo (títulos, preços), IBM Plex Sans (corpo), IBM Plex Mono (medidas, códigos).
 // Fonte variável com o eixo de largura: a loja usa-a a 115% e peso 300 (DESIGN.md).
@@ -6,6 +6,13 @@ const archivo = Archivo({
   variable: "--font-archivo",
   subsets: ["latin"],
   axes: ["wdth"],
+});
+
+// Página inicial (apresentação da empresa): Fraunces, como no protótipo aprovado.
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  axes: ["opsz"],
 });
 
 const plexSans = IBM_Plex_Sans({
@@ -21,4 +28,4 @@ const plexMono = IBM_Plex_Mono({
 });
 
 /** Classes a pôr no <html> de cada root layout. */
-export const fontVariables = `${archivo.variable} ${plexSans.variable} ${plexMono.variable}`;
+export const fontVariables = `${archivo.variable} ${fraunces.variable} ${plexSans.variable} ${plexMono.variable}`;

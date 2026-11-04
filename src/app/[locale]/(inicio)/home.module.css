@@ -1,0 +1,562 @@
+/*
+ * Página inicial: apresentação da empresa sobre a cena da casa (protótipo em
+ * docs/site-inicial, aprovado a 27/10). Dois modos, escolhidos antes de pintar:
+ * - "scrolly" (por omissão com JavaScript): os blocos estão fixos e o scroll
+ *   faz avançar o vídeo da casa e o texto;
+ * - "flow" (menos movimento pedido, ou sem JavaScript): página normal.
+ * O modo está em <html data-home="scrolly">, posto pelo script inline da página.
+ */
+
+.page {
+  --side: clamp(16px, 4.5vw, 72px);
+  --muted: color-mix(in srgb, var(--color-cream) 62%, transparent);
+  --gold-line: color-mix(in srgb, var(--color-gold) 50%, transparent);
+  --shade: rgb(5 8 16);
+  position: relative;
+  min-height: 100vh;
+  background: var(--color-dusk);
+  color: var(--color-cream);
+  font-family: var(--font-plex-sans), system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: clip;
+}
+.page a {
+  color: inherit;
+}
+.page :focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+/* ---------- palco ---------- */
+.view {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  background: radial-gradient(
+    120% 90% at 70% 40%,
+    var(--color-dusk-glow) 0%,
+    var(--color-dusk) 60%
+  );
+}
+.view canvas,
+.poster {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.poster {
+  object-fit: cover;
+  object-position: 56% 50%;
+  opacity: 0.55;
+}
+:global(html[data-home="scrolly"]) .poster {
+  display: none;
+}
+:global(html:not([data-home="scrolly"])) .view canvas {
+  display: none;
+}
+
+/* ---------- cabeçalho ---------- */
+.top {
+  position: fixed;
+  z-index: 4;
+  inset: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: max(18px, env(safe-area-inset-top)) var(--side) 18px;
+  background: linear-gradient(color-mix(in srgb, var(--shade) 55%, transparent), transparent);
+}
+:global(html:not([data-home="scrolly"])) .top {
+  background: color-mix(in srgb, var(--shade) 82%, transparent);
+  backdrop-filter: blur(10px);
+}
+.logo {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 2.2vw, 28px);
+}
+.nav a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+.nav a:hover {
+  color: var(--color-cream);
+}
+.nav .shopLink {
+  color: var(--color-gold);
+}
+.siteLinks {
+  display: contents;
+}
+.count {
+  min-width: 18px;
+  border-radius: 999px;
+  background: var(--color-gold);
+  color: var(--color-on-gold);
+  padding: 0 5px;
+  text-align: center;
+  line-height: 18px;
+  letter-spacing: 0;
+}
+@media (max-width: 760px) {
+  .siteLinks {
+    display: none;
+  }
+}
+@media (max-width: 520px) {
+  .nav {
+    gap: 12px;
+  }
+  .nav a {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+}
+
+/* ---------- blocos de texto, direto sobre a cena ---------- */
+.track {
+  position: relative;
+  z-index: 2;
+}
+.block {
+  width: min(500px, 40vw);
+  text-shadow:
+    0 1px 2px rgb(0 0 0 / 0.55),
+    0 2px 22px rgb(0 0 0 / 0.5);
+}
+.num {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: 14px;
+}
+.block h1,
+.block h2 {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 4.6vw, 4.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
+}
+.word {
+  display: inline-block;
+}
+.lead {
+  font-size: 17px;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--color-cream) 90%, transparent);
+  max-width: 34em;
+}
+.note {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 12px;
+}
+.hint {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.lines {
+  list-style: none;
+  margin-top: 18px;
+}
+.lines li {
+  position: relative;
+  padding: 5px 0 5px 26px;
+  font-size: 16px;
+  color: color-mix(in srgb, var(--color-cream) 92%, transparent);
+}
+.lines li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.05em;
+  width: 14px;
+  height: 1px;
+  background: var(--color-gold);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--color-gold) 60%, transparent);
+}
+.lines a {
+  text-decoration-color: var(--gold-line);
+  text-underline-offset: 3px;
+}
+.lines a:hover {
+  color: var(--color-gold);
+}
+.cols {
+  columns: 2;
+  column-gap: 18px;
+}
+.cols li {
+  break-inside: avoid;
+  font-size: 15px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+.narrow {
+  width: min(430px, 36vw);
+}
+.services {
+  width: min(360px, 30vw);
+}
+.contacts {
+  width: min(290px, 23vw);
+}
+.noWrap {
+  white-space: nowrap;
+}
+.withPhoto {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 22px;
+  align-items: end;
+}
+.work {
+  width: 132px;
+  text-shadow: none;
+}
+.work img {
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 4px;
+  background: linear-gradient(
+    160deg,
+    var(--color-gold-light),
+    var(--color-gold-deep) 55%,
+    var(--color-gold)
+  );
+}
+.work figcaption {
+  margin-top: 8px;
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 9.5px;
+  line-height: 1.45;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-shadow: 0 1px 6px rgb(0 0 0 / 0.8);
+}
+.stats {
+  display: flex;
+  gap: clamp(20px, 3vw, 44px);
+  margin-top: 8px;
+}
+.stat b {
+  display: block;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(2.6rem, 4.4vw, 4rem);
+  line-height: 1;
+  color: var(--color-gold);
+  font-variant-numeric: tabular-nums;
+}
+.stat span {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 26px;
+  align-items: center;
+}
+.btnShop {
+  display: inline-flex;
+  min-height: 56px;
+  align-items: center;
+  gap: 0.5em;
+  padding: 16px 32px;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--color-on-gold) !important;
+  text-decoration: none;
+  text-shadow: none;
+  background: linear-gradient(180deg, var(--color-gold-light), var(--color-gold-deep));
+  border-radius: 2px;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--color-gold-light) 60%, transparent),
+    0 0 28px color-mix(in srgb, var(--color-gold) 45%, transparent);
+  animation: glow 3.2s ease-in-out infinite;
+  transition: transform 0.2s;
+}
+.btnShop:hover {
+  transform: translateY(-1px);
+}
+@keyframes glow {
+  50% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--color-gold-light) 80%, transparent),
+      0 0 44px color-mix(in srgb, var(--color-gold) 70%, transparent);
+  }
+}
+.btnQuote {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  padding: 0 4px;
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid var(--gold-line);
+}
+.btnQuote:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+/* ---------- véus de leitura e progresso ---------- */
+.scrim {
+  position: fixed;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  top: 0;
+  bottom: 0;
+  width: 62vw;
+}
+.scrimLeft {
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--shade) 60%, transparent),
+    color-mix(in srgb, var(--shade) 38%, transparent) 45%,
+    transparent
+  );
+}
+.scrimRight {
+  right: 0;
+  background: linear-gradient(
+    270deg,
+    color-mix(in srgb, var(--shade) 60%, transparent),
+    color-mix(in srgb, var(--shade) 38%, transparent) 45%,
+    transparent
+  );
+}
+.progress {
+  position: fixed;
+  z-index: 3;
+  left: var(--side);
+  right: var(--side);
+  bottom: max(18px, env(safe-area-inset-bottom));
+  pointer-events: none;
+}
+.progress ol {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.progress li {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-cream) 40%, transparent);
+  transition: color 0.3s;
+  text-shadow: 0 1px 10px rgb(0 0 0 / 0.8);
+}
+.progress li[data-on] {
+  color: var(--color-gold);
+}
+.bar {
+  height: 1px;
+  background: color-mix(in srgb, var(--color-cream) 18%, transparent);
+  position: relative;
+}
+.bar i {
+  position: absolute;
+  inset: 0;
+  background: var(--color-gold);
+  transform-origin: left;
+  transform: scaleX(0);
+  box-shadow: 0 0 8px var(--color-gold);
+}
+
+/* ---------- abertura, enquanto as primeiras imagens chegam ---------- */
+.loading {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  background: var(--color-dusk);
+  transition:
+    background-color 0.9s ease,
+    visibility 0s 1s;
+  pointer-events: none;
+}
+.loading img {
+  animation: breathe 2.4s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.loading[data-ready] {
+  background-color: transparent;
+  visibility: hidden;
+}
+.loading[data-ready] img {
+  animation: none;
+  opacity: 0;
+}
+
+/* ---------- modo scrolly: blocos fixos, conduzidos pelo scroll ---------- */
+:global(html[data-home="scrolly"]) .track {
+  height: 900vh;
+}
+:global(html[data-home="scrolly"]) .block {
+  position: fixed;
+  z-index: 2;
+  top: 50%;
+  opacity: 0;
+  transform: translateY(-50%);
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+:global(html[data-home="scrolly"]) .block[data-on] {
+  pointer-events: auto;
+}
+:global(html[data-home="scrolly"]) .left {
+  left: var(--side);
+}
+:global(html[data-home="scrolly"]) .right {
+  right: var(--side);
+}
+:global(html[data-home="scrolly"]) .hero {
+  opacity: 1;
+}
+
+/* ---------- modo flow: página normal ---------- */
+:global(html:not([data-home="scrolly"])) .progress,
+:global(html:not([data-home="scrolly"])) .scrim,
+:global(html:not([data-home="scrolly"])) .loading {
+  display: none;
+}
+:global(html:not([data-home="scrolly"])) .track {
+  display: flex;
+  flex-direction: column;
+  gap: 28vh;
+  padding: 38vh var(--side) 30vh;
+}
+:global(html:not([data-home="scrolly"])) .block {
+  width: min(560px, 100%);
+}
+:global(html:not([data-home="scrolly"])) .left {
+  align-self: flex-start;
+}
+:global(html:not([data-home="scrolly"])) .right {
+  align-self: flex-end;
+}
+
+@media (max-width: 760px) {
+  :global(html[data-home="scrolly"]) .block {
+    left: 20px;
+    right: 20px;
+    width: auto;
+    top: auto;
+    bottom: calc(max(18px, env(safe-area-inset-bottom)) + 44px);
+    transform: none;
+  }
+  .block h1,
+  .block h2 {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+  }
+  .lead {
+    font-size: 15px;
+  }
+  .lines {
+    margin-top: 12px;
+  }
+  .lines li {
+    font-size: 14px;
+    padding: 3px 0 3px 22px;
+  }
+  .lines li::before {
+    width: 12px;
+  }
+  .cols li {
+    font-size: 13px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+  .stat b {
+    font-size: 2.4rem;
+  }
+  .stat span {
+    font-size: 11px;
+  }
+  .withPhoto {
+    gap: 14px;
+  }
+  .work {
+    width: 86px;
+  }
+  .work figcaption {
+    font-size: 8.5px;
+  }
+  .btnShop {
+    padding: 13px 24px;
+    font-size: 1.2rem;
+  }
+  .scrim {
+    width: auto;
+    left: 0;
+    right: 0;
+    top: auto;
+    height: 72vh;
+  }
+  .scrimLeft,
+  .scrimRight {
+    background: linear-gradient(
+      0deg,
+      color-mix(in srgb, var(--shade) 60%, transparent),
+      color-mix(in srgb, var(--shade) 40%, transparent) 45%,
+      transparent
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btnShop {
+    animation: none;
+  }
+}

@@ -6,6 +6,13 @@ import { routing } from "@/i18n/routing";
 import { fontVariables } from "@/lib/fonts";
 import "../globals.css";
 
+/**
+ * Antes de pintar: com movimento permitido, a página inicial é a cena conduzida
+ * pelo scroll (data-home="scrolly"); sem JavaScript ou com menos movimento
+ * pedido, fica uma página normal. Só a página inicial lê este atributo.
+ */
+const MOTION_SCRIPT = `if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.dataset.home='scrolly'`;
+
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -24,7 +31,11 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} className={`${fontVariables} h-full antialiased`}>
+    // suppressHydrationWarning: o script abaixo marca o <html> antes de o React hidratar.
+    <html lang={locale} className={`${fontVariables} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: MOTION_SCRIPT }} />
+      </head>
       <body className="flex min-h-full flex-col">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>

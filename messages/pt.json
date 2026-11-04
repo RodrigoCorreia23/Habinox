@@ -8,8 +8,105 @@
     "account": "A minha conta"
   },
   "Home": {
-    "title": "Habinox",
-    "subtitle": "Portões, escadas, guardas e chaminés por medida."
+    "title": "Habinox · Serralharia em inox por medida",
+    "description": "Especialistas em aço inoxidável desde 2005, em Antas, Esposende. Escadas, portões, guardas e chaminés por medida.",
+    "nav": {
+      "main": "Navegação principal",
+      "company": "Empresa",
+      "services": "Serviços",
+      "contacts": "Contactos",
+      "shop": "Loja",
+      "account": "Conta",
+      "cart": "Carrinho"
+    },
+    "loading": "A carregar",
+    "hero": {
+      "kicker": "HABINOX®",
+      "title": "Especialistas em aço inoxidável.",
+      "hint": "Faça scroll para descobrir."
+    },
+    "company": {
+      "kicker": "01 — Quem somos",
+      "title": "Desde 2005 em Antas, Esposende.",
+      "lead": "Começámos no aço inoxidável e hoje fazemos serralharia em inox, alumínio soldado e ferro, com aposta na modernização e inovação."
+    },
+    "how": {
+      "kicker": "02 — Como trabalhamos",
+      "title": "Do corte ao polimento.",
+      "lead": "Projeto em 2D e 3D, preparação e execução de obra, com equipamento próprio:",
+      "items": [
+        "Linha de corte e quinagem de chapa",
+        "Corte CNC, como as guardas desta escada",
+        "Torno e fresa",
+        "Esmerilagem e polimento de perfis"
+      ],
+      "photoAlt": "Escada helicoidal com guardas recortadas por CNC e degraus iluminados",
+      "photoCaption": "Imagem 3D ilustrativa: guardas em corte CNC"
+    },
+    "services": {
+      "kicker": "03 — O que fazemos",
+      "title": "Por medida.",
+      "items": [
+        "Escadas",
+        "Gradeamento interior",
+        "Gradeamento exterior",
+        "Portões",
+        "Portões em alumínio",
+        "Portas de entrada",
+        "Hottes",
+        "Chaminés",
+        "Quedas e capitéis",
+        "Cascatas",
+        "Churrasqueiras",
+        "Toalheiros",
+        "Mesas",
+        "Bases de chuveiro",
+        "Puxadores"
+      ]
+    },
+    "steel": {
+      "kicker": "04 — Porquê inox",
+      "title": "Bonito e feito para durar.",
+      "lead": "Ciclo de vida longo e baixo custo de manutenção: uma escolha bonita e económica para arquitetura e construção."
+    },
+    "near": {
+      "kicker": "05 — Ao seu lado",
+      "title": "Vamos à obra consigo.",
+      "items": [
+        "Aconselhamento e levantamento na obra",
+        "Orçamentos gratuitos e sem compromisso",
+        "Todo o país, e fabricamos para a Europa",
+        "Particulares e empresas"
+      ]
+    },
+    "numbers": {
+      "kicker": "06 — Números",
+      "title": "Duas décadas de inox.",
+      "years": "anos de atividade",
+      "since": "desde 2005"
+    },
+    "contacts": {
+      "kicker": "07 — Contactos",
+      "title": "Fale connosco.",
+      "address": "Núcleo Industrial de Antas, 4740-016 Antas, Esposende",
+      "phone": "Tel.",
+      "mobile": "Tlm.",
+      "map": "Google Maps",
+      "hours": "Dias úteis, 9h00–18h30. Chamada para a rede fixa / móvel nacional."
+    },
+    "shop": {
+      "kicker": "08 — Loja",
+      "title": "Do projeto à obra.",
+      "enter": "Entrar na loja",
+      "quote": "Pedir orçamento",
+      "quoteSubject": "Pedido de orçamento"
+    },
+    "progress": {
+      "company": "Empresa",
+      "services": "Serviços",
+      "contacts": "Contactos",
+      "shop": "Loja"
+    }
   },
   "Account": {
     "title": "A minha conta",
