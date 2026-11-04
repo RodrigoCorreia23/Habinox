@@ -6,9 +6,26 @@ import { Button } from "@/components/ui/button";
 import type { OptionType } from "@/lib/options";
 import { requireAdmin } from "@/server/auth/session";
 import { listOptions, OPTION_TYPES } from "@/server/catalog/options";
+import { fractionToPercent } from "@/lib/percent";
+import { validateFormula } from "@/lib/pricing";
+import {
+  listFormulaSources,
+  listLines,
+  listVariables,
+  loadPricingModel,
+} from "@/server/catalog/formula";
 import { getProduct, listLeafCategories, listVersionOptions } from "@/server/catalog/products";
 import { createDraftAction, moveOptionAction, removeOptionAction } from "../actions";
 import { AddOptionForm, ProductForm, ProductOptionForm } from "../forms";
+import { moveFormulaItemAction, removeFormulaItemAction } from "../formula-actions";
+import {
+  ConsumablesForm,
+  type LineValues,
+  LineForm,
+  type OptionInfo,
+  PreviewPanel,
+  VariableForm,
+} from "../formula-forms";
 
 export const metadata: Metadata = { title: "Produto · Habinox" };
 
@@ -35,11 +52,62 @@ export default async function ProductPage({ params }: PageProps<"/admin/produtos
   const shown = working ?? published;
   const editable = working !== null;
 
-  const [categories, versionOptions, library] = await Promise.all([
-    listLeafCategories(),
-    shown ? listVersionOptions(shown.id) : Promise.resolve([]),
-    listOptions(),
-  ]);
+  const [categories, versionOptions, library, variables, lines, sources, model] = await Promise.all(
+    [
+      listLeafCategories(),
+      shown ? listVersionOptions(shown.id) : Promise.resolve([]),
+      listOptions(),
+      shown ? listVariables(shown.id) : Promise.resolve([]),
+      shown ? listLines(shown.id) : Promise.resolve([]),
+      listFormulaSources(),
+      shown ? loadPricingModel(shown.id) : Promise.resolve(null),
+    ],
+  );
+
+  // Opções para as condições, o preço de exemplo e o artigo "conforme a opção".
+  const optionInfo: OptionInfo[] = (model?.meta ?? []).map((option) => ({
+    key: option.key,
+    name: option.name,
+    type: option.type,
+    unit: option.unit,
+    values: option.values,
+  }));
+  const choiceOptions = versionOptions
+    .filter((row) => row.option.type === "choice")
+    .map((row) => ({
+      id: row.option.id,
+      key: row.option.key,
+      name: row.option.name.pt,
+      values: row.libraryValues
+        .filter((value) => row.allowed.some((allowed) => allowed.optionValueId === value.id))
+        .map((value) => ({ id: value.id, key: value.key, label: value.label.pt })),
+    }));
+  const issues = model
+    ? validateFormula({
+        options: model.input.options,
+        variables: variables.map((variable) => ({ name: variable.name, expr: variable.expr })),
+        lines: lines.map(({ line }) => ({ quantityExpr: line.quantityExpr })),
+      })
+    : [];
+  const issuesFor = (kind: "variable" | "line", index: number) =>
+    issues
+      .filter((issue) => issue.where.kind === kind && issue.where.index === index)
+      .map((issue) => issue.message);
+  const lineValues = (row: (typeof lines)[number]): LineValues => ({
+    label: row.line.label,
+    kind: row.line.kind as LineValues["kind"],
+    quantityExpr: row.line.quantityExpr,
+    unit: row.line.unit,
+    conditions: row.line.conditions,
+    source: row.line.articleOptionId ? "byOption" : "fixed",
+    sectorId: row.line.sectorId ?? "",
+    materialId: row.line.materialId ?? "",
+    articleOptionId: row.line.articleOptionId ?? "",
+    mapping: row.mapping.map((mapping) => ({
+      optionValueId: mapping.optionValueId,
+      materialId: mapping.materialId,
+    })),
+  });
   const used = new Set(versionOptions.map((row) => row.option.id));
   const available = library
     .filter((option) => !used.has(option.id))
@@ -227,6 +295,272 @@ export default async function ProductPage({ params }: PageProps<"/admin/produtos
           </div>
         )}
       </section>
+
+      {shown && (
+        <section aria-labelledby="formula" className="grid gap-6">
+          <div>
+            <h2 id="formula" className="font-semibold">
+              Fórmula de preço
+            </h2>
+            <p className="text-steel text-sm">
+              Cada linha: quantidade × custo do artigo (ou horas × custo/hora do sector) × (1 +
+              margem do artigo ou do sector). As margens definem-se em Materiais e custos e em Mão
+              de obra.
+            </p>
+          </div>
+
+          <ConsumablesForm
+            productId={product.id}
+            versionId={shown.id}
+            percent={fractionToPercent(shown.consumablesRate)}
+            disabled={!editable}
+          />
+
+          <div className="grid gap-3">
+            <h3 className="text-sm font-semibold">Variáveis calculadas</h3>
+            <p className="text-steel text-xs">
+              Números intermédios com nome, usados nas linhas (ex.: degraus = ceil(H / 0,18)). Cada
+              uma pode usar as de cima.
+            </p>
+            {variables.length > 0 && (
+              <ul className="border-line bg-surface divide-line-soft divide-y border">
+                {variables.map((variable, index) => (
+                  <li key={variable.id} className="grid gap-2 px-4 py-3">
+                    {editable ? (
+                      <>
+                        <VariableForm
+                          productId={product.id}
+                          versionId={shown.id}
+                          variableId={variable.id}
+                          issues={issuesFor("variable", index)}
+                          initial={{
+                            name: variable.name,
+                            expr: variable.expr,
+                            label: variable.label?.pt ?? "",
+                            showToCustomer: variable.showToCustomer,
+                          }}
+                        />
+                        <div className="flex justify-end gap-1">
+                          <form
+                            action={moveFormulaItemAction.bind(
+                              null,
+                              product.id,
+                              "variable",
+                              variable.id,
+                              -1,
+                            )}
+                          >
+                            <Button type="submit" size="sm" variant="ghost" disabled={index === 0}>
+                              Subir
+                            </Button>
+                          </form>
+                          <form
+                            action={moveFormulaItemAction.bind(
+                              null,
+                              product.id,
+                              "variable",
+                              variable.id,
+                              1,
+                            )}
+                          >
+                            <Button
+                              type="submit"
+                              size="sm"
+                              variant="ghost"
+                              disabled={index === variables.length - 1}
+                            >
+                              Descer
+                            </Button>
+                          </form>
+                          <form
+                            action={removeFormulaItemAction.bind(
+                              null,
+                              product.id,
+                              "variable",
+                              variable.id,
+                            )}
+                          >
+                            <Button type="submit" size="sm" variant="ghost">
+                              Apagar
+                            </Button>
+                          </form>
+                        </div>
+                      </>
+                    ) : (
+                      <p className="font-mono text-sm">
+                        {variable.name} = {variable.expr}
+                      </p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {editable && (
+              <div className="border-line bg-surface border px-4 py-3">
+                <VariableForm
+                  productId={product.id}
+                  versionId={shown.id}
+                  variableId={null}
+                  issues={[]}
+                  initial={{ name: "", expr: "", label: "", showToCustomer: false }}
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="grid gap-3">
+            <h3 className="text-sm font-semibold">Linhas de custo</h3>
+            {lines.length === 0 ? (
+              <p className="text-steel text-sm">Ainda não há linhas.</p>
+            ) : (
+              <ol className="border-line bg-surface divide-line-soft divide-y border">
+                {lines.map((row, index) => {
+                  const lineIssues = issuesFor("line", index);
+                  return (
+                    <li key={row.line.id}>
+                      <details className="group">
+                        <summary className="hover:bg-canvas flex cursor-pointer list-none flex-wrap items-center gap-x-4 gap-y-1 px-4 py-3 text-sm">
+                          <span className="text-steel w-5 text-right tabular-nums">
+                            {index + 1}
+                          </span>
+                          <span className="font-medium">{row.line.label}</span>
+                          <span className="text-steel font-mono text-xs">
+                            {row.line.quantityExpr} {row.line.unit}
+                          </span>
+                          {row.line.conditions.length > 0 && (
+                            <span className="text-steel text-xs">condicionada</span>
+                          )}
+                          {lineIssues.length > 0 && (
+                            <span className="text-error text-xs">
+                              {lineIssues.length === 1
+                                ? "1 problema"
+                                : `${lineIssues.length} problemas`}
+                            </span>
+                          )}
+                          {editable && (
+                            <span className="text-brand ml-auto text-xs group-open:hidden">
+                              Editar
+                            </span>
+                          )}
+                        </summary>
+                        {editable && (
+                          <div className="grid gap-3 px-4 pt-1 pb-4">
+                            <LineForm
+                              productId={product.id}
+                              versionId={shown.id}
+                              lineId={row.line.id}
+                              initial={lineValues(row)}
+                              options={optionInfo}
+                              choiceOptions={choiceOptions}
+                              sources={sources}
+                              issues={lineIssues}
+                            />
+                            <div className="flex justify-end gap-1">
+                              <form
+                                action={moveFormulaItemAction.bind(
+                                  null,
+                                  product.id,
+                                  "line",
+                                  row.line.id,
+                                  -1,
+                                )}
+                              >
+                                <Button
+                                  type="submit"
+                                  size="sm"
+                                  variant="ghost"
+                                  disabled={index === 0}
+                                >
+                                  Subir
+                                </Button>
+                              </form>
+                              <form
+                                action={moveFormulaItemAction.bind(
+                                  null,
+                                  product.id,
+                                  "line",
+                                  row.line.id,
+                                  1,
+                                )}
+                              >
+                                <Button
+                                  type="submit"
+                                  size="sm"
+                                  variant="ghost"
+                                  disabled={index === lines.length - 1}
+                                >
+                                  Descer
+                                </Button>
+                              </form>
+                              <form
+                                action={removeFormulaItemAction.bind(
+                                  null,
+                                  product.id,
+                                  "line",
+                                  row.line.id,
+                                )}
+                              >
+                                <Button type="submit" size="sm" variant="ghost">
+                                  Apagar linha
+                                </Button>
+                              </form>
+                            </div>
+                          </div>
+                        )}
+                      </details>
+                    </li>
+                  );
+                })}
+              </ol>
+            )}
+            {editable && (
+              <details className="border-line bg-surface border">
+                <summary className="text-brand cursor-pointer px-4 py-3 text-sm">
+                  + Nova linha
+                </summary>
+                <div className="px-4 pb-4">
+                  <LineForm
+                    productId={product.id}
+                    versionId={shown.id}
+                    lineId={null}
+                    initial={{
+                      label: "",
+                      kind: "material",
+                      quantityExpr: "",
+                      unit: "",
+                      conditions: [],
+                      source: "fixed",
+                      sectorId: "",
+                      materialId: "",
+                      articleOptionId: "",
+                      mapping: [],
+                    }}
+                    options={optionInfo}
+                    choiceOptions={choiceOptions}
+                    sources={sources}
+                    issues={[]}
+                  />
+                </div>
+              </details>
+            )}
+          </div>
+        </section>
+      )}
+
+      {shown && optionInfo.length > 0 && (
+        <section aria-labelledby="exemplo" className="grid gap-3">
+          <div>
+            <h2 id="exemplo" className="font-semibold">
+              Preço de exemplo
+            </h2>
+            <p className="text-steel text-sm">
+              Escolha valores como faria um cliente. Usa os custos e as margens de hoje; não grava
+              nada.
+            </p>
+          </div>
+          <PreviewPanel versionId={shown.id} options={optionInfo} />
+        </section>
+      )}
     </main>
   );
 }

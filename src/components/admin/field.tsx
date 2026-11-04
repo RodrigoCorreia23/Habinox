@@ -16,7 +16,9 @@ export function Field({
   children: React.ReactNode;
 }) {
   return (
-    <label className={`grid content-start gap-1 text-sm ${className ?? ""}`}>
+    <label
+      className={`grid min-w-0 content-start gap-1 text-sm [&>input:not([type=checkbox])]:w-full [&>select]:w-full [&>textarea]:w-full ${className ?? ""}`}
+    >
       <span className="font-medium">{label}</span>
       {children}
       {hint && <span className="text-steel text-xs">{hint}</span>}
