@@ -109,3 +109,34 @@ export function newOrderNoticeMessage(
     ].join("\n"),
   };
 }
+
+const STATUS_TEXT: Record<string, string> = {
+  paid: "O pagamento foi confirmado. Obrigado.",
+  in_production: "A sua encomenda entrou em produção.",
+  ready: "A sua encomenda está pronta. Vamos combinar consigo a entrega ou a instalação.",
+  shipped: "A sua encomenda foi expedida.",
+  delivered: "A sua encomenda foi entregue. Obrigado pela preferência.",
+  cancelled: "A sua encomenda foi cancelada.",
+  expired: "A sua encomenda expirou por falta de pagamento.",
+};
+
+export function orderStatusMessage(
+  order: { number: string; email: string },
+  status: string,
+  note: string,
+): EmailMessage {
+  return {
+    to: order.email,
+    subject: `Encomenda ${order.number}: ${STATUS_TEXT[status]?.split(".")[0] ?? "atualização"} — Habinox`,
+    text: [
+      "Olá,",
+      "",
+      `${STATUS_TEXT[status] ?? "A sua encomenda foi atualizada."}`,
+      note ? `\n${note}` : "",
+      "",
+      `Encomenda: ${order.number}`,
+      "",
+      "Habinox",
+    ].join("\n"),
+  };
+}
