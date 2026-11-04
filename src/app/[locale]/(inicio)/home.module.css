@@ -479,9 +479,7 @@
   display: grid;
   place-items: center;
   background: var(--night);
-  transition:
-    background-color 0.9s ease,
-    visibility 0s 1s;
+  transition: background-color 1.2s ease;
   pointer-events: none;
 }
 .loadingWord {
@@ -491,7 +489,6 @@
   white-space: nowrap;
   font-size: clamp(1.4rem, 3vw, 2.2rem);
   animation: breathe 2.4s ease-in-out infinite;
-  transition: opacity 0.6s ease;
 }
 .loadingWord sup {
   color: var(--gold);
@@ -509,13 +506,25 @@
     opacity: 1;
   }
 }
+/* pronto: o fundo abre-se para a cena e o nome viaja até ao cabeçalho */
 .loading[data-ready] {
   background-color: transparent;
-  visibility: hidden;
 }
 .loading[data-ready] .loadingWord {
   animation: none;
+}
+/* chegou: o logótipo do cabeçalho toma o lugar do nome */
+.loading[data-docked] {
+  visibility: hidden;
+}
+/* o logótipo do cabeçalho só aparece quando o nome chega, no mesmo instante em que este sai */
+:global(html[data-home="scrolly"]:not([data-docked])) .logo {
   opacity: 0;
+}
+/* o herói entra com o cabeçalho, a meio da viagem do nome */
+:global(html[data-home="scrolly"]:not([data-lit])) .stag {
+  opacity: 0;
+  transform: translateY(14px);
 }
 
 /* ---------- modo scrolly: blocos fixos, conduzidos pelo scroll ---------- */

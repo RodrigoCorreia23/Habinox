@@ -21,6 +21,8 @@ const SWING = { amp: 8, period: 24 }; // vaivém da câmara parada na loja (igua
 const FOCUS = 0.56; // em ecrãs estreitos o corte acompanha a escada
 const FADE = 0.015; // entradas e saídas dos textos, em fração do scroll
 const HOME_HASHES = ["inicio", "empresa", "servicos", "contactos"];
+const SPLASH_MIN_MS = 2500; // o nome fica pelo menos este tempo no centro, a respirar
+const DOCK_MS = 2200; // viagem do nome até ao logótipo do cabeçalho
 
 type Route = "inicio" | "loja";
 
@@ -63,6 +65,8 @@ export function HomeScene({ labels }: { labels: { text: string; at: number }[] }
   const barRef = useRef<HTMLElement>(null);
   const labelsRef = useRef<HTMLOListElement>(null);
   const [ready, setReady] = useState(false);
+  const [docked, setDocked] = useState(false);
+  const wordRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const html = document.documentElement;
@@ -352,7 +356,6 @@ export function HomeScene({ labels }: { labels: { text: string; at: number }[] }
         p += (target - p) * (1 - Math.exp(-dt * 3.2));
       }
       const age = litAt < 0 ? -1 : (now - litAt) / 1000;
-      if (age > 1.1 && !("lit" in html.dataset)) html.dataset.lit = "";
       const T = shot.T;
       if (T > 0 || route === "inicio") update(p);
       // longe do herói, a cena fica atrás da loja: não se desenha
@@ -420,16 +423,60 @@ export function HomeScene({ labels }: { labels: { text: string; at: number }[] }
           load(`${dir}/a${String(i).padStart(2, "0")}.webp`, (im) => (steps[i] = im)),
         ),
       );
+    // O nome do ecrã de abertura viaja até ao logótipo do cabeçalho, letra sobre letra;
+    // o cabeçalho e o herói só aparecem quando ele chega.
+    const finish = () => {
+      html.dataset.lit = "";
+      html.dataset.docked = "";
+      setDocked(true);
+    };
+    const dock = () => {
+      const word = wordRef.current;
+      const logo = document.querySelector<HTMLElement>("[data-logo]");
+      const textRect = (el: HTMLElement) => {
+        const range = document.createRange();
+        range.selectNodeContents(el.firstChild!);
+        return range.getBoundingClientRect();
+      };
+      if (!word?.firstChild || !logo?.firstChild) return finish();
+      const box = word.getBoundingClientRect();
+      const from = textRect(word);
+      const to = textRect(logo);
+      const k =
+        parseFloat(getComputedStyle(logo).fontSize) / parseFloat(getComputedStyle(word).fontSize);
+      const x = to.left - box.left - (from.left - box.left) * k;
+      const y = to.top - box.top - (from.top - box.top) * k;
+      const glow = getComputedStyle(word).opacity;
+      // o cabeçalho e o herói começam a aparecer a meio da viagem
+      setTimeout(() => (html.dataset.lit = ""), DOCK_MS * 0.4);
+      word
+        .animate(
+          [
+            { opacity: glow, transform: "none", transformOrigin: "0 0" },
+            { opacity: 1, offset: 0.3 },
+            {
+              opacity: 1,
+              transform: `translate(${x}px, ${y}px) scale(${k})`,
+              transformOrigin: "0 0",
+            },
+          ],
+          { duration: DOCK_MS, easing: "cubic-bezier(.77, 0, .175, 1)", fill: "forwards" },
+        )
+        .finished.then(finish, finish);
+    };
+
     // Nunca deixar a abertura muito tempo, mesmo que a cena falhe.
     const failsafe = setTimeout(() => {
       setReady(true);
-      html.dataset.lit = "";
+      finish();
       setHeroIn(route === "loja");
-    }, 8000);
-    void Promise.all(opening).then(async () => {
+    }, 10000);
+    const minimum = new Promise((done) => setTimeout(done, SPLASH_MIN_MS));
+    void Promise.all([Promise.all(opening), minimum]).then(async () => {
       if (stopped) return;
       clearTimeout(failsafe);
       setReady(true);
+      dock();
       litAt = performance.now() + 500;
       raf = requestAnimationFrame(frame);
       for (const step of [8, 4, 2, 1]) {
@@ -475,8 +522,13 @@ export function HomeScene({ labels }: { labels: { text: string; at: number }[] }
           <i ref={barRef} />
         </div>
       </div>
-      <div className={styles.loading} data-ready={ready || undefined} aria-hidden="true">
-        <span className={styles.loadingWord}>
+      <div
+        className={styles.loading}
+        data-ready={ready || undefined}
+        data-docked={docked || undefined}
+        aria-hidden="true"
+      >
+        <span ref={wordRef} className={styles.loadingWord}>
           HABINOX<sup>®</sup>
         </span>
       </div>

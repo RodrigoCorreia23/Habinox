@@ -105,7 +105,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   return (
     <>
       <header className={styles.top}>
-        <a href="#loja" className={styles.logo} aria-label={t("nav.home")}>
+        <a href="#loja" className={styles.logo} aria-label={t("nav.home")} data-logo>
           HABINOX<sup>®</sup>
         </a>
         <nav aria-label={t("nav.main")} className={styles.nav}>
