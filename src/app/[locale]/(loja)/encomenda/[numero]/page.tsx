@@ -103,7 +103,7 @@ export default async function OrderPage({ params }: PageProps<"/[locale]/encomen
               {t("allOrders")}
             </Link>
             <Link
-              href="/loja"
+              href="/#familias"
               className="text-night-soft hover:text-amber underline underline-offset-4"
             >
               {t("backToShop")}

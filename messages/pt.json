@@ -17,7 +17,11 @@
       "contacts": "Contactos",
       "shop": "Loja",
       "account": "Conta",
-      "cart": "Carrinho"
+      "cart": "Carrinho",
+      "signIn": "Entrar",
+      "cartCount": "Carrinho, {count, plural, =0 {vazio} one {# artigo} other {# artigos}}",
+      "about": "Sobre a Habinox",
+      "home": "Habinox, início da loja"
     },
     "loading": "A carregar",
     "hero": {
@@ -106,6 +110,21 @@
       "services": "Serviços",
       "contacts": "Contactos",
       "shop": "Loja"
+    },
+    "shopHero": {
+      "title": "Metal feito à medida.",
+      "accent": "Preço na hora.",
+      "lead": "Escreva as medidas, escolha o material e veja o preço enquanto configura.",
+      "configure": "Configurar agora",
+      "browse": "Ver a loja"
+    },
+    "catalog": {
+      "title": "Escolha o que quer fabricar.",
+      "sub": "Tudo por medida, em inox, ferro ou alumínio.",
+      "pause": "Pausar",
+      "resume": "Retomar",
+      "models": "{count, plural, one {# modelo} other {# modelos}}",
+      "empty": "Ainda não há produtos na loja."
     }
   },
   "Account": {

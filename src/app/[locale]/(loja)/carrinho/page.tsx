@@ -36,7 +36,7 @@ export default async function CartPage({ params }: PageProps<"/[locale]/carrinho
         <div className="mt-12">
           <p className="text-night-muted">{t("empty")}</p>
           <Link
-            href="/loja"
+            href="/#familias"
             className="bg-amber text-on-amber hover:bg-amber-hover mt-8 inline-flex min-h-14 items-center px-8 font-medium"
           >
             {t("browse")}

@@ -3,6 +3,11 @@ import Image from "next/image";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { LegalLinks } from "@/components/shop/legal-links";
 import { Link } from "@/i18n/navigation";
+import { getSession } from "@/server/auth/session";
+import { cartItemCount } from "@/server/store/cart";
+import { firstPublishedProductPath, listStoreCategories } from "@/server/store/catalog";
+import { getCurrentCart } from "@/server/store/current-cart";
+import { CategoryRails, type RailTile } from "./category-rails";
 import { HomeScene } from "./home-scene";
 import styles from "./home.module.css";
 
@@ -27,6 +32,26 @@ function Words({ text }: { text: string }) {
     ));
 }
 
+/**
+ * Fotografias PROVISÓRIAS das categorias (Unsplash, ilustrativas, do protótipo):
+ * usadas enquanto a categoria não tem imagem própria. Trocar pelas fotografias das
+ * obras da Habinox antes de abrir a loja.
+ */
+const PROVISIONAL_PHOTOS = [
+  "portao-geometrico",
+  "escada-corrimao-luz",
+  "guarda-varanda",
+  "chamine-chapeus",
+  "caixa-correio",
+  "portao-correr-cinza",
+  "portao-pedonal",
+  "escada-caracol",
+  "guarda-preta",
+  "portao-ripas",
+  "escada-madeira-luz",
+  "portao-perfurado",
+].map((name) => `/home/provisorio/${name}.webp`);
+
 /** Momentos do percurso (fração do scroll) em que cada bloco aparece e sai. */
 const BLOCKS = {
   inicio: [0, 0.055],
@@ -49,14 +74,70 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("Home");
+  const tShop = await getTranslations("Shop");
   const messages = (await getMessages()) as unknown as {
     Home: { how: { items: string[] }; services: { items: string[] }; near: { items: string[] } };
   };
   const list = messages.Home;
   const quoteHref = `mailto:geral@habinox.pt?subject=${encodeURIComponent(t("shop.quoteSubject"))}`;
+  const [session, cart, categories, configurePath] = await Promise.all([
+    getSession(),
+    getCurrentCart(),
+    listStoreCategories(locale),
+    firstPublishedProductPath(),
+  ]);
+  const count = cart ? await cartItemCount(cart.id) : 0;
+  const tiles: RailTile[] = categories.map((category, i) => ({
+    key: category.id,
+    href: `/loja/${category.slug}`,
+    name: category.name,
+    sub:
+      category.description?.split(/(?<=\.)\s/)[0] ??
+      t("catalog.models", { count: category.productCount }),
+    image: category.imageUrl ?? PROVISIONAL_PHOTOS[i % PROVISIONAL_PHOTOS.length]!,
+  }));
+  // Duas filas, alternando as categorias (como no protótipo).
+  const rows =
+    tiles.length > 1
+      ? [tiles.filter((_, i) => i % 2 === 0), tiles.filter((_, i) => i % 2 === 1)]
+      : [tiles];
 
   return (
     <>
+      <header className={styles.top}>
+        <a href="#loja" className={styles.logo} aria-label={t("nav.home")}>
+          HABINOX<sup>®</sup>
+        </a>
+        <nav aria-label={t("nav.main")} className={styles.nav}>
+          <div className={styles.navSite}>
+            <a href="#empresa">{t("nav.company")}</a>
+            <a href="#servicos">{t("nav.services")}</a>
+            <a href="#contactos">{t("nav.contacts")}</a>
+            <a href="#loja" className={styles.shopLink}>
+              {t("nav.shop")}
+            </a>
+          </div>
+          <div className={styles.tools}>
+            {session ? (
+              <Link href="/conta">{t("nav.account")}</Link>
+            ) : (
+              <Link href="/entrar">{t("nav.signIn")}</Link>
+            )}
+            <Link
+              href="/carrinho"
+              className={styles.bag}
+              aria-label={t("nav.cartCount", { count })}
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 8h14l1 13H4L5 8Z" />
+                <path d="M9 11V6a3 3 0 0 1 6 0v5" />
+              </svg>
+              {count > 0 && <span className={styles.count}>{count}</span>}
+            </Link>
+          </div>
+        </nav>
+      </header>
+
       <HomeScene
         labels={[
           { text: t("progress.company"), at: 0 },
@@ -212,9 +293,9 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             <Words text={t("shop.title")} />
           </h2>
           <div className={styles.actions}>
-            <Link href="/loja" className={styles.btnShop}>
+            <a href="#loja" className={styles.btnShop}>
               {t("shop.enter")} <span aria-hidden="true">→</span>
-            </Link>
+            </a>
             <a href={quoteHref} className={styles.btnQuote}>
               {t("shop.quote")}
             </a>
@@ -222,6 +303,64 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           <LegalLinks className={styles.legal} />
         </section>
       </main>
+
+      {/* Estado "loja": a câmara pára na escada; por baixo, as categorias. */}
+      <div className={styles.shop}>
+        <section className={styles.sHero} data-shop-hero>
+          <div className={styles.wrap}>
+            <h1 className={styles.stag}>
+              {t("shopHero.title")} <em>{t("shopHero.accent")}</em>
+            </h1>
+            <p className={styles.stag}>{t("shopHero.lead")}</p>
+            <div className={`${styles.row} ${styles.stag}`}>
+              {configurePath && (
+                <Link href={configurePath} className={styles.primary}>
+                  {t("shopHero.configure")}
+                </Link>
+              )}
+              <a href="#familias" className={styles.tlink}>
+                {t("shopHero.browse")}
+              </a>
+            </div>
+          </div>
+        </section>
+        <div className={styles.sBody}>
+          {tiles.length === 0 ? (
+            <div id="familias" className={`${styles.wrap} ${styles.catHead}`}>
+              <h2 className={styles.sTitle}>{t("catalog.title")}</h2>
+              <p className={styles.sSub}>{t("catalog.empty")}</p>
+            </div>
+          ) : (
+            <CategoryRails
+              id="familias"
+              rows={rows}
+              labels={{
+                pause: t("catalog.pause"),
+                resume: t("catalog.resume"),
+                heading: t("catalog.title"),
+              }}
+              head={
+                <div>
+                  <h2 className={styles.sTitle}>{t("catalog.title")}</h2>
+                  <p className={styles.sSub}>{t("catalog.sub")}</p>
+                </div>
+              }
+            />
+          )}
+          <div className={styles.wrap}>
+            <footer className={styles.foot}>
+              <LegalLinks />
+              <div className={styles.footRow}>
+                <span>
+                  {tShop("footer.rights", { year: new Date().getFullYear() })} ·{" "}
+                  {tShop("footer.vat")}
+                </span>
+                <a href="#inicio">{t("nav.about")}</a>
+              </div>
+            </footer>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

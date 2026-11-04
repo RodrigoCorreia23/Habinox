@@ -28,7 +28,7 @@ export default async function ShopLayout({ children }: LayoutProps<"/[locale]">)
             />
           </Link>
           <div className="text-night-soft flex items-center gap-6 text-sm">
-            <Link href="/loja" className="hover:text-night-text flex min-h-11 items-center">
+            <Link href="/#familias" className="hover:text-night-text flex min-h-11 items-center">
               {t("nav.shop")}
             </Link>
             <Link href="/conta" className="hover:text-night-text flex min-h-11 items-center">

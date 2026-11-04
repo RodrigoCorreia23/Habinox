@@ -27,6 +27,7 @@ export interface StoreCategory {
   name: string;
   description: string | null;
   parentId: string | null;
+  imageUrl: string | null;
   productCount: number;
 }
 
@@ -39,6 +40,7 @@ export async function listStoreCategories(locale: string): Promise<StoreCategory
       name: categories.name,
       description: categories.description,
       parentId: categories.parentId,
+      imageUrl: categories.imageUrl,
     })
     .from(categories)
     .where(isNull(categories.archivedAt))
@@ -63,6 +65,7 @@ export async function listStoreCategories(locale: string): Promise<StoreCategory
       name: localize(row.name, locale),
       description: row.description ? localize(row.description, locale) : null,
       parentId: row.parentId,
+      imageUrl: row.imageUrl,
       productCount: row.parentId ? countOf(row.id) : total(row.id),
     }))
     .filter((row) => row.productCount > 0);
@@ -340,4 +343,22 @@ export async function quoteProduct(
     totalCents: priced.totalCents,
     facts: priced.facts,
   };
+}
+
+/** Endereço do primeiro produto publicado (para "Configurar agora" na página inicial). */
+export async function firstPublishedProductPath(): Promise<string | null> {
+  const [row] = await db
+    .select({ product: products.slug, category: categories.slug })
+    .from(products)
+    .innerJoin(categories, eq(categories.id, products.categoryId))
+    .where(
+      and(
+        isNull(products.archivedAt),
+        isNotNull(products.publishedVersionId),
+        isNull(categories.archivedAt),
+      ),
+    )
+    .orderBy(asc(products.createdAt))
+    .limit(1);
+  return row ? `/loja/${row.category}/${row.product}` : null;
 }

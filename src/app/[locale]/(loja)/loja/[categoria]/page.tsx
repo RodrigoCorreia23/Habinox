@@ -28,7 +28,7 @@ export default async function CategoryPage({ params }: PageProps<"/[locale]/loja
   return (
     <main className="mx-auto w-full max-w-[1440px] px-5 pt-12 pb-24 md:px-14 md:pt-16 md:pb-36">
       <nav aria-label={t("category.breadcrumb")} className="text-night-faint font-mono text-xs">
-        <Link href="/loja" className="hover:text-amber">
+        <Link href="/#familias" className="hover:text-amber">
           {t("catalog.title")}
         </Link>
         {parent && (

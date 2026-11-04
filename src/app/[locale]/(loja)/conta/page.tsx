@@ -44,7 +44,7 @@ export default async function AccountPage({ params }: PageProps<"/[locale]/conta
           <div className="mt-8">
             <p className="text-night-muted">{t("noOrders")}</p>
             <Link
-              href="/loja"
+              href="/#familias"
               className="text-night-soft hover:text-amber mt-4 inline-block text-sm underline underline-offset-4"
             >
               {t("browse")}

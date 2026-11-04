@@ -190,3 +190,21 @@
   font-stretch: 115%;
   font-weight: 300;
 }
+
+/* Página inicial: as cores passam da noite azul (apresentação) ao grafite (loja)
+   sem corte; por serem propriedades registadas, o browser anima-as. */
+@property --night {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #0c1220;
+}
+@property --cream {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f1e8d6;
+}
+@property --gold {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #e8c37a;
+}
