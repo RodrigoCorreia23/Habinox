@@ -118,7 +118,7 @@ formula_line_materials (formula_line_id, option_value_id, material_id)
 
 ### Margem (decidida a 2026-11-04)
 
-- **Cada item tem a sua margem:** cada material (inclui acabamentos e serviços externos), cada componente (motores…, também artigos do ERP) e cada sector de mão de obra. Fica na biblioteca, por isso vale em todos os produtos que usam o item.
+- **Cada item tem a sua margem:** cada material (inclui acabamentos e serviços externos), cada componente (motores…, também artigos do ERP) e cada sector de mão de obra. Fica na biblioteca como **valor geral**; cada produto pode ter o seu custo e a sua margem para um material ou sector (`product_cost_overrides`, pertence à versão do produto, com snapshot da origem em cada orçamento). Um custo próprio fica fixo e guarda o custo do ERP do momento (`reference_cost`): quando o ERP muda, o painel e o editor avisam (decidido a 2026-11-05).
 - Fórmula: `preço da linha = custo da linha × (1 + margem)`, margem em fração (`numeric(5,4)`, 5% = 0,0500).
 - **Consumíveis** (% sobre os materiais) herdam a margem do material a que se aplicam.
 - `margin` é **NULL até o Bruno a decidir.** Um produto que use um item sem margem decidida não se publica. Margem 0 (motores) tem de ser escolhida explicitamente, nunca por omissão.
