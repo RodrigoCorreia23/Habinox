@@ -1,0 +1,476 @@
+{
+  "Metadata": {
+    "title": "Habinox",
+    "description": "Carpenteria metallica su misura in acciaio inox, ferro e alluminio."
+  },
+  "Nav": {
+    "home": "Home",
+    "account": "Il mio account"
+  },
+  "Home": {
+    "title": "Habinox · Carpenteria metallica in acciaio inox su misura",
+    "description": "Specialisti dell’acciaio inox dal 2005, ad Antas, Esposende. Scale, cancelli, ringhiere e camini su misura.",
+    "nav": {
+      "main": "Navigazione principale",
+      "company": "Azienda",
+      "services": "Servizi",
+      "contacts": "Contatti",
+      "shop": "Negozio",
+      "account": "Account",
+      "cart": "Carrello",
+      "signIn": "Accedi",
+      "cartCount": "Carrello, {count, plural, =0 {vuoto} one {# articolo} other {# articoli}}",
+      "about": "Chi è Habinox",
+      "home": "Habinox, home del negozio"
+    },
+    "loading": "Caricamento",
+    "hero": {
+      "kicker": "HABINOX®",
+      "title": "Specialisti dell’acciaio inox.",
+      "hint": "Scorra per scoprire."
+    },
+    "company": {
+      "kicker": "01 — Chi siamo",
+      "title": "Dal 2005 ad Antas, Esposende.",
+      "lead": "Abbiamo iniziato con l’acciaio inox; oggi lavoriamo acciaio inox, alluminio saldato e ferro, puntando su modernizzazione e innovazione."
+    },
+    "how": {
+      "kicker": "02 — Come lavoriamo",
+      "title": "Dal taglio alla lucidatura.",
+      "lead": "Progettazione in 2D e 3D, preparazione ed esecuzione in cantiere, con attrezzature proprie:",
+      "items": [
+        "Linea di taglio e piegatura della lamiera",
+        "Taglio CNC, come le ringhiere di questa scala",
+        "Tornio e fresa",
+        "Smerigliatura e lucidatura di profilati"
+      ],
+      "photoAlt": "Scala elicoidale con ringhiere tagliate a CNC e gradini illuminati",
+      "photoCaption": "Immagine 3D illustrativa: ringhiere con taglio CNC"
+    },
+    "services": {
+      "kicker": "03 — Cosa facciamo",
+      "title": "Su misura.",
+      "items": [
+        "Scale",
+        "Ringhiere interne",
+        "Ringhiere esterne",
+        "Cancelli",
+        "Cancelli in alluminio",
+        "Porte d’ingresso",
+        "Cappe",
+        "Camini",
+        "Canne fumarie e comignoli",
+        "Cascate",
+        "Barbecue",
+        "Portasciugamani",
+        "Tavoli",
+        "Piatti doccia",
+        "Maniglie"
+      ]
+    },
+    "steel": {
+      "kicker": "04 — Perché l’inox",
+      "title": "Bello e fatto per durare.",
+      "lead": "Lunga durata e bassi costi di manutenzione: una scelta bella ed economica per l’architettura e l’edilizia."
+    },
+    "near": {
+      "kicker": "05 — Al Suo fianco",
+      "title": "Veniamo in cantiere con Lei.",
+      "items": [
+        "Consulenza e rilievo in cantiere",
+        "Preventivi gratuiti e senza impegno",
+        "Tutto il paese, e produciamo per l’Europa",
+        "Privati e aziende"
+      ]
+    },
+    "numbers": {
+      "kicker": "06 — Numeri",
+      "title": "Due decenni di acciaio inox.",
+      "years": "anni di attività",
+      "since": "dal 2005"
+    },
+    "contacts": {
+      "kicker": "07 — Contatti",
+      "title": "Ci contatti.",
+      "address": "Núcleo Industrial de Antas, 4740-016 Antas, Esposende",
+      "phone": "Tel.",
+      "mobile": "Cell.",
+      "map": "Google Maps",
+      "hours": "Giorni feriali, 9:00–18:30. Chiamata verso rete fissa / mobile nazionale."
+    },
+    "shop": {
+      "kicker": "08 — Negozio",
+      "title": "Dal progetto al cantiere.",
+      "enter": "Entra nel negozio",
+      "quote": "Richiedi un preventivo",
+      "quoteSubject": "Richiesta di preventivo"
+    },
+    "progress": {
+      "company": "Azienda",
+      "services": "Servizi",
+      "contacts": "Contatti",
+      "shop": "Negozio"
+    },
+    "shopHero": {
+      "title": "Metallo su misura.",
+      "accent": "Prezzo immediato.",
+      "lead": "Inserisca le misure, scelga il materiale e veda il prezzo mentre configura.",
+      "configure": "Configura ora",
+      "browse": "Vedi il negozio"
+    },
+    "catalog": {
+      "title": "Scelga cosa vuole far realizzare.",
+      "sub": "Tutto su misura, in acciaio inox, ferro o alluminio.",
+      "pause": "Pausa",
+      "resume": "Riprendi",
+      "models": "{count, plural, one {# modello} other {# modelli}}",
+      "empty": "Il negozio non ha ancora prodotti."
+    },
+    "login": {
+      "title": "Accedi",
+      "accent": "al Suo account.",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Accedi",
+      "submitting": "Accesso in corso…",
+      "forgot": "Ho dimenticato la password",
+      "create": "Crea un account",
+      "signedInAs": "Ha già effettuato l’accesso come {email}.",
+      "account": "Vai all’account"
+    }
+  },
+  "Account": {
+    "title": "Il mio account",
+    "signedInAs": "Accesso effettuato come {email}",
+    "signOut": "Esci",
+    "orders": "I miei ordini",
+    "noOrders": "Non ha ancora effettuato ordini.",
+    "browse": "Vedi il negozio",
+    "items": "{count, plural, one {# articolo} other {# articoli}}",
+    "placedOn": "Effettuato il {date}",
+    "open": "Vedi ordine {number}",
+    "privacy": {
+      "title": "Privacy",
+      "marketing": "Habinox può contattarmi in merito ai miei preventivi e alle novità.",
+      "marketingOn": "Autorizzato. Può disattivarlo quando vuole.",
+      "marketingOff": "Non autorizzato: riceve solo le email relative ai Suoi ordini.",
+      "saving": "Salvataggio…",
+      "erase": "Per eliminare il Suo account, scriva a <mail>{email}</mail>. Gli ordini vengono conservati per il periodo previsto dalla legge (fatturazione); il resto viene eliminato. Maggiori dettagli nell’<policy>informativa sulla privacy</policy>.",
+      "eraseSubject": "Eliminare il mio account"
+    }
+  },
+  "NotFound": {
+    "title": "Questa pagina",
+    "accent": "non esiste.",
+    "body": "L’indirizzo potrebbe essere errato, oppure il prodotto non è più in vendita. Tutte le categorie del negozio sono nella pagina iniziale.",
+    "shop": "Vedi le categorie",
+    "home": "Scopri Habinox"
+  },
+  "Auth": {
+    "email": "Email",
+    "password": "Password",
+    "name": "Nome",
+    "newPassword": "Nuova password",
+    "passwordHint": "Minimo 10 caratteri.",
+    "signIn": {
+      "title": "Accedi",
+      "submit": "Accedi",
+      "noAccount": "Non ha ancora un account?",
+      "createAccount": "Crea un account",
+      "forgot": "Ha dimenticato la password?"
+    },
+    "signUp": {
+      "title": "Crei",
+      "accent": "il Suo account.",
+      "submit": "Crea un account",
+      "acceptTerms": "Ho letto e accetto i <terms>termini e condizioni</terms> e l’<privacy>informativa sulla privacy</privacy>.",
+      "acceptMarketing": "Desidero che Habinox mi contatti in merito ai miei preventivi e alle novità (facoltativo; può revocare il consenso in qualsiasi momento).",
+      "hasAccount": "Ha già un account?",
+      "signIn": "Accedi",
+      "done": "Account creato. Abbiamo inviato un’email a {email} — apra il link per attivare l’account."
+    },
+    "forgot": {
+      "title": "Recuperi",
+      "accent": "la password.",
+      "intro": "Indichi la Sua email. Se esiste un account, invieremo un link per impostare una nuova password.",
+      "submit": "Invia link",
+      "done": "Se esiste un account con questa email, riceverà a breve un link.",
+      "back": "Torna all’accesso"
+    },
+    "reset": {
+      "title": "Nuova",
+      "accent": "password.",
+      "submit": "Salva password",
+      "done": "Password modificata. Ora può accedere.",
+      "invalidLink": "Questo link non è valido o è scaduto. Ne richieda uno nuovo.",
+      "requestNew": "Richiedi un nuovo link"
+    },
+    "errors": {
+      "generic": "Si è verificato un errore. Riprovi.",
+      "INVALID_EMAIL_OR_PASSWORD": "Email o password non corretti.",
+      "EMAIL_NOT_VERIFIED": "Non ha ancora confermato l’email. Le abbiamo reinviato il link di attivazione.",
+      "USER_ALREADY_EXISTS": "Esiste già un account con questa email.",
+      "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL": "Esiste già un account con questa email.",
+      "PASSWORD_TOO_SHORT": "La password deve contenere almeno 10 caratteri.",
+      "INVALID_TOKEN": "Questo link non è valido o è scaduto. Ne richieda uno nuovo.",
+      "TERMS_REQUIRED": "Per creare un account deve accettare i termini e l’informativa sulla privacy.",
+      "TOO_MANY_REQUESTS": "Troppi tentativi. Attenda qualche istante e riprovi."
+    }
+  },
+  "Shop": {
+    "nav": {
+      "shop": "Negozio",
+      "account": "Account",
+      "main": "Navigazione principale",
+      "cart": "Carrello",
+      "cartCount": "Carrello, {count, plural, =0 {vuoto} one {# articolo} other {# articoli}}"
+    },
+    "footer": {
+      "vat": "Prezzi IVA inclusa.",
+      "rights": "© {year} Bruno Miguel Freitas, Lda."
+    },
+    "catalog": {
+      "title": "Negozio",
+      "intro": "Cancelli, scale, ringhiere e camini su misura. Scelga le misure e veda subito il prezzo.",
+      "empty": "Il negozio non ha ancora prodotti.",
+      "models": "{count, plural, one {# modello} other {# modelli}}"
+    },
+    "category": {
+      "configure": "Configura",
+      "empty": "Non ci sono ancora modelli in questa categoria.",
+      "breadcrumb": "Percorso"
+    },
+    "configurator": {
+      "price": "Prezzo",
+      "vatIncluded": "IVA inclusa",
+      "withoutVat": "{amount} IVA esclusa",
+      "calculating": "Calcolo in corso…",
+      "fillIn": "Inserisca le misure per vedere il prezzo.",
+      "fixErrors": "Corregga i campi segnalati per vedere il prezzo.",
+      "unavailable": "Questa combinazione non è disponibile. Ci contatti per un preventivo.",
+      "range": "Tra {min} e {max} {unit}",
+      "rangeMin": "Da {min} {unit}",
+      "rangeMax": "Fino a {max} {unit}",
+      "errors": {
+        "required": "Obbligatorio",
+        "out_of_range": "Fuori dai limiti",
+        "step": "Misura non conforme al passo consentito",
+        "invalid_type": "Valore non valido",
+        "not_allowed": "Non disponibile con le scelte precedenti"
+      },
+      "changed": "{option} è passato a {value}: la scelta precedente non è disponibile con queste opzioni.",
+      "yes": "Sì",
+      "no": "No",
+      "none": "Nessuno",
+      "drawing": "Disegno con le misure scelte",
+      "addToCart": "Aggiungi al carrello",
+      "error": "Impossibile calcolare il prezzo. Riprovi.",
+      "rateLimited": "Troppe richieste consecutive. Attenda un minuto e riprovi.",
+      "adding": "Aggiunta in corso…",
+      "added": "Aggiunto al carrello.",
+      "viewCart": "Vedi carrello",
+      "addFailed": {
+        "invalid": "Impossibile aggiungere: verifichi le opzioni.",
+        "unavailable": "Questa combinazione non è più disponibile.",
+        "not_found": "Questo prodotto non è più disponibile.",
+        "full": "Il carrello è pieno (50 righe).",
+        "rate_limited": "Troppe richieste consecutive. Attenda un minuto e riprovi."
+      },
+      "priceKept": "Il prezzo è garantito per {days} giorni."
+    },
+    "cart": {
+      "title": "Carrello",
+      "empty": "Il carrello è vuoto.",
+      "browse": "Vedi il negozio",
+      "quantity": "Quantità",
+      "update": "Aggiorna",
+      "remove": "Rimuovi",
+      "unitPrice": "{amount} cad.",
+      "validUntil": "Prezzo garantito fino al {date}.",
+      "repriced": "Il prezzo salvato è scaduto ed è stato ricalcolato con i valori di oggi (era {amount}).",
+      "unavailable": "Questo articolo non è più disponibile e non è incluso nel totale.",
+      "subtotal": "Subtotale IVA esclusa",
+      "vat": "IVA ({rate}%)",
+      "total": "Totale",
+      "checkout": "Completa l’ordine",
+      "measuresNote": "Le misure sono responsabilità del cliente: le verifichi prima di ordinare.",
+      "summary": "Scelte"
+    },
+    "checkout": {
+      "title": "Completa l’ordine",
+      "contact": "Contatto",
+      "phone": "Telefono",
+      "nif": "NIF, codice fiscale portoghese (facoltativo)",
+      "nifHint": "Per la fattura intestata a un’azienda o con codice fiscale.",
+      "billing": "Indirizzo di fatturazione",
+      "shipping": "Indirizzo di consegna",
+      "sameShipping": "Consegna all’indirizzo di fatturazione",
+      "name": "Nome",
+      "line1": "Indirizzo",
+      "line2": "Piano, interno (facoltativo)",
+      "postalCode": "Codice postale",
+      "city": "Località",
+      "country": "Paese: Portogallo",
+      "notes": "Note per Habinox (facoltativo)",
+      "notesHint": "Accesso al cantiere, orari, ciò che può essere utile.",
+      "acceptTerms": "Ho letto e accetto i <terms>termini e condizioni</terms> e l’<privacy>informativa sulla privacy</privacy>.",
+      "acceptMeasures": "Confermo che le misure indicate sono corrette e sono sotto la mia responsabilità e che, trattandosi di prodotti su misura, non sussiste il diritto di recesso (<withdrawal>punto 8 dei termini</withdrawal>).",
+      "summary": "Riepilogo",
+      "transport": "Trasporto e installazione",
+      "transportValue": "Da confermare da parte di Habinox",
+      "submit": "Invia ordine · {amount}",
+      "submitting": "Invio in corso…",
+      "paymentNote": "Il pagamento online non è ancora disponibile: Habinox La contatterà per confermare trasporto e pagamento.",
+      "signedInAs": "Ordine a nome di {email}.",
+      "errors": {
+        "empty": "Il carrello è vuoto.",
+        "unavailable": "Non sono più disponibili: {products}. Li rimuova dal carrello per continuare.",
+        "invalid": "Verifichi i campi segnalati.",
+        "failed": "Impossibile inviare l’ordine. Riprovi.",
+        "price_changed": "Il prezzo è cambiato da quando ha aperto questa pagina (un preventivo è scaduto). Verifichi il nuovo totale e invii di nuovo.",
+        "rate_limited": "Troppi tentativi consecutivi. Attenda qualche minuto e invii di nuovo."
+      }
+    },
+    "order": {
+      "title": "Ordine {number}",
+      "thanks": "Grazie. Abbiamo ricevuto il Suo ordine.",
+      "emailSent": "Abbiamo inviato la conferma a {email}.",
+      "status": "Stato",
+      "statuses": {
+        "pending_payment": "In attesa di conferma e pagamento",
+        "paid": "Pagato",
+        "in_production": "In produzione",
+        "ready": "Pronto",
+        "shipped": "Spedito",
+        "delivered": "Consegnato",
+        "cancelled": "Annullato",
+        "expired": "Scaduto"
+      },
+      "deliverTo": "Consegna",
+      "items": "Articoli",
+      "next": "Habinox La contatterà a breve per confermare trasporto, installazione e pagamento.",
+      "backToShop": "Torna al negozio",
+      "allOrders": "I miei ordini"
+    },
+    "legal": {
+      "updated": "Ultimo aggiornamento: {date}",
+      "terms": "Termini e condizioni",
+      "privacy": "Privacy",
+      "cookies": "Cookie",
+      "complaints": "Livro de Reclamações (libro dei reclami)",
+      "disputes": "Risoluzione delle controversie",
+      "nav": "Note legali",
+      "portugueseOnly": "Questo documento è disponibile solo in portoghese, che è la versione vincolante."
+    },
+    "language": "Lingua"
+  },
+  "Email": {
+    "common": {
+      "hello": "Buongiorno,",
+      "signature": "Habinox",
+      "fallback": "Se il pulsante non si apre, copi questo indirizzo:",
+      "hours": "{count, plural, one {# ora} other {# ore}}",
+      "withoutVat": "IVA esclusa",
+      "orderLabel": "Ordine",
+      "viewOrder": "Vedi l’ordine",
+      "viewOrderText": "Vedi l’ordine: {url}",
+      "orderReason": "Riceve questa email perché ha effettuato l’ordine {number} nel negozio Habinox."
+    },
+    "verify": {
+      "subject": "Confermi la Sua email — Habinox",
+      "title": "Confermi",
+      "accent": "la Sua email.",
+      "preheader": "Un clic per attivare il Suo account. Il link è valido per {validity}.",
+      "body": "Per attivare il Suo account Habinox e salvare i Suoi preventivi, confermi che <email></email> è Suo.",
+      "button": "Conferma email",
+      "validity": "Il link è valido per {validity}.",
+      "reason": "Riceve questa email perché qualcuno ha creato un account nel negozio Habinox con questo indirizzo. Se non è stato Lei, la ignori: senza conferma l’account non viene attivato.",
+      "text": "Per attivare il Suo account Habinox, confermi la Sua email (il link è valido per {validity}):"
+    },
+    "reset": {
+      "subject": "Recupero password — Habinox",
+      "title": "Una nuova",
+      "accent": "password.",
+      "preheader": "Scelga una nuova password. Il link è valido per {validity}.",
+      "body": "Abbiamo ricevuto una richiesta di modifica della password del Suo account Habinox.",
+      "button": "Scegli una nuova password",
+      "validity": "Il link è valido per {validity}. Cambiando la password, le sessioni aperte sugli altri dispositivi vengono chiuse.",
+      "reason": "Se non ha fatto questa richiesta, ignori questa email: la password attuale resta valida e nessuno entra senza di essa.",
+      "text": "Abbiamo ricevuto una richiesta di modifica della password del Suo account (il link è valido per {validity}):",
+      "ignore": "Se non ha fatto questa richiesta, ignori questa email. La password attuale resta valida."
+    },
+    "order": {
+      "subject": "Abbiamo ricevuto il Suo ordine {number} — Habinox",
+      "title": "Abbiamo ricevuto",
+      "accent": "il Suo ordine.",
+      "preheader": "{total} IVA inclusa. La contatteremo per concordare trasporto e pagamento.",
+      "thanks": "Grazie. La contatteremo a breve per confermare i dettagli, il trasporto o l’installazione e il pagamento.",
+      "subtotal": "Subtotale IVA esclusa",
+      "vat": "IVA ({rate})",
+      "transport": "Trasporto e installazione",
+      "transportValue": "da concordare con Lei",
+      "total": "Totale",
+      "delivery": "Consegna",
+      "measures": "Le misure indicate sono sotto la Sua responsabilità, come ha confermato al momento dell’ordine. Se nota un errore, risponda a questa email prima di pagare.",
+      "textReceived": "Abbiamo ricevuto il Suo ordine {number}. Grazie.",
+      "textTransport": "Trasporto e installazione: Habinox li conferma con Lei prima del pagamento.",
+      "textDelivery": "Consegna: {address}",
+      "textMeasures": "Le misure indicate sono sotto la Sua responsabilità, come ha confermato al momento dell’ordine.",
+      "textContact": "La contatteremo a breve per confermare i dettagli e il pagamento.",
+      "unitPrice": "{quantity} × {price} ({withoutVat} cad.)"
+    },
+    "status": {
+      "subject": "Ordine {number}: {summary} — Habinox",
+      "note": "Nota di Habinox",
+      "stateLabel": "Stato: {stage}",
+      "stages": {
+        "pending_payment": "Ricevuto",
+        "paid": "Pagato",
+        "in_production": "In produzione",
+        "ready": "Pronto",
+        "shipped": "Spedito",
+        "delivered": "Consegnato"
+      },
+      "paid": {
+        "title": "Pagamento",
+        "accent": "confermato.",
+        "text": "Il Suo pagamento è stato confermato. Grazie."
+      },
+      "in_production": {
+        "title": "Il Suo ordine",
+        "accent": "è in produzione.",
+        "text": "Il Suo ordine è entrato in produzione nella nostra officina."
+      },
+      "ready": {
+        "title": "Il Suo ordine",
+        "accent": "è pronto.",
+        "text": "Il Suo ordine è pronto. Concorderemo con Lei la consegna o l’installazione."
+      },
+      "shipped": {
+        "title": "Il Suo ordine",
+        "accent": "è stato spedito.",
+        "text": "Il Suo ordine è stato spedito."
+      },
+      "delivered": {
+        "title": "Consegnato.",
+        "accent": "Grazie.",
+        "text": "Il Suo ordine è stato consegnato. Grazie per averci scelto."
+      },
+      "cancelled": {
+        "title": "Ordine",
+        "accent": "annullato.",
+        "text": "Il Suo ordine è stato annullato."
+      },
+      "expired": {
+        "title": "Ordine",
+        "accent": "scaduto.",
+        "text": "Il Suo ordine è scaduto per mancato pagamento."
+      },
+      "other": {
+        "title": "Ordine",
+        "accent": "aggiornato.",
+        "text": "Il Suo ordine è stato aggiornato."
+      }
+    }
+  }
+}

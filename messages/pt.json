@@ -359,7 +359,118 @@
       "cookies": "Cookies",
       "complaints": "Livro de Reclamações",
       "disputes": "Resolução de litígios",
-      "nav": "Informação legal"
+      "nav": "Informação legal",
+      "portugueseOnly": "Este documento só existe em português, que é a versão que vale."
+    },
+    "language": "Língua"
+  },
+  "Email": {
+    "common": {
+      "hello": "Olá,",
+      "signature": "Habinox",
+      "fallback": "Se o botão não abrir, copie este endereço:",
+      "hours": "{count, plural, one {# hora} other {# horas}}",
+      "withoutVat": "sem IVA",
+      "orderLabel": "Encomenda",
+      "viewOrder": "Ver a encomenda",
+      "viewOrderText": "Ver a encomenda: {url}",
+      "orderReason": "Recebe este email porque fez a encomenda {number} na loja da Habinox."
+    },
+    "verify": {
+      "subject": "Confirme o seu email — Habinox",
+      "title": "Confirme",
+      "accent": "o seu email.",
+      "preheader": "Um clique para ativar a sua conta. O link vale durante {validity}.",
+      "body": "Para ativar a sua conta na Habinox e guardar os seus orçamentos, confirme que <email></email> é seu.",
+      "button": "Confirmar email",
+      "validity": "O link vale durante {validity}.",
+      "reason": "Recebe este email porque alguém criou uma conta na loja da Habinox com este endereço. Se não foi o seu caso, ignore-o: sem confirmação, a conta não fica ativa.",
+      "text": "Para ativar a sua conta na Habinox, confirme o seu email (o link vale durante {validity}):"
+    },
+    "reset": {
+      "subject": "Recuperar password — Habinox",
+      "title": "Uma password",
+      "accent": "nova.",
+      "preheader": "Escolha uma password nova. O link vale durante {validity}.",
+      "body": "Recebemos um pedido para alterar a password da sua conta na Habinox.",
+      "button": "Escolher nova password",
+      "validity": "O link vale durante {validity}. Ao mudar a password, as sessões abertas noutros dispositivos terminam.",
+      "reason": "Se não fez este pedido, ignore este email: a password atual mantém-se e ninguém entra sem ela.",
+      "text": "Recebemos um pedido para alterar a password da sua conta (o link vale durante {validity}):",
+      "ignore": "Se não fez este pedido, ignore este email. A password atual mantém-se."
+    },
+    "order": {
+      "subject": "Recebemos a sua encomenda {number} — Habinox",
+      "title": "Recebemos",
+      "accent": "a sua encomenda.",
+      "preheader": "{total} com IVA. Vamos contactá-lo para combinar transporte e pagamento.",
+      "thanks": "Obrigado. Vamos contactá-lo em breve para confirmar os detalhes, o transporte ou a instalação e o pagamento.",
+      "subtotal": "Subtotal sem IVA",
+      "vat": "IVA ({rate})",
+      "transport": "Transporte e instalação",
+      "transportValue": "a combinar consigo",
+      "total": "Total",
+      "delivery": "Entrega",
+      "measures": "As medidas indicadas são da sua responsabilidade, como confirmou ao encomendar. Se reparar num engano, responda a este email antes de pagar.",
+      "textReceived": "Recebemos a sua encomenda {number}. Obrigado.",
+      "textTransport": "Transporte e instalação: a Habinox confirma-os consigo antes do pagamento.",
+      "textDelivery": "Entrega: {address}",
+      "textMeasures": "As medidas indicadas são da sua responsabilidade, como confirmou ao encomendar.",
+      "textContact": "Entraremos em contacto em breve para confirmar os detalhes e o pagamento.",
+      "unitPrice": "{quantity} × {price} ({withoutVat} cada)"
+    },
+    "status": {
+      "subject": "Encomenda {number}: {summary} — Habinox",
+      "note": "Nota da Habinox",
+      "stateLabel": "Estado: {stage}",
+      "stages": {
+        "pending_payment": "Recebida",
+        "paid": "Paga",
+        "in_production": "Em produção",
+        "ready": "Pronta",
+        "shipped": "Expedida",
+        "delivered": "Entregue"
+      },
+      "paid": {
+        "title": "Pagamento",
+        "accent": "confirmado.",
+        "text": "O pagamento foi confirmado. Obrigado."
+      },
+      "in_production": {
+        "title": "A sua encomenda",
+        "accent": "está em produção.",
+        "text": "A sua encomenda entrou em produção na nossa oficina."
+      },
+      "ready": {
+        "title": "A sua encomenda",
+        "accent": "está pronta.",
+        "text": "A sua encomenda está pronta. Vamos combinar consigo a entrega ou a instalação."
+      },
+      "shipped": {
+        "title": "A sua encomenda",
+        "accent": "foi expedida.",
+        "text": "A sua encomenda foi expedida."
+      },
+      "delivered": {
+        "title": "Entregue.",
+        "accent": "Obrigado.",
+        "text": "A sua encomenda foi entregue. Obrigado pela preferência."
+      },
+      "cancelled": {
+        "title": "Encomenda",
+        "accent": "cancelada.",
+        "text": "A sua encomenda foi cancelada."
+      },
+      "expired": {
+        "title": "Encomenda",
+        "accent": "expirada.",
+        "text": "A sua encomenda expirou por falta de pagamento."
+      },
+      "other": {
+        "title": "Encomenda",
+        "accent": "atualizada.",
+        "text": "A sua encomenda foi atualizada."
+      }
     }
   }
 }

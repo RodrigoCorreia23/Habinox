@@ -1,0 +1,1 @@
+ALTER TABLE "orders" ADD COLUMN "locale" text DEFAULT 'pt' NOT NULL;

@@ -1,0 +1,476 @@
+{
+  "Metadata": {
+    "title": "Habinox",
+    "description": "Made-to-measure metalwork in stainless steel, iron and aluminium."
+  },
+  "Nav": {
+    "home": "Home",
+    "account": "My account"
+  },
+  "Home": {
+    "title": "Habinox · Made-to-measure stainless steel metalwork",
+    "description": "Stainless steel specialists since 2005, in Antas, Esposende. Made-to-measure stairs, gates, railings and chimneys.",
+    "nav": {
+      "main": "Main navigation",
+      "company": "Company",
+      "services": "Services",
+      "contacts": "Contact",
+      "shop": "Shop",
+      "account": "Account",
+      "cart": "Basket",
+      "signIn": "Sign in",
+      "cartCount": "Basket, {count, plural, =0 {empty} one {# item} other {# items}}",
+      "about": "About Habinox",
+      "home": "Habinox, shop home"
+    },
+    "loading": "Loading",
+    "hero": {
+      "kicker": "HABINOX®",
+      "title": "Stainless steel specialists.",
+      "hint": "Scroll to discover."
+    },
+    "company": {
+      "kicker": "01 — Who we are",
+      "title": "In Antas, Esposende, since 2005.",
+      "lead": "We started with stainless steel. Today we work in stainless steel, welded aluminium and iron, with a focus on modernisation and innovation."
+    },
+    "how": {
+      "kicker": "02 — How we work",
+      "title": "From cutting to polishing.",
+      "lead": "2D and 3D design, site preparation and execution, with our own equipment:",
+      "items": [
+        "Sheet metal cutting and bending line",
+        "CNC cutting, like the railings on this staircase",
+        "Lathe and milling machine",
+        "Grinding and polishing of profiles"
+      ],
+      "photoAlt": "Spiral staircase with CNC-cut railings and illuminated steps",
+      "photoCaption": "Illustrative 3D image: CNC-cut railings"
+    },
+    "services": {
+      "kicker": "03 — What we make",
+      "title": "Made to measure.",
+      "items": [
+        "Stairs",
+        "Interior railings",
+        "Exterior railings",
+        "Gates",
+        "Aluminium gates",
+        "Front doors",
+        "Range hoods",
+        "Chimneys",
+        "Downpipes and capitals",
+        "Water features",
+        "Barbecues",
+        "Towel rails",
+        "Tables",
+        "Shower trays",
+        "Handles"
+      ]
+    },
+    "steel": {
+      "kicker": "04 — Why stainless steel",
+      "title": "Beautiful and built to last.",
+      "lead": "Long life cycle and low maintenance cost: a beautiful, economical choice for architecture and construction."
+    },
+    "near": {
+      "kicker": "05 — At your side",
+      "title": "We come to the site with you.",
+      "items": [
+        "Advice and on-site surveys",
+        "Free, no-obligation quotes",
+        "The whole country, and we manufacture for Europe",
+        "Private customers and businesses"
+      ]
+    },
+    "numbers": {
+      "kicker": "06 — Figures",
+      "title": "Two decades of stainless steel.",
+      "years": "years in business",
+      "since": "since 2005"
+    },
+    "contacts": {
+      "kicker": "07 — Contact",
+      "title": "Get in touch.",
+      "address": "Núcleo Industrial de Antas, 4740-016 Antas, Esposende",
+      "phone": "Tel.",
+      "mobile": "Mob.",
+      "map": "Google Maps",
+      "hours": "Weekdays, 9:00–18:30. Calls charged at national landline / mobile rates."
+    },
+    "shop": {
+      "kicker": "08 — Shop",
+      "title": "From design to site.",
+      "enter": "Enter the shop",
+      "quote": "Request a quote",
+      "quoteSubject": "Quote request"
+    },
+    "progress": {
+      "company": "Company",
+      "services": "Services",
+      "contacts": "Contact",
+      "shop": "Shop"
+    },
+    "shopHero": {
+      "title": "Metal made to measure.",
+      "accent": "Instant price.",
+      "lead": "Enter the measurements, choose the material and see the price as you configure.",
+      "configure": "Configure now",
+      "browse": "Browse the shop"
+    },
+    "catalog": {
+      "title": "Choose what you want made.",
+      "sub": "Everything made to measure, in stainless steel, iron or aluminium.",
+      "pause": "Pause",
+      "resume": "Resume",
+      "models": "{count, plural, one {# model} other {# models}}",
+      "empty": "There are no products in the shop yet."
+    },
+    "login": {
+      "title": "Sign in",
+      "accent": "to your account.",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "forgot": "I forgot my password",
+      "create": "Create account",
+      "signedInAs": "You are already signed in as {email}.",
+      "account": "Go to account"
+    }
+  },
+  "Account": {
+    "title": "My account",
+    "signedInAs": "Signed in as {email}",
+    "signOut": "Sign out",
+    "orders": "My orders",
+    "noOrders": "You have not placed any orders yet.",
+    "browse": "Browse the shop",
+    "items": "{count, plural, one {# item} other {# items}}",
+    "placedOn": "Placed on {date}",
+    "open": "View order {number}",
+    "privacy": {
+      "title": "Privacy",
+      "marketing": "Habinox may contact me about my quotes and news.",
+      "marketingOn": "Allowed. You can turn this off at any time.",
+      "marketingOff": "Not allowed: you only receive emails about your orders.",
+      "saving": "Saving…",
+      "erase": "To delete your account, write to <mail>{email}</mail>. Orders are kept for the period required by law (invoicing); everything else is deleted. More details in the <policy>privacy policy</policy>.",
+      "eraseSubject": "Delete my account"
+    }
+  },
+  "NotFound": {
+    "title": "This page",
+    "accent": "does not exist.",
+    "body": "The address may be wrong, or the product is no longer for sale. All shop categories are on the home page.",
+    "shop": "View categories",
+    "home": "Discover Habinox"
+  },
+  "Auth": {
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "newPassword": "New password",
+    "passwordHint": "At least 10 characters.",
+    "signIn": {
+      "title": "Sign in",
+      "submit": "Sign in",
+      "noAccount": "Don't have an account yet?",
+      "createAccount": "Create account",
+      "forgot": "Forgot your password?"
+    },
+    "signUp": {
+      "title": "Create",
+      "accent": "your account.",
+      "submit": "Create account",
+      "acceptTerms": "I have read and accept the <terms>terms and conditions</terms> and the <privacy>privacy policy</privacy>.",
+      "acceptMarketing": "I would like Habinox to contact me about my quotes and news (optional; you can opt out at any time).",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "done": "Account created. We have sent an email to {email} — open the link to activate your account."
+    },
+    "forgot": {
+      "title": "Reset",
+      "accent": "your password.",
+      "intro": "Enter your email. If an account exists, we will send you a link to set a new password.",
+      "submit": "Send link",
+      "done": "If an account exists with that email, you will receive a link shortly.",
+      "back": "Back to sign in"
+    },
+    "reset": {
+      "title": "New",
+      "accent": "password.",
+      "submit": "Save password",
+      "done": "Password changed. You can now sign in.",
+      "invalidLink": "This link is invalid or has expired. Request a new one.",
+      "requestNew": "Request a new link"
+    },
+    "errors": {
+      "generic": "Something went wrong. Please try again.",
+      "INVALID_EMAIL_OR_PASSWORD": "Incorrect email or password.",
+      "EMAIL_NOT_VERIFIED": "You have not confirmed your email yet. We have resent the activation link.",
+      "USER_ALREADY_EXISTS": "An account with this email already exists.",
+      "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL": "An account with this email already exists.",
+      "PASSWORD_TOO_SHORT": "The password must be at least 10 characters long.",
+      "INVALID_TOKEN": "This link is invalid or has expired. Request a new one.",
+      "TERMS_REQUIRED": "To create an account you must accept the terms and the privacy policy.",
+      "TOO_MANY_REQUESTS": "Too many attempts. Please wait a moment and try again."
+    }
+  },
+  "Shop": {
+    "nav": {
+      "shop": "Shop",
+      "account": "Account",
+      "main": "Main navigation",
+      "cart": "Basket",
+      "cartCount": "Basket, {count, plural, =0 {empty} one {# item} other {# items}}"
+    },
+    "footer": {
+      "vat": "Prices include VAT.",
+      "rights": "© {year} Bruno Miguel Freitas, Lda."
+    },
+    "catalog": {
+      "title": "Shop",
+      "intro": "Gates, stairs, railings and chimneys made to measure. Choose the measurements and see the price instantly.",
+      "empty": "There are no products in the shop yet.",
+      "models": "{count, plural, one {# model} other {# models}}"
+    },
+    "category": {
+      "configure": "Configure",
+      "empty": "There are no models in this category yet.",
+      "breadcrumb": "Breadcrumb"
+    },
+    "configurator": {
+      "price": "Price",
+      "vatIncluded": "VAT included",
+      "withoutVat": "{amount} excl. VAT",
+      "calculating": "Calculating…",
+      "fillIn": "Enter the measurements to see the price.",
+      "fixErrors": "Correct the highlighted fields to see the price.",
+      "unavailable": "This combination is not available. Contact us for a quote.",
+      "range": "Between {min} and {max} {unit}",
+      "rangeMin": "From {min} {unit}",
+      "rangeMax": "Up to {max} {unit}",
+      "errors": {
+        "required": "Required",
+        "out_of_range": "Out of range",
+        "step": "Measurement not in the allowed increment",
+        "invalid_type": "Invalid value",
+        "not_allowed": "Not available with the choices above"
+      },
+      "changed": "{option} changed to {value}: the previous choice is not available with these options.",
+      "yes": "Yes",
+      "no": "No",
+      "none": "None",
+      "drawing": "Drawing with the chosen measurements",
+      "addToCart": "Add to basket",
+      "error": "The price could not be calculated. Please try again.",
+      "rateLimited": "Too many requests in a row. Wait a minute and try again.",
+      "adding": "Adding…",
+      "added": "Added to basket.",
+      "viewCart": "View basket",
+      "addFailed": {
+        "invalid": "Could not add: check the options.",
+        "unavailable": "This combination is no longer available.",
+        "not_found": "This product is no longer available.",
+        "full": "The basket is full (50 lines).",
+        "rate_limited": "Too many requests in a row. Wait a minute and try again."
+      },
+      "priceKept": "The price is guaranteed for {days} days."
+    },
+    "cart": {
+      "title": "Basket",
+      "empty": "Your basket is empty.",
+      "browse": "Browse the shop",
+      "quantity": "Quantity",
+      "update": "Update",
+      "remove": "Remove",
+      "unitPrice": "{amount} each",
+      "validUntil": "Price guaranteed until {date}.",
+      "repriced": "The saved price expired and has been recalculated at today's rates (it was {amount}).",
+      "unavailable": "This item is no longer available and is not included in the total.",
+      "subtotal": "Subtotal excl. VAT",
+      "vat": "VAT ({rate}%)",
+      "total": "Total",
+      "checkout": "Checkout",
+      "measuresNote": "Measurements are the customer's responsibility: please check them before ordering.",
+      "summary": "Choices"
+    },
+    "checkout": {
+      "title": "Checkout",
+      "contact": "Contact",
+      "phone": "Phone",
+      "nif": "NIF (tax number, optional)",
+      "nifHint": "For an invoice in a company's name or with a tax number.",
+      "billing": "Billing address",
+      "shipping": "Delivery address",
+      "sameShipping": "Deliver to the billing address",
+      "name": "Name",
+      "line1": "Address",
+      "line2": "Floor, door (optional)",
+      "postalCode": "Postcode",
+      "city": "Town / city",
+      "country": "Country: Portugal",
+      "notes": "Notes for Habinox (optional)",
+      "notesHint": "Site access, times, anything useful.",
+      "acceptTerms": "I have read and accept the <terms>terms and conditions</terms> and the <privacy>privacy policy</privacy>.",
+      "acceptMeasures": "I confirm that the measurements I entered are correct and are my responsibility, and that, as these are made-to-measure products, there is no right of withdrawal (<withdrawal>section 8 of the terms</withdrawal>).",
+      "summary": "Summary",
+      "transport": "Transport and installation",
+      "transportValue": "To be confirmed by Habinox",
+      "submit": "Place order · {amount}",
+      "submitting": "Sending…",
+      "paymentNote": "We do not take online payments yet: Habinox will contact you to confirm transport and payment.",
+      "signedInAs": "Order in the name of {email}.",
+      "errors": {
+        "empty": "Your basket is empty.",
+        "unavailable": "No longer available: {products}. Remove them from the basket to continue.",
+        "invalid": "Check the highlighted fields.",
+        "failed": "The order could not be sent. Please try again.",
+        "price_changed": "The price has changed since you opened this page (a quote expired). Review the new total and send again.",
+        "rate_limited": "Too many attempts in a row. Wait a few minutes and send again."
+      }
+    },
+    "order": {
+      "title": "Order {number}",
+      "thanks": "Thank you. We have received your order.",
+      "emailSent": "We have sent the confirmation to {email}.",
+      "status": "Status",
+      "statuses": {
+        "pending_payment": "Awaiting confirmation and payment",
+        "paid": "Paid",
+        "in_production": "In production",
+        "ready": "Ready",
+        "shipped": "Shipped",
+        "delivered": "Delivered",
+        "cancelled": "Cancelled",
+        "expired": "Expired"
+      },
+      "deliverTo": "Delivery",
+      "items": "Items",
+      "next": "Habinox will contact you shortly to confirm transport, installation and payment.",
+      "backToShop": "Back to the shop",
+      "allOrders": "My orders"
+    },
+    "legal": {
+      "updated": "Last updated: {date}",
+      "terms": "Terms and conditions",
+      "privacy": "Privacy",
+      "cookies": "Cookies",
+      "complaints": "Livro de Reclamações (complaints book)",
+      "disputes": "Dispute resolution",
+      "nav": "Legal information",
+      "portugueseOnly": "This document is currently available in Portuguese only; the Portuguese version is the binding one."
+    },
+    "language": "Language"
+  },
+  "Email": {
+    "common": {
+      "hello": "Hello,",
+      "signature": "Habinox",
+      "fallback": "If the button does not open, copy this address:",
+      "hours": "{count, plural, one {# hour} other {# hours}}",
+      "withoutVat": "excl. VAT",
+      "orderLabel": "Order",
+      "viewOrder": "View your order",
+      "viewOrderText": "View your order: {url}",
+      "orderReason": "You are receiving this email because you placed order {number} in the Habinox shop."
+    },
+    "verify": {
+      "subject": "Confirm your email — Habinox",
+      "title": "Confirm",
+      "accent": "your email.",
+      "preheader": "One click to activate your account. The link is valid for {validity}.",
+      "body": "To activate your Habinox account and keep your quotes, confirm that <email></email> is yours.",
+      "button": "Confirm email",
+      "validity": "The link is valid for {validity}.",
+      "reason": "You are receiving this email because someone created an account in the Habinox shop with this address. If it was not you, ignore it: without confirmation the account does not become active.",
+      "text": "To activate your Habinox account, confirm your email (the link is valid for {validity}):"
+    },
+    "reset": {
+      "subject": "Reset your password — Habinox",
+      "title": "A new",
+      "accent": "password.",
+      "preheader": "Choose a new password. The link is valid for {validity}.",
+      "body": "We received a request to change the password of your Habinox account.",
+      "button": "Choose a new password",
+      "validity": "The link is valid for {validity}. Changing the password signs you out on your other devices.",
+      "reason": "If you did not make this request, ignore this email: your current password stays and nobody can sign in without it.",
+      "text": "We received a request to change your account password (the link is valid for {validity}):",
+      "ignore": "If you did not make this request, ignore this email. Your current password stays."
+    },
+    "order": {
+      "subject": "We received your order {number} — Habinox",
+      "title": "We received",
+      "accent": "your order.",
+      "preheader": "{total} incl. VAT. We will contact you to arrange delivery and payment.",
+      "thanks": "Thank you. We will contact you shortly to confirm the details, delivery or installation, and payment.",
+      "subtotal": "Subtotal excl. VAT",
+      "vat": "VAT ({rate})",
+      "transport": "Delivery and installation",
+      "transportValue": "to be agreed with you",
+      "total": "Total",
+      "delivery": "Delivery",
+      "measures": "The measurements you entered are your responsibility, as you confirmed when ordering. If you spot a mistake, reply to this email before paying.",
+      "textReceived": "We received your order {number}. Thank you.",
+      "textTransport": "Delivery and installation: Habinox will confirm them with you before payment.",
+      "textDelivery": "Delivery: {address}",
+      "textMeasures": "The measurements you entered are your responsibility, as you confirmed when ordering.",
+      "textContact": "We will contact you shortly to confirm the details and payment.",
+      "unitPrice": "{quantity} × {price} ({withoutVat} each)"
+    },
+    "status": {
+      "subject": "Order {number}: {summary} — Habinox",
+      "note": "Note from Habinox",
+      "stateLabel": "Status: {stage}",
+      "stages": {
+        "pending_payment": "Received",
+        "paid": "Paid",
+        "in_production": "In production",
+        "ready": "Ready",
+        "shipped": "Shipped",
+        "delivered": "Delivered"
+      },
+      "paid": {
+        "title": "Payment",
+        "accent": "confirmed.",
+        "text": "Your payment has been confirmed. Thank you."
+      },
+      "in_production": {
+        "title": "Your order",
+        "accent": "is in production.",
+        "text": "Your order has gone into production in our workshop."
+      },
+      "ready": {
+        "title": "Your order",
+        "accent": "is ready.",
+        "text": "Your order is ready. We will arrange delivery or installation with you."
+      },
+      "shipped": {
+        "title": "Your order",
+        "accent": "has been shipped.",
+        "text": "Your order has been shipped."
+      },
+      "delivered": {
+        "title": "Delivered.",
+        "accent": "Thank you.",
+        "text": "Your order has been delivered. Thank you for choosing us."
+      },
+      "cancelled": {
+        "title": "Order",
+        "accent": "cancelled.",
+        "text": "Your order has been cancelled."
+      },
+      "expired": {
+        "title": "Order",
+        "accent": "expired.",
+        "text": "Your order expired because it was not paid."
+      },
+      "other": {
+        "title": "Order",
+        "accent": "updated.",
+        "text": "Your order has been updated."
+      }
+    }
+  }
+}

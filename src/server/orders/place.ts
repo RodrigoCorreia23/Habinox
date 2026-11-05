@@ -21,6 +21,7 @@ import {
   quotes,
 } from "@/db/schema";
 import { type Address, addressSchema, isValidNif } from "@/lib/address";
+import { isContentLocale } from "@/lib/localized";
 import { formatDecimal, vatCents } from "@/lib/money";
 import { log } from "@/lib/log";
 import { sendEmail } from "@/server/email/send";
@@ -160,6 +161,7 @@ export async function placeOrder(params: {
           billingAddress: input.billing,
           shippingAddress: shipping,
           notes: input.notes || null,
+          locale: isContentLocale(locale) ? locale : "pt",
           measuresAcceptedAt: now,
           termsAcceptedAt: now,
         })

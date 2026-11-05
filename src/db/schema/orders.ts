@@ -44,6 +44,8 @@ export const orders = pgTable(
     billingAddress: jsonb().$type<Address>().notNull(),
     shippingAddress: jsonb().$type<Address>().notNull(),
     notes: text(),
+    /** Língua em que o cliente encomendou: os emails da encomenda saem nela. */
+    locale: text().notNull().default("pt"),
     /** O cliente assumiu a responsabilidade pelas medidas (obrigatório, com data). */
     measuresAcceptedAt: timestamp({ withTimezone: true }).notNull(),
     termsAcceptedAt: timestamp({ withTimezone: true }).notNull(),

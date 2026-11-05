@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { intlLocale } from "@/i18n/locales";
 import { Link } from "@/i18n/navigation";
 import { formatEuros } from "@/lib/money";
 import { isOrderStatus } from "@/lib/orders/state";
@@ -18,13 +19,15 @@ export async function generateMetadata({
   return { title: `${t("title")} · Habinox`, robots: { index: false } };
 }
 
-const dateFormat = new Intl.DateTimeFormat("pt-PT", {
-  dateStyle: "long",
-  timeZone: "Europe/Lisbon",
-});
+const dateFormat = (locale: string) =>
+  new Intl.DateTimeFormat(intlLocale(locale), {
+    dateStyle: "long",
+    timeZone: "Europe/Lisbon",
+  });
 
 export default async function AccountPage({ params }: PageProps<"/[locale]/conta">) {
   const { locale } = await params;
+  const money = (cents: number) => formatEuros(cents, intlLocale(locale));
   setRequestLocale(locale);
   const session = await requireUser(`/${locale}/conta`, locale);
   const t = await getTranslations("Account");
@@ -70,14 +73,12 @@ export default async function AccountPage({ params }: PageProps<"/[locale]/conta
                       {order.number}
                     </p>
                     <p className="text-night-faint mt-1 text-sm">
-                      {t("placedOn", { date: dateFormat.format(order.createdAt) })} ·{" "}
+                      {t("placedOn", { date: dateFormat(locale).format(order.createdAt) })} ·{" "}
                       {t("items", { count: order.items })}
                     </p>
                   </div>
                   <div className="sm:text-right">
-                    <p className="font-mono text-lg tabular-nums">
-                      {formatEuros(order.totalCents)}
-                    </p>
+                    <p className="font-mono text-lg tabular-nums">{money(order.totalCents)}</p>
                     <p className="text-night-muted mt-1 text-sm">
                       {isOrderStatus(order.status) ? ts(`statuses.${order.status}`) : order.status}
                     </p>

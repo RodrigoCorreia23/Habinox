@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { intlLocale } from "@/i18n/locales";
 import { Link } from "@/i18n/navigation";
 import { formatEuros } from "@/lib/money";
 import { requireUser } from "@/server/auth/session";
@@ -15,6 +16,7 @@ interface ItemSnapshot {
 
 export default async function OrderPage({ params }: PageProps<"/[locale]/encomenda/[numero]">) {
   const { locale, numero } = await params;
+  const money = (cents: number) => formatEuros(cents, intlLocale(locale));
   setRequestLocale(locale);
   const session = await requireUser(`/${locale}/encomenda/${numero}`, locale);
   const data = await getOrderForUser(numero, session.user.id);
@@ -67,14 +69,16 @@ export default async function OrderPage({ params }: PageProps<"/[locale]/encomen
             <dt className="text-night-muted">{t("status")}</dt>
             <dd>{t(`statuses.${order.status as "pending_payment"}`)}</dd>
             <dt className="text-night-muted">{tc("subtotal")}</dt>
-            <dd className="font-mono tabular-nums">{formatEuros(order.netCents)}</dd>
+            <dd className="font-mono tabular-nums">{money(order.netCents)}</dd>
             <dt className="text-night-muted">
-              {tc("vat", { rate: (Number(order.vatRate) * 100).toLocaleString("pt-PT") })}
+              {tc("vat", {
+                rate: (Number(order.vatRate) * 100).toLocaleString(intlLocale(locale)),
+              })}
             </dt>
-            <dd className="font-mono tabular-nums">{formatEuros(order.vatCents)}</dd>
+            <dd className="font-mono tabular-nums">{money(order.vatCents)}</dd>
             <dt className="border-night-line border-t pt-4 text-base">{tc("total")}</dt>
             <dd className="border-night-line border-t pt-4 font-mono text-2xl tabular-nums">
-              {formatEuros(order.totalCents)}
+              {money(order.totalCents)}
             </dd>
           </dl>
           <div>

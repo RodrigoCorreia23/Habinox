@@ -16,6 +16,8 @@ export default defineConfig({
   use: {
     baseURL: process.env.BETTER_AUTH_URL ?? `http://localhost:${port}`,
     trace: "retain-on-failure",
+    // Cliente português: com várias línguas visíveis, a raiz escolhe a língua do browser.
+    locale: "pt-PT",
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   // Em CI corre sobre o build de produção; localmente reaproveita o dev server se existir.

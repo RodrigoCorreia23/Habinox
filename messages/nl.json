@@ -1,0 +1,476 @@
+{
+  "Metadata": {
+    "title": "Habinox",
+    "description": "Metaalbewerking op maat in roestvrij staal, ijzer en aluminium."
+  },
+  "Nav": {
+    "home": "Home",
+    "account": "Mijn account"
+  },
+  "Home": {
+    "title": "Habinox · Metaalbewerking in inox op maat",
+    "description": "Specialisten in roestvrij staal sinds 2005, in Antas, Esposende. Trappen, poorten, balustrades en schoorstenen op maat.",
+    "nav": {
+      "main": "Hoofdnavigatie",
+      "company": "Bedrijf",
+      "services": "Diensten",
+      "contacts": "Contact",
+      "shop": "Winkel",
+      "account": "Account",
+      "cart": "Winkelwagen",
+      "signIn": "Inloggen",
+      "cartCount": "Winkelwagen, {count, plural, =0 {leeg} one {# artikel} other {# artikelen}}",
+      "about": "Over Habinox",
+      "home": "Habinox, startpagina van de winkel"
+    },
+    "loading": "Bezig met laden",
+    "hero": {
+      "kicker": "HABINOX®",
+      "title": "Specialisten in roestvrij staal.",
+      "hint": "Scroll om meer te ontdekken."
+    },
+    "company": {
+      "kicker": "01 — Wie we zijn",
+      "title": "Sinds 2005 in Antas, Esposende.",
+      "lead": "We begonnen met roestvrij staal en doen vandaag metaalbewerking in inox, gelast aluminium en ijzer, met de nadruk op modernisering en innovatie."
+    },
+    "how": {
+      "kicker": "02 — Hoe we werken",
+      "title": "Van snijden tot polijsten.",
+      "lead": "Ontwerp in 2D en 3D, werkvoorbereiding en uitvoering, met eigen machinepark:",
+      "items": [
+        "Lijn voor het snijden en zetten van plaat",
+        "CNC-snijden, zoals de balustrades van deze trap",
+        "Draaibank en freesmachine",
+        "Slijpen en polijsten van profielen"
+      ],
+      "photoAlt": "Wenteltrap met CNC-gesneden balustrades en verlichte treden",
+      "photoCaption": "Illustratief 3D-beeld: CNC-gesneden balustrades"
+    },
+    "services": {
+      "kicker": "03 — Wat we maken",
+      "title": "Op maat.",
+      "items": [
+        "Trappen",
+        "Balustrades binnen",
+        "Balustrades buiten",
+        "Poorten",
+        "Aluminium poorten",
+        "Voordeuren",
+        "Afzuigkappen",
+        "Schoorstenen",
+        "Schoorsteenkappen en kapitelen",
+        "Watervallen",
+        "Barbecues",
+        "Handdoekrekken",
+        "Tafels",
+        "Douchebakken",
+        "Handgrepen"
+      ]
+    },
+    "steel": {
+      "kicker": "04 — Waarom inox",
+      "title": "Mooi en gemaakt om te blijven.",
+      "lead": "Lange levensduur en lage onderhoudskosten: een mooie en voordelige keuze voor architectuur en bouw."
+    },
+    "near": {
+      "kicker": "05 — Aan uw zijde",
+      "title": "We komen met u naar de werf.",
+      "items": [
+        "Advies en opmeting ter plaatse",
+        "Gratis en vrijblijvende offertes",
+        "Heel Portugal, en we produceren voor Europa",
+        "Particulieren en bedrijven"
+      ]
+    },
+    "numbers": {
+      "kicker": "06 — Cijfers",
+      "title": "Twee decennia inox.",
+      "years": "jaar actief",
+      "since": "sinds 2005"
+    },
+    "contacts": {
+      "kicker": "07 — Contact",
+      "title": "Neem contact op.",
+      "address": "Núcleo Industrial de Antas, 4740-016 Antas, Esposende",
+      "phone": "Tel.",
+      "mobile": "Gsm",
+      "map": "Google Maps",
+      "hours": "Werkdagen, 9.00–18.30 uur. Oproep naar het nationale vaste / mobiele net."
+    },
+    "shop": {
+      "kicker": "08 — Winkel",
+      "title": "Van ontwerp tot werf.",
+      "enter": "Naar de winkel",
+      "quote": "Offerte aanvragen",
+      "quoteSubject": "Offerteaanvraag"
+    },
+    "progress": {
+      "company": "Bedrijf",
+      "services": "Diensten",
+      "contacts": "Contact",
+      "shop": "Winkel"
+    },
+    "shopHero": {
+      "title": "Metaal op maat.",
+      "accent": "Direct een prijs.",
+      "lead": "Vul de maten in, kies het materiaal en zie de prijs terwijl u configureert.",
+      "configure": "Nu configureren",
+      "browse": "Naar de winkel"
+    },
+    "catalog": {
+      "title": "Kies wat u wilt laten maken.",
+      "sub": "Alles op maat, in inox, ijzer of aluminium.",
+      "pause": "Pauzeren",
+      "resume": "Hervatten",
+      "models": "{count, plural, one {# model} other {# modellen}}",
+      "empty": "Er staan nog geen producten in de winkel."
+    },
+    "login": {
+      "title": "Log in",
+      "accent": "op uw account.",
+      "email": "E-mail",
+      "password": "Wachtwoord",
+      "submit": "Inloggen",
+      "submitting": "Bezig met inloggen…",
+      "forgot": "Wachtwoord vergeten",
+      "create": "Account aanmaken",
+      "signedInAs": "U bent al ingelogd als {email}.",
+      "account": "Naar uw account"
+    }
+  },
+  "Account": {
+    "title": "Mijn account",
+    "signedInAs": "Ingelogd als {email}",
+    "signOut": "Uitloggen",
+    "orders": "Mijn bestellingen",
+    "noOrders": "U hebt nog geen bestelling geplaatst.",
+    "browse": "Naar de winkel",
+    "items": "{count, plural, one {# artikel} other {# artikelen}}",
+    "placedOn": "Geplaatst op {date}",
+    "open": "Bestelling {number} bekijken",
+    "privacy": {
+      "title": "Privacy",
+      "marketing": "Habinox mag contact met mij opnemen over mijn offertes en nieuws.",
+      "marketingOn": "Toegestaan. U kunt dit op elk moment uitschakelen.",
+      "marketingOff": "Niet toegestaan: u ontvangt alleen de e-mails over uw bestellingen.",
+      "saving": "Bezig met opslaan…",
+      "erase": "Om uw account te verwijderen, schrijft u naar <mail>{email}</mail>. Bestellingen worden bewaard zolang de wet dat verplicht (facturatie); de rest wordt verwijderd. Meer informatie in het <policy>privacybeleid</policy>.",
+      "eraseSubject": "Mijn account verwijderen"
+    }
+  },
+  "NotFound": {
+    "title": "Deze pagina",
+    "accent": "bestaat niet.",
+    "body": "Het adres is misschien verkeerd, of het product wordt niet meer verkocht. Alle categorieën van de winkel staan op de startpagina.",
+    "shop": "Naar de categorieën",
+    "home": "Maak kennis met Habinox"
+  },
+  "Auth": {
+    "email": "E-mail",
+    "password": "Wachtwoord",
+    "name": "Naam",
+    "newPassword": "Nieuw wachtwoord",
+    "passwordHint": "Minimaal 10 tekens.",
+    "signIn": {
+      "title": "Inloggen",
+      "submit": "Inloggen",
+      "noAccount": "Nog geen account?",
+      "createAccount": "Account aanmaken",
+      "forgot": "Wachtwoord vergeten?"
+    },
+    "signUp": {
+      "title": "Maak",
+      "accent": "uw account aan.",
+      "submit": "Account aanmaken",
+      "acceptTerms": "Ik heb de <terms>algemene voorwaarden</terms> en het <privacy>privacybeleid</privacy> gelezen en ga ermee akkoord.",
+      "acceptMarketing": "Ik wil dat Habinox contact met mij opneemt over mijn offertes en nieuws (optioneel; u kunt zich op elk moment afmelden).",
+      "hasAccount": "Hebt u al een account?",
+      "signIn": "Inloggen",
+      "done": "Account aangemaakt. We hebben een e-mail gestuurd naar {email} — open de link om uw account te activeren."
+    },
+    "forgot": {
+      "title": "Wachtwoord",
+      "accent": "herstellen.",
+      "intro": "Vul uw e-mailadres in. Als er een account bestaat, sturen we u een link om een nieuw wachtwoord in te stellen.",
+      "submit": "Link versturen",
+      "done": "Als er een account met dit e-mailadres bestaat, ontvangt u binnenkort een link.",
+      "back": "Terug naar inloggen"
+    },
+    "reset": {
+      "title": "Nieuw",
+      "accent": "wachtwoord.",
+      "submit": "Wachtwoord opslaan",
+      "done": "Wachtwoord gewijzigd. U kunt nu inloggen.",
+      "invalidLink": "Deze link is ongeldig of verlopen. Vraag een nieuwe aan.",
+      "requestNew": "Nieuwe link aanvragen"
+    },
+    "errors": {
+      "generic": "Er is een fout opgetreden. Probeer het opnieuw.",
+      "INVALID_EMAIL_OR_PASSWORD": "E-mail of wachtwoord onjuist.",
+      "EMAIL_NOT_VERIFIED": "U hebt uw e-mailadres nog niet bevestigd. We hebben de activeringslink opnieuw verstuurd.",
+      "USER_ALREADY_EXISTS": "Er bestaat al een account met dit e-mailadres.",
+      "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL": "Er bestaat al een account met dit e-mailadres.",
+      "PASSWORD_TOO_SHORT": "Het wachtwoord moet minimaal 10 tekens lang zijn.",
+      "INVALID_TOKEN": "Deze link is ongeldig of verlopen. Vraag een nieuwe aan.",
+      "TERMS_REQUIRED": "Om een account aan te maken, moet u de algemene voorwaarden en het privacybeleid aanvaarden.",
+      "TOO_MANY_REQUESTS": "Te veel pogingen. Wacht even en probeer het opnieuw."
+    }
+  },
+  "Shop": {
+    "nav": {
+      "shop": "Winkel",
+      "account": "Account",
+      "main": "Hoofdnavigatie",
+      "cart": "Winkelwagen",
+      "cartCount": "Winkelwagen, {count, plural, =0 {leeg} one {# artikel} other {# artikelen}}"
+    },
+    "footer": {
+      "vat": "Prijzen inclusief btw.",
+      "rights": "© {year} Bruno Miguel Freitas, Lda."
+    },
+    "catalog": {
+      "title": "Winkel",
+      "intro": "Poorten, trappen, balustrades en schoorstenen op maat. Kies de maten en zie direct de prijs.",
+      "empty": "Er staan nog geen producten in de winkel.",
+      "models": "{count, plural, one {# model} other {# modellen}}"
+    },
+    "category": {
+      "configure": "Configureren",
+      "empty": "Er zijn nog geen modellen in deze categorie.",
+      "breadcrumb": "Kruimelpad"
+    },
+    "configurator": {
+      "price": "Prijs",
+      "vatIncluded": "Inclusief btw",
+      "withoutVat": "{amount} exclusief btw",
+      "calculating": "Bezig met berekenen…",
+      "fillIn": "Vul de maten in om de prijs te zien.",
+      "fixErrors": "Corrigeer de gemarkeerde velden om de prijs te zien.",
+      "unavailable": "Deze combinatie is niet beschikbaar. Neem contact met ons op voor een offerte.",
+      "range": "Tussen {min} en {max} {unit}",
+      "rangeMin": "Vanaf {min} {unit}",
+      "rangeMax": "Tot {max} {unit}",
+      "errors": {
+        "required": "Verplicht",
+        "out_of_range": "Buiten de grenzen",
+        "step": "Maat buiten de toegestane stap",
+        "invalid_type": "Ongeldige waarde",
+        "not_allowed": "Niet beschikbaar met de keuzes hierboven"
+      },
+      "changed": "{option} is gewijzigd naar {value}: de vorige keuze is niet beschikbaar met deze opties.",
+      "yes": "Ja",
+      "no": "Nee",
+      "none": "Geen",
+      "drawing": "Tekening met de gekozen maten",
+      "addToCart": "In winkelwagen",
+      "error": "De prijs kon niet worden berekend. Probeer het opnieuw.",
+      "rateLimited": "Te veel aanvragen na elkaar. Wacht een minuut en probeer het opnieuw.",
+      "adding": "Bezig met toevoegen…",
+      "added": "Toegevoegd aan winkelwagen.",
+      "viewCart": "Bekijk winkelwagen",
+      "addFailed": {
+        "invalid": "Toevoegen niet gelukt: controleer de opties.",
+        "unavailable": "Deze combinatie is niet meer beschikbaar.",
+        "not_found": "Dit product is niet meer beschikbaar.",
+        "full": "De winkelwagen is vol (50 regels).",
+        "rate_limited": "Te veel aanvragen na elkaar. Wacht een minuut en probeer het opnieuw."
+      },
+      "priceKept": "De prijs blijft {days} dagen gegarandeerd."
+    },
+    "cart": {
+      "title": "Winkelwagen",
+      "empty": "De winkelwagen is leeg.",
+      "browse": "Naar de winkel",
+      "quantity": "Aantal",
+      "update": "Bijwerken",
+      "remove": "Verwijderen",
+      "unitPrice": "{amount} per stuk",
+      "validUntil": "Prijs gegarandeerd tot {date}.",
+      "repriced": "De opgeslagen prijs is verlopen en opnieuw berekend met de waarden van vandaag (was {amount}).",
+      "unavailable": "Dit artikel is niet meer beschikbaar en telt niet mee in het totaal.",
+      "subtotal": "Subtotaal exclusief btw",
+      "vat": "Btw ({rate}%)",
+      "total": "Totaal",
+      "checkout": "Bestelling afronden",
+      "measuresNote": "De klant is verantwoordelijk voor de maten: controleer ze voordat u bestelt.",
+      "summary": "Keuzes"
+    },
+    "checkout": {
+      "title": "Bestelling afronden",
+      "contact": "Contact",
+      "phone": "Telefoon",
+      "nif": "NIF – btw-/fiscaal nummer (optioneel)",
+      "nifHint": "Voor een factuur op naam van een bedrijf of met fiscaal nummer.",
+      "billing": "Factuuradres",
+      "shipping": "Leveringsadres",
+      "sameShipping": "Leveren op het factuuradres",
+      "name": "Naam",
+      "line1": "Adres",
+      "line2": "Verdieping, deur (optioneel)",
+      "postalCode": "Postcode",
+      "city": "Plaats",
+      "country": "Land: Portugal",
+      "notes": "Opmerkingen voor Habinox (optioneel)",
+      "notesHint": "Toegang tot de werf, tijden, alles wat nuttig is.",
+      "acceptTerms": "Ik heb de <terms>algemene voorwaarden</terms> en het <privacy>privacybeleid</privacy> gelezen en ga ermee akkoord.",
+      "acceptMeasures": "Ik bevestig dat de maten die ik heb opgegeven juist zijn en onder mijn verantwoordelijkheid vallen, en dat er voor producten op maat geen herroepingsrecht geldt (<withdrawal>punt 8 van de voorwaarden</withdrawal>).",
+      "summary": "Overzicht",
+      "transport": "Transport en installatie",
+      "transportValue": "Door Habinox te bevestigen",
+      "submit": "Bestelling versturen · {amount}",
+      "submitting": "Bezig met versturen…",
+      "paymentNote": "Online betalen is nog niet mogelijk: Habinox neemt contact met u op om transport en betaling te bevestigen.",
+      "signedInAs": "Bestelling op naam van {email}.",
+      "errors": {
+        "empty": "De winkelwagen is leeg.",
+        "unavailable": "Niet meer beschikbaar: {products}. Verwijder ze uit de winkelwagen om verder te gaan.",
+        "invalid": "Controleer de gemarkeerde velden.",
+        "failed": "De bestelling kon niet worden verstuurd. Probeer het opnieuw.",
+        "price_changed": "De prijs is gewijzigd sinds u deze pagina opende (een offerte is verlopen). Controleer het nieuwe totaal en verstuur opnieuw.",
+        "rate_limited": "Te veel pogingen na elkaar. Wacht enkele minuten en verstuur opnieuw."
+      }
+    },
+    "order": {
+      "title": "Bestelling {number}",
+      "thanks": "Bedankt. We hebben uw bestelling ontvangen.",
+      "emailSent": "We hebben de bevestiging gestuurd naar {email}.",
+      "status": "Status",
+      "statuses": {
+        "pending_payment": "Wacht op bevestiging en betaling",
+        "paid": "Betaald",
+        "in_production": "In productie",
+        "ready": "Klaar",
+        "shipped": "Verzonden",
+        "delivered": "Geleverd",
+        "cancelled": "Geannuleerd",
+        "expired": "Verlopen"
+      },
+      "deliverTo": "Levering",
+      "items": "Artikelen",
+      "next": "Habinox neemt binnenkort contact met u op om transport, installatie en betaling te bevestigen.",
+      "backToShop": "Terug naar de winkel",
+      "allOrders": "Mijn bestellingen"
+    },
+    "legal": {
+      "updated": "Laatst bijgewerkt: {date}",
+      "terms": "Algemene voorwaarden",
+      "privacy": "Privacy",
+      "cookies": "Cookies",
+      "complaints": "Livro de Reclamações (klachtenboek)",
+      "disputes": "Geschillenbeslechting",
+      "nav": "Juridische informatie",
+      "portugueseOnly": "Dit document is momenteel alleen in het Portugees beschikbaar; de Portugese versie is bindend."
+    },
+    "language": "Taal"
+  },
+  "Email": {
+    "common": {
+      "hello": "Beste klant,",
+      "signature": "Habinox",
+      "fallback": "Als de knop niet opent, kopieer dan dit adres:",
+      "hours": "{count, plural, one {# uur} other {# uur}}",
+      "withoutVat": "excl. btw",
+      "orderLabel": "Bestelling",
+      "viewOrder": "Bestelling bekijken",
+      "viewOrderText": "Bestelling bekijken: {url}",
+      "orderReason": "U ontvangt deze e-mail omdat u bestelling {number} hebt geplaatst in de webwinkel van Habinox."
+    },
+    "verify": {
+      "subject": "Bevestig uw e-mailadres — Habinox",
+      "title": "Bevestig",
+      "accent": "uw e-mailadres.",
+      "preheader": "Eén klik om uw account te activeren. De link is {validity} geldig.",
+      "body": "Om uw Habinox-account te activeren en uw offertes te bewaren, bevestigt u dat <email></email> van u is.",
+      "button": "E-mailadres bevestigen",
+      "validity": "De link is {validity} geldig.",
+      "reason": "U ontvangt deze e-mail omdat iemand met dit adres een account heeft aangemaakt in de webwinkel van Habinox. Was u dat niet, negeer hem dan: zonder bevestiging wordt het account niet actief.",
+      "text": "Om uw Habinox-account te activeren, bevestigt u uw e-mailadres (de link is {validity} geldig):"
+    },
+    "reset": {
+      "subject": "Wachtwoord herstellen — Habinox",
+      "title": "Een nieuw",
+      "accent": "wachtwoord.",
+      "preheader": "Kies een nieuw wachtwoord. De link is {validity} geldig.",
+      "body": "We hebben een verzoek ontvangen om het wachtwoord van uw Habinox-account te wijzigen.",
+      "button": "Nieuw wachtwoord kiezen",
+      "validity": "De link is {validity} geldig. Als u het wachtwoord wijzigt, wordt u op uw andere apparaten afgemeld.",
+      "reason": "Hebt u dit verzoek niet gedaan, negeer deze e-mail dan: uw huidige wachtwoord blijft geldig en niemand komt binnen zonder.",
+      "text": "We hebben een verzoek ontvangen om het wachtwoord van uw account te wijzigen (de link is {validity} geldig):",
+      "ignore": "Hebt u dit verzoek niet gedaan, negeer deze e-mail dan. Uw huidige wachtwoord blijft geldig."
+    },
+    "order": {
+      "subject": "We hebben uw bestelling {number} ontvangen — Habinox",
+      "title": "We hebben",
+      "accent": "uw bestelling ontvangen.",
+      "preheader": "{total} incl. btw. We nemen contact op om transport en betaling af te spreken.",
+      "thanks": "Dank u. We nemen binnenkort contact met u op om de details, het transport of de plaatsing en de betaling te bevestigen.",
+      "subtotal": "Subtotaal excl. btw",
+      "vat": "Btw ({rate})",
+      "transport": "Transport en plaatsing",
+      "transportValue": "in overleg met u",
+      "total": "Totaal",
+      "delivery": "Levering",
+      "measures": "De opgegeven maten zijn uw verantwoordelijkheid, zoals u bij het bestellen hebt bevestigd. Ziet u een fout, beantwoord deze e-mail dan vóór de betaling.",
+      "textReceived": "We hebben uw bestelling {number} ontvangen. Dank u.",
+      "textTransport": "Transport en plaatsing: Habinox bevestigt die met u vóór de betaling.",
+      "textDelivery": "Levering: {address}",
+      "textMeasures": "De opgegeven maten zijn uw verantwoordelijkheid, zoals u bij het bestellen hebt bevestigd.",
+      "textContact": "We nemen binnenkort contact met u op om de details en de betaling te bevestigen.",
+      "unitPrice": "{quantity} × {price} ({withoutVat} per stuk)"
+    },
+    "status": {
+      "subject": "Bestelling {number}: {summary} — Habinox",
+      "note": "Bericht van Habinox",
+      "stateLabel": "Status: {stage}",
+      "stages": {
+        "pending_payment": "Ontvangen",
+        "paid": "Betaald",
+        "in_production": "In productie",
+        "ready": "Klaar",
+        "shipped": "Verzonden",
+        "delivered": "Geleverd"
+      },
+      "paid": {
+        "title": "Betaling",
+        "accent": "bevestigd.",
+        "text": "Uw betaling is bevestigd. Dank u."
+      },
+      "in_production": {
+        "title": "Uw bestelling",
+        "accent": "is in productie.",
+        "text": "Uw bestelling is in productie genomen in onze werkplaats."
+      },
+      "ready": {
+        "title": "Uw bestelling",
+        "accent": "is klaar.",
+        "text": "Uw bestelling is klaar. We spreken de levering of plaatsing met u af."
+      },
+      "shipped": {
+        "title": "Uw bestelling",
+        "accent": "is verzonden.",
+        "text": "Uw bestelling is verzonden."
+      },
+      "delivered": {
+        "title": "Geleverd.",
+        "accent": "Dank u.",
+        "text": "Uw bestelling is geleverd. Dank u voor uw vertrouwen."
+      },
+      "cancelled": {
+        "title": "Bestelling",
+        "accent": "geannuleerd.",
+        "text": "Uw bestelling is geannuleerd."
+      },
+      "expired": {
+        "title": "Bestelling",
+        "accent": "verlopen.",
+        "text": "Uw bestelling is verlopen omdat ze niet werd betaald."
+      },
+      "other": {
+        "title": "Bestelling",
+        "accent": "bijgewerkt.",
+        "text": "Uw bestelling is bijgewerkt."
+      }
+    }
+  }
+}

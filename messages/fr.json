@@ -1,0 +1,476 @@
+{
+  "Metadata": {
+    "title": "Habinox",
+    "description": "Métallerie sur mesure en inox, fer et aluminium."
+  },
+  "Nav": {
+    "home": "Accueil",
+    "account": "Mon compte"
+  },
+  "Home": {
+    "title": "Habinox · Métallerie inox sur mesure",
+    "description": "Spécialistes de l’acier inoxydable depuis 2005, à Antas, Esposende. Escaliers, portails, garde-corps et cheminées sur mesure.",
+    "nav": {
+      "main": "Navigation principale",
+      "company": "Entreprise",
+      "services": "Services",
+      "contacts": "Contacts",
+      "shop": "Boutique",
+      "account": "Compte",
+      "cart": "Panier",
+      "signIn": "Se connecter",
+      "cartCount": "Panier, {count, plural, =0 {vide} one {# article} other {# articles}}",
+      "about": "À propos d’Habinox",
+      "home": "Habinox, accueil de la boutique"
+    },
+    "loading": "Chargement",
+    "hero": {
+      "kicker": "HABINOX®",
+      "title": "Spécialistes de l’acier inoxydable.",
+      "hint": "Faites défiler pour découvrir."
+    },
+    "company": {
+      "kicker": "01 — Qui sommes-nous",
+      "title": "Depuis 2005 à Antas, Esposende.",
+      "lead": "Nous avons commencé par l’acier inoxydable. Aujourd’hui, nous travaillons l’inox, l’aluminium soudé et le fer, avec un engagement constant pour la modernisation et l’innovation."
+    },
+    "how": {
+      "kicker": "02 — Notre méthode",
+      "title": "De la découpe au polissage.",
+      "lead": "Conception en 2D et 3D, préparation et réalisation du chantier, avec notre propre équipement :",
+      "items": [
+        "Ligne de découpe et de pliage de tôle",
+        "Découpe CNC, comme les garde-corps de cet escalier",
+        "Tour et fraiseuse",
+        "Meulage et polissage de profilés"
+      ],
+      "photoAlt": "Escalier hélicoïdal avec garde-corps découpés par CNC et marches éclairées",
+      "photoCaption": "Image 3D d’illustration : garde-corps en découpe CNC"
+    },
+    "services": {
+      "kicker": "03 — Ce que nous faisons",
+      "title": "Sur mesure.",
+      "items": [
+        "Escaliers",
+        "Garde-corps intérieurs",
+        "Garde-corps extérieurs",
+        "Portails",
+        "Portails en aluminium",
+        "Portes d’entrée",
+        "Hottes",
+        "Cheminées",
+        "Conduits et chapeaux de cheminée",
+        "Cascades",
+        "Barbecues",
+        "Porte-serviettes",
+        "Tables",
+        "Receveurs de douche",
+        "Poignées"
+      ]
+    },
+    "steel": {
+      "kicker": "04 — Pourquoi l’inox",
+      "title": "Beau et fait pour durer.",
+      "lead": "Longue durée de vie et faible coût d’entretien : un choix esthétique et économique pour l’architecture et la construction."
+    },
+    "near": {
+      "kicker": "05 — À vos côtés",
+      "title": "Nous venons sur le chantier avec vous.",
+      "items": [
+        "Conseil et relevé de mesures sur le chantier",
+        "Devis gratuits et sans engagement",
+        "Tout le pays, et nous fabriquons pour l’Europe",
+        "Particuliers et entreprises"
+      ]
+    },
+    "numbers": {
+      "kicker": "06 — Chiffres",
+      "title": "Deux décennies d’inox.",
+      "years": "ans d’activité",
+      "since": "depuis 2005"
+    },
+    "contacts": {
+      "kicker": "07 — Contacts",
+      "title": "Parlons-en.",
+      "address": "Núcleo Industrial de Antas, 4740-016 Antas, Esposende",
+      "phone": "Tél.",
+      "mobile": "Port.",
+      "map": "Google Maps",
+      "hours": "Jours ouvrés, 9h00–18h30. Appel vers un réseau fixe / mobile national."
+    },
+    "shop": {
+      "kicker": "08 — Boutique",
+      "title": "Du projet au chantier.",
+      "enter": "Entrer dans la boutique",
+      "quote": "Demander un devis",
+      "quoteSubject": "Demande de devis"
+    },
+    "progress": {
+      "company": "Entreprise",
+      "services": "Services",
+      "contacts": "Contacts",
+      "shop": "Boutique"
+    },
+    "shopHero": {
+      "title": "Le métal sur mesure.",
+      "accent": "Prix immédiat.",
+      "lead": "Saisissez les dimensions, choisissez le matériau et voyez le prix pendant la configuration.",
+      "configure": "Configurer maintenant",
+      "browse": "Voir la boutique"
+    },
+    "catalog": {
+      "title": "Choisissez ce que vous voulez faire fabriquer.",
+      "sub": "Tout sur mesure, en inox, fer ou aluminium.",
+      "pause": "Pause",
+      "resume": "Reprendre",
+      "models": "{count, plural, one {# modèle} other {# modèles}}",
+      "empty": "La boutique ne contient encore aucun produit."
+    },
+    "login": {
+      "title": "Se connecter",
+      "accent": "à votre compte.",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "submitting": "Connexion…",
+      "forgot": "Mot de passe oublié",
+      "create": "Créer un compte",
+      "signedInAs": "Vous êtes déjà connecté en tant que {email}.",
+      "account": "Aller au compte"
+    }
+  },
+  "Account": {
+    "title": "Mon compte",
+    "signedInAs": "Connecté en tant que {email}",
+    "signOut": "Se déconnecter",
+    "orders": "Mes commandes",
+    "noOrders": "Vous n’avez encore passé aucune commande.",
+    "browse": "Voir la boutique",
+    "items": "{count, plural, one {# article} other {# articles}}",
+    "placedOn": "Passée le {date}",
+    "open": "Voir la commande {number}",
+    "privacy": {
+      "title": "Confidentialité",
+      "marketing": "Habinox peut me contacter au sujet de mes devis et de ses nouveautés.",
+      "marketingOn": "Autorisé. Vous pouvez le désactiver à tout moment.",
+      "marketingOff": "Non autorisé : vous ne recevez que les e-mails liés à vos commandes.",
+      "saving": "Enregistrement…",
+      "erase": "Pour supprimer votre compte, écrivez à <mail>{email}</mail>. Les commandes sont conservées pendant la durée exigée par la loi (facturation) ; le reste est supprimé. Plus de détails dans la <policy>politique de confidentialité</policy>.",
+      "eraseSubject": "Supprimer mon compte"
+    }
+  },
+  "NotFound": {
+    "title": "Cette page",
+    "accent": "n’existe pas.",
+    "body": "L’adresse est peut-être erronée, ou le produit n’est plus en vente. Toutes les catégories de la boutique figurent sur la page d’accueil.",
+    "shop": "Voir les catégories",
+    "home": "Découvrir Habinox"
+  },
+  "Auth": {
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "name": "Nom",
+    "newPassword": "Nouveau mot de passe",
+    "passwordHint": "10 caractères minimum.",
+    "signIn": {
+      "title": "Se connecter",
+      "submit": "Se connecter",
+      "noAccount": "Pas encore de compte ?",
+      "createAccount": "Créer un compte",
+      "forgot": "Mot de passe oublié ?"
+    },
+    "signUp": {
+      "title": "Créer",
+      "accent": "votre compte.",
+      "submit": "Créer un compte",
+      "acceptTerms": "J’ai lu et j’accepte les <terms>conditions générales</terms> et la <privacy>politique de confidentialité</privacy>.",
+      "acceptMarketing": "Je souhaite qu’Habinox me contacte au sujet de mes devis et de ses nouveautés (facultatif ; vous pouvez vous désinscrire à tout moment).",
+      "hasAccount": "Vous avez déjà un compte ?",
+      "signIn": "Se connecter",
+      "done": "Compte créé. Nous avons envoyé un e-mail à {email} — ouvrez le lien pour activer votre compte."
+    },
+    "forgot": {
+      "title": "Récupérer",
+      "accent": "le mot de passe.",
+      "intro": "Indiquez votre adresse e-mail. Si un compte existe, nous vous enverrons un lien pour définir un nouveau mot de passe.",
+      "submit": "Envoyer le lien",
+      "done": "Si un compte existe avec cette adresse, vous recevrez un lien sous peu.",
+      "back": "Retour à la connexion"
+    },
+    "reset": {
+      "title": "Nouveau",
+      "accent": "mot de passe.",
+      "submit": "Enregistrer le mot de passe",
+      "done": "Mot de passe modifié. Vous pouvez vous connecter.",
+      "invalidLink": "Ce lien est invalide ou a expiré. Demandez-en un nouveau.",
+      "requestNew": "Demander un nouveau lien"
+    },
+    "errors": {
+      "generic": "Une erreur est survenue. Veuillez réessayer.",
+      "INVALID_EMAIL_OR_PASSWORD": "E-mail ou mot de passe incorrect.",
+      "EMAIL_NOT_VERIFIED": "Vous n’avez pas encore confirmé votre e-mail. Nous vous avons renvoyé le lien d’activation.",
+      "USER_ALREADY_EXISTS": "Un compte existe déjà avec cette adresse e-mail.",
+      "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL": "Un compte existe déjà avec cette adresse e-mail.",
+      "PASSWORD_TOO_SHORT": "Le mot de passe doit comporter au moins 10 caractères.",
+      "INVALID_TOKEN": "Ce lien est invalide ou a expiré. Demandez-en un nouveau.",
+      "TERMS_REQUIRED": "Pour créer un compte, vous devez accepter les conditions et la politique de confidentialité.",
+      "TOO_MANY_REQUESTS": "Trop de tentatives. Patientez un peu et réessayez."
+    }
+  },
+  "Shop": {
+    "nav": {
+      "shop": "Boutique",
+      "account": "Compte",
+      "main": "Navigation principale",
+      "cart": "Panier",
+      "cartCount": "Panier, {count, plural, =0 {vide} one {# article} other {# articles}}"
+    },
+    "footer": {
+      "vat": "Prix TTC (TVA incluse).",
+      "rights": "© {year} Bruno Miguel Freitas, Lda."
+    },
+    "catalog": {
+      "title": "Boutique",
+      "intro": "Portails, escaliers, garde-corps et cheminées sur mesure. Choisissez les dimensions et voyez le prix immédiatement.",
+      "empty": "La boutique ne contient encore aucun produit.",
+      "models": "{count, plural, one {# modèle} other {# modèles}}"
+    },
+    "category": {
+      "configure": "Configurer",
+      "empty": "Aucun modèle dans cette catégorie pour le moment.",
+      "breadcrumb": "Fil d’Ariane"
+    },
+    "configurator": {
+      "price": "Prix",
+      "vatIncluded": "TVA incluse",
+      "withoutVat": "{amount} HT",
+      "calculating": "Calcul en cours…",
+      "fillIn": "Renseignez les dimensions pour voir le prix.",
+      "fixErrors": "Corrigez les champs signalés pour voir le prix.",
+      "unavailable": "Cette combinaison n’est pas disponible. Contactez-nous pour un devis.",
+      "range": "Entre {min} et {max} {unit}",
+      "rangeMin": "À partir de {min} {unit}",
+      "rangeMax": "Jusqu’à {max} {unit}",
+      "errors": {
+        "required": "Obligatoire",
+        "out_of_range": "Hors limites",
+        "step": "Dimension hors du pas autorisé",
+        "invalid_type": "Valeur invalide",
+        "not_allowed": "Indisponible avec les choix ci-dessus"
+      },
+      "changed": "{option} est passé à {value} : le choix précédent n’est pas disponible avec ces options.",
+      "yes": "Oui",
+      "no": "Non",
+      "none": "Aucun",
+      "drawing": "Dessin avec les dimensions choisies",
+      "addToCart": "Ajouter au panier",
+      "error": "Impossible de calculer le prix. Veuillez réessayer.",
+      "rateLimited": "Trop de demandes successives. Patientez une minute et réessayez.",
+      "adding": "Ajout en cours…",
+      "added": "Ajouté au panier.",
+      "viewCart": "Voir le panier",
+      "addFailed": {
+        "invalid": "Ajout impossible : vérifiez les options.",
+        "unavailable": "Cette combinaison n’est plus disponible.",
+        "not_found": "Ce produit n’est plus disponible.",
+        "full": "Le panier est plein (50 lignes).",
+        "rate_limited": "Trop de demandes successives. Patientez une minute et réessayez."
+      },
+      "priceKept": "Le prix est garanti pendant {days} jours."
+    },
+    "cart": {
+      "title": "Panier",
+      "empty": "Votre panier est vide.",
+      "browse": "Voir la boutique",
+      "quantity": "Quantité",
+      "update": "Mettre à jour",
+      "remove": "Retirer",
+      "unitPrice": "{amount} l’unité",
+      "validUntil": "Prix garanti jusqu’au {date}.",
+      "repriced": "Le prix enregistré a expiré et a été recalculé aux valeurs du jour (il était de {amount}).",
+      "unavailable": "Cet article n’est plus disponible et n’est pas compté dans le total.",
+      "subtotal": "Sous-total HT",
+      "vat": "TVA ({rate} %)",
+      "total": "Total",
+      "checkout": "Finaliser la commande",
+      "measuresNote": "Les dimensions relèvent de la responsabilité du client : vérifiez-les avant de commander.",
+      "summary": "Choix"
+    },
+    "checkout": {
+      "title": "Finaliser la commande",
+      "contact": "Contact",
+      "phone": "Téléphone",
+      "nif": "NIF, numéro fiscal portugais (facultatif)",
+      "nifHint": "Pour une facture au nom d’une entreprise ou avec numéro fiscal.",
+      "billing": "Adresse de facturation",
+      "shipping": "Adresse de livraison",
+      "sameShipping": "Livrer à l’adresse de facturation",
+      "name": "Nom",
+      "line1": "Adresse",
+      "line2": "Étage, porte (facultatif)",
+      "postalCode": "Code postal",
+      "city": "Localité",
+      "country": "Pays : Portugal",
+      "notes": "Remarques pour Habinox (facultatif)",
+      "notesHint": "Accès au chantier, horaires, toute information utile.",
+      "acceptTerms": "J’ai lu et j’accepte les <terms>conditions générales</terms> et la <privacy>politique de confidentialité</privacy>.",
+      "acceptMeasures": "Je confirme que les dimensions indiquées sont correctes et relèvent de ma responsabilité, et que, s’agissant de produits fabriqués sur mesure, il n’y a pas de droit de rétractation (<withdrawal>point 8 des conditions</withdrawal>).",
+      "summary": "Récapitulatif",
+      "transport": "Transport et installation",
+      "transportValue": "À confirmer par Habinox",
+      "submit": "Envoyer la commande · {amount}",
+      "submitting": "Envoi en cours…",
+      "paymentNote": "Le paiement en ligne n’est pas encore disponible : Habinox vous contactera pour confirmer le transport et le paiement.",
+      "signedInAs": "Commande au nom de {email}.",
+      "errors": {
+        "empty": "Votre panier est vide.",
+        "unavailable": "Ne sont plus disponibles : {products}. Retirez-les du panier pour continuer.",
+        "invalid": "Vérifiez les champs signalés.",
+        "failed": "Impossible d’envoyer la commande. Veuillez réessayer.",
+        "price_changed": "Le prix a changé depuis l’ouverture de cette page (un devis a expiré). Vérifiez le nouveau total et renvoyez la commande.",
+        "rate_limited": "Trop de tentatives successives. Patientez quelques minutes et renvoyez la commande."
+      }
+    },
+    "order": {
+      "title": "Commande {number}",
+      "thanks": "Merci. Nous avons bien reçu votre commande.",
+      "emailSent": "Nous avons envoyé la confirmation à {email}.",
+      "status": "Statut",
+      "statuses": {
+        "pending_payment": "En attente de confirmation et de paiement",
+        "paid": "Payée",
+        "in_production": "En production",
+        "ready": "Prête",
+        "shipped": "Expédiée",
+        "delivered": "Livrée",
+        "cancelled": "Annulée",
+        "expired": "Expirée"
+      },
+      "deliverTo": "Livraison",
+      "items": "Articles",
+      "next": "Habinox vous contactera prochainement pour confirmer le transport, l’installation et le paiement.",
+      "backToShop": "Retour à la boutique",
+      "allOrders": "Mes commandes"
+    },
+    "legal": {
+      "updated": "Dernière mise à jour : {date}",
+      "terms": "Conditions générales",
+      "privacy": "Confidentialité",
+      "cookies": "Cookies",
+      "complaints": "Livro de Reclamações (registre des réclamations)",
+      "disputes": "Règlement des litiges",
+      "nav": "Informations légales",
+      "portugueseOnly": "Ce document n’est disponible qu’en portugais, qui en est la version faisant foi."
+    },
+    "language": "Langue"
+  },
+  "Email": {
+    "common": {
+      "hello": "Bonjour,",
+      "signature": "Habinox",
+      "fallback": "Si le bouton ne s’ouvre pas, copiez cette adresse :",
+      "hours": "{count, plural, one {# heure} other {# heures}}",
+      "withoutVat": "HT",
+      "orderLabel": "Commande",
+      "viewOrder": "Voir la commande",
+      "viewOrderText": "Voir la commande : {url}",
+      "orderReason": "Vous recevez cet e-mail parce que vous avez passé la commande {number} dans la boutique Habinox."
+    },
+    "verify": {
+      "subject": "Confirmez votre e-mail — Habinox",
+      "title": "Confirmez",
+      "accent": "votre e-mail.",
+      "preheader": "Un clic pour activer votre compte. Le lien est valable {validity}.",
+      "body": "Pour activer votre compte Habinox et conserver vos devis, confirmez que <email></email> vous appartient.",
+      "button": "Confirmer l’e-mail",
+      "validity": "Le lien est valable {validity}.",
+      "reason": "Vous recevez cet e-mail parce que quelqu’un a créé un compte dans la boutique Habinox avec cette adresse. Si ce n’est pas vous, ignorez-le : sans confirmation, le compte n’est pas activé.",
+      "text": "Pour activer votre compte Habinox, confirmez votre e-mail (le lien est valable {validity}) :"
+    },
+    "reset": {
+      "subject": "Réinitialiser le mot de passe — Habinox",
+      "title": "Un nouveau",
+      "accent": "mot de passe.",
+      "preheader": "Choisissez un nouveau mot de passe. Le lien est valable {validity}.",
+      "body": "Nous avons reçu une demande de modification du mot de passe de votre compte Habinox.",
+      "button": "Choisir un nouveau mot de passe",
+      "validity": "Le lien est valable {validity}. En changeant le mot de passe, les sessions ouvertes sur vos autres appareils sont fermées.",
+      "reason": "Si vous n’êtes pas à l’origine de cette demande, ignorez cet e-mail : votre mot de passe actuel reste valable et personne n’entre sans lui.",
+      "text": "Nous avons reçu une demande de modification du mot de passe de votre compte (le lien est valable {validity}) :",
+      "ignore": "Si vous n’êtes pas à l’origine de cette demande, ignorez cet e-mail. Votre mot de passe actuel reste valable."
+    },
+    "order": {
+      "subject": "Nous avons reçu votre commande {number} — Habinox",
+      "title": "Nous avons reçu",
+      "accent": "votre commande.",
+      "preheader": "{total} TTC. Nous vous contacterons pour convenir du transport et du paiement.",
+      "thanks": "Merci. Nous vous contacterons bientôt pour confirmer les détails, le transport ou l’installation et le paiement.",
+      "subtotal": "Sous-total HT",
+      "vat": "TVA ({rate})",
+      "transport": "Transport et installation",
+      "transportValue": "à convenir avec vous",
+      "total": "Total",
+      "delivery": "Livraison",
+      "measures": "Les dimensions indiquées relèvent de votre responsabilité, comme vous l’avez confirmé lors de la commande. Si vous remarquez une erreur, répondez à cet e-mail avant de payer.",
+      "textReceived": "Nous avons reçu votre commande {number}. Merci.",
+      "textTransport": "Transport et installation : Habinox les confirme avec vous avant le paiement.",
+      "textDelivery": "Livraison : {address}",
+      "textMeasures": "Les dimensions indiquées relèvent de votre responsabilité, comme vous l’avez confirmé lors de la commande.",
+      "textContact": "Nous vous contacterons bientôt pour confirmer les détails et le paiement.",
+      "unitPrice": "{quantity} × {price} ({withoutVat} l’unité)"
+    },
+    "status": {
+      "subject": "Commande {number} : {summary} — Habinox",
+      "note": "Note de Habinox",
+      "stateLabel": "État : {stage}",
+      "stages": {
+        "pending_payment": "Reçue",
+        "paid": "Payée",
+        "in_production": "En fabrication",
+        "ready": "Prête",
+        "shipped": "Expédiée",
+        "delivered": "Livrée"
+      },
+      "paid": {
+        "title": "Paiement",
+        "accent": "confirmé.",
+        "text": "Votre paiement a été confirmé. Merci."
+      },
+      "in_production": {
+        "title": "Votre commande",
+        "accent": "est en fabrication.",
+        "text": "Votre commande est entrée en fabrication dans notre atelier."
+      },
+      "ready": {
+        "title": "Votre commande",
+        "accent": "est prête.",
+        "text": "Votre commande est prête. Nous conviendrons avec vous de la livraison ou de l’installation."
+      },
+      "shipped": {
+        "title": "Votre commande",
+        "accent": "a été expédiée.",
+        "text": "Votre commande a été expédiée."
+      },
+      "delivered": {
+        "title": "Livrée.",
+        "accent": "Merci.",
+        "text": "Votre commande a été livrée. Merci de votre confiance."
+      },
+      "cancelled": {
+        "title": "Commande",
+        "accent": "annulée.",
+        "text": "Votre commande a été annulée."
+      },
+      "expired": {
+        "title": "Commande",
+        "accent": "expirée.",
+        "text": "Votre commande a expiré faute de paiement."
+      },
+      "other": {
+        "title": "Commande",
+        "accent": "mise à jour.",
+        "text": "Votre commande a été mise à jour."
+      }
+    }
+  }
+}

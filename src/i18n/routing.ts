@@ -1,7 +1,8 @@
 import { defineRouting } from "next-intl/routing";
+import { DEFAULT_LOCALE, parseEnabledLocales } from "./locales";
 
-// Por agora só PT. Para ativar ES/FR: acrescentar aqui e criar messages/<locale>.json.
+// Línguas visíveis: NEXT_PUBLIC_LOCALES (ver locales.ts). Por omissão, só PT.
 export const routing = defineRouting({
-  locales: ["pt"],
-  defaultLocale: "pt",
+  locales: parseEnabledLocales(process.env.NEXT_PUBLIC_LOCALES),
+  defaultLocale: DEFAULT_LOCALE,
 });

@@ -1,7 +1,9 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { LegalLinks } from "@/components/shop/legal-links";
+import { LocaleSwitcher } from "@/components/shop/locale-switcher";
 import { Link } from "@/i18n/navigation";
 import { objectPosition } from "@/lib/images";
 import { getSession } from "@/server/auth/session";
@@ -362,6 +364,9 @@ export default async function HomePage({ params, searchParams }: PageProps<"/[lo
           <div className={styles.wrap}>
             <footer className={styles.foot}>
               <LegalLinks />
+              <Suspense>
+                <LocaleSwitcher />
+              </Suspense>
               <div className={styles.footRow}>
                 <span>
                   {tShop("footer.rights", { year: new Date().getFullYear() })} ·{" "}

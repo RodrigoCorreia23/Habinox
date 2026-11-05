@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { type FormEvent, startTransition, useActionState, useState } from "react";
 import { type CheckoutState, placeOrderAction } from "@/app/[locale]/(loja)/checkout/actions";
+import { intlLocale } from "@/i18n/locales";
 import { formatEuros } from "@/lib/money";
 
 const inputClass =
@@ -259,7 +260,9 @@ export function CheckoutForm({ locale, totalCents }: { locale: string; totalCent
           disabled={pending}
           className="bg-amber text-on-amber hover:bg-amber-hover focus-visible:outline-night-text min-h-[60px] w-full px-6 text-base font-medium outline-offset-3 focus-visible:outline-2 disabled:opacity-60"
         >
-          {pending ? t("submitting") : t("submit", { amount: formatEuros(totalCents) })}
+          {pending
+            ? t("submitting")
+            : t("submit", { amount: formatEuros(totalCents, intlLocale(locale)) })}
         </button>
         <p className="text-night-faint text-xs">{t("paymentNote")}</p>
       </div>

@@ -8,6 +8,10 @@ import { z } from "zod";
 export const CONTENT_LOCALES = ["pt", "en", "de", "fr", "it", "es", "nl"] as const;
 export type ContentLocale = (typeof CONTENT_LOCALES)[number];
 
+export function isContentLocale(value: string): value is ContentLocale {
+  return (CONTENT_LOCALES as readonly string[]).includes(value);
+}
+
 export type LocalizedText = { pt: string } & Partial<Record<ContentLocale, string>>;
 
 export const localizedTextSchema = z

@@ -5,21 +5,19 @@
  * existem) correm aqui com lib/options; o preço vem sempre do servidor, porque
  * os custos e as margens nunca saem de lá.
  */
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { addToCartAction } from "@/app/[locale]/(loja)/carrinho/actions";
 import { quoteAction } from "@/app/[locale]/(loja)/loja/actions";
+import { intlLocale } from "@/i18n/locales";
 import { Link } from "@/i18n/navigation";
 import { formatEuros } from "@/lib/money";
+import { measureFormat, normalizeNumberInput } from "@/lib/number-input";
 import { resolveConfig } from "@/lib/options";
 import type { AddResult } from "@/server/store/cart";
 import type { ConfiguratorData, ConfiguratorOption, QuoteResult } from "@/server/store/catalog";
 
 const UNIT_FACTOR = { mm: 1, cm: 10, m: 1000 } as const;
-const numberFormat = new Intl.NumberFormat("pt-PT", {
-  useGrouping: "always",
-  maximumFractionDigits: 3,
-});
 
 type Raw = Record<string, string | boolean>;
 
@@ -36,17 +34,14 @@ function initialRaw(options: ConfiguratorOption[]): Raw {
 }
 
 /** Texto do campo → valor do motor (medidas em mm inteiros). */
-function toInput(options: ConfiguratorOption[], raw: Raw): Record<string, unknown> {
+function toInput(options: ConfiguratorOption[], raw: Raw, locale: string): Record<string, unknown> {
   const input: Record<string, unknown> = {};
   for (const option of options) {
     const value = raw[option.key];
     if (option.type === "boolean") input[option.key] = value === true;
     else if (option.type === "choice") input[option.key] = value || undefined;
     else {
-      const text = String(value ?? "")
-        .trim()
-        .replace(/\s/g, "")
-        .replace(",", ".");
+      const text = normalizeNumberInput(String(value ?? ""), locale);
       if (text === "") continue;
       const number = Number(text);
       if (!Number.isFinite(number)) input[option.key] = text;
@@ -58,8 +53,11 @@ function toInput(options: ConfiguratorOption[], raw: Raw): Record<string, unknow
   return input;
 }
 
-const inDisplayUnit = (mm: number, unit: ConfiguratorOption["unit"]) =>
-  numberFormat.format(mm / UNIT_FACTOR[unit]);
+const inDisplayUnit = (
+  numberFormat: Intl.NumberFormat,
+  mm: number,
+  unit: ConfiguratorOption["unit"],
+) => numberFormat.format(mm / UNIT_FACTOR[unit]);
 
 export function Configurator({
   productId,
@@ -73,6 +71,8 @@ export function Configurator({
   validityDays: number;
 }) {
   const t = useTranslations("Shop.configurator");
+  const numberFormat = useMemo(() => measureFormat(intlLocale(locale)), [locale]);
+  const money = (cents: number) => formatEuros(cents, intlLocale(locale));
   const [raw, setRaw] = useState<Raw>(() => initialRaw(data.options));
   const [quote, setQuote] = useState<QuoteResult | null | "error" | "rate_limited">(null);
   const [pending, setPending] = useState(false);
@@ -83,7 +83,11 @@ export function Configurator({
   // Escolhas que deixaram de estar disponíveis passam ao valor por omissão (com aviso).
   const { resolved, changed, input } = useMemo(() => {
     let current = { ...raw };
-    let result = resolveConfig(data.definitions, data.rules, toInput(data.options, current));
+    let result = resolveConfig(
+      data.definitions,
+      data.rules,
+      toInput(data.options, current, locale),
+    );
     const changes: { option: string; value: string }[] = [];
     for (const option of data.options) {
       const allowed = result.state[option.key]?.allowed;
@@ -98,12 +102,16 @@ export function Configurator({
         if (fallback) {
           current = { ...current, [option.key]: fallback.key };
           changes.push({ option: option.name, value: fallback.label });
-          result = resolveConfig(data.definitions, data.rules, toInput(data.options, current));
+          result = resolveConfig(
+            data.definitions,
+            data.rules,
+            toInput(data.options, current, locale),
+          );
         }
       }
     }
-    return { resolved: result, changed: changes, input: toInput(data.options, current) };
-  }, [raw, data]);
+    return { resolved: result, changed: changes, input: toInput(data.options, current, locale) };
+  }, [raw, data, locale]);
 
   const missingMeasures = data.options.some(
     (option) =>
@@ -169,12 +177,12 @@ export function Configurator({
             height={height}
             widthLabel={
               dimensions[0]
-                ? `${inDisplayUnit(width ?? 0, dimensions[0].unit)} ${dimensions[0].unit}`
+                ? `${inDisplayUnit(numberFormat, width ?? 0, dimensions[0].unit)} ${dimensions[0].unit}`
                 : ""
             }
             heightLabel={
               dimensions[1]
-                ? `${inDisplayUnit(height ?? 0, dimensions[1].unit)} ${dimensions[1].unit}`
+                ? `${inDisplayUnit(numberFormat, height ?? 0, dimensions[1].unit)} ${dimensions[1].unit}`
                 : ""
             }
             label={t("drawing")}
@@ -190,13 +198,13 @@ export function Configurator({
           <p
             className={`mt-2 font-mono text-[44px] leading-none tabular-nums ${pending ? "opacity-60" : ""}`}
           >
-            {showQuote ? formatEuros(quote.totalCents) : "—"}
+            {showQuote ? money(quote.totalCents) : "—"}
           </p>
           {showQuote ? (
             <p className="text-night-muted mt-3 text-sm">
               {t("vatIncluded")} ·{" "}
               <span className="font-mono">
-                {t("withoutVat", { amount: formatEuros(quote.netCents) })}
+                {t("withoutVat", { amount: money(quote.netCents) })}
               </span>
             </p>
           ) : (
@@ -249,7 +257,7 @@ export function Configurator({
             className="bg-amber text-on-amber hover:bg-amber-hover focus-visible:outline-night-text min-h-[60px] w-full px-6 text-base font-medium outline-offset-3 focus-visible:outline-2 disabled:opacity-50"
           >
             {adding ? t("adding") : t("addToCart")}
-            {showQuote && !adding ? ` · ${formatEuros(quote.totalCents)}` : ""}
+            {showQuote && !adding ? ` · ${money(quote.totalCents)}` : ""}
           </button>
           <p role="status" className="mt-3 text-sm">
             {added?.ok ? (
@@ -289,6 +297,8 @@ function OptionField({
   onChange: (value: string | boolean) => void;
 }) {
   const t = useTranslations("Shop.configurator");
+  const locale = useLocale();
+  const numberFormat = useMemo(() => measureFormat(intlLocale(locale)), [locale]);
   const id = `opt-${option.key}`;
   const helpId = `${id}-help`;
   const errorId = `${id}-error`;
@@ -296,7 +306,9 @@ function OptionField({
   if (option.type === "dimension" || option.type === "number") {
     const unit = option.type === "dimension" ? option.unit : "";
     const show = (mm: number) =>
-      option.type === "dimension" ? inDisplayUnit(mm, option.unit) : numberFormat.format(mm);
+      option.type === "dimension"
+        ? inDisplayUnit(numberFormat, mm, option.unit)
+        : numberFormat.format(mm);
     const range =
       option.min !== null && option.max !== null
         ? t("range", { min: show(option.min), max: show(option.max), unit })

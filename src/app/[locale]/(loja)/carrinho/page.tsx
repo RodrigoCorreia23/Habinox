@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { intlLocale } from "@/i18n/locales";
 import { Link } from "@/i18n/navigation";
 import { formatEuros } from "@/lib/money";
 import { getCartView, MAX_QUANTITY } from "@/server/store/cart";
@@ -14,13 +15,15 @@ export async function generateMetadata({
   return { title: `${t("title")} · Habinox`, robots: { index: false } };
 }
 
-const dateFormat = new Intl.DateTimeFormat("pt-PT", {
-  dateStyle: "long",
-  timeZone: "Europe/Lisbon",
-});
+const dateFormat = (locale: string) =>
+  new Intl.DateTimeFormat(intlLocale(locale), {
+    dateStyle: "long",
+    timeZone: "Europe/Lisbon",
+  });
 
 export default async function CartPage({ params }: PageProps<"/[locale]/carrinho">) {
   const { locale } = await params;
+  const money = (cents: number) => formatEuros(cents, intlLocale(locale));
   setRequestLocale(locale);
   const t = await getTranslations("Shop.cart");
   const cart = await getCurrentCart();
@@ -69,11 +72,11 @@ export default async function CartPage({ params }: PageProps<"/[locale]/carrinho
                     <p className="text-night-error mt-3 text-sm">{t("unavailable")}</p>
                   ) : line.repriced ? (
                     <p className="text-amber mt-3 text-sm">
-                      {t("repriced", { amount: formatEuros(line.repriced.previousTotalCents) })}
+                      {t("repriced", { amount: money(line.repriced.previousTotalCents) })}
                     </p>
                   ) : (
                     <p className="text-night-faint mt-3 text-xs">
-                      {t("validUntil", { date: dateFormat.format(line.validUntil) })}
+                      {t("validUntil", { date: dateFormat(locale).format(line.validUntil) })}
                     </p>
                   )}
                 </div>
@@ -81,12 +84,12 @@ export default async function CartPage({ params }: PageProps<"/[locale]/carrinho
                 <div className="flex flex-wrap items-start gap-4 sm:flex-col sm:items-end">
                   {line.unitTotalCents !== null && (
                     <p className="font-mono text-2xl tabular-nums">
-                      {formatEuros(line.unitTotalCents * line.quantity)}
+                      {money(line.unitTotalCents * line.quantity)}
                     </p>
                   )}
                   {line.unitTotalCents !== null && line.quantity > 1 && (
                     <p className="text-night-faint font-mono text-xs">
-                      {t("unitPrice", { amount: formatEuros(line.unitTotalCents) })}
+                      {t("unitPrice", { amount: money(line.unitTotalCents) })}
                     </p>
                   )}
                   <form
@@ -136,14 +139,16 @@ export default async function CartPage({ params }: PageProps<"/[locale]/carrinho
           <aside className="lg:col-span-4">
             <dl className="grid grid-cols-[1fr_auto] gap-y-3 text-sm">
               <dt className="text-night-muted">{t("subtotal")}</dt>
-              <dd className="font-mono tabular-nums">{formatEuros(view!.netCents)}</dd>
+              <dd className="font-mono tabular-nums">{money(view!.netCents)}</dd>
               <dt className="text-night-muted">
-                {t("vat", { rate: (Number(view!.vatRate) * 100).toLocaleString("pt-PT") })}
+                {t("vat", {
+                  rate: (Number(view!.vatRate) * 100).toLocaleString(intlLocale(locale)),
+                })}
               </dt>
-              <dd className="font-mono tabular-nums">{formatEuros(view!.vatCents)}</dd>
+              <dd className="font-mono tabular-nums">{money(view!.vatCents)}</dd>
               <dt className="border-night-line border-t pt-4 text-base">{t("total")}</dt>
               <dd className="border-night-line border-t pt-4 font-mono text-2xl tabular-nums">
-                {formatEuros(view!.totalCents)}
+                {money(view!.totalCents)}
               </dd>
             </dl>
             {anyAvailable ? (

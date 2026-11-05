@@ -1,3 +1,4 @@
+import { intlLocale } from "@/i18n/locales";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -17,6 +18,7 @@ export async function generateMetadata({
 
 export default async function CheckoutPage({ params }: PageProps<"/[locale]/checkout">) {
   const { locale } = await params;
+  const money = (cents: number) => formatEuros(cents, intlLocale(locale));
   setRequestLocale(locale);
   const session = await requireUser(`/${locale}/checkout`, locale);
   const cart = await getCurrentCart();
@@ -57,7 +59,7 @@ export default async function CheckoutPage({ params }: PageProps<"/[locale]/chec
                   </div>
                   {line.unitTotalCents !== null && (
                     <p className="font-mono tabular-nums">
-                      {formatEuros(line.unitTotalCents * line.quantity)}
+                      {money(line.unitTotalCents * line.quantity)}
                     </p>
                   )}
                 </li>
@@ -65,16 +67,18 @@ export default async function CheckoutPage({ params }: PageProps<"/[locale]/chec
             </ul>
             <dl className="mt-6 grid grid-cols-[1fr_auto] gap-y-3 text-sm">
               <dt className="text-night-muted">{tc("subtotal")}</dt>
-              <dd className="font-mono tabular-nums">{formatEuros(view.netCents)}</dd>
+              <dd className="font-mono tabular-nums">{money(view.netCents)}</dd>
               <dt className="text-night-muted">
-                {tc("vat", { rate: (Number(view.vatRate) * 100).toLocaleString("pt-PT") })}
+                {tc("vat", {
+                  rate: (Number(view.vatRate) * 100).toLocaleString(intlLocale(locale)),
+                })}
               </dt>
-              <dd className="font-mono tabular-nums">{formatEuros(view.vatCents)}</dd>
+              <dd className="font-mono tabular-nums">{money(view.vatCents)}</dd>
               <dt className="text-night-muted">{t("transport")}</dt>
               <dd className="text-night-muted text-right">{t("transportValue")}</dd>
               <dt className="border-night-line border-t pt-4 text-base">{tc("total")}</dt>
               <dd className="border-night-line border-t pt-4 font-mono text-2xl tabular-nums">
-                {formatEuros(view.totalCents)}
+                {money(view.totalCents)}
               </dd>
             </dl>
           </div>

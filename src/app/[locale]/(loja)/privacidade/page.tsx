@@ -15,5 +15,11 @@ export default async function Page({ params }: PageProps<"/[locale]/privacidade"
   setRequestLocale(locale);
   const t = await getTranslations("Shop.legal");
   const document = getLegalDocument("privacy", locale);
-  return <LegalPage document={document} updatedLabel={t("updated", { date: document.updated })} />;
+  return (
+    <LegalPage
+      document={document}
+      updatedLabel={t("updated", { date: document.updated })}
+      portugueseOnly={locale !== "pt" ? t("portugueseOnly") : undefined}
+    />
+  );
 }
