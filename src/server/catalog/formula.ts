@@ -14,13 +14,20 @@ import {
   optionDefinitions,
   optionRules,
   optionValues,
+  productCostOverrides,
   productVersions,
   sectors,
 } from "@/db/schema";
 import type { LocalizedText } from "@/lib/localized";
 import { decimalFromCents, parseDecimal } from "@/lib/money";
 import { type Condition, conditionsSchema, type ProductOptionDef, type Rule } from "@/lib/options";
-import type { FormulaLine, PricedItem, PricingInput } from "@/lib/pricing";
+import {
+  applyOverride,
+  type CostOverride,
+  type FormulaLine,
+  type PricedItem,
+  type PricingInput,
+} from "@/lib/pricing";
 import { editableVersion, listVersionOptions, type Result } from "./products";
 
 // ── Montagem para o motor de preços ─────────────────────────────────────────
@@ -41,6 +48,13 @@ export interface PricingModel {
 }
 
 type MaterialRow = typeof materials.$inferSelect;
+
+function toOverride(unitCost: string | null, margin: string | null): CostOverride {
+  return {
+    unitCost: unitCost === null ? null : parseDecimal(unitCost),
+    margin: margin === null ? null : parseDecimal(margin),
+  };
+}
 
 function materialItem(material: MaterialRow): PricedItem {
   return {
@@ -140,7 +154,33 @@ export async function loadPricingModel(versionId: string): Promise<PricingModel 
         .from(materials)
         .where(inArray(materials.id, [...allMaterialIds]))
     : [];
-  const items = new Map(materialRows.map((material) => [material.id, materialItem(material)]));
+  // Valores próprios deste produto (custo e margem) por cima dos gerais.
+  const overrides = await db
+    .select()
+    .from(productCostOverrides)
+    .where(eq(productCostOverrides.productVersionId, versionId));
+  const materialOverride = new Map(
+    overrides
+      .filter((o) => o.materialId)
+      .map((o) => [o.materialId!, toOverride(o.unitCost, o.margin)]),
+  );
+  const sectorOverride = new Map(
+    overrides
+      .filter((o) => o.sectorId)
+      .map((o) => [
+        o.sectorId!,
+        {
+          unitCost: o.hourlyRateCents === null ? null : decimalFromCents(o.hourlyRateCents),
+          margin: o.margin === null ? null : parseDecimal(o.margin),
+        },
+      ]),
+  );
+  const items = new Map(
+    materialRows.map((material) => [
+      material.id,
+      applyOverride(materialItem(material), materialOverride.get(material.id)),
+    ]),
+  );
 
   const lines: FormulaLine[] = lineRows.map(({ line, sector, articleOption }) => {
     const base = {
@@ -153,12 +193,15 @@ export async function loadPricingModel(versionId: string): Promise<PricingModel 
     if (sector) {
       return {
         ...base,
-        item: {
-          code: sector.name,
-          name: sector.name,
-          unitCost: decimalFromCents(sector.hourlyRateCents),
-          margin: sector.margin === null ? null : parseDecimal(sector.margin),
-        },
+        item: applyOverride(
+          {
+            code: sector.name,
+            name: sector.name,
+            unitCost: decimalFromCents(sector.hourlyRateCents),
+            margin: sector.margin === null ? null : parseDecimal(sector.margin),
+          },
+          sectorOverride.get(sector.id),
+        ),
       };
     }
     if (line.materialId) return { ...base, item: items.get(line.materialId) };
@@ -170,8 +213,14 @@ export async function loadPricingModel(versionId: string): Promise<PricingModel 
     return { ...base, itemByOption: { option: articleOption ?? "", items: byValue } };
   });
 
+  // Uma opção que decide o artigo de uma linha (ex.: Lacagem conforme a Cor, em m²)
+  // paga os artigos dos seus valores nessa linha: não somam outra vez como componente.
+  const pricedByLine = new Set(
+    lineRows.map((row) => row.articleOption).filter((key): key is string => Boolean(key)),
+  );
   const valueComponents: Record<string, Record<string, PricedItem>> = {};
   for (const [optionKey, byValue] of Object.entries(valueComponentIds)) {
+    if (pricedByLine.has(optionKey)) continue;
     for (const [valueKey, materialId] of Object.entries(byValue)) {
       const item = items.get(materialId);
       if (item) (valueComponents[optionKey] ??= {})[valueKey] = item;
@@ -432,7 +481,7 @@ export async function moveFormulaItem(
   });
 }
 
-/** Para os seletores do editor: artigos do ERP e sectores ativos. */
+/** Para os seletores do editor: artigos do ERP (com custo e margem) e secções ativas. */
 export async function listFormulaSources() {
   const [articleRows, sectorRows] = await Promise.all([
     db
@@ -441,11 +490,19 @@ export async function listFormulaSources() {
         name: materials.name,
         erpCode: materials.erpCode,
         unit: materials.unit,
+        cost: materials.cost,
+        margin: materials.margin,
+        missing: materials.erpMissingAt,
       })
       .from(materials)
       .orderBy(asc(materials.name)),
     db
-      .select({ id: sectors.id, name: sectors.name })
+      .select({
+        id: sectors.id,
+        name: sectors.name,
+        hourlyRateCents: sectors.hourlyRateCents,
+        margin: sectors.margin,
+      })
       .from(sectors)
       .where(isNull(sectors.archivedAt))
       .orderBy(asc(sectors.name)),

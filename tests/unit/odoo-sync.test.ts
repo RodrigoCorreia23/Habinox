@@ -11,6 +11,7 @@ const local = (code: string, cost: string, extra: Partial<LocalMaterial> = {}): 
     unit: sample.unit,
     cost,
     weightPerUnit: sample.weightPerUnit,
+    erpFamily: sample.family,
     erpMissingAt: null,
     ...extra,
   };
@@ -125,5 +126,21 @@ describe("planSync", () => {
     const erp = new FakeErpClient();
     erp.failWith(new Error("timeout"));
     await expect(erp.listArticles()).rejects.toThrow("timeout");
+  });
+});
+
+describe("família do artigo", () => {
+  it("vem do ERP, muda sem mexer no custo e falta = null", async () => {
+    const plan = planSync(
+      [local("RAL7016", "0.0000", { erpFamily: "Cores" })],
+      [
+        { ...SAMPLE_ARTICLES.find((a) => a.code === "RAL7016")! },
+        { code: "X1", name: "Sem família", unit: "un.", cost: "1.0000", weightPerUnit: null },
+      ],
+    );
+    expect(plan.updates).toHaveLength(1);
+    expect(plan.updates[0]?.article.family).toBe("Cores RAL");
+    expect(plan.updates[0]?.costChanged).toBe(false);
+    expect(plan.inserts[0]?.family).toBeNull();
   });
 });

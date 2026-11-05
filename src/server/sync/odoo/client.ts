@@ -14,6 +14,8 @@ export interface ErpArticle {
   cost: string;
   /** kg por unidade; null se não estiver preenchido. */
   weightPerUnit: string | null;
+  /** Família/categoria no ERP (ex.: "Cores RAL"); null se não tiver. */
+  family: string | null;
 }
 
 export interface ErpClient {
@@ -30,4 +32,6 @@ export const erpArticleSchema = z.object({
   unit: z.string().trim().min(1).max(16),
   cost: decimal4,
   weightPerUnit: decimal4.nullable(),
-}) satisfies z.ZodType<ErpArticle>;
+  // Opcional na resposta (artigos sem família): fica null.
+  family: z.string().trim().max(120).nullable().default(null),
+}) satisfies z.ZodType<ErpArticle, unknown>;

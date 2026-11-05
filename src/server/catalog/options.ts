@@ -1,9 +1,17 @@
-import { and, asc, count, eq, isNotNull, isNull, ne } from "drizzle-orm";
+import { and, asc, count, eq, inArray, isNotNull, isNull, ne } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
-import { materials, optionDefinitions, optionValues } from "@/db/schema";
+import {
+  materials,
+  optionDefinitions,
+  optionValues,
+  productOptions,
+  productOptionValues,
+  products,
+  productVersions,
+} from "@/db/schema";
 import type { LocalizedText } from "@/lib/localized";
-import { KEY_PATTERN, type OptionType } from "@/lib/options";
+import { KEY_PATTERN, type OptionType, valueFromArticle } from "@/lib/options";
 
 export type OptionRow = typeof optionDefinitions.$inferSelect;
 export type OptionValueRow = typeof optionValues.$inferSelect;
@@ -40,6 +48,111 @@ export async function listOptions({ archived = false } = {}) {
   return rows.map((row) => ({
     ...row,
     values: counts.find((entry) => entry.optionId === row.id)?.n ?? 0,
+  }));
+}
+
+// ── Onde se usa ─────────────────────────────────────────────────────────────
+
+export type ProductRef = { id: string; name: string };
+
+/**
+ * As versões que contam para «usada em»: de cada produto não arquivado, a versão
+ * publicada (a da loja) e a mais recente (a que se está a preparar).
+ */
+export async function listCurrentVersions() {
+  const rows = await db
+    .select({
+      productId: products.id,
+      name: products.name,
+      publishedVersionId: products.publishedVersionId,
+      versionId: productVersions.id,
+      version: productVersions.version,
+    })
+    .from(productVersions)
+    .innerJoin(products, eq(products.id, productVersions.productId))
+    .where(isNull(products.archivedAt));
+  const latest = new Map<string, number>();
+  for (const row of rows) {
+    latest.set(row.productId, Math.max(latest.get(row.productId) ?? 0, row.version));
+  }
+  const versions = new Map<string, ProductRef>();
+  for (const row of rows) {
+    if (row.versionId === row.publishedVersionId || row.version === latest.get(row.productId)) {
+      versions.set(row.versionId, { id: row.productId, name: row.name.pt });
+    }
+  }
+  return versions;
+}
+
+function addProduct(map: Map<string, ProductRef[]>, key: string, product: ProductRef) {
+  const list = map.get(key) ?? [];
+  if (!list.some((entry) => entry.id === product.id)) list.push(product);
+  map.set(key, list);
+}
+
+/** Produtos que usam cada opção (id da opção → produtos, sem repetir). */
+export async function listOptionUsage(): Promise<Map<string, ProductRef[]>> {
+  const versions = await listCurrentVersions();
+  const usage = new Map<string, ProductRef[]>();
+  if (versions.size === 0) return usage;
+  const rows = await db
+    .select({ optionId: productOptions.optionId, versionId: productOptions.productVersionId })
+    .from(productOptions)
+    .where(inArray(productOptions.productVersionId, [...versions.keys()]));
+  for (const row of rows) addProduct(usage, row.optionId, versions.get(row.versionId)!);
+  for (const list of usage.values()) list.sort((a, b) => a.name.localeCompare(b.name, "pt"));
+  return usage;
+}
+
+/** Produtos que oferecem cada valor de uma opção (id do valor → produtos). */
+export async function listValueUsage(optionId: string): Promise<Map<string, ProductRef[]>> {
+  const versions = await listCurrentVersions();
+  const usage = new Map<string, ProductRef[]>();
+  if (versions.size === 0) return usage;
+  const rows = await db
+    .select({
+      valueId: productOptionValues.optionValueId,
+      versionId: productOptions.productVersionId,
+    })
+    .from(productOptionValues)
+    .innerJoin(productOptions, eq(productOptions.id, productOptionValues.productOptionId))
+    .where(
+      and(
+        eq(productOptions.optionId, optionId),
+        inArray(productOptions.productVersionId, [...versions.keys()]),
+      ),
+    );
+  for (const row of rows) addProduct(usage, row.valueId, versions.get(row.versionId)!);
+  return usage;
+}
+
+/**
+ * Para a lista de opções: o resumo dos valores ativos («3: Ferro lacado, Inox…»),
+ * a unidade das medidas e os produtos que usam cada opção.
+ */
+export async function listOptionSummaries({ archived = false } = {}) {
+  const [rows, values, usage] = await Promise.all([
+    db
+      .select()
+      .from(optionDefinitions)
+      .where(
+        archived ? isNotNull(optionDefinitions.archivedAt) : isNull(optionDefinitions.archivedAt),
+      )
+      .orderBy(asc(optionDefinitions.key)),
+    db
+      .select({ optionId: optionValues.optionId, label: optionValues.label })
+      .from(optionValues)
+      .where(isNull(optionValues.archivedAt))
+      .orderBy(asc(optionValues.position), asc(optionValues.key)),
+    listOptionUsage(),
+  ]);
+  return rows.map((row) => ({
+    id: row.id,
+    name: row.name.pt,
+    type: row.type as OptionType,
+    unit: row.unit,
+    values: values.filter((value) => value.optionId === row.id).map((value) => value.label.pt),
+    usedIn: usage.get(row.id) ?? [],
   }));
 }
 
@@ -92,7 +205,14 @@ export async function createOption(input: OptionInput): Promise<Result<keyof Opt
     .select({ id: optionDefinitions.id })
     .from(optionDefinitions)
     .where(eq(optionDefinitions.key, input.key));
-  if (taken) return { ok: false, field: "key", message: "Já existe uma opção com esta chave" };
+  if (taken) {
+    return {
+      ok: false,
+      field: "key",
+      message:
+        "Já existe uma opção com este nome nas fórmulas. Escreva outro aqui (ex.: largura_portao).",
+    };
+  }
   const [created] = await db
     .insert(optionDefinitions)
     .values({
@@ -127,11 +247,23 @@ export async function updateOption(
   return { ok: true, id };
 }
 
-export async function setOptionArchived(id: string, archived: boolean) {
-  await db
+/**
+ * Arquivar uma opção não muda os produtos que já a usam (guardam a sua própria
+ * configuração): só deixa de se poder acrescentar a produtos. Devolve esses
+ * produtos para a mensagem dizer o efeito.
+ */
+export async function setOptionArchived(
+  id: string,
+  archived: boolean,
+): Promise<{ ok: boolean; usedIn: ProductRef[] }> {
+  const updated = await db
     .update(optionDefinitions)
     .set({ archivedAt: archived ? new Date() : null })
-    .where(eq(optionDefinitions.id, id));
+    .where(eq(optionDefinitions.id, id))
+    .returning({ id: optionDefinitions.id });
+  if (updated.length === 0) return { ok: false, usedIn: [] };
+  const usage = await listOptionUsage();
+  return { ok: true, usedIn: usage.get(id) ?? [] };
 }
 
 export const valueInputSchema = z.object({
@@ -171,14 +303,16 @@ async function checkValue(
       ),
     );
   if ((taken?.n ?? 0) > 0) {
-    return { ok: false, field: "key", message: "Já existe um valor com esta chave nesta opção" };
+    return { ok: false, field: "key", message: "Já existe um valor com este nome nesta opção" };
   }
   if (input.materialId) {
     const [material] = await db
       .select({ id: materials.id })
       .from(materials)
       .where(eq(materials.id, input.materialId));
-    if (!material) return { ok: false, field: "materialId", message: "Artigo não encontrado" };
+    if (!material) {
+      return { ok: false, field: "materialId", message: "Esse material já não existe no ERP" };
+    }
   }
   return null;
 }
@@ -226,19 +360,63 @@ export async function updateValue(
   return { ok: true, id };
 }
 
-export async function setValueArchived(id: string, archived: boolean) {
+/**
+ * Como nas opções: os produtos que já oferecem o valor continuam iguais; só deixa
+ * de vir na lista quando se acrescenta a opção a um produto. Devolve a opção do
+ * valor (null se não existir) e os produtos que o oferecem.
+ */
+export async function setValueArchived(
+  id: string,
+  archived: boolean,
+): Promise<{ optionId: string | null; usedIn: ProductRef[] }> {
   const [updated] = await db
     .update(optionValues)
     .set({ archivedAt: archived ? new Date() : null })
     .where(eq(optionValues.id, id))
     .returning({ optionId: optionValues.optionId });
-  return updated?.optionId ?? null;
+  if (!updated) return { optionId: null, usedIn: [] };
+  const usage = await listValueUsage(updated.optionId);
+  return { optionId: updated.optionId, usedIn: usage.get(id) ?? [] };
+}
+
+/**
+ * Sobe ou desce um valor entre os valores ativos da mesma opção. Regrava as
+ * posições 0, 1, 2… pela ordem mostrada, por isso também arruma posições repetidas.
+ */
+export async function moveValue(
+  id: string,
+  direction: "up" | "down",
+): Promise<{ ok: boolean; optionId: string | null }> {
+  return db.transaction(async (tx) => {
+    const [value] = await tx.select().from(optionValues).where(eq(optionValues.id, id));
+    if (!value || value.archivedAt) return { ok: false, optionId: null };
+    const siblings = await tx
+      .select({ id: optionValues.id })
+      .from(optionValues)
+      .where(and(eq(optionValues.optionId, value.optionId), isNull(optionValues.archivedAt)))
+      .orderBy(asc(optionValues.position), asc(optionValues.key));
+    const order = siblings.map((row) => row.id);
+    const from = order.indexOf(id);
+    const to = direction === "up" ? from - 1 : from + 1;
+    if (from < 0 || to < 0 || to >= order.length) return { ok: true, optionId: value.optionId };
+    [order[from], order[to]] = [order[to]!, order[from]!];
+    for (const [position, valueId] of order.entries()) {
+      await tx.update(optionValues).set({ position }).where(eq(optionValues.id, valueId));
+    }
+    return { ok: true, optionId: value.optionId };
+  });
 }
 
 /** Artigos do ERP para escolher num valor (ex.: o motor que o valor acrescenta). */
 export async function listArticlesForPicker() {
   return db
-    .select({ id: materials.id, name: materials.name, erpCode: materials.erpCode })
+    .select({
+      id: materials.id,
+      name: materials.name,
+      erpCode: materials.erpCode,
+      unit: materials.unit,
+      cost: materials.cost,
+    })
     .from(materials)
     .orderBy(asc(materials.name));
 }
@@ -264,4 +442,90 @@ export async function listLibraryOptionInfo() {
       .filter((value) => value.optionId === option.id)
       .map((value) => ({ key: value.key, label: value.label.pt })),
   }));
+}
+
+/** Famílias de artigos do ERP com os seus artigos (para «Importar do Odoo»). */
+export async function listErpFamilies() {
+  const rows = await db
+    .select({
+      id: materials.id,
+      name: materials.name,
+      erpCode: materials.erpCode,
+      family: materials.erpFamily,
+      unit: materials.unit,
+      cost: materials.cost,
+      margin: materials.margin,
+    })
+    .from(materials)
+    .where(isNull(materials.erpMissingAt))
+    .orderBy(asc(materials.erpFamily), asc(materials.name));
+  const families = new Map<string, typeof rows>();
+  for (const row of rows) {
+    const family = row.family ?? "Sem família";
+    families.set(family, [...(families.get(family) ?? []), row]);
+  }
+  return [...families].map(([name, articles]) => ({ name, articles }));
+}
+
+export interface ImportSummary {
+  created: string[];
+  skipped: { name: string; reason: string }[];
+}
+
+/**
+ * Cria valores de uma opção a partir de artigos do ERP (ex.: cores RAL).
+ * Com `link`, o valor fica ligado ao artigo e o custo dele entra no preço;
+ * sem `link`, traz só o nome e o código. Valores que já existem (mesma chave
+ * ou mesmo artigo) saltam-se.
+ */
+export async function importValuesFromErp(
+  optionId: string,
+  materialIds: string[],
+  link: boolean,
+): Promise<ImportSummary | { error: string }> {
+  return db.transaction(async (tx) => {
+    const [option] = await tx
+      .select({ type: optionDefinitions.type })
+      .from(optionDefinitions)
+      .where(eq(optionDefinitions.id, optionId));
+    if (!option) return { error: "Opção não encontrada" };
+    if (option.type !== "choice") return { error: "Só as opções de escolha têm valores" };
+
+    const articles = materialIds.length
+      ? await tx.select().from(materials).where(inArray(materials.id, materialIds))
+      : [];
+    const existing = await tx
+      .select({
+        key: optionValues.key,
+        materialId: optionValues.materialId,
+        position: optionValues.position,
+      })
+      .from(optionValues)
+      .where(eq(optionValues.optionId, optionId));
+    const keys = new Set(existing.map((value) => value.key));
+    const linked = new Set(existing.map((value) => value.materialId).filter(Boolean));
+    let position = Math.max(-1, ...existing.map((value) => value.position)) + 1;
+
+    const summary: ImportSummary = { created: [], skipped: [] };
+    for (const article of articles.sort((a, b) => a.name.localeCompare(b.name, "pt"))) {
+      const value = valueFromArticle(article.name);
+      if (keys.has(value.key) || linked.has(article.id)) {
+        summary.skipped.push({ name: article.name, reason: "já existe nesta opção" });
+        continue;
+      }
+      await tx.insert(optionValues).values({
+        optionId,
+        key: value.key,
+        label: localized(value.label),
+        position: position++,
+        params: {},
+        ralCode: value.ralCode || null,
+        materialId: link ? article.id : null,
+        asksText: false,
+      });
+      keys.add(value.key);
+      summary.created.push(value.label);
+    }
+    return summary;
+  });
 }

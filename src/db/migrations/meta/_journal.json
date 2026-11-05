@@ -57,6 +57,27 @@
       "when": 1793872945833,
       "tag": "0007_limite_pedidos",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1793878872285,
+      "tag": "0008_lingua_encomenda",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1793880481346,
+      "tag": "0009_estado_traducoes",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1793902027685,
+      "tag": "0010_custos_por_produto",
+      "breakpoints": true
     }
   ]
 }

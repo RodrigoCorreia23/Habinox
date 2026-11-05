@@ -23,6 +23,8 @@ export const materials = pgTable(
     /** Referência interna no ERP: a ligação entre os dois sistemas. */
     erpCode: text().notNull().unique(),
     name: text().notNull(),
+    /** Família/categoria do artigo no ERP (ex.: "Cores RAL"); para importar valores de opções. */
+    erpFamily: text(),
     /** Unidade em que entra no fabrico (m, m², un., kg). */
     unit: text().notNull(),
     cost: numeric({ precision: 12, scale: 4 }).notNull(),

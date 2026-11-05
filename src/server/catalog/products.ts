@@ -14,6 +14,7 @@ import {
   formulaLineMaterials,
   formulaLines,
   formulaVariables,
+  materials,
   optionDefinitions,
   optionRules,
   optionValues,
@@ -21,15 +22,149 @@ import {
   productOptionValues,
   products,
   productVersions,
+  sectors,
 } from "@/db/schema";
 import type { LocalizedText } from "@/lib/localized";
+import { copyCostOverrides } from "./cost-overrides";
 import { SLUG_PATTERN } from "@/lib/slug";
 
 type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
 
 export type ProductVersionRow = typeof productVersions.$inferSelect;
 
-export async function listProducts() {
+/** Estado de um produto na lista (as mesmas chaves do filtro ?estado=). */
+export type ProductListStatus = "na-loja" | "alteracoes" | "por-publicar" | "arquivado";
+
+/**
+ * Filtros da lista de produtos, vindos da URL. É o contrato com o Painel
+ * (?estado=), Materiais (?material=), Mão de obra (?seccao=) e Opções (?opcao=).
+ * material, seccao e opcao procuram na versão publicada e na versão em preparação.
+ */
+export interface ProductFilters {
+  estado?: ProductListStatus | "sem-imagem";
+  categoria?: string;
+  q?: string;
+  material?: string;
+  seccao?: string;
+  opcao?: string;
+}
+
+const PRODUCT_LIST_STATUSES = new Set(["na-loja", "alteracoes", "por-publicar", "arquivado"]);
+
+/** Lê os filtros da URL; ignora valores que não fazem sentido (ids que não são uuid, etc.). */
+export function parseProductFilters(
+  params: Record<string, string | string[] | undefined>,
+): ProductFilters {
+  const one = (key: string) => {
+    const value = params[key];
+    return (Array.isArray(value) ? value[0] : value)?.trim() || undefined;
+  };
+  const id = (key: string) => {
+    const value = one(key);
+    return value && z.uuid().safeParse(value).success ? value : undefined;
+  };
+  const estado = one("estado");
+  return {
+    estado:
+      estado && (PRODUCT_LIST_STATUSES.has(estado) || estado === "sem-imagem")
+        ? (estado as ProductFilters["estado"])
+        : undefined,
+    categoria: id("categoria"),
+    q: one("q")?.slice(0, 80),
+    material: id("material"),
+    seccao: id("seccao"),
+    opcao: id("opcao"),
+  };
+}
+
+const normalizeText = (text: string) =>
+  text
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase();
+
+/** Produtos cuja versão publicada ou em preparação usa o material, a secção ou a opção. */
+async function productIdsUsing(filters: ProductFilters): Promise<Set<string> | null> {
+  if (!filters.material && !filters.seccao && !filters.opcao) return null;
+  // Versões que contam: a publicada de cada produto e as que ainda não foram publicadas.
+  const current = await db
+    .select({ id: productVersions.id, productId: productVersions.productId })
+    .from(productVersions)
+    .innerJoin(products, eq(products.id, productVersions.productId))
+    .where(
+      sql`${productVersions.status} <> 'published' or ${products.publishedVersionId} = ${productVersions.id}`,
+    );
+  const productOf = new Map(current.map((row) => [row.id, row.productId]));
+  const versionIds = [...productOf.keys()];
+  if (versionIds.length === 0) return new Set();
+  let matches: Set<string> | null = null;
+  const keep = (ids: Iterable<string>) => {
+    const found = new Set([...ids].map((versionId) => productOf.get(versionId)!));
+    matches = matches ? new Set([...matches].filter((id) => found.has(id))) : found;
+  };
+
+  if (filters.material) {
+    const direct = await db
+      .select({ versionId: formulaLines.productVersionId })
+      .from(formulaLines)
+      .where(
+        and(
+          inArray(formulaLines.productVersionId, versionIds),
+          eq(formulaLines.materialId, filters.material),
+        ),
+      );
+    const byOption = await db
+      .select({ versionId: formulaLines.productVersionId })
+      .from(formulaLineMaterials)
+      .innerJoin(formulaLines, eq(formulaLines.id, formulaLineMaterials.formulaLineId))
+      .where(
+        and(
+          inArray(formulaLines.productVersionId, versionIds),
+          eq(formulaLineMaterials.materialId, filters.material),
+        ),
+      );
+    // Componentes trazidos por um valor de opção (ex.: «Motorizado» soma o kit de motor).
+    const byValue = await db
+      .select({ versionId: productOptions.productVersionId })
+      .from(productOptionValues)
+      .innerJoin(productOptions, eq(productOptions.id, productOptionValues.productOptionId))
+      .innerJoin(optionValues, eq(optionValues.id, productOptionValues.optionValueId))
+      .where(
+        and(
+          inArray(productOptions.productVersionId, versionIds),
+          eq(optionValues.materialId, filters.material),
+        ),
+      );
+    keep([...direct, ...byOption, ...byValue].map((row) => row.versionId));
+  }
+  if (filters.seccao) {
+    const rows = await db
+      .select({ versionId: formulaLines.productVersionId })
+      .from(formulaLines)
+      .where(
+        and(
+          inArray(formulaLines.productVersionId, versionIds),
+          eq(formulaLines.sectorId, filters.seccao),
+        ),
+      );
+    keep(rows.map((row) => row.versionId));
+  }
+  if (filters.opcao) {
+    const rows = await db
+      .select({ versionId: productOptions.productVersionId })
+      .from(productOptions)
+      .where(
+        and(
+          inArray(productOptions.productVersionId, versionIds),
+          eq(productOptions.optionId, filters.opcao),
+        ),
+      );
+    keep(rows.map((row) => row.versionId));
+  }
+  return matches;
+}
+
+export async function listProducts(filters: ProductFilters = {}) {
   const drafts = await db
     .selectDistinct({ productId: productVersions.productId })
     .from(productVersions)
@@ -39,26 +174,96 @@ export async function listProducts() {
     .select({ id: productVersions.id, version: productVersions.version })
     .from(productVersions)
     .as("published");
-  return db
-    .select({
-      id: products.id,
-      name: products.name,
-      slug: products.slug,
-      archivedAt: products.archivedAt,
-      category: categories.name,
-      publishedVersion: published.version,
+  const [rows, using] = await Promise.all([
+    db
+      .select({
+        id: products.id,
+        name: products.name,
+        slug: products.slug,
+        archivedAt: products.archivedAt,
+        imageUrl: products.imageUrl,
+        imageFocus: products.imageFocus,
+        categoryId: products.categoryId,
+        category: categories.name,
+        categorySlug: categories.slug,
+        publishedVersion: published.version,
+      })
+      .from(products)
+      .innerJoin(categories, eq(categories.id, products.categoryId))
+      .leftJoin(published, eq(published.id, products.publishedVersionId))
+      .orderBy(asc(products.archivedAt), asc(sql`${products.name}->>'pt'`)),
+    productIdsUsing(filters),
+  ]);
+  const words = filters.q ? normalizeText(filters.q).split(/\s+/).filter(Boolean) : [];
+  return rows
+    .map((row) => {
+      const hasDraft = withDraft.has(row.id);
+      const status: ProductListStatus = row.archivedAt
+        ? "arquivado"
+        : row.publishedVersion
+          ? hasDraft
+            ? "alteracoes"
+            : "na-loja"
+          : "por-publicar";
+      return { ...row, hasDraft, status };
     })
-    .from(products)
-    .innerJoin(categories, eq(categories.id, products.categoryId))
-    .leftJoin(published, eq(published.id, products.publishedVersionId))
-    .orderBy(asc(products.archivedAt), asc(sql`${products.name}->>'pt'`))
-    .then((rows) => rows.map((row) => ({ ...row, hasDraft: withDraft.has(row.id) })));
+    .filter((row) => {
+      if (using && !using.has(row.id)) return false;
+      if (filters.categoria && row.categoryId !== filters.categoria) return false;
+      if (words.length > 0) {
+        const text = normalizeText(`${row.name.pt} ${row.category.pt} ${row.slug}`);
+        if (!words.every((word) => text.includes(word))) return false;
+      }
+      if (filters.estado === "sem-imagem") return !row.imageUrl && !row.archivedAt;
+      if (filters.estado) return row.status === filters.estado;
+      return true;
+    });
+}
+
+/** Nomes do material, secção ou opção de um filtro, para o resumo «Produtos que usam …». */
+export async function productFilterLabels(filters: ProductFilters) {
+  const [material, sector, option, category] = await Promise.all([
+    filters.material
+      ? db
+          .select({ name: materials.name })
+          .from(materials)
+          .where(eq(materials.id, filters.material))
+          .then((rows) => rows[0]?.name ?? null)
+      : null,
+    filters.seccao
+      ? db
+          .select({ name: sectors.name })
+          .from(sectors)
+          .where(eq(sectors.id, filters.seccao))
+          .then((rows) => rows[0]?.name ?? null)
+      : null,
+    filters.opcao
+      ? db
+          .select({ name: optionDefinitions.name })
+          .from(optionDefinitions)
+          .where(eq(optionDefinitions.id, filters.opcao))
+          .then((rows) => rows[0]?.name.pt ?? null)
+      : null,
+    filters.categoria
+      ? db
+          .select({ name: categories.name })
+          .from(categories)
+          .where(eq(categories.id, filters.categoria))
+          .then((rows) => rows[0]?.name.pt ?? null)
+      : null,
+  ]);
+  return { material, sector, option, category };
 }
 
 /** Categorias onde pode haver produtos: subcategorias e categorias sem subcategorias. */
 export async function listLeafCategories() {
   const rows = await db
-    .select({ id: categories.id, name: categories.name, parentId: categories.parentId })
+    .select({
+      id: categories.id,
+      name: categories.name,
+      slug: categories.slug,
+      parentId: categories.parentId,
+    })
     .from(categories)
     .where(isNull(categories.archivedAt))
     .orderBy(asc(categories.position));
@@ -68,7 +273,11 @@ export async function listLeafCategories() {
     .filter((row) => !parents.has(row.id))
     .map((row) => {
       const parent = row.parentId ? byId.get(row.parentId) : undefined;
-      return { id: row.id, label: parent ? `${parent.name.pt} › ${row.name.pt}` : row.name.pt };
+      return {
+        id: row.id,
+        label: parent ? `${parent.name.pt} › ${row.name.pt}` : row.name.pt,
+        slug: row.slug,
+      };
     });
 }
 
@@ -247,23 +456,27 @@ export async function createDraftFrom(fromVersionId: string, userId: string): Pr
       .select()
       .from(optionRules)
       .where(eq(optionRules.productVersionId, from.id));
-    if (rules.length > 0) {
-      await tx
+    for (const { id: oldId, ...rule } of rules) {
+      const [copy] = await tx
         .insert(optionRules)
-        .values(rules.map(({ id: _id, ...rule }) => ({ ...rule, productVersionId: draftId })));
+        .values({ ...rule, productVersionId: draftId })
+        .returning({ id: optionRules.id });
+      await copyTranslationStates(tx, "rule.message", oldId, copy!.id);
     }
 
     const variables = await tx
       .select()
       .from(formulaVariables)
       .where(eq(formulaVariables.productVersionId, from.id));
-    if (variables.length > 0) {
-      await tx
+    for (const { id: oldId, ...variable } of variables) {
+      const [copy] = await tx
         .insert(formulaVariables)
-        .values(
-          variables.map(({ id: _id, ...variable }) => ({ ...variable, productVersionId: draftId })),
-        );
+        .values({ ...variable, productVersionId: draftId })
+        .returning({ id: formulaVariables.id });
+      await copyTranslationStates(tx, "variable.label", oldId, copy!.id);
     }
+
+    await copyCostOverrides(tx, from.id, draftId);
 
     const lines = await tx
       .select()
@@ -532,4 +745,22 @@ export async function removeVersionOption(productOptionId: string): Promise<Resu
     await tx.delete(productOptions).where(eq(productOptions.id, productOptionId));
     return { ok: true, id: productOptionId };
   });
+}
+
+/**
+ * A cópia de uma regra ou variável leva as traduções no próprio `jsonb`; aqui
+ * leva também o estado (automática / revista), para a versão nova não as tratar
+ * como desconhecidas.
+ */
+async function copyTranslationStates(
+  tx: Pick<typeof db, "execute">,
+  field: string,
+  fromId: string,
+  toId: string,
+) {
+  await tx.execute(sql`
+    insert into translation_states (field, row_id, locale, source_hash, origin)
+    select field, ${toId}, locale, source_hash, origin from translation_states
+    where field = ${field} and row_id = ${fromId}
+    on conflict do nothing`);
 }

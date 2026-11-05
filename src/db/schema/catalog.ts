@@ -306,3 +306,42 @@ export const formulaLineMaterials = pgTable(
   },
   (table) => [primaryKey({ columns: [table.formulaLineId, table.optionValueId] })],
 );
+
+/**
+ * Custo e margem próprios de um produto (pertencem à versão, como a fórmula):
+ * por omissão o produto usa os valores gerais (custo do ERP e margem de
+ * Materiais e custos; custo/hora e margem de Mão de obra); aqui o Bruno muda
+ * só o que neste produto é diferente. `null` = usa o valor geral.
+ * Um custo próprio fica fixo; `referenceCost` guarda o custo do ERP no momento
+ * em que foi fixado, para avisar quando o ERP mudar.
+ */
+export const productCostOverrides = pgTable(
+  "product_cost_overrides",
+  {
+    id: uuid().defaultRandom().primaryKey(),
+    productVersionId: uuid()
+      .notNull()
+      .references(() => productVersions.id, { onDelete: "cascade" }),
+    materialId: uuid().references(() => materials.id),
+    sectorId: uuid().references(() => sectors.id),
+    /** Material: custo por unidade (como no ERP). */
+    unitCost: numeric({ precision: 12, scale: 4 }),
+    /** Sector: custo por hora em cêntimos. */
+    hourlyRateCents: integer(),
+    margin: margin(),
+    referenceCost: numeric({ precision: 12, scale: 4 }),
+    updatedAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    unique("product_cost_overrides_material").on(table.productVersionId, table.materialId),
+    unique("product_cost_overrides_sector").on(table.productVersionId, table.sectorId),
+    check(
+      "product_cost_overrides_target",
+      sql`(${table.materialId} is null) <> (${table.sectorId} is null)`,
+    ),
+    check(
+      "product_cost_overrides_values",
+      sql`coalesce(${table.unitCost}, 0) >= 0 and coalesce(${table.hourlyRateCents}, 0) >= 0 and coalesce(${table.margin}, 0) >= 0`,
+    ),
+  ],
+);

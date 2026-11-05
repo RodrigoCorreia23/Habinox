@@ -40,6 +40,14 @@ export interface PricedItem {
   unitCost: Decimal;
   /** Fração (0.05 = 5%); null = por decidir. */
   margin: Decimal | null;
+  /** De onde vêm o custo e a margem: valor geral ou próprio deste produto. */
+  source?: ValueSource;
+}
+
+/** Origem do custo e da margem de um item (fica no snapshot, para auditoria). */
+export interface ValueSource {
+  cost: "general" | "product";
+  margin: "general" | "product";
 }
 
 export type LineKind = "material" | "labour" | "external" | "component";
@@ -84,6 +92,8 @@ export interface PricedLine {
   margin: string;
   costCents: number;
   priceCents: number;
+  /** Ausente nos snapshots antigos = valores gerais. */
+  source?: ValueSource;
 }
 
 export type PricingErrorCode =
@@ -227,6 +237,7 @@ export function calculatePrice(input: PricingInput): PricingResult {
         margin: formatDecimal(item.margin),
         costCents: toCents(cost),
         priceCents: toCents(price),
+        ...(item.source && { source: item.source }),
       },
     });
   };

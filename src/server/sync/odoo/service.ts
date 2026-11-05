@@ -62,6 +62,7 @@ export async function syncErpMaterials(
         unit: materials.unit,
         cost: materials.cost,
         weightPerUnit: materials.weightPerUnit,
+        erpFamily: materials.erpFamily,
         erpMissingAt: materials.erpMissingAt,
       })
       .from(materials);
@@ -78,6 +79,7 @@ export async function syncErpMaterials(
           unit: article.unit,
           cost: article.cost,
           weightPerUnit: article.weightPerUnit,
+          erpFamily: article.family,
           costUpdatedAt: now,
         })
         .returning({ id: materials.id });
@@ -93,6 +95,7 @@ export async function syncErpMaterials(
           name: update.article.name,
           unit: update.article.unit,
           weightPerUnit: update.article.weightPerUnit,
+          erpFamily: update.article.family,
           erpMissingAt: null,
           ...(update.costChanged && { cost: update.article.cost, costUpdatedAt: now }),
         })

@@ -20,6 +20,7 @@ export interface LocalMaterial {
   unit: string;
   cost: string;
   weightPerUnit: string | null;
+  erpFamily: string | null;
   erpMissingAt: Date | null;
 }
 
@@ -78,6 +79,7 @@ export function planSync(local: readonly LocalMaterial[], remote: readonly unkno
       returned ||
       current.name !== article.name ||
       current.unit !== article.unit ||
+      current.erpFamily !== article.family ||
       !sameDecimal(current.weightPerUnit, article.weightPerUnit);
     if (changed) plan.updates.push({ id: current.id, article, costChanged, returned });
   }
