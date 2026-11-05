@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { PageBody } from "@/components/admin/page-body";
+import { PageHeader } from "@/components/admin/page-header";
 import { requireAdmin } from "@/server/auth/session";
 import { listCategoryTree } from "@/server/catalog/categories";
-import { CategoryForm } from "../forms";
+import { NewCategoryForm } from "../forms";
 
 export const metadata: Metadata = { title: "Nova categoria · Habinox" };
 
@@ -11,18 +13,26 @@ export default async function NewCategoryPage({
   await requireAdmin("/admin/categorias/nova");
   const { pai } = await searchParams;
   const roots = await listCategoryTree();
-  const parentId = typeof pai === "string" && roots.some((root) => root.id === pai) ? pai : "";
+  const parent = typeof pai === "string" ? roots.find((root) => root.id === pai) : undefined;
 
   return (
-    <main className="grid gap-6 px-4 py-6 md:px-6">
-      <h1 className="text-xl font-semibold tracking-tight">
-        {parentId ? "Nova subcategoria" : "Nova categoria"}
-      </h1>
-      <CategoryForm
-        id={null}
-        initial={{ name: "", slug: "", description: "", parentId, position: 0 }}
+    <PageBody width="narrow">
+      <PageHeader
+        crumbs={[
+          { href: "/admin/categorias", label: "Categorias" },
+          ...(parent ? [{ href: `/admin/categorias/${parent.id}`, label: parent.name.pt }] : []),
+        ]}
+        title={parent ? `Nova subcategoria de ${parent.name.pt}` : "Nova categoria"}
+        description={
+          parent
+            ? "Aparece na loja dentro da categoria de cima."
+            : "Uma secção da loja. Pode ter subcategorias ou produtos diretamente."
+        }
+      />
+      <NewCategoryForm
+        initial={{ name: "", slug: "", description: "", parentId: parent?.id ?? "", position: 0 }}
         parents={roots.map((root) => ({ id: root.id, name: root.name.pt }))}
       />
-    </main>
+    </PageBody>
   );
 }

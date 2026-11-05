@@ -14,6 +14,9 @@ export const EDITABLE_SETTINGS = [
 
 export type EditableSetting = (typeof EDITABLE_SETTINGS)[number];
 
+/** Teto da taxa de IVA aceite no backoffice (30 %), em fração. */
+const VAT_MAX_FRACTION = 0.3;
+
 export type SettingParse<K extends EditableSetting> =
   { ok: true; value: SettingValues[K] } | { ok: false; message: string };
 
@@ -29,27 +32,28 @@ export function parseSettingInput<K extends EditableSetting>(key: K, raw: string
   switch (key) {
     case "vat_rate": {
       const parsed = percentToFraction(input);
-      if (!parsed.ok || Number(parsed.fraction) > 1) {
-        return { ok: false, message: "Escreva a taxa em percentagem, entre 0 e 100 (ex.: 23)" };
+      // Nenhuma taxa de IVA em Portugal passa de 23 %: acima de 30 % é engano de escrita.
+      if (!parsed.ok || Number(parsed.fraction) > VAT_MAX_FRACTION) {
+        return { ok: false, message: "Escreva um número entre 0 e 30." };
       }
       return ok({ rate: parsed.fraction });
     }
     case "quote_validity_days": {
       const value = days(input, 1, 365);
-      if (value === null) return { ok: false, message: "Escreva um número de dias entre 1 e 365" };
+      if (value === null) return { ok: false, message: "Escreva um número de dias entre 1 e 365." };
       return ok({ days: value });
     }
     case "order_expiry_days": {
       if (input === "") return ok({ days: null });
       const value = days(input, 1, 90);
       if (value === null) {
-        return { ok: false, message: "Escreva um número de dias entre 1 e 90, ou deixe vazio" };
+        return { ok: false, message: "Escreva um número de dias entre 1 e 90." };
       }
       return ok({ days: value });
     }
     case "orders_notify_email": {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input) || input.length > 254) {
-        return { ok: false, message: "Escreva um email válido" };
+        return { ok: false, message: "Escreva um email válido, por exemplo geral@habinox.pt." };
       }
       return ok({ email: input.toLowerCase() });
     }

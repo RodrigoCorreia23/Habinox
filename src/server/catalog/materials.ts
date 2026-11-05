@@ -1,4 +1,4 @@
-import { and, desc, eq, isNotNull, isNull, or, sql } from "drizzle-orm";
+import { and, desc, eq, isNotNull, isNull, or, type SQL, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { materialCosts, materials, syncRuns } from "@/db/schema";
 
@@ -19,7 +19,19 @@ export interface MaterialRow {
 /** Precisa de atenção: margem por decidir ou desapareceu do ERP. */
 const needsAttention = or(isNull(materials.margin), isNotNull(materials.erpMissingAt));
 
-export async function listMaterials({ attentionOnly = false } = {}): Promise<MaterialRow[]> {
+/** Filtros da lista (?filtro= no backoffice; o painel e a navegação usam as mesmas chaves). */
+export type MaterialFilter = "atencao" | "sem-margem" | "desaparecidos";
+
+const FILTERS: Record<MaterialFilter, SQL | undefined> = {
+  atencao: needsAttention,
+  "sem-margem": isNull(materials.margin),
+  desaparecidos: isNotNull(materials.erpMissingAt),
+};
+
+export async function listMaterials({
+  attentionOnly = false,
+  filter,
+}: { attentionOnly?: boolean; filter?: MaterialFilter } = {}): Promise<MaterialRow[]> {
   // Penúltimo custo do histórico, para mostrar a variação.
   const previous = db
     .select({
@@ -47,7 +59,7 @@ export async function listMaterials({ attentionOnly = false } = {}): Promise<Mat
     })
     .from(materials)
     .leftJoin(previous, and(eq(previous.materialId, materials.id), eq(previous.rank, 2)))
-    .where(attentionOnly ? needsAttention : undefined)
+    .where(filter ? FILTERS[filter] : attentionOnly ? needsAttention : undefined)
     .orderBy(materials.name);
 }
 
@@ -84,4 +96,60 @@ export async function lastSuccessfulSync() {
     .orderBy(desc(syncRuns.startedAt))
     .limit(1);
   return run?.finishedAt ?? null;
+}
+
+export interface ProductRef {
+  id: string;
+  name: string;
+}
+
+/**
+ * Produtos (não arquivados) que usam cada material: em linhas de fórmula (artigo
+ * fixo ou escolhido por opção) e como custo extra de um valor de opção. Conta a
+ * versão na loja e a que está em preparação, que são as que dão preço.
+ */
+export async function listMaterialUsage(): Promise<Map<string, ProductRef[]>> {
+  const rows = await db.execute<{
+    material_id: string;
+    product_id: string;
+    product_name: string;
+  }>(sql`
+    with relevant as (
+      select v.id as version_id, p.id as product_id, p.name->>'pt' as product_name
+      from product_versions v
+      join products p on p.id = v.product_id
+      where p.archived_at is null
+        and (v.id = p.published_version_id or v.status in ('draft', 'validated'))
+    )
+    select distinct uses.material_id, relevant.product_id, relevant.product_name
+    from (
+      select fl.material_id, fl.product_version_id
+      from formula_lines fl
+      where fl.material_id is not null
+      union
+      select flm.material_id, fl.product_version_id
+      from formula_line_materials flm
+      join formula_lines fl on fl.id = flm.formula_line_id
+      union
+      select ov.material_id, po.product_version_id
+      from option_values ov
+      join product_option_values pov on pov.option_value_id = ov.id
+      join product_options po on po.id = pov.product_option_id
+      where ov.material_id is not null
+    ) uses
+    join relevant on relevant.version_id = uses.product_version_id
+    order by relevant.product_name
+  `);
+  const usage = new Map<string, ProductRef[]>();
+  for (const row of rows) {
+    const list = usage.get(row.material_id) ?? [];
+    list.push({ id: row.product_id, name: row.product_name });
+    usage.set(row.material_id, list);
+  }
+  return usage;
+}
+
+/** Quantos produtos usam este material (para dizer o efeito de mudar a margem). */
+export async function countMaterialUsage(id: string): Promise<number> {
+  return (await listMaterialUsage()).get(id)?.length ?? 0;
 }

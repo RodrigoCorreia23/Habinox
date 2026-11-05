@@ -3,7 +3,9 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { log } from "@/lib/log";
+import { setFlash } from "@/server/admin/flash";
 import { requireAdmin } from "@/server/auth/session";
+import { translateInBackground } from "@/server/catalog/translations";
 import { removeRule, ruleInputSchema, saveRule } from "@/server/catalog/rules";
 
 export type RuleFormState = {
@@ -33,6 +35,17 @@ export async function saveRuleAction(
     conditions = JSON.parse(String(formData.get("conditions") || "[]"));
   } catch {
     return { ok: false, message: "Pedido inválido" };
+  }
+  // Uma regra sem condições vale sempre: tem de ser confirmada de propósito.
+  if (
+    Array.isArray(conditions) &&
+    conditions.length === 0 &&
+    formData.get("allProducts") !== "on"
+  ) {
+    const message = scope
+      ? "Esta regra aplica-se sempre neste produto: confirme marcando a opção."
+      : "Esta regra aplica-se a todos os produtos: confirme marcando a opção.";
+    return { ok: false, fieldErrors: { conditions: message } };
   }
   const type = String(formData.get("effectType") ?? "");
   const option = String(formData.get("effectOption") ?? "");
@@ -65,14 +78,32 @@ export async function saveRuleAction(
     versionId: scope?.versionId ?? null,
     userId: session.user.id,
   });
+  translateInBackground();
   revalidatePath(pathOf(scope));
   return { ok: true, message: ruleId ? "Guardada" : "Criada" };
 }
 
-export async function removeRuleAction(scope: RuleScope, ruleId: string) {
+export type RemoveRuleResult = { ok: boolean; message: string };
+
+/**
+ * Apaga uma regra e deixa o resultado num flash (toast na página seguinte).
+ * Devolve também {ok, message} para quem a chame de um componente cliente.
+ * O tipo é `void & RemoveRuleResult` para continuar a servir diretamente como
+ * `<form action={removeRuleAction.bind(…)}>` (o React espera Promise<void>).
+ */
+export async function removeRuleAction(
+  scope: RuleScope,
+  ruleId: string,
+): Promise<void & RemoveRuleResult> {
   const session = await requireAdmin(pathOf(scope));
-  if (!uuid.safeParse(ruleId).success) return;
+  if (!uuid.safeParse(ruleId).success)
+    return { ok: false, message: "Pedido inválido" } as void & RemoveRuleResult;
   const result = await removeRule(ruleId);
   if (result.ok) log.info("rule.removed", { ruleId, userId: session.user.id });
+  const outcome: RemoveRuleResult = result.ok
+    ? { ok: true, message: "Regra apagada." }
+    : { ok: false, message: result.message };
+  await setFlash(outcome.ok ? "ok" : "danger", outcome.message);
   revalidatePath(pathOf(scope));
+  return outcome as void & RemoveRuleResult;
 }

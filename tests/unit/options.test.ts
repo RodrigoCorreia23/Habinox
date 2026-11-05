@@ -132,3 +132,11 @@ describe("ruleSchema", () => {
     ).toBe(false);
   });
 });
+
+describe("regra sem condições («Aplicar a todos os produtos»)", () => {
+  it("aplica-se sempre", () => {
+    const always: Rule[] = [{ conditions: [], effect: { type: "hide", option: "iluminacao" } }];
+    const result = resolveConfig(gate, always, { largura: 2000 });
+    expect(result.state.iluminacao?.visible).toBe(false);
+  });
+});

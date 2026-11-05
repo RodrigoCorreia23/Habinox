@@ -1,20 +1,58 @@
 import type { Metadata } from "next";
+import { RelativeTime } from "@/components/admin/format";
+import { PageBody } from "@/components/admin/page-body";
+import { PageHeader } from "@/components/admin/page-header";
+import { Panel, Section } from "@/components/admin/section";
 import { requireAdmin } from "@/server/auth/session";
 import { listSettings } from "@/server/settings";
 import { type EditableSetting, settingToInput } from "@/server/settings-form";
-import { SettingForm } from "./setting-form";
+import { settingInputId } from "./ids";
+import { ExpiryForm, NotifyEmailForm, ValidityForm, VatForm } from "./setting-form";
+import { priceExample } from "./vat-example";
 
 export const metadata: Metadata = { title: "Parâmetros · Habinox" };
 
-const dateFormat = new Intl.DateTimeFormat("pt-PT", {
-  dateStyle: "medium",
-  timeStyle: "short",
-  timeZone: "Europe/Lisbon",
-});
+/**
+ * Uma linha de definição: à esquerda o rótulo, o que faz e quem mexeu por último;
+ * à direita o campo e o Guardar, sempre na mesma coluna.
+ */
+function SettingRow({
+  settingKey,
+  label,
+  description,
+  changed,
+  children,
+}: {
+  settingKey: EditableSetting;
+  label: string;
+  description: React.ReactNode;
+  changed: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="border-line-soft grid gap-x-6 gap-y-3 border-b py-6 last:border-b-0 md:grid-cols-[280px_minmax(0,1fr)]">
+      <div className="max-w-prose">
+        <label
+          htmlFor={settingInputId(settingKey)}
+          className="text-ink block text-sm/5 font-medium"
+        >
+          {label}
+        </label>
+        <p className="text-steel mt-1 text-[13px]/[18px]">{description}</p>
+        {changed}
+      </div>
+      {children}
+    </div>
+  );
+}
 
 export default async function SettingsPage() {
   await requireAdmin("/admin/parametros");
-  const rows = new Map((await listSettings()).map((row) => [row.key, row]));
+  const [rows, example] = await Promise.all([
+    listSettings().then((list) => new Map(list.map((row) => [row.key, row]))),
+    priceExample(),
+  ]);
+  const now = new Date();
   const value = (key: EditableSetting) => {
     const row = rows.get(key);
     return row ? settingToInput(key, row.value) : "";
@@ -23,88 +61,63 @@ export default async function SettingsPage() {
     const row = rows.get(key);
     if (!row?.updatedBy) return null;
     return (
-      <p className="text-steel text-xs">
-        Alterado a {dateFormat.format(row.updatedAt)} por {row.updatedBy}.
+      <p className="text-steel-light mt-2 text-xs">
+        Alterado <RelativeTime date={row.updatedAt} now={now} /> por{" "}
+        {row.updatedByName || row.updatedBy}
       </p>
     );
   };
 
   return (
-    <main className="grid gap-8 px-4 py-6 md:px-6">
-      <header>
-        <h1 className="text-xl font-semibold tracking-tight">Parâmetros</h1>
-        <p className="text-steel mt-1 max-w-3xl text-sm">
-          Valores que mudam preços e prazos em toda a loja. Cada alteração fica registada com a data
-          e quem a fez.
-        </p>
-      </header>
+    <PageBody>
+      <PageHeader
+        title="Parâmetros"
+        description="Valores que mudam preços e prazos em toda a loja; cada alteração fica registada com a data e quem a fez."
+      />
 
-      <section aria-labelledby="precos" className="grid max-w-3xl gap-3">
-        <h2 id="precos" className="font-semibold">
-          Preços
-        </h2>
-        <div className="border-line bg-surface divide-line-soft divide-y border">
-          <div className="grid gap-2 px-4 py-4">
-            <SettingForm
+      <div className="max-w-[880px] space-y-12">
+        <Section id="precos" title="Preços">
+          <Panel className="py-0">
+            <SettingRow
               settingKey="vat_rate"
               label="Taxa de IVA"
-              initial={value("vat_rate")}
-              unit="%"
-            />
-            <p className="text-steel text-sm">
-              Aplica-se aos preços calculados a partir de agora. Orçamentos já guardados e
-              encomendas mantêm a taxa com que foram feitos (até o orçamento expirar).
-            </p>
-            {changed("vat_rate")}
-          </div>
-          <div className="grid gap-2 px-4 py-4">
-            <SettingForm
+              description="Entra nos preços da loja a partir do momento em que guardar."
+              changed={changed("vat_rate")}
+            >
+              <VatForm initial={value("vat_rate")} example={example} />
+            </SettingRow>
+            <SettingRow
               settingKey="quote_validity_days"
               label="Validade dos orçamentos"
-              initial={value("quote_validity_days")}
-              unit="dias"
-            />
-            <p className="text-steel text-sm">
-              Durante quanto tempo um produto no carrinho mantém o preço. Depois disso é recalculado
-              com os custos do momento. Muda só os orçamentos novos.
-            </p>
-            {changed("quote_validity_days")}
-          </div>
-        </div>
-      </section>
+              description="Quanto tempo um produto no carrinho mantém o preço. Depois disso, é recalculado com os custos do momento."
+              changed={changed("quote_validity_days")}
+            >
+              <ValidityForm initial={value("quote_validity_days")} now={now.toISOString()} />
+            </SettingRow>
+          </Panel>
+        </Section>
 
-      <section aria-labelledby="encomendas" className="grid max-w-3xl gap-3">
-        <h2 id="encomendas" className="font-semibold">
-          Encomendas
-        </h2>
-        <div className="border-line bg-surface divide-line-soft divide-y border">
-          <div className="grid gap-2 px-4 py-4">
-            <SettingForm
+        <Section id="encomendas" title="Encomendas">
+          <Panel className="py-0">
+            <SettingRow
               settingKey="order_expiry_days"
-              label="Expirar encomendas por pagar ao fim de"
-              initial={value("order_expiry_days")}
-              unit="dias"
-              placeholder="desligado"
-            />
-            <p className="text-steel text-sm">
-              Uma vez por dia, as encomendas à espera de pagamento há mais dias do que isto passam a
-              “Expirada” e o cliente recebe um email. Deixe vazio para nunca expirarem (enquanto o
-              pagamento é combinado à parte).
-            </p>
-            {changed("order_expiry_days")}
-          </div>
-          <div className="grid gap-2 px-4 py-4">
-            <SettingForm
+              label="Expirar automaticamente as encomendas por pagar"
+              description="Uma vez por dia, as que passam do prazo ficam «Expirada». O cliente recebe um email a avisar."
+              changed={changed("order_expiry_days")}
+            >
+              <ExpiryForm initial={value("order_expiry_days")} now={now.toISOString()} />
+            </SettingRow>
+            <SettingRow
               settingKey="orders_notify_email"
               label="Email para avisos de encomenda nova"
-              initial={value("orders_notify_email")}
-              type="email"
-              wide
-            />
-            {changed("orders_notify_email")}
-          </div>
-        </div>
-      </section>
-    </main>
+              description="Recebe um email sempre que entra uma encomenda."
+              changed={changed("orders_notify_email")}
+            >
+              <NotifyEmailForm initial={value("orders_notify_email")} />
+            </SettingRow>
+          </Panel>
+        </Section>
+      </div>
+    </PageBody>
   );
 }

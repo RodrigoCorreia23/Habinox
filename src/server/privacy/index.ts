@@ -2,10 +2,11 @@
  * RGPD no servidor: consentimento comercial (o cliente muda-o na conta) e
  * apagamento de contas pelo backoffice (anonimização; ver lib/privacy).
  */
-import { and, asc, count, desc, eq, ilike, inArray, notInArray, or } from "drizzle-orm";
+import { and, asc, count, desc, eq, ilike, inArray, max, notInArray, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { account, carts, consents, orders, quotes, session, user, verification } from "@/db/schema";
 import { log } from "@/lib/log";
+import type { OrderStatus } from "@/lib/orders/state";
 import {
   anonymizedEmail,
   CLOSED_ORDER_STATUSES,
@@ -28,34 +29,107 @@ export async function setMarketingConsent(userId: string, granted: boolean, sour
   await db.insert(consents).values({ userId, type: MARKETING, granted, source });
 }
 
-export async function listCustomers(search: string) {
+/** Contas por página na lista do backoffice («Ver mais» junta outra página). */
+export const CUSTOMERS_PAGE_SIZE = 50;
+
+/** Estados de encomendas já pagas: só estas contam para o «total gasto». */
+const PAID_ORDER_STATUSES: readonly OrderStatus[] = [
+  "paid",
+  "in_production",
+  "ready",
+  "shipped",
+  "delivered",
+];
+
+function customerFilter(search: string, roles: readonly string[] | null) {
   const term = search.trim();
-  const filter = term
-    ? or(ilike(user.email, `%${term}%`), ilike(user.name, `%${term}%`))
-    : undefined;
-  const rows = await db
-    .select({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      emailVerified: user.emailVerified,
-      createdAt: user.createdAt,
-    })
-    .from(user)
-    .where(filter)
-    .orderBy(desc(user.createdAt))
-    .limit(200);
+  const pattern = `%${term.replace(/[\\%_]/g, "\\$&")}%`;
+  return and(
+    roles ? inArray(user.role, [...roles]) : undefined,
+    term ? or(ilike(user.email, pattern), ilike(user.name, pattern)) : undefined,
+  );
+}
+
+/**
+ * Contas para a lista do backoffice, com o que serve para vender: telefone e
+ * localidade da última encomenda, data da última encomenda e total gasto.
+ */
+export async function listCustomers(
+  search: string,
+  roles: readonly string[] | null = null,
+  limit = CUSTOMERS_PAGE_SIZE,
+) {
+  const where = customerFilter(search, roles);
+  const [rows, [totalRow]] = await Promise.all([
+    db
+      .select({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        emailVerified: user.emailVerified,
+        createdAt: user.createdAt,
+      })
+      .from(user)
+      .where(where)
+      .orderBy(desc(user.createdAt))
+      .limit(limit),
+    db.select({ n: count() }).from(user).where(where),
+  ]);
   const ids = rows.map((row) => row.id);
-  const orderCounts = ids.length
-    ? await db
-        .select({ userId: orders.userId, n: count() })
-        .from(orders)
-        .where(inArray(orders.userId, ids))
-        .groupBy(orders.userId)
-    : [];
-  const byUser = new Map(orderCounts.map((row) => [row.userId, row.n]));
-  return rows.map((row) => ({ ...row, orders: byUser.get(row.id) ?? 0 }));
+  const [stats, latest] = ids.length
+    ? await Promise.all([
+        db
+          .select({
+            userId: orders.userId,
+            n: count(),
+            lastAt: max(orders.createdAt),
+            spentCents: sql<number>`coalesce(sum(${orders.totalCents}) filter (where ${inArray(
+              orders.status,
+              [...PAID_ORDER_STATUSES],
+            )}), 0)::int`,
+          })
+          .from(orders)
+          .where(inArray(orders.userId, ids))
+          .groupBy(orders.userId),
+        db
+          .selectDistinctOn([orders.userId], {
+            userId: orders.userId,
+            phone: orders.phone,
+            city: sql<string>`${orders.billingAddress}->>'city'`,
+          })
+          .from(orders)
+          .where(inArray(orders.userId, ids))
+          .orderBy(orders.userId, desc(orders.createdAt)),
+      ])
+    : [[], []];
+  const statsByUser = new Map(stats.map((row) => [row.userId, row]));
+  const latestByUser = new Map(latest.map((row) => [row.userId, row]));
+  return {
+    total: totalRow?.n ?? 0,
+    rows: rows.map((row) => {
+      const stat = statsByUser.get(row.id);
+      const last = latestByUser.get(row.id);
+      return {
+        ...row,
+        orders: stat?.n ?? 0,
+        lastOrderAt: stat?.lastAt ?? null,
+        spentCents: stat?.spentCents ?? 0,
+        phone: last?.phone ?? null,
+        city: last?.city ?? null,
+      };
+    }),
+  };
+}
+
+/** Contas por papel (cliente, pro, admin), com a mesma pesquisa da lista. */
+export async function countCustomersByRole(search: string) {
+  const rows = await db
+    .select({ role: user.role, n: count() })
+    .from(user)
+    .where(customerFilter(search, null))
+    .groupBy(user.role);
+  return Object.fromEntries(rows.map((row) => [row.role, row.n])) as Record<string, number>;
 }
 
 export async function getCustomer(id: string) {
@@ -70,12 +144,18 @@ export async function getCustomer(id: string) {
         status: orders.status,
         totalCents: orders.totalCents,
         createdAt: orders.createdAt,
+        phone: orders.phone,
+        nif: orders.nif,
+        billingAddress: orders.billingAddress,
       })
       .from(orders)
       .where(eq(orders.userId, id))
       .orderBy(desc(orders.createdAt)),
   ]);
-  return { user: found, consents: consentRows, orders: orderRows };
+  const spentCents = orderRows
+    .filter((order) => (PAID_ORDER_STATUSES as readonly string[]).includes(order.status))
+    .reduce((sum, order) => sum + order.totalCents, 0);
+  return { user: found, consents: consentRows, orders: orderRows, spentCents };
 }
 
 export type EraseResult = { ok: true } | { ok: false; message: string };

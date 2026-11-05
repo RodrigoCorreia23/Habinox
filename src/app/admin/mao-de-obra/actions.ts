@@ -24,7 +24,7 @@ const PATH = "/admin/mao-de-obra";
 function parseForm(formData: FormData): SectorInput | NonNullable<SectorFormState> {
   const name = String(formData.get("name") ?? "").trim();
   if (name.length < 1 || name.length > 80) {
-    return { ok: false, field: "name", message: "Escreva o nome (até 80 caracteres)" };
+    return { ok: false, field: "name", message: "Escreva o nome da secção (até 80 caracteres)." };
   }
   const rate = parseEuroInput(String(formData.get("rate") ?? ""));
   if (!rate.ok) return { ok: false, field: "rate", message: rate.message };
@@ -53,12 +53,12 @@ export async function saveSectorAction(
     log.info("sector.created", { sectorId: created, userId: session.user.id });
   } else {
     if (!z.uuid().safeParse(id).success || !(await updateSector(id, input))) {
-      return { ok: false, message: "Sector não encontrado" };
+      return { ok: false, message: "Esta secção já não existe. Recarregue a página." };
     }
     log.info("sector.updated", { sectorId: id, userId: session.user.id });
   }
   revalidatePath(PATH);
-  return { ok: true, message: id === null ? "Criado" : "Guardado" };
+  return { ok: true, message: id === null ? `Secção «${input.name}» criada.` : "Guardado." };
 }
 
 export async function archiveSectorAction(id: string, archived: boolean) {

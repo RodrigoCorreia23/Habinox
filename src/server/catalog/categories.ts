@@ -1,4 +1,4 @@
-import { and, asc, count, eq, isNull, ne } from "drizzle-orm";
+import { and, asc, count, eq, isNotNull, isNull, max, ne } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
 import { categories, products } from "@/db/schema";
@@ -23,6 +23,37 @@ export async function listCategoryTree({ includeArchived = false } = {}): Promis
     ...root,
     children: rows.filter((row) => row.parentId === root.id),
   }));
+}
+
+export interface CategoryProductCounts {
+  /** Produtos publicados (os que a loja mostra). */
+  published: number;
+  /** Produtos ativos ainda sem versão publicada. */
+  unpublished: number;
+}
+
+/**
+ * Produtos ativos por categoria (só a própria, sem as subcategorias), separados
+ * entre publicados e por publicar. A loja só mostra uma categoria com publicados.
+ */
+export async function listCategoryProductCounts(): Promise<Map<string, CategoryProductCounts>> {
+  const rows = await db
+    .select({
+      categoryId: products.categoryId,
+      published: isNotNull(products.publishedVersionId).mapWith(Boolean),
+      n: count(),
+    })
+    .from(products)
+    .where(isNull(products.archivedAt))
+    .groupBy(products.categoryId, isNotNull(products.publishedVersionId));
+  const counts = new Map<string, CategoryProductCounts>();
+  for (const row of rows) {
+    const entry = counts.get(row.categoryId) ?? { published: 0, unpublished: 0 };
+    if (row.published) entry.published += row.n;
+    else entry.unpublished += row.n;
+    counts.set(row.categoryId, entry);
+  }
+  return counts;
 }
 
 export async function getCategory(id: string) {
@@ -99,6 +130,9 @@ async function slugTaken(slug: string, exceptId: string | null) {
   return Boolean(row);
 }
 
+const siblingsOf = (parentId: string | null) =>
+  parentId ? eq(categories.parentId, parentId) : isNull(categories.parentId);
+
 function toColumns(input: CategoryInput) {
   // Por agora só há texto em português; as outras línguas entram na internacionalização.
   const name: LocalizedText = { pt: input.name };
@@ -120,9 +154,14 @@ export async function saveCategory(id: string | null, input: CategoryInput): Pro
   }
 
   if (id === null) {
+    // Uma categoria nova fica no fim das irmãs (a ordem muda-se na lista com ↑↓).
+    const [{ last } = { last: null }] = await db
+      .select({ last: max(categories.position) })
+      .from(categories)
+      .where(siblingsOf(input.parentId));
     const [created] = await db
       .insert(categories)
-      .values(toColumns(input))
+      .values({ ...toColumns(input), position: (last ?? -1) + 1 })
       .returning({ id: categories.id });
     return { ok: true, id: created!.id };
   }
@@ -176,4 +215,33 @@ export async function restoreCategory(id: string): Promise<{ ok: boolean; messag
   }
   await db.update(categories).set({ archivedAt: null }).where(eq(categories.id, id));
   return { ok: true, message: "Reposta" };
+}
+
+/**
+ * Sobe ou desce uma categoria entre as irmãs (mesmo pai, não arquivadas).
+ * Regrava as posições 0, 1, 2… pela ordem da lista, por isso também arruma
+ * posições repetidas (ex.: todas a 0).
+ */
+export async function moveCategory(
+  id: string,
+  direction: "up" | "down",
+): Promise<{ ok: boolean; message: string }> {
+  return db.transaction(async (tx) => {
+    const [category] = await tx.select().from(categories).where(eq(categories.id, id));
+    if (!category || category.archivedAt) return { ok: false, message: "Categoria não encontrada" };
+    const siblings = await tx
+      .select({ id: categories.id })
+      .from(categories)
+      .where(and(siblingsOf(category.parentId), isNull(categories.archivedAt)))
+      .orderBy(asc(categories.position), asc(categories.createdAt));
+    const order = siblings.map((row) => row.id);
+    const from = order.indexOf(id);
+    const to = direction === "up" ? from - 1 : from + 1;
+    if (from < 0 || to < 0 || to >= order.length) return { ok: true, message: "Sem alterações" };
+    [order[from], order[to]] = [order[to]!, order[from]!];
+    for (const [position, siblingId] of order.entries()) {
+      await tx.update(categories).set({ position }).where(eq(categories.id, siblingId));
+    }
+    return { ok: true, message: "Ordem guardada" };
+  });
 }

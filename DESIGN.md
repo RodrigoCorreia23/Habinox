@@ -155,7 +155,81 @@ Em ecrãs estreitos os títulos descem com `clamp()`; nunca ficam fixos.
 
 ## Backoffice
 
-Mantém a paleta clara da v1 (já em `src/app/globals.css`): fundo `#F5F4F1`, texto `#15171A`, linhas `#DAD8D2`, bordas de campos `#85827A`, acento azul `#2005A2`, raio de 2px, sem sombras, logótipo branco na barra escura. A confirmar com o Rodrigo quando se começar o backoffice.
+**«Ficha de fabrico»** (aprovada a 2026-11-05). Um ecrã de trabalho, usado horas seguidas pelo Bruno, que não é técnico: área de trabalho clara e calma, numa moldura da mesma família da loja. Componentes partilhados em `src/components/admin/`, primitivos em `src/components/ui/`; o `<body>` do backoffice leva `data-admin`, que ativa as regras abaixo sem tocar na loja.
+
+### Moldura
+
+- **Barra lateral grafite** `rail #181715` (o `night-surface` da loja) com o logótipo branco a 125×24 e «Backoffice» em `rail-muted`. Fixa ao scroll a partir de 1024px (240px de largura); abaixo disso passa a uma barra de topo de 56px com o menu, que abre uma folha à esquerda com a mesma navegação.
+- **Navegação agrupada pelo trabalho:** Painel · Vendas (Encomendas, Clientes) · Catálogo, pela ordem em que se cria (Categorias, Opções, Regras indentada, Produtos) · Custos (Materiais e custos, Mão de obra) · Configuração (Traduções, Parâmetros). Ícones lucide de 16px, traço 1,5. Item ativo: fundo `rail-active`, texto `rail-text-strong` e um **traço âmbar de 2×12px** à esquerda (a única marca de «está aqui»). Ativo = o endereço mais longo que é prefixo da página.
+- **Contagens só quando há trabalho** (Encomendas por tratar, materiais que precisam de atenção, secções sem margem): quadrado âmbar de 6px e o número; o leitor de ecrã ouve «Encomendas, 3 por tratar».
+- **Rodapé da barra:** saúde do ERP (ponto verde/âmbar/vermelho e «Custos do ERP: ontem às 20:46»), «Ver a loja» e a sessão com «Sair».
+
+### Cor
+
+O **âmbar** passa a ser o único acento, com o mesmo papel que tem na loja; o **azul** `#2005A2` fica no logótipo e no tom «info» dos estados.
+
+| Token                                | Hex                               | Uso                                                                   |
+| ------------------------------------ | --------------------------------- | --------------------------------------------------------------------- |
+| `canvas`                             | `#F5F4F1`                         | Fundo de trabalho                                                     |
+| `surface`                            | `#FFFFFF`                         | Painéis, tabelas, campos                                              |
+| `surface-alt`                        | `#EAE8E3`                         | Hover de linha, campo só de leitura, bloco interno do talão           |
+| `line-soft` / `line` / `line-strong` | `#EDECE8` / `#DAD8D2` / `#85827A` | Divisão de linhas / contornos / bordas de campos e botões secundários |
+| `ink` / `ink-soft`                   | `#15171A` / `#33373D`             | Texto                                                                 |
+| `steel` / `steel-light`              | `#4A4F56` / `#5A5F66`             | Ajudas / metadados (mínimo 12px). `mist` nunca em texto               |
+| `amber` / `amber-hover` / `on-amber` | `#D6A25E` / `#E4B676` / `#15120E` | Botão principal (um por ecrã), traço do item ativo, contagens         |
+| `amber-border`                       | `#B5864A`                         | Contorno do botão principal                                           |
+| `amber-ink`                          | `#8A5A1E`                         | Ligações, foco, cursor, caixas de seleção                             |
+| `amber-wash`                         | `#F6ECDD`                         | Zona de largar ficheiros ativa                                        |
+| `rail*`                              | `#181715` …                       | Barra lateral (fundo, linhas, hover, ativo, texto)                    |
+
+- **Nunca `text-amber` sobre fundo claro** (2:1): para texto e ligações usa-se `amber-ink`. As ligações no meio do texto usam a utilidade `link-admin` (sempre sublinhadas, não só no hover).
+- **Tons de estado** (texto / fundo / linha), sempre com texto, nunca só cor: `ok` `#1E5E3B` / `#E4F2E9` / `#B9DCC6` · `warn` `#7A4310` / `#FBF1DE` / `#E9CC93` · `danger` `#9B2019` / `#FBEAE8` / `#F0BDB7` · `info` `#2005A2` / `#EEEDF8` / `#CFCBEE` · `quiet` `#33373D` / `#EAE8E3` / `#DAD8D2`. «Em preparação» é uma etiqueta com borda tracejada. `error #B3261E` só na borda de 2px de um campo com erro.
+- Os nomes e tons de cada estado vivem num só sítio, `src/components/admin/status.ts` (encomendas, versões, produtos, materiais, sincronização, traduções, consentimentos, categorias).
+
+Contrastes verificados: `amber-ink`/`canvas` 5,36 · `amber-ink`/branco 5,90 · `on-amber`/`amber` 8,17 · `rail-text`/`rail` 10,15 · `rail-muted`/`rail` 4,99 (só 12px+) · `ok` 6,68 · `warn` 7,10 · `danger` 6,90 · `info` 11,28 · `quiet` 9,77 (cada um sobre o seu fundo).
+
+### Tipografia
+
+- Escala fechada 12/13/14/15/18/24px; nada abaixo de 12px.
+- **h1** em Archivo a 24px, peso 600, `font-stretch: 115%` (o parentesco com a loja). **h2** de secção 18px e **h3** 15px em **Plex Sans** semibold.
+- Corpo 14px; rótulos 14px médio; ajudas 13px `steel`; metadados 12px `steel-light`; cabeçalhos de tabela 12px médio `steel`, em sentence case, sem faixa de fundo.
+- **Números em Plex Sans com algarismos tabulares**, alinhados à direita, com a unidade em `steel` depois de um espaço («1 000 mm», «18,50 €/m»).
+- **Mono só para códigos e expressões:** número de encomenda, código do ERP, expressões de fórmula, letras de variável (L, H), endereço/slug em pré-visualização. **Nunca** em dinheiro, medidas, telefone, NIF, rótulos ou títulos. (Na loja, a regra do mono mantém-se como está.)
+
+### Forma, espaço e movimento
+
+- Raio de 2px em tudo. **Sem sombras**, exceto no que flutua (menu, popover, folha, diálogo, toast): `0 12px 32px -12px rgb(21 18 14 / .28)` com borda `line`.
+- Página a 1200px (formulários simples a 720px), margens de 16px no telemóvel e 32px a partir de 768px; 48px entre secções, 16px entre campos, 6px do rótulo ao campo, painéis com 20px de padding.
+- Campos e botões com 40px de altura (44px em ecrãs de toque); campos a 16px no telemóvel (evita o zoom do iOS). Linhas de tabela com 48px.
+- Foco: anel de 2px `amber-ink` afastado 2px; na barra escura, anel `amber`.
+- Movimento só como resposta: cores a 150ms, botões que encolhem 2% ao carregar, folha do telemóvel a 240ms `cubic-bezier(.32,.72,0,1)`. Nada entra a animar. Com movimento reduzido, só opacidade e cor.
+
+### Componentes
+
+- **PriceTicket, a assinatura do backoffice:** o preço na loja com IVA em grande (28–32px), «sem IVA» por baixo, a decomposição recolhida em «Como se chega a este preço» com guias pontilhadas até ao valor, e à parte, em `surface-alt`, o custo estimado e a margem bruta com «Só para si, o cliente não vê». Serve todos os sítios onde há dinheiro.
+- **Botões:** primário âmbar (um por ecrã); secundário branco com borda `line-strong`; ghost; destructive em texto vermelho; `danger` cheio só para confirmar dentro de um diálogo. A carregar, dizem «A guardar…» sem mudar de largura.
+- **Confirmações:** em linha (ConfirmButton) para o que se desfaz; diálogo (ConfirmDialog) que diz a consequência para o que não se desfaz ou tem efeito comercial (publicar, IVA, estado de encomenda com email, apagar dados). As ações destrutivas ficam à esquerda ou numa «Zona de perigo», nunca junto de Guardar.
+- **Tabelas** sem zebra; linha inteira clicável; abaixo de 768px passam a cartões. **Filtros** em separadores sublinhados, com contagens, na URL. **Avisos** (Notice) com fundo e linha do tom, sem borda esquerda grossa. **Estados vazios** que ensinam e dão a ação.
+- **Datas** sempre com `src/lib/format-date.ts` (Lisboa, pt-PT): nas listas o tempo relativo («ontem às 20:46»), nas fichas a data completa («5 nov 2026, 10:53»). Nunca o ano com 2 dígitos.
+
+### Texto e glossário
+
+Português de Portugal, na voz da oficina. Os botões dizem o que fazem («Criar produto», «Publicar na loja», «Passar a produção»). Títulos curtos, uma frase de descrição, a explicação longa num «Como funciona?» recolhido. Os erros dizem o problema e a saída («Escreva um número entre 0 e 30.»); o detalhe técnico vai para «Detalhe para o suporte». O ERP chama-se sempre «ERP».
+
+| Em vez de              | Escrever                                                        |
+| ---------------------- | --------------------------------------------------------------- |
+| Rascunho               | Em preparação                                                   |
+| Validada               | Pronta a publicar                                               |
+| Publicada              | Na loja                                                         |
+| Criar versão nova      | Fazer alterações                                                |
+| Variáveis calculadas   | Contas auxiliares                                               |
+| Chave (nome técnico)   | Nome usado nas fórmulas (só em Avançado)                        |
+| Artigo do ERP          | Material (do ERP)                                               |
+| Sector                 | Secção da oficina                                               |
+| Por omissão            | Vem escolhido                                                   |
+| Números para a fórmula | Números para as contas                                          |
+| Tirar                  | Remover                                                         |
+| Margem                 | Margem (% sobre o custo), sempre com o preço com margem ao lado |
 
 ---
 

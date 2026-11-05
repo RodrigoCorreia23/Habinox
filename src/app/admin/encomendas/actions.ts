@@ -17,7 +17,10 @@ export async function changeStatusAction(
   const to = String(formData.get("to") ?? "");
   const note = String(formData.get("note") ?? "").slice(0, 1000);
   if (!z.uuid().safeParse(orderId).success || !isOrderStatus(to)) {
-    return { ok: false, message: "Pedido inválido" };
+    return {
+      ok: false,
+      message: "Não foi possível mudar o estado. Atualize a página e tente de novo.",
+    };
   }
   const result = await changeOrderStatus({ orderId, to, actorUserId: session.user.id, note });
   if (!result.ok) return { ok: false, message: result.message };

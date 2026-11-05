@@ -6,11 +6,19 @@
 import { and, asc, eq, inArray, isNotNull, isNull, max } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
-import { materials, optionRules, products, productVersions } from "@/db/schema";
+import {
+  materials,
+  optionDefinitions,
+  optionRules,
+  productOptions,
+  products,
+  productVersions,
+} from "@/db/schema";
 import type { LocalizedText } from "@/lib/localized";
 import { conditionsSchema, ruleEffectSchema, type Rule, validateRules } from "@/lib/options";
 import { validateFormula } from "@/lib/pricing";
 import { loadPricingModel } from "./formula";
+import { listCurrentVersions, type ProductRef } from "./options";
 import { editableVersion, type Result } from "./products";
 
 export type RuleRow = typeof optionRules.$inferSelect;
@@ -29,7 +37,9 @@ export async function listRules(versionId: string | null) {
 
 export const ruleInputSchema = z
   .object({
-    conditions: conditionsSchema.min(1, "Acrescente pelo menos uma condição"),
+    // Sem condições = vale sempre. A action só deixa passar com a confirmação
+    // explícita «Aplicar a todos os produtos» (allProducts=on).
+    conditions: conditionsSchema,
     effect: ruleEffectSchema,
     message: z.string().trim().max(300),
   })
@@ -89,6 +99,56 @@ export async function removeRule(id: string): Promise<Result> {
     await tx.delete(optionRules).where(eq(optionRules.id, id));
     return { ok: true, id };
   });
+}
+
+/** Opções de que uma regra fala: as das condições e a que ela afeta. */
+export function ruleOptionKeys(rule: Pick<RuleRow, "conditions" | "effect">): string[] {
+  const keys = rule.conditions.flatMap((condition) =>
+    "value" in condition && typeof condition.value === "object"
+      ? [condition.option, condition.value.option]
+      : [condition.option],
+  );
+  if ("option" in rule.effect) keys.push(rule.effect.option);
+  return [...new Set(keys)];
+}
+
+/**
+ * Produtos a que cada regra da biblioteca se aplica: os que usam todas as opções
+ * de que a regra fala (na versão publicada ou na que se está a preparar).
+ * Devolve id da regra → produtos, por ordem alfabética.
+ */
+export async function listLibraryRuleProducts(
+  rules: Pick<RuleRow, "id" | "conditions" | "effect">[],
+): Promise<Map<string, ProductRef[]>> {
+  const result = new Map<string, ProductRef[]>();
+  const versions = await listCurrentVersions();
+  if (versions.size === 0 || rules.length === 0) return result;
+  const rows = await db
+    .select({ versionId: productOptions.productVersionId, key: optionDefinitions.key })
+    .from(productOptions)
+    .innerJoin(optionDefinitions, eq(optionDefinitions.id, productOptions.optionId))
+    .where(inArray(productOptions.productVersionId, [...versions.keys()]));
+  const keysByVersion = new Map<string, Set<string>>();
+  for (const row of rows) {
+    const keys = keysByVersion.get(row.versionId) ?? new Set<string>();
+    keys.add(row.key);
+    keysByVersion.set(row.versionId, keys);
+  }
+  for (const rule of rules) {
+    const needed = ruleOptionKeys(rule);
+    const found = new Map<string, ProductRef>();
+    for (const [versionId, keys] of keysByVersion) {
+      if (needed.every((key) => keys.has(key))) {
+        const product = versions.get(versionId)!;
+        found.set(product.id, product);
+      }
+    }
+    result.set(
+      rule.id,
+      [...found.values()].sort((a, b) => a.name.localeCompare(b.name, "pt")),
+    );
+  }
+  return result;
 }
 
 // ── Validar e publicar ──────────────────────────────────────────────────────

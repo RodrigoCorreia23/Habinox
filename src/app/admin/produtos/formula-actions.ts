@@ -3,10 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { log } from "@/lib/log";
-import { resolveConfig } from "@/lib/options";
-import { calculatePrice, type PricedLine } from "@/lib/pricing";
 import { percentToFraction } from "@/lib/percent";
+import { setFlash } from "@/server/admin/flash";
 import { requireAdmin } from "@/server/auth/session";
+import { getVatRate } from "@/server/settings";
+import { translateInBackground } from "@/server/catalog/translations";
 import {
   lineInputSchema,
   loadPricingModel,
@@ -18,6 +19,7 @@ import {
   variableInputSchema,
 } from "@/server/catalog/formula";
 import type { FormState } from "./actions";
+import { computePreview, type PreviewResult } from "./preview";
 
 const uuid = z.uuid();
 const path = (productId: string) => `/admin/produtos/${productId}`;
@@ -74,6 +76,7 @@ export async function saveVariableAction(
     variableId: result.id,
     userId: session.user.id,
   });
+  translateInBackground();
   revalidatePath(path(productId));
   return { ok: true, message: variableId ? "Guardado" : "Criada" };
 }
@@ -129,6 +132,14 @@ export async function removeFormulaItemAction(
   if (!uuid.safeParse(id).success) return;
   const result = await removeFormulaItem(kind, id);
   if (result.ok) log.info("formula.item_removed", { productId, kind, id, userId: session.user.id });
+  await setFlash(
+    result.ok ? "ok" : "danger",
+    result.ok
+      ? kind === "line"
+        ? "Linha apagada. O preço deixou de contar este custo."
+        : "Conta auxiliar apagada."
+      : result.message,
+  );
   revalidatePath(path(productId));
 }
 
@@ -144,53 +155,27 @@ export async function moveFormulaItemAction(
   revalidatePath(path(productId));
 }
 
-export type PreviewResult =
-  | {
-      ok: true;
-      netCents: number;
-      lines: PricedLine[];
-      consumables: { rate: string; costCents: number; priceCents: number } | null;
-      variables: Record<string, number>;
-    }
-  | { ok: false; errors: string[] }
-  | null;
+export type { PreviewResult };
 
-/** Preço de exemplo com valores escolhidos no backoffice. Não grava nada. */
+/**
+ * Preço de exemplo com valores escolhidos no backoffice. Não grava nada.
+ * Devolve também o IVA (dos parâmetros), o total com IVA, o custo e a margem.
+ */
 export async function previewAction(
   versionId: string,
   _previous: PreviewResult,
   formData: FormData,
 ): Promise<PreviewResult> {
   await requireAdmin("/admin/produtos");
-  if (!uuid.safeParse(versionId).success) return { ok: false, errors: ["Pedido inválido"] };
-  const model = await loadPricingModel(versionId);
-  if (!model) return { ok: false, errors: ["Versão não encontrada"] };
-
-  // Os campos chegam como texto; converte conforme o tipo de cada opção.
-  const input: Record<string, unknown> = {};
-  for (const option of model.input.options) {
-    const raw = formData.get(option.key);
-    if (option.type === "boolean") input[option.key] = raw === "on";
-    else if (raw === null || raw === "") continue;
-    else if (option.type === "choice") input[option.key] = String(raw);
-    else input[option.key] = Number(String(raw).replace(",", "."));
+  if (!uuid.safeParse(versionId).success) {
+    return { ok: false, errors: [{ message: "Pedido inválido", sourceIndex: null }] };
   }
-
-  const config = resolveConfig(model.input.options, model.rules, input);
-  if (config.errors.length > 0) {
-    const names = new Map(model.meta.map((option) => [option.key, option.name]));
-    return {
-      ok: false,
-      errors: config.errors.map((error) =>
-        error.option
-          ? `${names.get(error.option) ?? error.option}: ${error.message}`
-          : error.message,
-      ),
-    };
+  const [model, vatRate] = await Promise.all([loadPricingModel(versionId), getVatRate()]);
+  if (!model) {
+    return { ok: false, errors: [{ message: "Versão não encontrada", sourceIndex: null }] };
   }
-  const result = calculatePrice({ ...model.input, values: config.values });
-  if (!result.ok) {
-    return { ok: false, errors: result.errors.map((error) => `${error.source}: ${error.message}`) };
-  }
-  return result;
+  // Os campos chegam como texto; computePreview converte conforme o tipo de cada opção.
+  const raw: Record<string, unknown> = {};
+  for (const option of model.input.options) raw[option.key] = formData.get(option.key);
+  return computePreview(model, raw, vatRate);
 }

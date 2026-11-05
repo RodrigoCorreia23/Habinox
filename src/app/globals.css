@@ -43,6 +43,33 @@
   --color-dim: #8a5a1e;
   --color-night-error-border: #e5796f;
   --color-night-error: #f0a39b;
+  /* Backoffice «Ficha de fabrico» (DESIGN.md › Backoffice): barra grafite e âmbar como acento. */
+  --color-rail: #181715;
+  --color-rail-line: #2a2724;
+  --color-rail-hover: #23211e;
+  --color-rail-active: #2a2724;
+  --color-rail-text: #c9c2b8;
+  --color-rail-text-strong: #eee9e2;
+  --color-rail-muted: #8e867b;
+  --color-amber-ink: #8a5a1e;
+  --color-amber-border: #b5864a;
+  --color-amber-wash: #f6ecdd;
+  /* Tons de estado (texto / fundo / linha). Nunca só cor: há sempre texto. */
+  --color-ok: #1e5e3b;
+  --color-ok-bg: #e4f2e9;
+  --color-ok-line: #b9dcc6;
+  --color-warn: #7a4310;
+  --color-warn-bg: #fbf1de;
+  --color-warn-line: #e9cc93;
+  --color-danger: #9b2019;
+  --color-danger-bg: #fbeae8;
+  --color-danger-line: #f0bdb7;
+  --color-info: #2005a2;
+  --color-info-bg: #eeedf8;
+  --color-info-line: #cfcbee;
+  --color-quiet: #33373d;
+  --color-quiet-bg: #eae8e3;
+  --color-quiet-line: #dad8d2;
   /* Página inicial: "noite" do protótipo aprovado a 27/10 (docs/site-inicial) */
   --color-dusk: #0c1220;
   --color-dusk-glow: #1a2236;
@@ -179,8 +206,56 @@
   h3 {
     @apply font-heading;
   }
-  a:hover {
+  /* Só na loja: no backoffice as ligações usam link-admin (sempre sublinhadas). */
+  body:not([data-admin]) a:hover {
     @apply text-brand underline;
+  }
+
+  /* Backoffice: âmbar como acento (foco, cursor, seleção), títulos de secção em Plex. */
+  [data-admin] {
+    --ring: #8a5a1e;
+    --primary: #d6a25e;
+    --primary-foreground: #15120e;
+    caret-color: #8a5a1e;
+  }
+  [data-admin] ::selection {
+    background: #f0d9b5;
+    color: #15171a;
+  }
+  [data-admin] h2,
+  [data-admin] h3 {
+    font-family: var(--font-sans);
+  }
+  [data-admin] td,
+  [data-admin] .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  [data-admin] input[type="checkbox"],
+  [data-admin] input[type="radio"] {
+    accent-color: #8a5a1e;
+  }
+  [data-admin] aside {
+    scrollbar-color: #3a3632 transparent;
+  }
+}
+
+/* Backoffice: ligação no meio do texto, sempre sublinhada (não só no hover). */
+@utility link-admin {
+  @apply text-amber-ink decoration-amber-ink/40 underline underline-offset-4;
+  &:hover {
+    @apply decoration-amber-ink;
+  }
+}
+
+/* Backoffice com movimento reduzido: sem deslocações nem escalas, só opacidade e cor. */
+@media (prefers-reduced-motion: reduce) {
+  [data-admin] *,
+  [data-admin] *::before,
+  [data-admin] *::after {
+    scroll-behavior: auto !important;
+    transition-property: color, background-color, border-color, opacity !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
 

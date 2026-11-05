@@ -4,11 +4,14 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { log } from "@/lib/log";
+import { setFlash } from "@/server/admin/flash";
 import { requireAdmin } from "@/server/auth/session";
+import { translateInBackground } from "@/server/catalog/translations";
 import {
   addOptionToVersion,
   createDraftFrom,
   createProduct,
+  getProduct,
   moveVersionOption,
   productInputSchema,
   productOptionInputSchema,
@@ -27,9 +30,20 @@ export type FormState = {
 const PATH = "/admin/produtos";
 const uuid = z.uuid();
 
+/** Traduz para português os erros genéricos de números (as mensagens próprias ficam). */
+function issueMessage(issue: z.core.$ZodIssue): string {
+  if (issue.code === "invalid_type" && (issue.expected === "number" || issue.expected === "int"))
+    return "Escreva um número inteiro, sem vírgulas.";
+  if (issue.code === "too_small" && issue.origin === "number")
+    return Number(issue.minimum) === 0 && !issue.inclusive
+      ? "Tem de ser maior que zero."
+      : `Não pode ser menor que ${String(issue.minimum)}.`;
+  return issue.message;
+}
+
 function fromZod(error: z.ZodError): FormState {
   const fieldErrors: Record<string, string> = {};
-  for (const issue of error.issues) fieldErrors[String(issue.path[0])] ??= issue.message;
+  for (const issue of error.issues) fieldErrors[String(issue.path[0])] ??= issueMessage(issue);
   return { ok: false, fieldErrors };
 }
 
@@ -58,6 +72,7 @@ export async function createProductAction(
   const result = await createProduct(parsed.data, session.user.id);
   if (!result.ok) return fromResult(result);
   log.info("product.created", { productId: result.id, userId: session.user.id });
+  translateInBackground();
   revalidatePath(PATH);
   redirect(`${PATH}/${result.id}`);
 }
@@ -74,6 +89,7 @@ export async function updateProductAction(
   const result = await updateProduct(id, parsed.data);
   if (!result.ok) return fromResult(result);
   log.info("product.updated", { productId: id, userId: session.user.id });
+  translateInBackground();
   revalidatePath(PATH);
   revalidatePath(`${PATH}/${id}`);
   return { ok: true, message: "Guardado" };
@@ -84,6 +100,7 @@ export async function createDraftAction(productId: string, fromVersionId: string
   if (!uuid.safeParse(productId).success || !uuid.safeParse(fromVersionId).success) return;
   const draftId = await createDraftFrom(fromVersionId, session.user.id);
   log.info("product.draft_created", { productId, draftId, fromVersionId, userId: session.user.id });
+  await setFlash("ok", "Cópia pronta a editar. A loja continua igual até publicar.");
   revalidatePath(`${PATH}/${productId}`);
 }
 
@@ -153,6 +170,10 @@ export async function removeOptionAction(productId: string, productOptionId: str
   if (result.ok) {
     log.info("product.option_removed", { productId, productOptionId, userId: session.user.id });
   }
+  await setFlash(
+    result.ok ? "ok" : "danger",
+    result.ok ? "Opção removida do produto." : result.message,
+  );
   revalidatePath(`${PATH}/${productId}`);
 }
 
@@ -185,4 +206,46 @@ export async function publishVersionAction(
   revalidatePath(PATH);
   revalidatePath(`${PATH}/${productId}`);
   return { ok: true, message: "Publicada" };
+}
+
+/**
+ * «Publicar na loja» num só passo: confirma a versão (validateVersion) e publica-a
+ * (publishVersion), sem mudar nenhuma das duas. O resultado chega como toast.
+ */
+export async function confirmAndPublishAction(productId: string, versionId: string): Promise<void> {
+  const session = await requireAdmin(PATH);
+  if (!uuid.safeParse(productId).success || !uuid.safeParse(versionId).success) {
+    await setFlash("danger", "Pedido inválido.");
+    return;
+  }
+  const { working } = (await getProduct(productId)) ?? { working: null };
+  if (!working || working.id !== versionId) {
+    await setFlash("danger", "Esta versão já não está em preparação. Atualize a página.");
+    revalidatePath(`${PATH}/${productId}`);
+    return;
+  }
+  if (working.status === "draft") {
+    const { ok, problems } = await validateVersion(versionId);
+    if (!ok) {
+      await setFlash(
+        "danger",
+        problems.blocking.length > 0
+          ? `Ainda não se pode publicar: ${problems.blocking[0]}`
+          : "Não foi possível confirmar esta versão. Atualize a página e tente de novo.",
+      );
+      revalidatePath(`${PATH}/${productId}`);
+      return;
+    }
+    log.info("product.version_validated", { productId, versionId, userId: session.user.id });
+  }
+  const result = await publishVersion(versionId);
+  if (!result.ok) {
+    await setFlash("danger", result.message);
+    revalidatePath(`${PATH}/${productId}`);
+    return;
+  }
+  log.info("product.version_published", { productId, versionId, userId: session.user.id });
+  await setFlash("ok", "Publicado. Já está na loja.");
+  revalidatePath(PATH);
+  revalidatePath(`${PATH}/${productId}`);
 }

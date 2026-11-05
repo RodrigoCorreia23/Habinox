@@ -1,21 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useState } from "react";
-import { Field, fieldClass, FormStatus } from "@/components/admin/field";
+import { useActionState, useEffect, useRef, useState } from "react";
+import { CircleAlert } from "lucide-react";
+import { AutoKeyField } from "@/components/admin/auto-key-field";
+import { Field, fieldClass, Select, textareaClass, UnitInput } from "@/components/admin/field";
+import { Advanced } from "@/components/admin/help";
+import { Notice } from "@/components/admin/notice";
+import { SaveBar } from "@/components/admin/save-bar";
+import { SearchSelect } from "@/components/admin/search-select";
 import { submitKeepingValues } from "@/components/admin/submit-keeping-values";
+import { useToast } from "@/components/admin/toaster";
+import { useDirtyForm } from "@/components/admin/use-dirty-form";
 import { Button } from "@/components/ui/button";
-import { slugify } from "@/lib/slug";
 import {
   addOptionAction,
   createProductAction,
   type FormState,
-  publishVersionAction,
-  type PublishState,
-  validateVersionAction,
   updateProductAction,
   updateProductOptionAction,
 } from "./actions";
+import { useInlineRow, useSavedEffect } from "./[id]/inline-edit-row";
 
 export interface ProductFormValues {
   name: string;
@@ -24,6 +29,23 @@ export interface ProductFormValues {
   description: string;
 }
 
+function InlineError({ message }: { message?: string }) {
+  if (!message) return null;
+  return (
+    <p className="text-danger flex items-start gap-1.5 text-[13px]/[18px]">
+      <CircleAlert aria-hidden className="mt-0.5 size-3.5 shrink-0" strokeWidth={2} />
+      <span>
+        <span className="font-medium">Problema:</span> {message}
+      </span>
+    </p>
+  );
+}
+
+/**
+ * Dados do produto (montra): nome, endereço, categoria e descrição. Criar faz
+ * redirect para o editor; editar fica na página, com a barra «Tem alterações por
+ * guardar» e um toast quando grava.
+ */
 export function ProductForm({
   id,
   initial,
@@ -31,96 +53,102 @@ export function ProductForm({
 }: {
   id: string | null;
   initial: ProductFormValues;
-  categories: { id: string; label: string }[];
+  categories: { id: string; label: string; slug: string }[];
 }) {
+  const formId = `produto-${id ?? "novo"}`;
+  const { toast } = useToast();
+  const { dirty, formProps, markClean } = useDirtyForm();
   const [state, action, pending] = useActionState<FormState, FormData>(
     id ? updateProductAction.bind(null, id) : createProductAction,
     null,
   );
-  const [name, setName] = useState(initial.name);
-  const [slug, setSlug] = useState(initial.slug);
-  const [slugTouched, setSlugTouched] = useState(initial.slug !== "");
+  const [categoryId, setCategoryId] = useState(initial.categoryId);
   const errors = state?.fieldErrors ?? {};
+  const category = categories.find((candidate) => candidate.id === categoryId);
+
+  const last = useRef(state);
+  useEffect(() => {
+    if (state === last.current) return;
+    last.current = state;
+    if (!state?.ok) return;
+    markClean();
+    toast({ tone: "ok", message: "Guardado. A loja já mostra a alteração." });
+  }, [state, markClean, toast]);
 
   return (
-    <form onSubmit={submitKeepingValues(action)} className="grid max-w-xl gap-4">
+    <form
+      id={formId}
+      onSubmit={submitKeepingValues(action)}
+      {...(id ? formProps : {})}
+      className="grid gap-5"
+    >
       <Field label="Nome" error={errors.name}>
         <input
           name="name"
-          value={name}
-          onChange={(event) => {
-            setName(event.target.value);
-            if (!slugTouched) setSlug(slugify(event.target.value));
-          }}
+          defaultValue={initial.name}
           required
           maxLength={120}
-          aria-invalid={Boolean(errors.name) || undefined}
+          autoComplete="off"
           className={fieldClass}
         />
       </Field>
-      <Field
-        label="Endereço na loja"
+      <AutoKeyField
+        name="slug"
+        followName="name"
+        kind="slug"
+        defaultValue={initial.slug}
+        prefix={`habinox.pt/pt/loja/${category?.slug ?? "…"}/`}
         error={errors.slug}
-        hint="Parte do endereço da página. Mudá-lo depois de publicado quebra os links antigos."
-      >
-        <input
-          name="slug"
-          value={slug}
-          onChange={(event) => {
-            setSlugTouched(true);
-            setSlug(event.target.value);
-          }}
-          required
-          maxLength={80}
-          aria-invalid={Boolean(errors.slug) || undefined}
-          className={fieldClass}
-        />
-      </Field>
+      />
+      <InlineError message={errors.slug ? `Endereço: ${errors.slug}` : undefined} />
       <Field label="Categoria" error={errors.categoryId}>
-        <select
+        <Select
           name="categoryId"
-          defaultValue={initial.categoryId}
+          value={categoryId}
+          onChange={(event) => setCategoryId(event.target.value)}
           required
           aria-invalid={Boolean(errors.categoryId) || undefined}
-          className={fieldClass}
         >
           <option value="">Escolha…</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.label}
+          {categories.map((option) => (
+            <option key={option.id} value={option.id}>
+              {option.label}
             </option>
           ))}
-        </select>
+        </Select>
       </Field>
-      <Field label="Descrição (opcional)" error={errors.description}>
+      <Field
+        label="Descrição"
+        optional
+        error={errors.description}
+        hint="Aparece na página do produto, por baixo do nome."
+      >
         <textarea
           name="description"
           defaultValue={initial.description}
           rows={4}
           maxLength={5000}
-          className={fieldClass}
+          className={textareaClass}
         />
       </Field>
-      {state?.message && !state.ok && (
-        <p role="alert" className="text-error text-sm">
-          {state.message}
-        </p>
-      )}
-      <div className="flex items-center gap-3">
-        <Button type="submit" disabled={pending}>
-          {id ? "Guardar dados do produto" : "Criar produto"}
-        </Button>
-        {!id && (
+      {state?.message && !state.ok && <Notice tone="danger">{state.message}</Notice>}
+      {id ? (
+        <SaveBar formId={formId} dirty={dirty} pending={pending} />
+      ) : (
+        <div className="flex flex-wrap items-center gap-3">
+          <Button type="submit" pending={pending} pendingLabel="A criar…">
+            Criar e continuar
+          </Button>
           <Button asChild variant="ghost">
             <Link href="/admin/produtos">Cancelar</Link>
           </Button>
-        )}
-        {id && <FormStatus pending={pending} state={state} />}
-      </div>
+        </div>
+      )}
     </form>
   );
 }
 
+/** «+ Acrescentar opção da biblioteca»: escolher com pesquisa e acrescentar ao fim. */
 export function AddOptionForm({
   productId,
   versionId,
@@ -128,43 +156,67 @@ export function AddOptionForm({
 }: {
   productId: string;
   versionId: string;
-  available: { id: string; label: string }[];
+  available: { id: string; label: string; hint: string }[];
 }) {
+  const [resetKey, setResetKey] = useState(0);
   const [state, action, pending] = useActionState<FormState, FormData>(
-    addOptionAction.bind(null, productId, versionId),
+    async (previous: FormState, formData: FormData) => {
+      const result = await addOptionAction(productId, versionId, previous, formData);
+      if (result?.ok) setResetKey((key) => key + 1);
+      return result;
+    },
     null,
   );
+  useSavedEffect(state, "Opção acrescentada. Reveja os limites e os valores.");
   if (available.length === 0) {
     return (
       <p className="text-steel text-sm">
         O produto já usa todas as opções da biblioteca.{" "}
-        <Link href="/admin/opcoes/nova" className="text-brand underline-offset-4 hover:underline">
-          Criar uma opção nova
+        <Link href={`/admin/opcoes/nova?produto=${productId}`} className="link-admin">
+          Criar opção nova
         </Link>
       </p>
     );
   }
   return (
-    <form onSubmit={submitKeepingValues(action)} className="flex flex-wrap items-end gap-3">
-      <Field label="Acrescentar opção da biblioteca">
-        <select name="optionId" required className={`${fieldClass} min-w-64`}>
-          {available.map((option) => (
-            <option key={option.id} value={option.id}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </Field>
-      <Button type="submit" size="sm" disabled={pending}>
-        Acrescentar
-      </Button>
-      <FormStatus pending={pending} state={state} />
+    <form onSubmit={submitKeepingValues(action)} className="grid max-w-2xl gap-3">
+      <div className="grid gap-1.5 text-sm">
+        <span className="text-ink font-medium">Opção da biblioteca</span>
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="min-w-0 flex-1 basis-64">
+            <SearchSelect
+              key={resetKey}
+              name="optionId"
+              ariaLabel="Opção da biblioteca"
+              placeholder="Escolha a opção…"
+              emptyText="Nenhuma opção com esse nome."
+              required
+              options={available.map((option) => ({
+                value: option.id,
+                label: option.label,
+                hint: option.hint,
+              }))}
+            />
+          </div>
+          <Button type="submit" variant="outline" pending={pending}>
+            Acrescentar
+          </Button>
+        </div>
+      </div>
+      <InlineError message={state?.ok ? undefined : state?.message} />
+      <p className="text-steel text-[13px]">
+        Não está na lista?{" "}
+        <Link href={`/admin/opcoes/nova?produto=${productId}`} className="link-admin">
+          Criar opção nova
+        </Link>
+      </p>
     </form>
   );
 }
 
 export interface ProductOptionFormValues {
   type: string;
+  name: string;
   optionKey: string;
   var: string;
   required: boolean;
@@ -176,6 +228,9 @@ export interface ProductOptionFormValues {
   defaultValueId: string;
 }
 
+const NUMBER_FIELDS = ["min", "max", "step"] as const;
+
+/** Como esta opção funciona neste produto: limites, valores disponíveis e o que vem escolhido. */
 export function ProductOptionForm({
   productId,
   productOptionId,
@@ -185,195 +240,214 @@ export function ProductOptionForm({
   productOptionId: string;
   initial: ProductOptionFormValues;
 }) {
+  const row = useInlineRow();
   const [state, action, pending] = useActionState<FormState, FormData>(
     updateProductOptionAction.bind(null, productId, productOptionId),
     null,
   );
-  const errors = state?.fieldErrors ?? {};
-  const numeric = initial.type === "dimension" || initial.type === "number";
-  const unit = initial.type === "dimension" ? " (mm)" : "";
+  useSavedEffect(state, `«${initial.name}» guardada.`);
+  const [allowed, setAllowed] = useState<string[]>(initial.allowed);
+  const [defaultId, setDefaultId] = useState(initial.defaultValueId);
+  const [notice, setNotice] = useState<string | null>(null);
+  const dimension = initial.type === "dimension";
+  const numeric = dimension || initial.type === "number";
+  // Os limites são números inteiros. Verifica-se antes de enviar, para o Bruno ver
+  // uma frase clara junto ao campo em vez do erro técnico da validação.
+  const [numberErrors, setNumberErrors] = useState<Record<string, string>>({});
+  const errors = { ...(state?.fieldErrors ?? {}), ...numberErrors };
+  const submit = submitKeepingValues(action);
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const form = event.currentTarget;
+    const found: Record<string, string> = {};
+    if (numeric) {
+      for (const name of NUMBER_FIELDS) {
+        const field = form.elements.namedItem(name);
+        const value = field instanceof HTMLInputElement ? field.value.trim() : "";
+        if (value !== "" && !/^\d+$/.test(value)) {
+          found[name] = dimension
+            ? "Escreva um número inteiro em mm, sem vírgulas (ex.: 2500)."
+            : "Escreva um número inteiro, sem vírgulas (ex.: 3).";
+        }
+      }
+    }
+    setNumberErrors(found);
+    const first = NUMBER_FIELDS.find((name) => found[name]);
+    if (first) {
+      event.preventDefault();
+      const field = form.elements.namedItem(first);
+      if (field instanceof HTMLInputElement) field.focus();
+      return;
+    }
+    submit(event);
+  };
+  // Ao corrigir o campo, o aviso sai.
+  const clearNumberError = (name: string) =>
+    setNumberErrors((current) => {
+      if (!current[name]) return current;
+      const next = { ...current };
+      delete next[name];
+      return next;
+    });
+
+  const numberField = (name: (typeof NUMBER_FIELDS)[number], label: string, hint?: string) => (
+    <Field label={label} error={errors[name]} hint={hint} className="w-36">
+      {dimension ? (
+        <UnitInput
+          unit="mm"
+          name={name}
+          inputMode="numeric"
+          defaultValue={initial[name]}
+          onInput={() => clearNumberError(name)}
+        />
+      ) : (
+        <input
+          name={name}
+          inputMode="numeric"
+          defaultValue={initial[name]}
+          onInput={() => clearNumberError(name)}
+          className={`${fieldClass} text-right tabular-nums`}
+        />
+      )}
+    </Field>
+  );
 
   return (
-    <form onSubmit={submitKeepingValues(action)} className="grid gap-4">
-      <div className="flex flex-wrap items-start gap-4">
+    <form onSubmit={onSubmit} className="grid max-w-3xl gap-5">
+      {numeric && (
+        <div className="flex flex-wrap items-start gap-4">
+          {numberField("min", "Mínimo")}
+          {numberField("max", "Máximo")}
+          {numberField(
+            "step",
+            "De quanto em quanto",
+            dimension ? "10 mm = de 1 em 1 cm" : undefined,
+          )}
+        </div>
+      )}
+
+      {initial.type === "choice" && (
+        <fieldset className="grid gap-2">
+          <legend className="text-ink mb-1.5 text-sm font-medium">Valores neste produto</legend>
+          {initial.values.length === 0 ? (
+            <p className="text-steel text-sm">
+              A opção ainda não tem valores.{" "}
+              <Link href="/admin/opcoes" className="link-admin">
+                Acrescentar valores
+              </Link>
+            </p>
+          ) : (
+            <table className="w-full max-w-xl text-sm">
+              <thead>
+                <tr className="border-line border-b">
+                  <th scope="col" className="text-steel h-9 pr-4 text-left text-xs font-medium">
+                    Valor
+                  </th>
+                  <th scope="col" className="text-steel h-9 px-4 text-center text-xs font-medium">
+                    Disponível
+                  </th>
+                  <th scope="col" className="text-steel h-9 pl-4 text-center text-xs font-medium">
+                    Vem escolhido
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {initial.values.map((value) => {
+                  const isAllowed = allowed.includes(value.id);
+                  return (
+                    <tr key={value.id} className="border-line-soft border-b last:border-b-0">
+                      <td className="py-2 pr-4">
+                        {value.label}
+                        {value.archived && (
+                          <span className="text-steel ml-2 text-[13px]">(arquivado)</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-2 text-center">
+                        <input
+                          type="checkbox"
+                          name="allowed"
+                          value={value.id}
+                          checked={isAllowed}
+                          onChange={(event) => {
+                            const checked = event.target.checked;
+                            setAllowed((current) =>
+                              checked
+                                ? [...current, value.id]
+                                : current.filter((id) => id !== value.id),
+                            );
+                            if (!checked && defaultId === value.id) {
+                              setDefaultId("");
+                              setNotice(
+                                `«${value.label}» deixou de vir escolhido: escolha outro, se quiser.`,
+                              );
+                            }
+                          }}
+                          aria-label={`${value.label} disponível neste produto`}
+                          className="size-4 align-middle"
+                        />
+                      </td>
+                      <td className="py-2 pl-4 text-center">
+                        <input
+                          type="radio"
+                          name="defaultValueId"
+                          value={value.id}
+                          checked={defaultId === value.id}
+                          disabled={!isAllowed}
+                          onChange={() => {
+                            setDefaultId(value.id);
+                            setNotice(null);
+                          }}
+                          aria-label={`${value.label} vem escolhido`}
+                          title={isAllowed ? undefined : "Torne-o disponível primeiro"}
+                          className="size-4 align-middle disabled:opacity-40"
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+          <p aria-live="polite" className="text-steel text-[13px]/[18px]">
+            {notice}
+          </p>
+          <InlineError message={errors.allowed} />
+        </fieldset>
+      )}
+
+      <label className="text-ink flex min-h-10 items-center gap-2 text-sm pointer-coarse:min-h-11">
+        <input
+          type="checkbox"
+          name="required"
+          defaultChecked={initial.required}
+          className="size-4"
+        />
+        O cliente tem de preencher
+      </label>
+
+      <Advanced open={Boolean(errors.var) || undefined}>
         <Field
-          label="Nome na fórmula"
+          label="Nome usado nas fórmulas"
           error={errors.var}
-          hint={
-            initial.type === "choice"
-              ? `Vazio = ${initial.optionKey}. Os números dos valores usam-se como ${initial.var || initial.optionKey}.nome`
-              : `Vazio = ${initial.optionKey}. Curto ajuda: L, H…`
-          }
-          className="w-64"
+          hint={`Curto ajuda nas contas (ex.: L para a largura). Vazio: usa «${initial.optionKey}».`}
+          className="max-w-xs"
         >
           <input
             name="var"
             defaultValue={initial.var}
             maxLength={30}
-            aria-invalid={Boolean(errors.var) || undefined}
+            autoComplete="off"
+            spellCheck={false}
             className={`${fieldClass} font-mono`}
           />
         </Field>
-        {numeric && (
-          <>
-            <Field label={`Mínimo${unit}`} error={errors.min} className="w-32">
-              <input
-                name="min"
-                type="number"
-                min={0}
-                defaultValue={initial.min}
-                className={`${fieldClass} tabular-nums`}
-              />
-            </Field>
-            <Field label={`Máximo${unit}`} error={errors.max} className="w-32">
-              <input
-                name="max"
-                type="number"
-                min={0}
-                defaultValue={initial.max}
-                className={`${fieldClass} tabular-nums`}
-              />
-            </Field>
-            <Field
-              label={`Passo${unit}`}
-              error={errors.step}
-              hint={initial.type === "dimension" ? "10 = de 1 em 1 cm" : undefined}
-              className="w-32"
-            >
-              <input
-                name="step"
-                type="number"
-                min={1}
-                defaultValue={initial.step}
-                className={`${fieldClass} tabular-nums`}
-              />
-            </Field>
-          </>
-        )}
-        <label className="mt-7 flex items-center gap-2 text-sm">
-          <input
-            type="checkbox"
-            name="required"
-            defaultChecked={initial.required}
-            className="accent-brand size-4"
-          />
-          Obrigatória
-        </label>
-      </div>
+      </Advanced>
 
-      {initial.type === "choice" && (
-        <fieldset className="grid gap-2">
-          <legend className="text-sm font-medium">Valores permitidos neste produto</legend>
-          {initial.values.length === 0 ? (
-            <p className="text-steel text-sm">A opção ainda não tem valores na biblioteca.</p>
-          ) : (
-            <table className="text-sm">
-              <thead className="text-steel text-left text-xs">
-                <tr>
-                  <th className="py-1 pr-4 font-medium">Permitido</th>
-                  <th className="py-1 pr-4 font-medium">Por omissão</th>
-                  <th className="py-1 font-medium">Valor</th>
-                </tr>
-              </thead>
-              <tbody>
-                {initial.values.map((value) => (
-                  <tr key={value.id}>
-                    <td className="py-1 pr-4">
-                      <input
-                        type="checkbox"
-                        name="allowed"
-                        value={value.id}
-                        defaultChecked={initial.allowed.includes(value.id)}
-                        aria-label={`Permitir ${value.label}`}
-                        className="accent-brand size-4"
-                      />
-                    </td>
-                    <td className="py-1 pr-4">
-                      <input
-                        type="radio"
-                        name="defaultValueId"
-                        value={value.id}
-                        defaultChecked={initial.defaultValueId === value.id}
-                        aria-label={`${value.label} por omissão`}
-                        className="accent-brand size-4"
-                      />
-                    </td>
-                    <td className="py-1">
-                      {value.label}{" "}
-                      <span className="text-steel font-mono text-xs">{value.key}</span>
-                      {value.archived && <span className="text-error ml-2 text-xs">arquivado</span>}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-          {errors.allowed && <p className="text-error text-xs">{errors.allowed}</p>}
-        </fieldset>
-      )}
-
+      {state?.message && !state.ok && <Notice tone="danger">{state.message}</Notice>}
       <div className="flex items-center gap-3">
-        <Button type="submit" size="sm" variant="outline" disabled={pending}>
+        <Button type="submit" variant={row?.dirty ? "default" : "outline"} pending={pending}>
           Guardar opção
         </Button>
-        <FormStatus pending={pending} state={state} />
       </div>
     </form>
-  );
-}
-
-export function PublishPanel({
-  productId,
-  versionId,
-  status,
-  blocking,
-  warnings,
-}: {
-  productId: string;
-  versionId: string;
-  status: string;
-  blocking: string[];
-  warnings: string[];
-}) {
-  const [state, action, pending] = useActionState<PublishState>(
-    status === "validated"
-      ? publishVersionAction.bind(null, productId, versionId)
-      : validateVersionAction.bind(null, productId, versionId),
-    null,
-  );
-  // Os problemas vêm sempre do servidor (recalculados a cada alteração).
-  const problems = blocking;
-  return (
-    <div className="border-line bg-surface grid gap-3 border px-4 py-3 text-sm">
-      {problems.length > 0 ? (
-        <div>
-          <p className="font-semibold">Falta resolver antes de publicar</p>
-          <ul className="text-error mt-1 grid list-disc gap-0.5 pl-5">
-            {problems.map((problem) => (
-              <li key={problem}>{problem}</li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <p>
-          {status === "validated"
-            ? "Validada. Ao publicar, passa a ser esta versão que a loja mostra."
-            : "Sem problemas. Compare o preço de exemplo com orçamentos reais e valide."}
-        </p>
-      )}
-      {warnings.length > 0 && (
-        <ul className="text-steel grid list-disc gap-0.5 pl-5 text-xs">
-          {warnings.map((warning) => (
-            <li key={warning}>{warning}</li>
-          ))}
-        </ul>
-      )}
-      <form onSubmit={submitKeepingValues(action)} className="flex items-center gap-3">
-        <Button type="submit" size="sm" disabled={pending || problems.length > 0}>
-          {status === "validated" ? "Publicar na loja" : "Validar"}
-        </Button>
-        <FormStatus pending={pending} state={state} />
-      </form>
-    </div>
   );
 }

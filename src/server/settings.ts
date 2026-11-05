@@ -50,6 +50,7 @@ export async function listSettings() {
       value: settings.value,
       updatedAt: settings.updatedAt,
       updatedBy: user.email,
+      updatedByName: user.name,
     })
     .from(settings)
     .leftJoin(user, eq(user.id, settings.updatedBy));

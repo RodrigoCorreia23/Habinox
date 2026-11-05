@@ -7,10 +7,16 @@ describe("parseSettingInput", () => {
     expect(parseSettingInput("vat_rate", "23")).toEqual({ ok: true, value: { rate: "0.2300" } });
     expect(parseSettingInput("vat_rate", " 6 % ")).toEqual({ ok: true, value: { rate: "0.0600" } });
     expect(parseSettingInput("vat_rate", "13,5")).toEqual({ ok: true, value: { rate: "0.1350" } });
-    expect(parseSettingInput("vat_rate", "100")).toEqual({ ok: true, value: { rate: "1.0000" } });
+    expect(parseSettingInput("vat_rate", "30")).toEqual({ ok: true, value: { rate: "0.3000" } });
+    expect(parseSettingInput("vat_rate", "0")).toEqual({ ok: true, value: { rate: "0.0000" } });
   });
 
-  it("recusa IVA acima de 100% ou mal escrito", () => {
+  it("recusa IVA acima de 30% ou mal escrito", () => {
+    expect(parseSettingInput("vat_rate", "30,5")).toEqual({
+      ok: false,
+      message: "Escreva um número entre 0 e 30.",
+    });
+    expect(parseSettingInput("vat_rate", "100").ok).toBe(false);
     expect(parseSettingInput("vat_rate", "123").ok).toBe(false);
     expect(parseSettingInput("vat_rate", "0.23.1").ok).toBe(false);
     expect(parseSettingInput("vat_rate", "").ok).toBe(false);
