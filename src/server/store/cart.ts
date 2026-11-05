@@ -63,7 +63,7 @@ interface QuoteSnapshot {
 
 export type AddResult =
   | { ok: true; count: number }
-  | { ok: false; reason: "not_found" | "invalid" | "unavailable" | "full" };
+  | { ok: false; reason: "not_found" | "invalid" | "unavailable" | "full" | "rate_limited" };
 
 /** Calcula, guarda o orçamento e junta-o ao carrinho. */
 export async function addToCart(

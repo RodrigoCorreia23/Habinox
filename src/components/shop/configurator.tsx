@@ -74,7 +74,7 @@ export function Configurator({
 }) {
   const t = useTranslations("Shop.configurator");
   const [raw, setRaw] = useState<Raw>(() => initialRaw(data.options));
-  const [quote, setQuote] = useState<QuoteResult | null | "error">(null);
+  const [quote, setQuote] = useState<QuoteResult | null | "error" | "rate_limited">(null);
   const [pending, setPending] = useState(false);
   const request = useRef(0);
   const [adding, setAdding] = useState(false);
@@ -151,12 +151,13 @@ export function Configurator({
       ? (resolved.values[dimensions[1]!.key] as number)
       : null;
 
-  const showQuote = valid && quote !== null && quote !== "error" && quote.ok;
+  const showQuote = valid && quote !== null && typeof quote === "object" && quote.ok;
   let status: string | null = null;
   if (forbidden.length > 0) status = forbidden.join(" ");
   else if (missingMeasures) status = t("fillIn");
   else if (!valid) status = t("fixErrors");
   else if (quote === "error") status = t("error");
+  else if (quote === "rate_limited") status = t("rateLimited");
   else if (quote && !quote.ok) status = quote.unavailable ? t("unavailable") : t("fixErrors");
 
   return (

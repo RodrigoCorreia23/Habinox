@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { log } from "@/lib/log";
+import { allowRequest } from "@/server/rate-limit";
 import { type AddResult, addToCart, removeItem, setItemQuantity } from "@/server/store/cart";
 import { getCurrentCart } from "@/server/store/current-cart";
 
@@ -25,6 +26,7 @@ export async function addToCartAction(
   ) {
     return { ok: false, reason: "invalid" };
   }
+  if (!(await allowRequest("cart"))) return { ok: false, reason: "rate_limited" };
   try {
     const cart = await getCurrentCart({ create: true });
     const result = await addToCart(cart!.id, productId, parsedInput.data, quantity, locale);
@@ -42,6 +44,7 @@ export async function addToCartAction(
 export async function setQuantityAction(itemId: string, formData: FormData) {
   const quantity = Number(formData.get("quantity"));
   if (!z.uuid().safeParse(itemId).success || !Number.isFinite(quantity)) return;
+  if (!(await allowRequest("cart"))) return;
   const cart = await getCurrentCart();
   if (!cart) return;
   await setItemQuantity(cart.id, itemId, quantity);
@@ -50,6 +53,7 @@ export async function setQuantityAction(itemId: string, formData: FormData) {
 
 export async function removeItemAction(itemId: string) {
   if (!z.uuid().safeParse(itemId).success) return;
+  if (!(await allowRequest("cart"))) return;
   const cart = await getCurrentCart();
   if (!cart) return;
   await removeItem(cart.id, itemId);

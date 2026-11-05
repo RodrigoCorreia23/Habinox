@@ -243,6 +243,7 @@
       "drawing": "Desenho com as medidas escolhidas",
       "addToCart": "Adicionar ao carrinho",
       "error": "Não foi possível calcular o preço. Tente de novo.",
+      "rateLimited": "Demasiados pedidos seguidos. Aguarde um minuto e tente de novo.",
       "adding": "A adicionar…",
       "added": "Adicionado ao carrinho.",
       "viewCart": "Ver carrinho",
@@ -250,7 +251,8 @@
         "invalid": "Não foi possível adicionar: verifique as opções.",
         "unavailable": "Esta combinação já não está disponível.",
         "not_found": "Este produto já não está disponível.",
-        "full": "O carrinho está cheio (50 linhas)."
+        "full": "O carrinho está cheio (50 linhas).",
+        "rate_limited": "Demasiados pedidos seguidos. Aguarde um minuto e tente de novo."
       },
       "priceKept": "O preço fica garantido durante {days} dias."
     },
@@ -303,7 +305,8 @@
         "unavailable": "Já não estão disponíveis: {products}. Remova-os do carrinho para continuar.",
         "invalid": "Verifique os campos assinalados.",
         "failed": "Não foi possível enviar a encomenda. Tente de novo.",
-        "price_changed": "O preço mudou desde que abriu esta página (um orçamento expirou). Reveja o novo total e envie de novo."
+        "price_changed": "O preço mudou desde que abriu esta página (um orçamento expirou). Reveja o novo total e envie de novo.",
+        "rate_limited": "Demasiadas tentativas seguidas. Aguarde alguns minutos e envie de novo."
       }
     },
     "order": {

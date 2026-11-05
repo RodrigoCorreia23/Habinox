@@ -4,11 +4,12 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { log } from "@/lib/log";
 import { requireUser } from "@/server/auth/session";
+import { allowRequest } from "@/server/rate-limit";
 import { checkoutInputSchema, placeOrder } from "@/server/orders/place";
 import { getCurrentCart } from "@/server/store/current-cart";
 
 export type CheckoutState = {
-  error?: "empty" | "unavailable" | "invalid" | "failed" | "price_changed";
+  error?: "empty" | "unavailable" | "invalid" | "failed" | "price_changed" | "rate_limited";
   products?: string[];
   fieldErrors?: Record<string, string>;
 } | null;
@@ -49,6 +50,7 @@ export async function placeOrderAction(
 
   const cart = await getCurrentCart();
   if (!cart) return { error: "empty" };
+  if (!(await allowRequest("order", `user:${session.user.id}`))) return { error: "rate_limited" };
 
   let result;
   try {
