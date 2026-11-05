@@ -7,7 +7,12 @@ import * as schema from "@/db/schema";
 import { env } from "@/env";
 import { log } from "@/lib/log";
 import { sendEmail } from "@/server/email/send";
-import { resetPasswordMessage, verifyEmailMessage } from "@/server/email/templates";
+import {
+  RESET_LINK_HOURS,
+  resetPasswordMessage,
+  VERIFY_LINK_HOURS,
+  verifyEmailMessage,
+} from "@/server/email/templates";
 import { readSignUpConsents, signUpConsentRows } from "./sign-up-consents";
 
 export const auth = betterAuth({
@@ -23,6 +28,8 @@ export const auth = betterAuth({
     requireEmailVerification: true,
     minPasswordLength: 10,
     revokeSessionsOnPasswordReset: true,
+    // O email diz a validade do link: os dois valores vêm do mesmo sítio.
+    resetPasswordTokenExpiresIn: RESET_LINK_HOURS * 3600,
     sendResetPassword: async ({ user, url }) => {
       await sendEmail(resetPasswordMessage(user.email, url));
     },
@@ -31,6 +38,7 @@ export const auth = betterAuth({
     sendOnSignUp: true,
     sendOnSignIn: true,
     autoSignInAfterVerification: true,
+    expiresIn: VERIFY_LINK_HOURS * 3600,
     sendVerificationEmail: async ({ user, url }) => {
       await sendEmail(verifyEmailMessage(user.email, url));
     },
