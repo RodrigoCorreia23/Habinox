@@ -3,8 +3,11 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { formatEuros } from "@/lib/money";
 import { isOrderStatus } from "@/lib/orders/state";
+import { COMPANY } from "@/content/legal/company";
 import { requireUser } from "@/server/auth/session";
 import { listOrdersForUser } from "@/server/orders/read";
+import { getMarketingConsent } from "@/server/privacy";
+import { MarketingToggle } from "./marketing-toggle";
 import { SignOutButton } from "./sign-out-button";
 
 export async function generateMetadata({
@@ -26,7 +29,10 @@ export default async function AccountPage({ params }: PageProps<"/[locale]/conta
   const session = await requireUser(`/${locale}/conta`, locale);
   const t = await getTranslations("Account");
   const ts = await getTranslations("Shop.order");
-  const orders = await listOrdersForUser(session.user.id);
+  const [orders, marketing] = await Promise.all([
+    listOrdersForUser(session.user.id),
+    getMarketingConsent(session.user.id),
+  ]);
 
   return (
     <main className="mx-auto w-full max-w-[1440px] px-5 pt-12 pb-24 md:px-14 md:pt-16 md:pb-36">
@@ -81,6 +87,36 @@ export default async function AccountPage({ params }: PageProps<"/[locale]/conta
             ))}
           </ul>
         )}
+      </section>
+
+      <section aria-labelledby="privacidade" className="mt-16 md:mt-24">
+        <h2 id="privacidade" className="font-display text-[clamp(32px,4vw,48px)] leading-none">
+          {t("privacy.title")}
+        </h2>
+        <div className="mt-8 grid gap-6">
+          <MarketingToggle granted={marketing === true} />
+          <p className="text-night-muted max-w-2xl text-sm leading-relaxed">
+            {t.rich("privacy.erase", {
+              email: COMPANY.email,
+              mail: (chunks) => (
+                <a
+                  href={`mailto:${COMPANY.email}?subject=${encodeURIComponent(t("privacy.eraseSubject"))}`}
+                  className="text-night-soft hover:text-amber underline underline-offset-4"
+                >
+                  {chunks}
+                </a>
+              ),
+              policy: (chunks) => (
+                <Link
+                  href="/privacidade"
+                  className="text-night-soft hover:text-amber underline underline-offset-4"
+                >
+                  {chunks}
+                </Link>
+              ),
+            })}
+          </p>
+        </div>
       </section>
     </main>
   );
