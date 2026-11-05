@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { isAuthorizedCronRequest } from "@/server/jobs/cron-auth";
 import { getJob } from "@/server/jobs/registry";
@@ -30,5 +31,26 @@ describe("getJob", () => {
   it("não devolve propriedades herdadas do protótipo", () => {
     expect(getJob("toString")).toBeUndefined();
     expect(getJob("__proto__")).toBeUndefined();
+  });
+});
+
+describe("vercel.json", () => {
+  const config = JSON.parse(readFileSync("vercel.json", "utf8")) as {
+    crons: { path: string; schedule: string }[];
+  };
+
+  it("cada cron aponta para um job registado", () => {
+    for (const cron of config.crons) {
+      const name = cron.path.replace(/^\/api\/cron\//, "");
+      expect(getJob(name), cron.path).toBeTypeOf("function");
+    }
+  });
+
+  it("agenda a sincronização do ERP, a expiração e a limpeza", () => {
+    expect(config.crons.map((cron) => cron.path).sort()).toEqual([
+      "/api/cron/cleanup",
+      "/api/cron/expire-orders",
+      "/api/cron/odoo-sync",
+    ]);
   });
 });

@@ -61,7 +61,8 @@ export type ChangeResult = { ok: true } | { ok: false; message: string };
 export async function changeOrderStatus(params: {
   orderId: string;
   to: OrderStatus;
-  actorUserId: string;
+  /** `null` quando é o sistema (ex.: expiração automática). */
+  actorUserId: string | null;
   note: string;
 }): Promise<ChangeResult> {
   const { orderId, to, actorUserId, note } = params;

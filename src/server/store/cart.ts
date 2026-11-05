@@ -4,7 +4,7 @@
  * cookie; na BD guarda-se só o hash, para um dump da BD não dar acesso a carrinhos.
  */
 import { createHash, randomBytes } from "node:crypto";
-import { and, asc, count, eq, sql } from "drizzle-orm";
+import { and, asc, count, eq, lt, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cartItems, carts, categories, products, quotes } from "@/db/schema";
 import { localize } from "@/lib/localized";
@@ -234,4 +234,18 @@ export async function setItemQuantity(cartId: string, itemId: string, quantity: 
 
 export async function removeItem(cartId: string, itemId: string) {
   await db.delete(cartItems).where(and(eq(cartItems.id, itemId), eq(cartItems.cartId, cartId)));
+}
+
+/**
+ * Apaga os carrinhos sem mexer há mais tempo do que dura o cookie: os anónimos
+ * já não têm cookie que lhes chegue (é gravado só ao criar); os de uma conta
+ * ficaram 60 dias parados. As linhas vão em cascata; os orçamentos ficam
+ * (dados de procura para as métricas e os relatórios).
+ */
+export async function deleteStaleCarts(): Promise<number> {
+  const removed = await db
+    .delete(carts)
+    .where(lt(carts.updatedAt, sql`now() - make_interval(secs => ${CART_COOKIE_MAX_AGE})`))
+    .returning({ id: carts.id });
+  return removed.length;
 }

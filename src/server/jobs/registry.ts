@@ -1,6 +1,8 @@
 import { db } from "@/db/client";
 import type { Logger } from "@/lib/log";
+import { expireStaleOrders } from "@/server/orders/expire";
 import { deleteExpiredRateLimits } from "@/server/rate-limit";
+import { deleteStaleCarts } from "@/server/store/cart";
 import { getErpClient, syncErpMaterials } from "@/server/sync/odoo";
 
 export interface JobContext {
@@ -28,8 +30,17 @@ export const jobs = {
     if (summary.status === "failed") throw new Error("Sincronização do ERP falhou");
     return { items: summary.inserted + summary.updated + summary.missing, details: { ...summary } };
   },
-  // Arrumação diária: apaga o que já não serve (contagens do limite de pedidos).
-  cleanup: async () => ({ items: await deleteExpiredRateLimits() }),
+  // Arrumação diária: carrinhos abandonados e contagens do limite de pedidos.
+  cleanup: async () => {
+    const carts = await deleteStaleCarts();
+    const rateLimits = await deleteExpiredRateLimits();
+    return { items: carts + rateLimits, details: { carts, rateLimits } };
+  },
+  // Encomendas por pagar há mais de `settings.order_expiry_days` (desligado por omissão).
+  "expire-orders": async ({ log }) => {
+    const result = await expireStaleOrders(log);
+    return { items: result.expired, details: result };
+  },
 } satisfies Record<string, Job>;
 
 export type JobName = keyof typeof jobs;
