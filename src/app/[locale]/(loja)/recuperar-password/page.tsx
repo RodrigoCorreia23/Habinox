@@ -13,8 +13,12 @@ export default async function ForgotPasswordPage({
   return (
     <AuthCard
       title={t("forgot.title")}
+      accent={t("forgot.accent")}
       footer={
-        <Link href="/entrar" className="underline">
+        <Link
+          href="/entrar"
+          className="text-night-text decoration-night-line-strong hover:text-amber min-h-11 underline underline-offset-4"
+        >
           {t("forgot.back")}
         </Link>
       }

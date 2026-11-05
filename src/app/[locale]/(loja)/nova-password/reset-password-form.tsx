@@ -1,53 +1,57 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { type FormEvent, useState } from "react";
 import { Field } from "@/components/auth/field";
 import { FormMessage } from "@/components/auth/form-message";
+import { SubmitButton } from "@/components/auth/submit-button";
 import { useAuthErrorMessage } from "@/components/auth/use-auth-error";
-import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 import { authClient } from "@/lib/auth-client";
 
-export function SignUpForm() {
+export function ResetPasswordForm({ token }: { token: string }) {
   const t = useTranslations("Auth");
-  const locale = useLocale();
   const errorMessage = useAuthErrorMessage();
   const [error, setError] = useState<string | null>(null);
-  const [doneFor, setDoneFor] = useState<string | null>(null);
+  const [done, setDone] = useState(false);
   const [pending, setPending] = useState(false);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    const email = String(form.get("email"));
     setPending(true);
     setError(null);
-    const { error } = await authClient.signUp.email({
-      name: String(form.get("name")),
-      email,
-      password: String(form.get("password")),
-      // Para onde o link de verificação leva, já com sessão iniciada.
-      callbackURL: `/${locale}/conta`,
+    const { error } = await authClient.resetPassword({
+      newPassword: String(form.get("password")),
+      token,
     });
     setPending(false);
     if (error) {
       setError(errorMessage(error));
       return;
     }
-    setDoneFor(email);
+    setDone(true);
   }
 
-  if (doneFor) {
-    return <FormMessage success={t("signUp.done", { email: doneFor })} />;
+  if (done) {
+    return (
+      <div className="grid gap-5">
+        <FormMessage success={t("reset.done")} />
+        <Link
+          href="/entrar"
+          className="text-night-text decoration-night-line-strong hover:text-amber min-h-11 underline underline-offset-4"
+        >
+          {t("signIn.title")}
+        </Link>
+      </div>
+    );
   }
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-4">
-      <Field id="name" label={t("name")} autoComplete="name" required />
-      <Field id="email" label={t("email")} type="email" autoComplete="email" required />
+    <form onSubmit={onSubmit} className="grid gap-5">
       <Field
         id="password"
-        label={t("password")}
+        label={t("newPassword")}
         hint={t("passwordHint")}
         type="password"
         autoComplete="new-password"
@@ -55,9 +59,7 @@ export function SignUpForm() {
         required
       />
       <FormMessage error={error} />
-      <Button type="submit" disabled={pending}>
-        {t("signUp.submit")}
-      </Button>
+      <SubmitButton pending={pending}>{t("reset.submit")}</SubmitButton>
     </form>
   );
 }

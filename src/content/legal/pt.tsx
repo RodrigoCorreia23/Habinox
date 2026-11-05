@@ -148,7 +148,7 @@ export const terms: LegalDocument = {
 
 export const privacy: LegalDocument = {
   title: "Política de privacidade",
-  updated: "4 de novembro de 2026",
+  updated: "5 de novembro de 2026",
   body: (
     <>
       <h2 id="responsavel">1. Responsável pelo tratamento</h2>
@@ -170,9 +170,16 @@ export const privacy: LegalDocument = {
           (faturação).
         </li>
         <li>
-          <strong>Confirmações:</strong> a data em que aceitou estes termos e a responsabilidade
-          pelas medidas, como prova do que foi acordado. Base legal: interesse legítimo e
-          cumprimento de obrigações legais.
+          <strong>Contacto comercial (opcional):</strong> se o autorizar ao criar a conta, usamos o
+          seu nome, email e os produtos que configurou para o contactar sobre os seus orçamentos e
+          novidades da Habinox. Base legal: consentimento, que pode retirar a qualquer momento (na
+          sua conta, em “Privacidade”, ou pedindo-nos).
+        </li>
+        <li>
+          <strong>Confirmações:</strong> a data em que aceitou estes termos (ao criar conta e em
+          cada encomenda), a sua resposta ao contacto comercial e a responsabilidade pelas medidas,
+          como prova do que foi acordado. Base legal: interesse legítimo e cumprimento de obrigações
+          legais.
         </li>
         <li>
           <strong>Carrinho:</strong> os produtos que juntou ao carrinho, ligados a um código
@@ -187,12 +194,15 @@ export const privacy: LegalDocument = {
 
       <h2 id="prazos">3. Durante quanto tempo</h2>
       <ul>
-        <li>Conta: enquanto a mantiver; pode pedir para a apagar a qualquer momento.</li>
+        <li>
+          Conta: enquanto a mantiver; pode pedir para a apagar a qualquer momento. Ao apagar,
+          retiramos o nome, o email e a palavra-passe; as encomendas ficam pelo prazo legal.
+        </li>
         <li>
           Encomendas e faturação: 10 anos, por obrigação legal (documentos fiscais e
           contabilísticos).
         </li>
-        <li>Carrinhos sem encomenda: são apagados ao fim de alguns meses sem uso.</li>
+        <li>Carrinhos sem encomenda: são apagados ao fim de 60 dias sem uso.</li>
         <li>Registos técnicos: até 12 meses.</li>
       </ul>
 

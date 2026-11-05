@@ -16,13 +16,16 @@ export default async function ResetPasswordPage({
   const validToken = typeof token === "string" && token.length > 0 && !error;
 
   return (
-    <AuthCard title={t("reset.title")}>
+    <AuthCard title={t("reset.title")} accent={t("reset.accent")}>
       {validToken ? (
         <ResetPasswordForm token={token} />
       ) : (
         <div className="grid gap-4">
           <FormMessage error={t("reset.invalidLink")} />
-          <Link href="/recuperar-password" className="text-sm underline">
+          <Link
+            href="/recuperar-password"
+            className="text-night-text decoration-night-line-strong hover:text-amber min-h-11 underline underline-offset-4"
+          >
             {t("reset.requestNew")}
           </Link>
         </div>

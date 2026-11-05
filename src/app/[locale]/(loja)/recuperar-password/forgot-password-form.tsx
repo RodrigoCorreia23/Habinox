@@ -4,8 +4,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { type FormEvent, useState } from "react";
 import { Field } from "@/components/auth/field";
 import { FormMessage } from "@/components/auth/form-message";
+import { SubmitButton } from "@/components/auth/submit-button";
 import { useAuthErrorMessage } from "@/components/auth/use-auth-error";
-import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 
 export function ForgotPasswordForm() {
@@ -37,13 +37,11 @@ export function ForgotPasswordForm() {
   if (done) return <FormMessage success={t("forgot.done")} />;
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-4">
-      <p className="text-muted-foreground text-sm">{t("forgot.intro")}</p>
+    <form onSubmit={onSubmit} className="grid gap-5">
+      <p className="text-night-soft text-base">{t("forgot.intro")}</p>
       <Field id="email" label={t("email")} type="email" autoComplete="email" required />
       <FormMessage error={error} />
-      <Button type="submit" disabled={pending}>
-        {t("forgot.submit")}
-      </Button>
+      <SubmitButton pending={pending}>{t("forgot.submit")}</SubmitButton>
     </form>
   );
 }

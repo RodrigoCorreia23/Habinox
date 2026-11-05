@@ -126,8 +126,8 @@ Escolhida para um programador sozinho, com manutenção baixa e muito trabalho f
 ```
 src/
   app/
-    [locale]/(loja)/          catálogo, produto, carrinho, checkout
-    [locale]/(conta)/         registo, login, encomendas do cliente
+    [locale]/(inicio)/        página inicial (cena da casa; login sobre a cena)
+    [locale]/(loja)/          catálogo, produto, carrinho, checkout, conta, registo, passwords, 404
     [locale]/pro/             área Pro (fase 4)
     admin/                    backoffice (só PT)
     api/

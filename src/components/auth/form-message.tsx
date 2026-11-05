@@ -1,5 +1,3 @@
-import { Alert, AlertDescription } from "@/components/ui/alert";
-
 export function FormMessage({
   error,
   success,
@@ -9,16 +7,16 @@ export function FormMessage({
 }) {
   if (error) {
     return (
-      <Alert variant="destructive" role="alert">
-        <AlertDescription>{error}</AlertDescription>
-      </Alert>
+      <p role="alert" className="text-night-error text-sm">
+        {error}
+      </p>
     );
   }
   if (success) {
     return (
-      <Alert role="status">
-        <AlertDescription>{success}</AlertDescription>
-      </Alert>
+      <p role="status" className="border-amber text-night-text border-l-2 pl-4 text-base">
+        {success}
+      </p>
     );
   }
   return null;

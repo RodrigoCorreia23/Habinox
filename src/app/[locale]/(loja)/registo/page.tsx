@@ -11,10 +11,14 @@ export default async function SignUpPage({ params }: PageProps<"/[locale]/regist
   return (
     <AuthCard
       title={t("signUp.title")}
+      accent={t("signUp.accent")}
       footer={
         <p>
           {t("signUp.hasAccount")}{" "}
-          <Link href="/entrar" className="underline">
+          <Link
+            href="/entrar"
+            className="text-night-text decoration-night-line-strong hover:text-amber min-h-11 underline underline-offset-4"
+          >
             {t("signUp.signIn")}
           </Link>
         </p>
