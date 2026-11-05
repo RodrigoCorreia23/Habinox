@@ -46,11 +46,12 @@ describe("vercel.json", () => {
     }
   });
 
-  it("agenda a sincronização do ERP, a expiração e a limpeza", () => {
+  it("agenda a sincronização do ERP, a expiração, a limpeza e as traduções", () => {
     expect(config.crons.map((cron) => cron.path).sort()).toEqual([
       "/api/cron/cleanup",
       "/api/cron/expire-orders",
       "/api/cron/odoo-sync",
+      "/api/cron/translations",
     ]);
   });
 });

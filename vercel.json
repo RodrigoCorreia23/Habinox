@@ -1,8 +1,21 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "crons": [
-    { "path": "/api/cron/odoo-sync", "schedule": "0 4 * * *" },
-    { "path": "/api/cron/expire-orders", "schedule": "30 4 * * *" },
-    { "path": "/api/cron/cleanup", "schedule": "0 5 * * *" }
+    {
+      "path": "/api/cron/odoo-sync",
+      "schedule": "0 4 * * *"
+    },
+    {
+      "path": "/api/cron/expire-orders",
+      "schedule": "30 4 * * *"
+    },
+    {
+      "path": "/api/cron/cleanup",
+      "schedule": "0 5 * * *"
+    },
+    {
+      "path": "/api/cron/translations",
+      "schedule": "30 5 * * *"
+    }
   ]
 }

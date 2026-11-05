@@ -18,6 +18,9 @@ export const serverEnvSchema = z
     // Email: sem RESEND_API_KEY os emails são escritos no log (só em development).
     RESEND_API_KEY: z.string().min(1).optional(),
     EMAIL_FROM: z.string().min(1).optional(),
+    // Tradução automática do catálogo (Claude). Sem ela, em development usa-se um tradutor
+    // de teste; noutros ambientes as traduções ficam por fazer (a loja mostra o português).
+    ANTHROPIC_API_KEY: z.string().min(1).optional(),
     // Pasta das imagens enviadas no backoffice (só em development; em produção usa-se o R2).
     STORAGE_DIR: z.string().min(1).optional(),
   })

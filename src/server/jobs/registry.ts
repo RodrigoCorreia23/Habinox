@@ -1,5 +1,6 @@
 import { db } from "@/db/client";
 import type { Logger } from "@/lib/log";
+import { translatePending } from "@/server/catalog/translations";
 import { expireStaleOrders } from "@/server/orders/expire";
 import { deleteExpiredRateLimits } from "@/server/rate-limit";
 import { deleteStaleCarts } from "@/server/store/cart";
@@ -40,6 +41,12 @@ export const jobs = {
   "expire-orders": async ({ log }) => {
     const result = await expireStaleOrders(log);
     return { items: result.expired, details: result };
+  },
+  // Rede de segurança da tradução automática do catálogo (normalmente corre ao guardar).
+  translations: async ({ log }) => {
+    const summary = await translatePending(log);
+    if (summary.failed > 0) throw new Error(`${summary.failed} traduções falharam`);
+    return { items: summary.translated, details: { ...summary } };
   },
 } satisfies Record<string, Job>;
 
