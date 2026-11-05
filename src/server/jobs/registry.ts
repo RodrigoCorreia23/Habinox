@@ -1,5 +1,6 @@
 import { db } from "@/db/client";
 import type { Logger } from "@/lib/log";
+import { deleteExpiredRateLimits } from "@/server/rate-limit";
 import { getErpClient, syncErpMaterials } from "@/server/sync/odoo";
 
 export interface JobContext {
@@ -27,6 +28,8 @@ export const jobs = {
     if (summary.status === "failed") throw new Error("Sincronização do ERP falhou");
     return { items: summary.inserted + summary.updated + summary.missing, details: { ...summary } };
   },
+  // Arrumação diária: apaga o que já não serve (contagens do limite de pedidos).
+  cleanup: async () => ({ items: await deleteExpiredRateLimits() }),
 } satisfies Record<string, Job>;
 
 export type JobName = keyof typeof jobs;

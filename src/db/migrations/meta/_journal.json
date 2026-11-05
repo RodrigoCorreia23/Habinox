@@ -50,6 +50,13 @@
       "when": 1793835811724,
       "tag": "0006_imagens",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1793872945833,
+      "tag": "0007_limite_pedidos",
+      "breakpoints": true
     }
   ]
 }
