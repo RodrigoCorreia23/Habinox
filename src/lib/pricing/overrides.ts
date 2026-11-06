@@ -42,3 +42,21 @@ export function isStale(
   if (override.unitCost === null || override.referenceCost === null) return false;
   return override.referenceCost !== currentErpCost;
 }
+
+/**
+ * Margem escrita numa linha de custo. Nas linhas do construtor manda sempre a
+ * da linha (vazia = por decidir, mesmo que o artigo tenha margem geral); nas
+ * fórmulas avançadas, a da linha se existir, senão a do artigo.
+ */
+export function withLineMargin(
+  item: PricedItem,
+  lineMargin: Decimal | null,
+  fromBuilder: boolean,
+): PricedItem {
+  if (!fromBuilder && lineMargin === null) return item;
+  return {
+    ...item,
+    margin: lineMargin,
+    source: { cost: item.source?.cost ?? "general", margin: "product" },
+  };
+}

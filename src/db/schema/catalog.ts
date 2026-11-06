@@ -22,11 +22,13 @@ import {
   text,
   timestamp,
   unique,
+  uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
 import type { Focus } from "@/lib/images";
 import type { LocalizedText } from "@/lib/localized";
 import type { Condition, RuleEffect } from "@/lib/options";
+import type { BuilderSpec } from "@/lib/pricing/builder";
 import { user } from "./auth";
 import { materials } from "./materials";
 
@@ -57,8 +59,13 @@ export const optionDefinitions = pgTable(
   "option_definitions",
   {
     id: uuid().defaultRandom().primaryKey(),
-    /** Chave técnica; não muda depois de usada num orçamento. */
-    key: text().notNull().unique(),
+    /** Chave técnica; não muda depois de usada num orçamento. Única na biblioteca e em cada produto. */
+    key: text().notNull(),
+    /**
+     * Divisão de um produto (criada no construtor): só esse produto a usa.
+     * null = opção da biblioteca, partilhada.
+     */
+    productId: uuid().references((): AnyPgColumn => products.id),
     name: jsonb().$type<LocalizedText>().notNull(),
     type: text().notNull(),
     /** Unidade de apresentação das medidas (mm, cm, m). */
@@ -75,6 +82,12 @@ export const optionDefinitions = pgTable(
     ),
     check("option_definitions_display", sql`${table.display} in ('pills', 'list', 'swatches')`),
     check("option_definitions_key", sql`${table.key} ~ '^[a-z][a-z0-9_]*$'`),
+    uniqueIndex("option_definitions_library_key")
+      .on(table.key)
+      .where(sql`${table.productId} is null`),
+    uniqueIndex("option_definitions_product_key")
+      .on(table.productId, table.key)
+      .where(sql`${table.productId} is not null`),
   ],
 );
 
@@ -271,6 +284,13 @@ export const formulaLines = pgTable(
     /** …ou escolhido pelo valor desta opção (ver formula_line_materials). */
     articleOptionId: uuid().references(() => optionDefinitions.id),
     sectorId: uuid().references(() => sectors.id),
+    /**
+     * Margem desta linha, escrita no construtor; null = a do artigo/sector
+     * (fórmulas avançadas). Nas linhas do construtor é obrigatória.
+     */
+    margin: margin(),
+    /** Linha do construtor: «fixo + fator × base» (a expressão gera-se daqui). */
+    builder: jsonb().$type<BuilderSpec>(),
   },
   (table) => [
     check(

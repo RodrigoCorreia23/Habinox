@@ -78,6 +78,13 @@
       "when": 1793902027685,
       "tag": "0010_custos_por_produto",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1793909730695,
+      "tag": "0011_construtor",
+      "breakpoints": true
     }
   ]
 }

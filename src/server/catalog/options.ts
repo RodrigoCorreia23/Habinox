@@ -36,7 +36,11 @@ export async function listOptions({ archived = false } = {}) {
       })
       .from(optionDefinitions)
       .where(
-        archived ? isNotNull(optionDefinitions.archivedAt) : isNull(optionDefinitions.archivedAt),
+        and(
+          // Só a biblioteca: as divisões dos produtos vivem no próprio produto.
+          isNull(optionDefinitions.productId),
+          archived ? isNotNull(optionDefinitions.archivedAt) : isNull(optionDefinitions.archivedAt),
+        ),
       )
       .orderBy(asc(optionDefinitions.key)),
     db
@@ -136,7 +140,11 @@ export async function listOptionSummaries({ archived = false } = {}) {
       .select()
       .from(optionDefinitions)
       .where(
-        archived ? isNotNull(optionDefinitions.archivedAt) : isNull(optionDefinitions.archivedAt),
+        and(
+          // Só a biblioteca: as divisões dos produtos vivem no próprio produto.
+          isNull(optionDefinitions.productId),
+          archived ? isNotNull(optionDefinitions.archivedAt) : isNull(optionDefinitions.archivedAt),
+        ),
       )
       .orderBy(asc(optionDefinitions.key)),
     db
@@ -204,7 +212,7 @@ export async function createOption(input: OptionInput): Promise<Result<keyof Opt
   const [taken] = await db
     .select({ id: optionDefinitions.id })
     .from(optionDefinitions)
-    .where(eq(optionDefinitions.key, input.key));
+    .where(and(eq(optionDefinitions.key, input.key), isNull(optionDefinitions.productId)));
   if (taken) {
     return {
       ok: false,
@@ -426,7 +434,7 @@ export async function listLibraryOptionInfo() {
   const options = await db
     .select()
     .from(optionDefinitions)
-    .where(isNull(optionDefinitions.archivedAt))
+    .where(and(isNull(optionDefinitions.archivedAt), isNull(optionDefinitions.productId)))
     .orderBy(asc(optionDefinitions.key));
   const values = await db
     .select()

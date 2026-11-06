@@ -20,10 +20,17 @@ import {
 } from "@/db/schema";
 import type { LocalizedText } from "@/lib/localized";
 import { decimalFromCents, parseDecimal } from "@/lib/money";
-import { type Condition, conditionsSchema, type ProductOptionDef, type Rule } from "@/lib/options";
+import {
+  applicableLibraryRules,
+  type Condition,
+  conditionsSchema,
+  type ProductOptionDef,
+  type Rule,
+} from "@/lib/options";
 import {
   applyOverride,
   type CostOverride,
+  withLineMargin,
   type FormulaLine,
   type PricedItem,
   type PricingInput,
@@ -183,6 +190,11 @@ export async function loadPricingModel(versionId: string): Promise<PricingModel 
   );
 
   const lines: FormulaLine[] = lineRows.map(({ line, sector, articleOption }) => {
+    // Margem da linha: no construtor é sempre a da linha (vazia = por decidir).
+    const lineMargin = line.margin === null ? null : parseDecimal(line.margin);
+    const fromBuilder = line.builder !== null;
+    const withMargin = (item: PricedItem | undefined) =>
+      item ? withLineMargin(item, lineMargin, fromBuilder) : undefined;
     const base = {
       label: line.label,
       kind: line.kind as FormulaLine["kind"],
@@ -193,21 +205,23 @@ export async function loadPricingModel(versionId: string): Promise<PricingModel 
     if (sector) {
       return {
         ...base,
-        item: applyOverride(
-          {
-            code: sector.name,
-            name: sector.name,
-            unitCost: decimalFromCents(sector.hourlyRateCents),
-            margin: sector.margin === null ? null : parseDecimal(sector.margin),
-          },
-          sectorOverride.get(sector.id),
+        item: withMargin(
+          applyOverride(
+            {
+              code: sector.name,
+              name: sector.name,
+              unitCost: decimalFromCents(sector.hourlyRateCents),
+              margin: sector.margin === null ? null : parseDecimal(sector.margin),
+            },
+            sectorOverride.get(sector.id),
+          ),
         ),
       };
     }
-    if (line.materialId) return { ...base, item: items.get(line.materialId) };
+    if (line.materialId) return { ...base, item: withMargin(items.get(line.materialId)) };
     const byValue: Record<string, PricedItem> = {};
     for (const mapping of mappings.filter((row) => row.lineId === line.id)) {
-      const item = items.get(mapping.materialId);
+      const item = withMargin(items.get(mapping.materialId));
       if (item) byValue[mapping.valueKey] = item;
     }
     return { ...base, itemByOption: { option: articleOption ?? "", items: byValue } };
@@ -232,11 +246,27 @@ export async function loadPricingModel(versionId: string): Promise<PricingModel 
     .from(optionRules)
     .where(or(eq(optionRules.productVersionId, versionId), isNull(optionRules.productVersionId)))
     .orderBy(asc(optionRules.position));
-  const rules: Rule[] = ruleRows.map((rule) => ({
-    conditions: rule.conditions,
-    effect: rule.effect,
-    ...(rule.message && { message: rule.message.pt }),
+  const allRules = ruleRows.map((rule) => ({
+    library: rule.productVersionId === null,
+    rule: {
+      conditions: rule.conditions,
+      effect: rule.effect,
+      ...(rule.message && { message: rule.message.pt }),
+    } as Rule,
   }));
+  // Regras partilhadas só para opções partilhadas (as divisões do produto podem repetir chaves).
+  const libraryKeys = new Set(
+    versionOptions.filter((row) => row.option.productId === null).map((row) => row.option.key),
+  );
+  const applicable = new Set(
+    applicableLibraryRules(
+      allRules.filter((entry) => entry.library).map((entry) => entry.rule),
+      libraryKeys,
+    ),
+  );
+  const rules: Rule[] = allRules
+    .filter((entry) => !entry.library || applicable.has(entry.rule))
+    .map((entry) => entry.rule);
 
   return {
     input: {
