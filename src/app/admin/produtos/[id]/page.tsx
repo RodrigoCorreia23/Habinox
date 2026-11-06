@@ -326,7 +326,10 @@ export default async function ProductPage({ params }: PageProps<"/admin/produtos
         (row) =>
           `«${row.option.name.pt}» não tem mínimo e máximo: o cliente pode pedir qualquer tamanho.`,
       ),
-    ...(problems?.warnings.filter((warning) => warning.startsWith("Desapareceram")) ?? []),
+    ...(problems?.warnings.filter(
+      (warning) =>
+        warning.startsWith("Desapareceram") || warning.startsWith("Os valores que vêm escolhidos"),
+    ) ?? []),
   ];
   const firstProblemHref = located[0]?.href ?? "#publicar";
 

@@ -8,7 +8,8 @@ import { SubmitButton } from "@/components/auth/submit-button";
 import { useAuthErrorMessage } from "@/components/auth/use-auth-error";
 import { authClient } from "@/lib/auth-client";
 
-export function SignUpForm() {
+/** next: para onde voltar depois de confirmar o email (ex.: o checkout de onde veio). */
+export function SignUpForm({ next }: { next: string | null }) {
   const t = useTranslations("Auth");
   const locale = useLocale();
   const errorMessage = useAuthErrorMessage();
@@ -27,7 +28,7 @@ export function SignUpForm() {
       email,
       password: String(form.get("password")),
       // Para onde o link de verificação leva, já com sessão iniciada.
-      callbackURL: `/${locale}/conta`,
+      callbackURL: next ?? `/${locale}/conta`,
       // Consentimentos (RGPD): o servidor recusa sem os termos e grava ambos em
       // `consents` (src/server/auth/sign-up-consents.ts). Não são campos do
       // utilizador, por isso o tipo do cliente não os conhece.

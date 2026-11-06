@@ -99,7 +99,10 @@ export function SceneSignIn({
             <Link href="/recuperar-password" className={styles.tlink}>
               {t("forgot")}
             </Link>
-            <Link href="/registo" className={styles.tlink}>
+            <Link
+              href={next ? `/registo?next=${encodeURIComponent(next)}` : "/registo"}
+              className={styles.tlink}
+            >
               {t("create")}
             </Link>
           </p>

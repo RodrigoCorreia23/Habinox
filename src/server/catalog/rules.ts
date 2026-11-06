@@ -15,7 +15,13 @@ import {
   productVersions,
 } from "@/db/schema";
 import type { LocalizedText } from "@/lib/localized";
-import { conditionsSchema, ruleEffectSchema, type Rule, validateRules } from "@/lib/options";
+import {
+  blockedDefaults,
+  conditionsSchema,
+  ruleEffectSchema,
+  type Rule,
+  validateRules,
+} from "@/lib/options";
 import { validateFormula } from "@/lib/pricing";
 import { loadPricingModel } from "./formula";
 import { listCurrentVersions, type ProductRef } from "./options";
@@ -227,6 +233,25 @@ export async function checkVersion(versionId: string): Promise<VersionProblems> 
     } else if (!line.item && !line.itemByOption) {
       blocking.push(`Linha "${line.label}": o artigo ou o sector já não existe`);
     }
+  }
+
+  // O que vem escolhido não pode cair numa regra que bloqueia (a loja abriria com «não é possível»).
+  const defaults: Record<string, string | boolean> = {};
+  for (const option of model.meta) {
+    const chosen = option.values.find((value) => value.isDefault) ?? option.values[0];
+    if (option.type === "choice" && chosen) defaults[option.key] = chosen.key;
+  }
+  for (const message of blockedDefaults(options, model.rules, defaults)) {
+    const names = model.meta
+      .filter((option) => option.type === "choice" && defaults[option.key])
+      .map((option) => {
+        const value = option.values.find((v) => v.key === defaults[option.key]);
+        return `${option.name}: ${value?.label ?? defaults[option.key]}`;
+      })
+      .join(", ");
+    warnings.push(
+      `Os valores que vêm escolhidos (${names}) caem numa regra que bloqueia («${message}»): a loja abriria com esse aviso. Escolha outro valor por omissão.`,
+    );
   }
 
   // Artigos que desapareceram do ERP: mantêm o último custo, mas convém rever.

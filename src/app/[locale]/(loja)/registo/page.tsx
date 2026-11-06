@@ -1,10 +1,12 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { AuthCard } from "@/components/auth/auth-card";
+import { safeNextPath } from "@/lib/safe-redirect";
 import { Link } from "@/i18n/navigation";
 import { SignUpForm } from "./sign-up-form";
 
-export default async function SignUpPage({ params }: PageProps<"/[locale]/registo">) {
+export default async function SignUpPage({ params, searchParams }: PageProps<"/[locale]/registo">) {
   const { locale } = await params;
+  const next = safeNextPath((await searchParams).next);
   setRequestLocale(locale);
   const t = await getTranslations("Auth");
 
@@ -24,7 +26,7 @@ export default async function SignUpPage({ params }: PageProps<"/[locale]/regist
         </p>
       }
     >
-      <SignUpForm />
+      <SignUpForm next={next} />
     </AuthCard>
   );
 }

@@ -26,6 +26,7 @@ import {
 } from "@/db/schema";
 import type { LocalizedText } from "@/lib/localized";
 import { copyCostOverrides } from "./cost-overrides";
+import { suggestVarName } from "@/lib/options";
 import { SLUG_PATTERN } from "@/lib/slug";
 
 type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
@@ -559,6 +560,17 @@ export async function addOptionToVersion(versionId: string, optionId: string): P
       .select({ last: max(productOptions.position) })
       .from(productOptions)
       .where(eq(productOptions.productVersionId, versionId));
+    // Medidas e números: uma letra curta para a fórmula (L, H…), se estiver livre.
+    let varName: string | null = null;
+    if (option.type === "dimension" || option.type === "number") {
+      const others = await tx
+        .select({ var: productOptions.var, key: optionDefinitions.key })
+        .from(productOptions)
+        .innerJoin(optionDefinitions, eq(optionDefinitions.id, productOptions.optionId))
+        .where(eq(productOptions.productVersionId, versionId));
+      const taken = others.flatMap((row) => (row.var ? [row.var, row.key] : [row.key]));
+      varName = suggestVarName(option.name.pt, taken);
+    }
     const [created] = await tx
       .insert(productOptions)
       .values({
@@ -566,6 +578,7 @@ export async function addOptionToVersion(versionId: string, optionId: string): P
         optionId,
         position: (last ?? -1) + 1,
         required: option.type !== "boolean",
+        var: varName,
       })
       .returning({ id: productOptions.id });
 
