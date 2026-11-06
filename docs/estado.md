@@ -2,14 +2,22 @@
 
 > Documento vivo. **Atualizar no fim de cada sessão de trabalho** (secções 2, 6 e 7).
 > O `CLAUDE.md` tem o contexto de negócio, as decisões e as regras; este ficheiro tem
-> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-11-04.
+> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-11-06.
 
 ---
 
 ## 1. Resumo rápido (ler isto primeiro)
 
-> Atualizado a **2026-11-04**, no fim de uma sessão longa em que se fez quase toda a fase 1.
-> O detalhe de cada peça está na secção 6 ("Fase 1"); o histórico em `git log`.
+> Atualizado a **2026-11-06**. A fase 1 está quase toda feita localmente; o último trabalho foi o
+> **construtor de produto** (commit `11793c1`). O detalhe de cada peça está na secção 6 ("Fase 1");
+> o histórico em `git log`.
+
+### Retomar aqui (última sessão: 2026-11-05/06)
+
+- **Feito e enviado:** construtor de produto no backoffice (Base do produto + divisões com nome escolhido pelo Bruno, artigo, quantidade e margem por opção; vista «Avançado» com as fórmulas livres), correções do ensaio completo, traduções automáticas, emails em HTML, redesenho do backoffice, custos e margens por produto, cores do Odoo. Commits `a2faa54`, `9713af8`, `11793c1`.
+- **Próximo passo natural:** mostrar o construtor ao Bruno e recolher o que ele achar; depois os pontos de «Próximos passos sugeridos» abaixo.
+- **Nada por fazer commit** no fim da sessão; CI local verde (formatação, lint, tipos, 350 testes unitários, 6 e2e).
+- **Dados de ensaio só na BD local da máquina antiga** (não estão no git): categoria "Caixas de correio", produto "Caixa de correio de muro" (feito com fórmulas, por isso o construtor mostra o aviso de linhas avançadas), clientes `cliente.ensaio@exemplo.pt` e `cliente.dois@exemplo.pt`, encomenda HBX-2026-00001. Num PC novo há só o que `pnpm db:seed` e `pnpm db:demo` criam; para ensaiar, criar um produto pelo construtor.
 
 ### Onde estamos
 
@@ -18,7 +26,7 @@
 - **Não há deploy.** Tudo corre só localmente (bloqueado pelas contas Vercel/Neon/Resend/R2 em nome da Habinox).
 - **Ver a funcionar num PC novo:** seguir a secção 5, depois `pnpm db:demo` (carrega um portão de correr de demonstração) e abrir http://localhost:3000/pt. Entrar no backoffice (`/admin`) com o `SEED_ADMIN_EMAIL`/`SEED_ADMIN_PASSWORD` do `.env.local`. `pnpm db:demo:clean` apaga a demonstração.
 - **Cliente:** marca **HABINOX®** (não "Abinox"), Bruno Miguel Freitas, Lda, Núcleo Industrial de Antas, 4740-016 Antas, **Esposende**. Domínio `habinox.pt`, email `geral@habinox.pt`.
-- **Repositório:** `github.com/RodrigoCorreia23/Habinox`, ramo `main`, CI verde (formatação, lint, tipos, migrações, 216 testes unitários, build, 6 e2e).
+- **Repositório:** `github.com/RodrigoCorreia23/Habinox`, ramo `main`, CI verde (formatação, lint, tipos, migrações `0000`–`0011`, 350 testes unitários, build, 6 e2e).
 
 ### Decisões que mudaram desde o plano original (já no `CLAUDE.md`)
 
@@ -52,9 +60,14 @@
 | Registo e passwords no visual escuro, consentimentos no registo, 404                                                                                                                 | ✅                                                        | `src/components/auth/`                               |
 | Emails em HTML                                                                                                                                                                       | ✅ falta testar em clientes reais (Resend)                | `src/server/email/`                                  |
 | Traduções (7 línguas), seletor, emails por língua, traduções do catálogo                                                                                                             | ✅ produção só PT até aprovação                           | `messages/`, `/admin/traducoes`                      |
+| Tradução automática do catálogo com o Claude                                                                                                                                         | ✅ falta a `ANTHROPIC_API_KEY` da Habinox                 | `src/server/translation/`                            |
+| Redesenho do backoffice ("Ficha de fabrico")                                                                                                                                         | ✅                                                        | `src/components/admin/`                              |
+| Custos e margens por produto; cores importadas do Odoo                                                                                                                               | ✅                                                        | `src/server/catalog/cost-overrides.ts`               |
+| Construtor de produto (divisões, base, margem por linha, copiar divisão)                                                                                                             | ✅ falta mostrar ao Bruno                                 | `src/app/admin/produtos/[id]/builder.tsx`            |
 
 ### Próximos passos sugeridos (por ordem)
 
+0. **Mostrar o construtor ao Bruno** e ajustar ao que ele disser.
 1. **Visualizador GLB** quando chegarem os ficheiros do TopSolid.
 2. **Deploy** quando houver contas; depois o **adaptador Odoo real**.
 3. Fase 1B (pagamentos) só depois de fechar a fase 1.
@@ -67,6 +80,7 @@
 - **GLB** de teste exportados do TopSolid.
 - **NIPC, conservatória/matrícula e capital social** (páginas legais); revisão dos textos legais por jurista.
 - **Números** de clientes e toneladas da página inicial (retirados por serem provisórios).
+- **Cores no Odoo:** em que família estão, e se o preço do artigo da cor é a lacagem completa por m² ou só o acréscimo.
 - **Pendentes da reunião:** preço fixo por intervalo de medida; regra de transporte; prazo para expirar encomendas não pagas (o job já existe, desligado: `settings.order_expiry_days`); diferença aceitável face a orçamentos reais antes de validar um produto.
 
 ### Regras de trabalho neste repositório
