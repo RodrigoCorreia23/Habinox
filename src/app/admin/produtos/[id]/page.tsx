@@ -35,6 +35,11 @@ import {
   listVariables,
   loadPricingModel,
 } from "@/server/catalog/formula";
+import {
+  getBuilderData,
+  listBuilderSources,
+  listCopyableDivisions,
+} from "@/server/catalog/builder";
 import { listOptions, OPTION_TYPES } from "@/server/catalog/options";
 import { getProduct, listLeafCategories, listVersionOptions } from "@/server/catalog/products";
 import { checkVersion, listRules } from "@/server/catalog/rules";
@@ -73,6 +78,7 @@ import {
   OpenRowButton,
   StaticRow,
 } from "./inline-edit-row";
+import { ProductBuilder } from "./builder";
 import { SamplePrice } from "./sample-price";
 import { SectionNav } from "./section-nav";
 
@@ -119,9 +125,14 @@ function DangerZone({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default async function ProductPage({ params }: PageProps<"/admin/produtos/[id]">) {
+export default async function ProductPage({
+  params,
+  searchParams,
+}: PageProps<"/admin/produtos/[id]">) {
   await requireAdmin("/admin/produtos");
   const { id } = await params;
+  // Vista «Avançado»: as fórmulas livres de antes. Por omissão, o construtor.
+  const advanced = (await searchParams).vista === "avancado";
   if (!z.uuid().safeParse(id).success) notFound();
   const data = await getProduct(id);
   if (!data) notFound();
@@ -150,12 +161,16 @@ export default async function ProductPage({ params }: PageProps<"/admin/produtos
     getVatRate(),
     listRules(null),
   ]);
-  const [rules, problems, publishedModel, costItems] = await Promise.all([
-    shown ? listRules(shown.id) : Promise.resolve([]),
-    working ? checkVersion(working.id) : Promise.resolve(null),
-    working && published ? loadPricingModel(published.id) : Promise.resolve(null),
-    shown ? listVersionCostItems(shown.id) : Promise.resolve([]),
-  ]);
+  const [rules, problems, publishedModel, costItems, builderData, builderSources, copyable] =
+    await Promise.all([
+      shown ? listRules(shown.id) : Promise.resolve([]),
+      working ? checkVersion(working.id) : Promise.resolve(null),
+      working && published ? loadPricingModel(published.id) : Promise.resolve(null),
+      shown ? listVersionCostItems(shown.id) : Promise.resolve([]),
+      shown ? getBuilderData(shown.id) : Promise.resolve(null),
+      listBuilderSources(),
+      listCopyableDivisions(id),
+    ]);
 
   const category = categories.find((candidate) => candidate.id === product.categoryId);
   const shopHref = published && category ? `/pt/loja/${category.slug}/${product.slug}` : null;
@@ -334,7 +349,22 @@ export default async function ProductPage({ params }: PageProps<"/admin/produtos
   const firstProblemHref = located[0]?.href ?? "#publicar";
 
   const optionCount = versionOptions.length;
-  const steps = [
+  const builderBase = builderData?.base.length ?? 0;
+  const builderSteps = [
+    {
+      id: "preco",
+      title: "Base",
+      status: stepStatus(problemsIn("preco"), builderBase > 0, editable),
+      detail: problemsIn("preco") > 0 ? `${problemsIn("preco")}` : `${builderBase}`,
+    },
+    {
+      id: "opcoes",
+      title: "Divisões",
+      status: stepStatus(problemsIn("opcoes"), optionCount > 0, editable),
+      detail: problemsIn("opcoes") > 0 ? `${problemsIn("opcoes")}` : `${optionCount}`,
+    },
+  ];
+  const allSteps = [
     {
       id: "montra",
       title: "Montra",
@@ -373,6 +403,13 @@ export default async function ProductPage({ params }: PageProps<"/admin/produtos
       detail: !working ? "na loja" : undefined,
     },
   ];
+  const steps = advanced
+    ? allSteps
+    : [
+        allSteps[0]!,
+        ...builderSteps,
+        ...allSteps.filter((step) => ["regras", "publicar"].includes(step.id)),
+      ];
 
   // ── Publicar: antes → depois ───────────────────────────────────────────
   const before = publishedModel ? computePreview(publishedModel, input, vatRate) : null;
@@ -774,7 +811,32 @@ export default async function ProductPage({ params }: PageProps<"/admin/produtos
                       Configuração e preço — {versionLabel}
                     </h2>
                     <VersionStatusBadge status={shown.status as VersionStatus} />
+                    <Link
+                      href={
+                        advanced
+                          ? `/admin/produtos/${product.id}`
+                          : `/admin/produtos/${product.id}?vista=avancado`
+                      }
+                      className="link-admin ml-auto text-sm"
+                    >
+                      {advanced ? "Voltar ao construtor" : "Avançado: fórmulas"}
+                    </Link>
                   </div>
+                  {!advanced && builderData && builderData.advancedLines > 0 && (
+                    <Notice tone="warn">
+                      {builderData.advancedLines === 1
+                        ? "Este produto tem 1 linha de custo escrita como fórmula, que o construtor não mostra."
+                        : `Este produto tem ${builderData.advancedLines} linhas de custo escritas como fórmula, que o construtor não mostra.`}{" "}
+                      Contam no preço; veja-as em{" "}
+                      <Link
+                        href={`/admin/produtos/${product.id}?vista=avancado`}
+                        className="font-medium underline underline-offset-4"
+                      >
+                        Avançado
+                      </Link>
+                      .
+                    </Notice>
+                  )}
                   {editable ? (
                     <p className="text-steel max-w-[68ch] text-sm">
                       {published
@@ -800,139 +862,161 @@ export default async function ProductPage({ params }: PageProps<"/admin/produtos
                   )}
                 </div>
 
-                {/* ── 2. Opções ── */}
-                <Section
-                  id="opcoes"
-                  title="Opções"
-                  count={optionCount}
-                  description="Pela ordem em que o cliente as preenche. As medidas escrevem-se em mm; na fórmula contam em metros."
-                  actions={
-                    editable &&
-                    optionCount > 0 && (
-                      <OpenRowButton rowId="nova-opcao">Acrescentar opção</OpenRowButton>
-                    )
-                  }
-                >
-                  {optionCount === 0 && (
-                    <EmptyState
-                      title="Ainda sem opções"
-                      action={
-                        editable && (
+                {!advanced && (
+                  <ProductBuilder
+                    productId={product.id}
+                    versionId={editable && working ? working.id : null}
+                    data={builderData!}
+                    sources={builderSources}
+                    copyable={copyable}
+                  />
+                )}
+                {advanced && (
+                  <>
+                    {/* ── 2. Opções ── */}
+                    <Section
+                      id="opcoes"
+                      title="Opções"
+                      count={optionCount}
+                      description="Pela ordem em que o cliente as preenche. As medidas escrevem-se em mm; na fórmula contam em metros."
+                      actions={
+                        editable &&
+                        optionCount > 0 && (
                           <OpenRowButton rowId="nova-opcao">Acrescentar opção</OpenRowButton>
                         )
                       }
                     >
-                      Acrescente as medidas e escolhas que o cliente preenche (ex.: Largura, Altura,
-                      Material). Depois, as linhas de custo usam-nas nas contas.
-                    </EmptyState>
-                  )}
-                  {optionCount > 0 && (
-                    <RowList label="Opções do produto">
-                      {versionOptions.map((row, index) => {
-                        const { productOption, option, allowed, libraryValues } = row;
-                        const anchor = `opcao-${productOption.id}`;
-                        const sample = (
-                          <span className="text-steel hidden max-w-40 truncate text-[13px] tabular-nums sm:inline">
-                            {optionSample(option.key)}
-                          </span>
-                        );
-                        if (!editable)
-                          return (
-                            <StaticRow
-                              key={productOption.id}
-                              id={anchor}
-                              summary={optionSummary(row)}
-                              aside={sample}
-                            />
-                          );
-                        return (
-                          <InlineEditRow
-                            key={productOption.id}
-                            id={anchor}
-                            label={option.name.pt}
-                            summary={optionSummary(row)}
-                            problem={option.type === "choice" && allowed.length === 0}
-                            dangerLabel="Remover do produto…"
-                            aside={
-                              <>
-                                {sample}
-                                <ReorderButtons
-                                  itemLabel={option.name.pt}
-                                  upAction={
-                                    index > 0
-                                      ? moveOptionAction.bind(
-                                          null,
-                                          product.id,
-                                          productOption.id,
-                                          -1,
-                                        )
-                                      : undefined
-                                  }
-                                  downAction={
-                                    index < versionOptions.length - 1
-                                      ? moveOptionAction.bind(null, product.id, productOption.id, 1)
-                                      : undefined
-                                  }
+                      {optionCount === 0 && (
+                        <EmptyState
+                          title="Ainda sem opções"
+                          action={
+                            editable && (
+                              <OpenRowButton rowId="nova-opcao">Acrescentar opção</OpenRowButton>
+                            )
+                          }
+                        >
+                          Acrescente as medidas e escolhas que o cliente preenche (ex.: Largura,
+                          Altura, Material). Depois, as linhas de custo usam-nas nas contas.
+                        </EmptyState>
+                      )}
+                      {optionCount > 0 && (
+                        <RowList label="Opções do produto">
+                          {versionOptions.map((row, index) => {
+                            const { productOption, option, allowed, libraryValues } = row;
+                            const anchor = `opcao-${productOption.id}`;
+                            const sample = (
+                              <span className="text-steel hidden max-w-40 truncate text-[13px] tabular-nums sm:inline">
+                                {optionSample(option.key)}
+                              </span>
+                            );
+                            if (!editable)
+                              return (
+                                <StaticRow
+                                  key={productOption.id}
+                                  id={anchor}
+                                  summary={optionSummary(row)}
+                                  aside={sample}
                                 />
-                              </>
-                            }
-                          >
-                            <ProductOptionForm
-                              productId={product.id}
-                              productOptionId={productOption.id}
-                              initial={{
-                                type: option.type,
-                                name: option.name.pt,
-                                optionKey: option.key,
-                                var: productOption.var ?? "",
-                                required: productOption.required,
-                                min: productOption.min?.toString() ?? "",
-                                max: productOption.max?.toString() ?? "",
-                                step: productOption.step?.toString() ?? "",
-                                values: libraryValues
-                                  .filter(
-                                    (value) =>
-                                      !value.archivedAt ||
-                                      allowed.some((entry) => entry.optionValueId === value.id),
-                                  )
-                                  .map((value) => ({
-                                    id: value.id,
-                                    label: value.label.pt,
-                                    key: value.key,
-                                    archived: Boolean(value.archivedAt),
-                                  })),
-                                allowed: allowed.map((entry) => entry.optionValueId),
-                                defaultValueId:
-                                  allowed.find((entry) => entry.isDefault)?.optionValueId ?? "",
-                              }}
-                            />
-                            <DangerZone>
-                              <form
-                                action={removeOptionAction.bind(null, product.id, productOption.id)}
+                              );
+                            return (
+                              <InlineEditRow
+                                key={productOption.id}
+                                id={anchor}
+                                label={option.name.pt}
+                                summary={optionSummary(row)}
+                                problem={option.type === "choice" && allowed.length === 0}
+                                dangerLabel="Remover do produto…"
+                                aside={
+                                  <>
+                                    {sample}
+                                    <ReorderButtons
+                                      itemLabel={option.name.pt}
+                                      upAction={
+                                        index > 0
+                                          ? moveOptionAction.bind(
+                                              null,
+                                              product.id,
+                                              productOption.id,
+                                              -1,
+                                            )
+                                          : undefined
+                                      }
+                                      downAction={
+                                        index < versionOptions.length - 1
+                                          ? moveOptionAction.bind(
+                                              null,
+                                              product.id,
+                                              productOption.id,
+                                              1,
+                                            )
+                                          : undefined
+                                      }
+                                    />
+                                  </>
+                                }
                               >
-                                <ConfirmButton
-                                  label="Remover do produto"
-                                  question={`Remover «${option.name.pt}» deste produto?`}
-                                  consequence="As linhas de custo e as regras que a usam deixam de se calcular até as corrigir."
-                                  confirmLabel="Remover"
+                                <ProductOptionForm
+                                  productId={product.id}
+                                  productOptionId={productOption.id}
+                                  initial={{
+                                    type: option.type,
+                                    name: option.name.pt,
+                                    optionKey: option.key,
+                                    var: productOption.var ?? "",
+                                    required: productOption.required,
+                                    min: productOption.min?.toString() ?? "",
+                                    max: productOption.max?.toString() ?? "",
+                                    step: productOption.step?.toString() ?? "",
+                                    values: libraryValues
+                                      .filter(
+                                        (value) =>
+                                          !value.archivedAt ||
+                                          allowed.some((entry) => entry.optionValueId === value.id),
+                                      )
+                                      .map((value) => ({
+                                        id: value.id,
+                                        label: value.label.pt,
+                                        key: value.key,
+                                        archived: Boolean(value.archivedAt),
+                                      })),
+                                    allowed: allowed.map((entry) => entry.optionValueId),
+                                    defaultValueId:
+                                      allowed.find((entry) => entry.isDefault)?.optionValueId ?? "",
+                                  }}
                                 />
-                              </form>
-                            </DangerZone>
-                          </InlineEditRow>
-                        );
-                      })}
-                    </RowList>
-                  )}
-                  {editable && working && (
-                    <AddRow id="nova-opcao" label="Nova opção, escolhida da biblioteca">
-                      <AddOptionForm
-                        productId={product.id}
-                        versionId={working.id}
-                        available={available}
-                      />
-                    </AddRow>
-                  )}
-                </Section>
+                                <DangerZone>
+                                  <form
+                                    action={removeOptionAction.bind(
+                                      null,
+                                      product.id,
+                                      productOption.id,
+                                    )}
+                                  >
+                                    <ConfirmButton
+                                      label="Remover do produto"
+                                      question={`Remover «${option.name.pt}» deste produto?`}
+                                      consequence="As linhas de custo e as regras que a usam deixam de se calcular até as corrigir."
+                                      confirmLabel="Remover"
+                                    />
+                                  </form>
+                                </DangerZone>
+                              </InlineEditRow>
+                            );
+                          })}
+                        </RowList>
+                      )}
+                      {editable && working && (
+                        <AddRow id="nova-opcao" label="Nova opção, escolhida da biblioteca">
+                          <AddOptionForm
+                            productId={product.id}
+                            versionId={working.id}
+                            available={available}
+                          />
+                        </AddRow>
+                      )}
+                    </Section>
+                  </>
+                )}
 
                 {/* ── 3. Regras ── */}
                 <Section
@@ -1051,369 +1135,376 @@ export default async function ProductPage({ params }: PageProps<"/admin/produtos
                   </div>
                 </Section>
 
-                {/* ── 4. Preço ── */}
-                <Section
-                  id="preco"
-                  title="Preço"
-                  count={plural(lines.length, "linha", "linhas")}
-                  description={`Cada linha é um custo. Na fórmula, as medidas estão em metros: 3 000 mm → ${firstLetter} = 3.`}
-                  actions={
-                    editable &&
-                    lines.length > 0 && (
-                      <OpenRowButton rowId="nova-linha">Acrescentar linha</OpenRowButton>
-                    )
-                  }
-                >
-                  <Help title="Como se chega ao preço?" className="mb-4">
-                    {firstPriced ? (
-                      <p>
-                        Cada linha soma a sua margem ao custo. No exemplo, «{firstPriced.label}»:{" "}
-                        {numberFormat.format(Number(firstPriced.quantity))} {firstPriced.unit} ×{" "}
-                        {formatEuros(Math.round(Number(firstPriced.unitCost) * 100))} ={" "}
-                        {formatEuros(firstPriced.costCents)}, mais{" "}
-                        {fractionToPercent(Number(firstPriced.margin).toFixed(4))} % de margem ={" "}
-                        {formatEuros(firstPriced.priceCents)}.
-                      </p>
-                    ) : (
-                      <p>
-                        Cada linha é quantidade × custo do material (ou horas × custo por hora da
-                        secção), mais a margem desse material ou secção.
-                      </p>
-                    )}
-                    <p>
-                      As margens definem-se em{" "}
-                      <Link href="/admin/materiais" className="link-admin">
-                        Materiais e custos
-                      </Link>{" "}
-                      e em{" "}
-                      <Link href="/admin/mao-de-obra" className="link-admin">
-                        Mão de obra
-                      </Link>
-                      . O preço na loja soma as linhas, os consumíveis e o IVA.
-                    </p>
-                  </Help>
-                  {lines.length === 0 && (
-                    <EmptyState
-                      title="Ainda sem linhas de custo"
-                      action={
-                        editable && (
+                {advanced && (
+                  <>
+                    {/* ── 4. Preço ── */}
+                    <Section
+                      id="preco"
+                      title="Preço"
+                      count={plural(lines.length, "linha", "linhas")}
+                      description={`Cada linha é um custo. Na fórmula, as medidas estão em metros: 3 000 mm → ${firstLetter} = 3.`}
+                      actions={
+                        editable &&
+                        lines.length > 0 && (
                           <OpenRowButton rowId="nova-linha">Acrescentar linha</OpenRowButton>
                         )
                       }
                     >
-                      Cada linha é um custo: um material, uma hora de oficina, um serviço externo.
-                      {optionCount === 0 && " Acrescente primeiro as opções: as contas usam-nas."}
-                    </EmptyState>
-                  )}
-                  {lines.length > 0 && (
-                    <RowList label="Linhas de custo">
-                      {lines.map((row, index) => {
-                        const anchor = `linha-${row.line.id}`;
-                        if (!editable)
-                          return (
-                            <StaticRow
-                              key={row.line.id}
-                              id={anchor}
-                              summary={lineSummary(row, index)}
-                              aside={lineAside(row, index)}
-                            />
-                          );
-                        return (
-                          <InlineEditRow
-                            key={row.line.id}
-                            id={anchor}
-                            label={row.line.label}
-                            summary={lineSummary(row, index)}
-                            dangerLabel="Apagar linha…"
-                            aside={
-                              <>
-                                {lineAside(row, index)}
-                                <ReorderButtons
-                                  itemLabel={row.line.label}
-                                  upAction={
-                                    index > 0
-                                      ? moveFormulaItemAction.bind(
-                                          null,
-                                          product.id,
-                                          "line",
-                                          row.line.id,
-                                          -1,
-                                        )
-                                      : undefined
-                                  }
-                                  downAction={
-                                    index < lines.length - 1
-                                      ? moveFormulaItemAction.bind(
-                                          null,
-                                          product.id,
-                                          "line",
-                                          row.line.id,
-                                          1,
-                                        )
-                                      : undefined
-                                  }
-                                />
-                              </>
-                            }
-                          >
-                            <LineForm
-                              productId={product.id}
-                              versionId={shown.id}
-                              lineId={row.line.id}
-                              initial={lineValues(row)}
-                              options={optionInfo}
-                              choiceOptions={choiceOptions}
-                              sources={sources}
-                              issues={issuesFor("line", index)}
-                              context={formulaContext}
-                            />
-                            <DangerZone>
-                              <form
-                                action={removeFormulaItemAction.bind(
-                                  null,
-                                  product.id,
-                                  "line",
-                                  row.line.id,
-                                )}
-                              >
-                                <ConfirmButton
-                                  label="Apagar linha"
-                                  question={`Apagar a linha «${row.line.label}»?`}
-                                  consequence="O preço deixa de contar este custo."
-                                  confirmLabel="Apagar"
-                                />
-                              </form>
-                            </DangerZone>
-                          </InlineEditRow>
-                        );
-                      })}
-                      {lines.length > 0 &&
-                        (editable ? (
-                          <InlineEditRow
-                            id="consumiveis"
-                            label="Consumíveis"
-                            summary={consumablesSummary}
-                            aside={consumablesAside}
-                          >
-                            <ConsumablesForm
-                              productId={product.id}
-                              versionId={shown.id}
-                              percent={consumablesPercent}
-                            />
-                          </InlineEditRow>
+                      <Help title="Como se chega ao preço?" className="mb-4">
+                        {firstPriced ? (
+                          <p>
+                            Cada linha soma a sua margem ao custo. No exemplo, «{firstPriced.label}
+                            »: {numberFormat.format(Number(firstPriced.quantity))}{" "}
+                            {firstPriced.unit} ×{" "}
+                            {formatEuros(Math.round(Number(firstPriced.unitCost) * 100))} ={" "}
+                            {formatEuros(firstPriced.costCents)}, mais{" "}
+                            {fractionToPercent(Number(firstPriced.margin).toFixed(4))} % de margem ={" "}
+                            {formatEuros(firstPriced.priceCents)}.
+                          </p>
                         ) : (
-                          <StaticRow
-                            id="consumiveis"
-                            summary={consumablesSummary}
-                            aside={consumablesAside}
-                          />
-                        ))}
-                    </RowList>
-                  )}
-                  {editable && (
-                    <AddRow id="nova-linha" label="Nova linha de custo">
-                      <LineForm
-                        productId={product.id}
-                        versionId={shown.id}
-                        lineId={null}
-                        initial={{
-                          label: "",
-                          kind: "material",
-                          quantityExpr: "",
-                          unit: "",
-                          conditions: [],
-                          source: "fixed",
-                          sectorId: "",
-                          materialId: "",
-                          articleOptionId: "",
-                          mapping: [],
-                        }}
-                        options={optionInfo}
-                        choiceOptions={choiceOptions}
-                        sources={sources}
-                        issues={[]}
-                        context={formulaContext}
-                      />
-                    </AddRow>
-                  )}
-                </Section>
-
-                {/* Contas auxiliares: depois das linhas, fechadas por defeito */}
-                <Section
-                  id="contas"
-                  title="Contas auxiliares"
-                  count={variables.length}
-                  description="Valores intermédios que as linhas usam (ex.: número de barras ou de degraus). Cada conta pode usar as de cima."
-                  actions={
-                    editable && (
-                      <OpenRowButton rowId="nova-conta">Criar valor intermédio</OpenRowButton>
-                    )
-                  }
-                >
-                  {variables.length === 0 && (
-                    <p className="text-steel text-sm">
-                      Sem contas auxiliares. Só são precisas quando várias linhas repetem a mesma
-                      conta.
-                    </p>
-                  )}
-                  {variables.length > 0 && (
-                    <RowList label="Contas auxiliares">
-                      {variables.map((variable, index) => {
-                        const label = variable.label?.pt || variable.name;
-                        const value = scope[variable.name];
-                        const variableIssues = issuesFor("variable", index);
-                        const summary = (
-                          <>
-                            <span className="text-ink font-medium">{label}</span>
-                            <span className="text-steel block truncate font-mono text-[13px]/[18px]">
-                              {variable.expr}
-                            </span>
-                            {/* No telemóvel, o resultado no exemplo vem aqui. */}
-                            {value !== undefined && (
-                              <span className="text-steel block text-[13px]/[18px] tabular-nums sm:hidden">
-                                = <span className="text-ink">{numberFormat.format(value)}</span> no
-                                exemplo
-                              </span>
-                            )}
-                            {variableIssues.length > 0 && (
-                              <span className="text-danger block text-[13px]/[18px] font-medium">
-                                ! {variableIssues[0]}
-                              </span>
-                            )}
-                          </>
-                        );
-                        const aside = (
-                          <span className="text-steel hidden text-[13px] tabular-nums sm:inline">
-                            {value === undefined ? (
-                              "—"
-                            ) : (
-                              <>
-                                ={" "}
-                                <span className="text-ink text-sm">
-                                  {numberFormat.format(value)}
-                                </span>{" "}
-                                no exemplo
-                              </>
-                            )}
-                          </span>
-                        );
-                        const anchor = `conta-${variable.id}`;
-                        if (!editable)
-                          return (
-                            <StaticRow
-                              key={variable.id}
-                              id={anchor}
-                              summary={summary}
-                              aside={aside}
-                            />
-                          );
-                        return (
-                          <InlineEditRow
-                            key={variable.id}
-                            id={anchor}
-                            label={label}
-                            summary={summary}
-                            dangerLabel="Apagar conta…"
-                            aside={
-                              <>
-                                {aside}
-                                <ReorderButtons
-                                  itemLabel={label}
-                                  upAction={
-                                    index > 0
-                                      ? moveFormulaItemAction.bind(
-                                          null,
-                                          product.id,
-                                          "variable",
-                                          variable.id,
-                                          -1,
-                                        )
-                                      : undefined
-                                  }
-                                  downAction={
-                                    index < variables.length - 1
-                                      ? moveFormulaItemAction.bind(
-                                          null,
-                                          product.id,
-                                          "variable",
-                                          variable.id,
-                                          1,
-                                        )
-                                      : undefined
-                                  }
+                          <p>
+                            Cada linha é quantidade × custo do material (ou horas × custo por hora
+                            da secção), mais a margem desse material ou secção.
+                          </p>
+                        )}
+                        <p>
+                          As margens definem-se em{" "}
+                          <Link href="/admin/materiais" className="link-admin">
+                            Materiais e custos
+                          </Link>{" "}
+                          e em{" "}
+                          <Link href="/admin/mao-de-obra" className="link-admin">
+                            Mão de obra
+                          </Link>
+                          . O preço na loja soma as linhas, os consumíveis e o IVA.
+                        </p>
+                      </Help>
+                      {lines.length === 0 && (
+                        <EmptyState
+                          title="Ainda sem linhas de custo"
+                          action={
+                            editable && (
+                              <OpenRowButton rowId="nova-linha">Acrescentar linha</OpenRowButton>
+                            )
+                          }
+                        >
+                          Cada linha é um custo: um material, uma hora de oficina, um serviço
+                          externo.
+                          {optionCount === 0 &&
+                            " Acrescente primeiro as opções: as contas usam-nas."}
+                        </EmptyState>
+                      )}
+                      {lines.length > 0 && (
+                        <RowList label="Linhas de custo">
+                          {lines.map((row, index) => {
+                            const anchor = `linha-${row.line.id}`;
+                            if (!editable)
+                              return (
+                                <StaticRow
+                                  key={row.line.id}
+                                  id={anchor}
+                                  summary={lineSummary(row, index)}
+                                  aside={lineAside(row, index)}
                                 />
-                              </>
-                            }
-                          >
-                            <VariableForm
-                              productId={product.id}
-                              versionId={shown.id}
-                              variableId={variable.id}
-                              index={index}
-                              issues={variableIssues}
-                              context={formulaContext}
-                              initial={{
-                                name: variable.name,
-                                expr: variable.expr,
-                                label: variable.label?.pt ?? "",
-                                showToCustomer: variable.showToCustomer,
-                              }}
-                            />
-                            <DangerZone>
-                              <form
-                                action={removeFormulaItemAction.bind(
-                                  null,
-                                  product.id,
-                                  "variable",
-                                  variable.id,
-                                )}
+                              );
+                            return (
+                              <InlineEditRow
+                                key={row.line.id}
+                                id={anchor}
+                                label={row.line.label}
+                                summary={lineSummary(row, index)}
+                                dangerLabel="Apagar linha…"
+                                aside={
+                                  <>
+                                    {lineAside(row, index)}
+                                    <ReorderButtons
+                                      itemLabel={row.line.label}
+                                      upAction={
+                                        index > 0
+                                          ? moveFormulaItemAction.bind(
+                                              null,
+                                              product.id,
+                                              "line",
+                                              row.line.id,
+                                              -1,
+                                            )
+                                          : undefined
+                                      }
+                                      downAction={
+                                        index < lines.length - 1
+                                          ? moveFormulaItemAction.bind(
+                                              null,
+                                              product.id,
+                                              "line",
+                                              row.line.id,
+                                              1,
+                                            )
+                                          : undefined
+                                      }
+                                    />
+                                  </>
+                                }
                               >
-                                <ConfirmButton
-                                  label="Apagar conta"
-                                  question={`Apagar a conta «${label}»?`}
-                                  consequence="As linhas que a usam deixam de se calcular até as corrigir."
-                                  confirmLabel="Apagar"
+                                <LineForm
+                                  productId={product.id}
+                                  versionId={shown.id}
+                                  lineId={row.line.id}
+                                  initial={lineValues(row)}
+                                  options={optionInfo}
+                                  choiceOptions={choiceOptions}
+                                  sources={sources}
+                                  issues={issuesFor("line", index)}
+                                  context={formulaContext}
                                 />
-                              </form>
-                            </DangerZone>
-                          </InlineEditRow>
-                        );
-                      })}
-                    </RowList>
-                  )}
-                  {editable && (
-                    <AddRow id="nova-conta" label="Novo valor intermédio">
-                      <VariableForm
-                        productId={product.id}
-                        versionId={shown.id}
-                        variableId={null}
-                        index={variables.length}
-                        issues={[]}
-                        context={formulaContext}
-                        initial={{ name: "", expr: "", label: "", showToCustomer: false }}
-                      />
-                    </AddRow>
-                  )}
-                </Section>
+                                <DangerZone>
+                                  <form
+                                    action={removeFormulaItemAction.bind(
+                                      null,
+                                      product.id,
+                                      "line",
+                                      row.line.id,
+                                    )}
+                                  >
+                                    <ConfirmButton
+                                      label="Apagar linha"
+                                      question={`Apagar a linha «${row.line.label}»?`}
+                                      consequence="O preço deixa de contar este custo."
+                                      confirmLabel="Apagar"
+                                    />
+                                  </form>
+                                </DangerZone>
+                              </InlineEditRow>
+                            );
+                          })}
+                          {lines.length > 0 &&
+                            (editable ? (
+                              <InlineEditRow
+                                id="consumiveis"
+                                label="Consumíveis"
+                                summary={consumablesSummary}
+                                aside={consumablesAside}
+                              >
+                                <ConsumablesForm
+                                  productId={product.id}
+                                  versionId={shown.id}
+                                  percent={consumablesPercent}
+                                />
+                              </InlineEditRow>
+                            ) : (
+                              <StaticRow
+                                id="consumiveis"
+                                summary={consumablesSummary}
+                                aside={consumablesAside}
+                              />
+                            ))}
+                        </RowList>
+                      )}
+                      {editable && (
+                        <AddRow id="nova-linha" label="Nova linha de custo">
+                          <LineForm
+                            productId={product.id}
+                            versionId={shown.id}
+                            lineId={null}
+                            initial={{
+                              label: "",
+                              kind: "material",
+                              quantityExpr: "",
+                              unit: "",
+                              conditions: [],
+                              source: "fixed",
+                              sectorId: "",
+                              materialId: "",
+                              articleOptionId: "",
+                              mapping: [],
+                            }}
+                            options={optionInfo}
+                            choiceOptions={choiceOptions}
+                            sources={sources}
+                            issues={[]}
+                            context={formulaContext}
+                          />
+                        </AddRow>
+                      )}
+                    </Section>
 
-                {/* ── 5. Publicar ── */}
-                {costItems.length > 0 && (
-                  <Section
-                    id="custos"
-                    title="Custos deste produto"
-                    count={costItems.filter((item) => item.own).length || undefined}
-                    description={
-                      editable
-                        ? "Por omissão o produto usa o custo e a margem gerais (de Materiais e custos e de Mão de obra). Escreva só o que neste produto é diferente; apague para voltar ao geral. Um custo escrito aqui fica fixo e não segue o Odoo."
-                        : "Custo e margem usados por este produto. Para mudar, carregue em Fazer alterações."
-                    }
-                  >
-                    <CostTable
-                      productId={product.id}
-                      versionId={editable && working ? working.id : null}
-                      items={costItems}
-                    />
-                  </Section>
+                    {/* Contas auxiliares: depois das linhas, fechadas por defeito */}
+                    <Section
+                      id="contas"
+                      title="Contas auxiliares"
+                      count={variables.length}
+                      description="Valores intermédios que as linhas usam (ex.: número de barras ou de degraus). Cada conta pode usar as de cima."
+                      actions={
+                        editable && (
+                          <OpenRowButton rowId="nova-conta">Criar valor intermédio</OpenRowButton>
+                        )
+                      }
+                    >
+                      {variables.length === 0 && (
+                        <p className="text-steel text-sm">
+                          Sem contas auxiliares. Só são precisas quando várias linhas repetem a
+                          mesma conta.
+                        </p>
+                      )}
+                      {variables.length > 0 && (
+                        <RowList label="Contas auxiliares">
+                          {variables.map((variable, index) => {
+                            const label = variable.label?.pt || variable.name;
+                            const value = scope[variable.name];
+                            const variableIssues = issuesFor("variable", index);
+                            const summary = (
+                              <>
+                                <span className="text-ink font-medium">{label}</span>
+                                <span className="text-steel block truncate font-mono text-[13px]/[18px]">
+                                  {variable.expr}
+                                </span>
+                                {/* No telemóvel, o resultado no exemplo vem aqui. */}
+                                {value !== undefined && (
+                                  <span className="text-steel block text-[13px]/[18px] tabular-nums sm:hidden">
+                                    = <span className="text-ink">{numberFormat.format(value)}</span>{" "}
+                                    no exemplo
+                                  </span>
+                                )}
+                                {variableIssues.length > 0 && (
+                                  <span className="text-danger block text-[13px]/[18px] font-medium">
+                                    ! {variableIssues[0]}
+                                  </span>
+                                )}
+                              </>
+                            );
+                            const aside = (
+                              <span className="text-steel hidden text-[13px] tabular-nums sm:inline">
+                                {value === undefined ? (
+                                  "—"
+                                ) : (
+                                  <>
+                                    ={" "}
+                                    <span className="text-ink text-sm">
+                                      {numberFormat.format(value)}
+                                    </span>{" "}
+                                    no exemplo
+                                  </>
+                                )}
+                              </span>
+                            );
+                            const anchor = `conta-${variable.id}`;
+                            if (!editable)
+                              return (
+                                <StaticRow
+                                  key={variable.id}
+                                  id={anchor}
+                                  summary={summary}
+                                  aside={aside}
+                                />
+                              );
+                            return (
+                              <InlineEditRow
+                                key={variable.id}
+                                id={anchor}
+                                label={label}
+                                summary={summary}
+                                dangerLabel="Apagar conta…"
+                                aside={
+                                  <>
+                                    {aside}
+                                    <ReorderButtons
+                                      itemLabel={label}
+                                      upAction={
+                                        index > 0
+                                          ? moveFormulaItemAction.bind(
+                                              null,
+                                              product.id,
+                                              "variable",
+                                              variable.id,
+                                              -1,
+                                            )
+                                          : undefined
+                                      }
+                                      downAction={
+                                        index < variables.length - 1
+                                          ? moveFormulaItemAction.bind(
+                                              null,
+                                              product.id,
+                                              "variable",
+                                              variable.id,
+                                              1,
+                                            )
+                                          : undefined
+                                      }
+                                    />
+                                  </>
+                                }
+                              >
+                                <VariableForm
+                                  productId={product.id}
+                                  versionId={shown.id}
+                                  variableId={variable.id}
+                                  index={index}
+                                  issues={variableIssues}
+                                  context={formulaContext}
+                                  initial={{
+                                    name: variable.name,
+                                    expr: variable.expr,
+                                    label: variable.label?.pt ?? "",
+                                    showToCustomer: variable.showToCustomer,
+                                  }}
+                                />
+                                <DangerZone>
+                                  <form
+                                    action={removeFormulaItemAction.bind(
+                                      null,
+                                      product.id,
+                                      "variable",
+                                      variable.id,
+                                    )}
+                                  >
+                                    <ConfirmButton
+                                      label="Apagar conta"
+                                      question={`Apagar a conta «${label}»?`}
+                                      consequence="As linhas que a usam deixam de se calcular até as corrigir."
+                                      confirmLabel="Apagar"
+                                    />
+                                  </form>
+                                </DangerZone>
+                              </InlineEditRow>
+                            );
+                          })}
+                        </RowList>
+                      )}
+                      {editable && (
+                        <AddRow id="nova-conta" label="Novo valor intermédio">
+                          <VariableForm
+                            productId={product.id}
+                            versionId={shown.id}
+                            variableId={null}
+                            index={variables.length}
+                            issues={[]}
+                            context={formulaContext}
+                            initial={{ name: "", expr: "", label: "", showToCustomer: false }}
+                          />
+                        </AddRow>
+                      )}
+                    </Section>
+
+                    {/* ── 5. Publicar ── */}
+                    {costItems.length > 0 && (
+                      <Section
+                        id="custos"
+                        title="Custos deste produto"
+                        count={costItems.filter((item) => item.own).length || undefined}
+                        description={
+                          editable
+                            ? "Por omissão o produto usa o custo e a margem gerais (de Materiais e custos e de Mão de obra). Escreva só o que neste produto é diferente; apague para voltar ao geral. Um custo escrito aqui fica fixo e não segue o Odoo."
+                            : "Custo e margem usados por este produto. Para mudar, carregue em Fazer alterações."
+                        }
+                      >
+                        <CostTable
+                          productId={product.id}
+                          versionId={editable && working ? working.id : null}
+                          items={costItems}
+                        />
+                      </Section>
+                    )}
+                  </>
                 )}
 
                 <Section id="publicar" title="Publicar">

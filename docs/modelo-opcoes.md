@@ -58,6 +58,16 @@ Só nas quantidades e nas variáveis calculadas. Parser próprio, **nunca `eval`
 
 ---
 
+### Construtor (2026-11-05)
+
+No backoffice, o produto monta-se pelo construtor; as expressões acima continuam a existir, mas o Bruno não as escreve:
+
+- **Divisão** = uma `option_definition` do produto (`product_id` preenchido), com o nome que o Bruno escolhe. Copiar uma divisão de outro produto clona a definição, os valores e os custos.
+- **Custo de uma opção** = uma `formula_line` com `builder` preenchido e a condição `opção = valor`. **Base do produto** = linhas do construtor sem condição.
+- **Quantidade** = `fixo + fator × base`, com base `1`, `L × H`, `L`, `H` ou `2 × (L + H)` (`src/lib/pricing/builder.ts`). L e H são as medidas marcadas como Largura e Altura.
+- **Margem** na própria linha (`formula_lines.margin`), escrita pelo Bruno; vazia bloqueia a publicação. Nas linhas avançadas, a margem da linha (se houver) prevalece sobre a do artigo.
+- As regras da biblioteca só se aplicam às opções da biblioteca; as divisões do produto têm as regras do próprio produto.
+
 ## 3. Regras
 
 Uma regra é `se [condições, todas] então [efeito]`. Condições sobre opções de escolha (`=`, `≠`, `é um de`), booleanas (`é sim`/`é não`) ou numéricas (`>`, `<`, `≥`, `≤`, em mm para medidas).
