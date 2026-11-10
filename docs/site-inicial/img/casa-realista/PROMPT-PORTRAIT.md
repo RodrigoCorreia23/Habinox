@@ -1,0 +1,7 @@
+# Enquadramento vertical
+
+Gerado pela ferramenta integrada `imagegen`, a 2026-11-10, a partir de `casa-original.png`. É um estudo de ambiente da mesma casa, para dispositivos estreitos; não uma fotografia de obra.
+
+## Prompt exato
+
+Use case: photorealistic-natural. Edit target: the supplied photograph of a lived-in Portuguese house with a sweeping champagne stainless steel staircase. Create a portrait 9:16 companion photograph specifically for the mobile version of the same website. Keep the exact same home, staircase geometry and geometric laser-cut balustrade, mezzanine, materials, oak floor, warm light, white linen sofa with olive throw, coffee table with books and cup, woven chair, olive tree, floor-length curtains, large black window frames and lush garden. Recompose from a slightly further-back human standing camera viewpoint so that this tall frame shows BOTH the welcoming inhabited sitting area in the left lower half AND the complete sweeping staircase occupying the right half, from its foot to its landing. The sitting area and staircase must both clearly fit within the portrait image, not just a close crop of the staircase. Use vertical perspective correction. Less empty ceiling, detailed tactile materials, physically real natural shadows, no new decor, no people, no text or logos. Photographic editorial realism, natural soft blue-hour garden light and warm practical 2700K light. Output portrait 9:16, not landscape.

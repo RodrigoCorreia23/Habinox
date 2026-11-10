@@ -2,7 +2,7 @@
 
 > Documento vivo. **Atualizar no fim de cada sessão de trabalho** (secções 2, 6 e 7).
 > O `CLAUDE.md` tem o contexto de negócio, as decisões e as regras; este ficheiro tem
-> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-11-01.
+> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-11-10.
 
 ---
 
@@ -19,6 +19,17 @@
 ---
 
 ## 2. O que está feito (por commit)
+
+### Variante visual da casa (2026-11-10)
+
+- Criada `docs/site-inicial/realista.html`, a partir da apresentação existente, com imagem fotorrealista da mesma escada e ambiente habitado: carvalho, linho, livros, plantas e luz quente. Composição horizontal e vertical geradas com `imagegen`, comprimidas em WebP (269 e 233 KB). Prompts e originais guardados em `img/casa-realista/`.
+- Preservados `docs/site-inicial/index.html`, a cena Blender e o percurso original. Após a correção pedida pelo Rodrigo, o zoom fotográfico foi substituído por **reprojeção 2.5D em WebGL**, acendimento sequencial dos degraus concluído em cerca de 2,8 s e vaivém de 24 s, com profundidade diferente entre escada e sala. Não é uma nova renderização integral da casa. Catálogo, configurador e entrada continuam demonstrativos. A app Next.js não foi alterada.
+- Código específico em `realista.css`, `realista.js` e `realista-renderer.js`; `cenarios/realista.mjs` regenera o HTML a partir do original. Controlos de pausa e repetição das luzes; suspensão fora do herói/separador; alternativa estática sem WebGL. Instruções em `docs/site-inicial/README.md`.
+- Verificado em Chromium a 1440, 768 e 390 px: carregamento das imagens, navegação para catálogo/categoria/apresentação/contactos, pausa, ausência de erros JavaScript e de overflow horizontal. Verificados movimento reduzido, JavaScript desligado e abertura direta por `file://`. Lint visual dos novos CSS/JS: 0 falhas; escurecimentos neutros sobre fotografia e remoções de sombra explicitamente justificados.
+- Removidas da variante as métricas provisórias de clientes/toneladas e corrigida a legenda que tratava o render como obra fotografada.
+- **Animação corrigida após feedback:** verificado um ciclo completo de 24 s em Chromium a 1440 e 390 px; estados intermédios da iluminação e extremos opostos da órbita capturados. Pausa, repetição, categorias, contactos, movimento reduzido e alternativa sem WebGL passaram, sem erros JavaScript nem overflow. A revisão independente confirmou as luzes alinhadas e a geometria coerente; foi corrigida a pausa durante o primeiro segundo para manter texto e navegação acessíveis. Suavidade em dispositivos físicos não foi medida.
+- **Transição de Entrar:** analisado o percurso original e aplicado o mesmo tempo de 2,3 s e a mesma curva de aceleração. A fotografia aproxima-se e desloca a escada para a esquerda; o formulário mantém a entrada sequencial existente. O regresso parte da posição corrente e retoma a fase guardada do vaivém. A navegação funciona com o ambiente pausado; abrir `#entrar` mostra logo a pose final. Trata-se de um reenquadramento da imagem com profundidade, não de um novo ângulo renderizado em Blender. Contraste do formulário ajustado para a composição vertical de tablet.
+- **Validação de Entrar:** Chromium a 1440×900, 390×844, 820×1180 e 1920×1080, com capturas da transição e do enquadramento final. Passaram ida/volta, inversão a meio, histórico do navegador, navegação com ambiente pausado, retoma do vaivém, ordem de tabulação, ligação direta, movimento reduzido e alternativa sem WebGL. Sem erros JavaScript ou overflow horizontal nos quatro tamanhos.
 
 | Commit                                 | Conteúdo                                                                                                                                                         |
 | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -282,6 +293,8 @@ Notas:
 
 ## 6. O que falta
 
+- **Casa realista:** o Rodrigo aprovou o ambiente e pediu também a transição de Entrar, agora implementada em `docs/site-inicial/realista.html`. Se for necessário reproduzir o percurso 3D completo com este realismo, transportar materiais, mobília e iluminação para Blender e renderizar novamente a sequência completa. Esta sessão não produziu esses fotogramas.
+
 ### Passo 7 do esqueleto — deploy (bloqueado pelo cliente)
 
 - Contas **Vercel** e **Neon** em nome da Habinox, com o Rodrigo como membro/admin. Domínio e DNS por decidir.
@@ -346,6 +359,8 @@ Notas:
 ---
 
 ## 7. Por confirmar com o cliente
+
+- A variante fotorrealista é um estudo visual aprovado pelo Rodrigo como direção do ambiente, ainda não validado pelo Bruno nem integrado na app. Não substitui as fotografias de obras reais, que continuam pendentes.
 
 Ver secção 8 do `CLAUDE.md`. Além disso:
 

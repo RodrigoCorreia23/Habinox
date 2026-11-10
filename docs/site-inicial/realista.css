@@ -1,0 +1,87 @@
+/* Variante da apresentação: o mesmo espaço, com materiais e luz de uma casa vivida. */
+:root {
+  --house-ground: #171611;
+  --house-ink: #f5f0e6;
+  --house-accent: #dfbb7f;
+  --house-muted: #d6cec0;
+}
+
+::selection { color: var(--house-ground); background: var(--house-accent); }
+html { scrollbar-color: #807666 var(--house-ground); }
+.view { background: var(--house-ground); }
+.house-camera, .house-photo { position: absolute; inset: 0; width: 100%; height: 100%; }
+.house-camera { transform-origin: 58% 52%; }
+.house-photo { object-fit: cover; object-position: 58% 52%; }
+.house-picture { display: contents; }
+.house-scene { position: absolute; inset: 0; width: 100%; height: 100%; visibility: hidden; }
+.scene-ready .house-scene { visibility: visible; }
+.scene-ready .house-camera { visibility: hidden; }
+.house-controls {
+  position: absolute; right: var(--side); bottom: 28px; z-index: 2;
+  display: flex; gap: 8px;
+}
+.house-control, .house-replay {
+  min-height: 44px; display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 16px; border: 0; border-radius: 2px;
+  background: var(--house-ground); color: var(--house-ink);
+  font: 13px var(--sans); transition: background .2s, color .2s;
+}
+.house-control:hover, .house-replay:hover { background: var(--house-ink); color: var(--house-ground); }
+.house-control svg, .house-replay svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.house-control:active, .house-replay:active { transform: translateY(1px); }
+.house-controls button:disabled { opacity: .45; cursor: default; }
+.house-control[aria-pressed="true"] .pause-icon, .house-control[aria-pressed="false"] .play-icon { display: none; }
+.s-hero { min-height: max(760px, 100svh); padding-bottom: 100px; }
+.s-hero::before {
+  background: linear-gradient(90deg, rgba(14, 15, 12, .76), rgba(14, 15, 12, .36) 45%, rgba(14, 15, 12, 0) 78%), /* taste-skill-ignore: scrim neutro sobre fotografia. */
+    linear-gradient(0deg, rgba(14, 15, 12, .65), rgba(14, 15, 12, 0) 64%); /* taste-skill-ignore: scrim neutro sobre fotografia. */
+}
+.s-hero h1 { font-size: clamp(44px, 5.6vw, 84px); max-width: 13em; }
+.s-hero p { max-width: 29em; color: var(--house-ink); text-wrap: pretty; }
+.s-hero .row { gap: 28px; }
+.s-hero .tlink { color: var(--house-ink); }
+.login .fields label, .login .demo { color: var(--house-muted); }
+.top nav a { min-height: 44px; display: inline-flex; align-items: center; font-size: 12px; }
+.top { background: linear-gradient(rgba(14, 15, 12, .8), transparent); } /* taste-skill-ignore: legibilidade da navegação sobre fotografia. */
+.top .logo { min-height: 44px; display: inline-flex; align-items: center; }
+.top .logo sup { align-self: flex-start; margin-top: 9px; }
+.top nav a, .hint, .note { color: var(--house-muted); }
+.loading { display: none; }
+.btn-shop { background: var(--house-accent); box-shadow: none; animation: none; } /* taste-skill-ignore: remove a sombra herdada. */
+.work img { padding: 0; background: none; box-shadow: none; } /* taste-skill-ignore: remove a sombra herdada. */
+.work figcaption { font-family: var(--sans); font-size: 12px; letter-spacing: 0; }
+html.flow .view { background: var(--house-ground); }
+html.flow .view::after { content: ""; position: absolute; inset: 0; background: rgba(14, 15, 12, .68); }
+html.flow.in-shop .view::after { background: none; }
+html.flow .s-hero, html.flow .s-login { background: none; }
+html.flow .house-controls { display: none; }
+html.flow .house-photo { animation: none; }
+html.flow .s-hero .stag { opacity: 1; transform: none; }
+
+@media (min-width: 761px) {
+  .house-controls { right: var(--side); }
+}
+@media (min-width: 761px) and (max-width: 1100px) {
+  .s-login::before {
+    background: linear-gradient(270deg, rgba(14, 15, 12, .94), rgba(14, 15, 12, .8) 58%, rgba(14, 15, 12, 0)); /* taste-skill-ignore: protege o formulário sobre a escada na composição vertical. */
+  }
+}
+@media (max-width: 760px) {
+  .house-photo { object-position: 50% 54%; }
+  .s-hero { min-height: 100svh; padding-bottom: 100px; }
+  .s-hero h1 { font-size: clamp(29px, 7.5vw, 52px); max-width: 13em; }
+  .s-hero p { font-size: 16px; margin-top: 24px; max-width: 25em; }
+  .s-hero::before {
+    background: linear-gradient(0deg, rgba(14, 15, 12, .94), rgba(14, 15, 12, .66) 34%, rgba(14, 15, 12, 0) 76%); /* taste-skill-ignore: scrim neutro sobre fotografia. */
+  }
+  .s-hero .row { gap: 10px 24px; }
+  .house-controls { right: 20px; bottom: 20px; }
+  .top nav a { letter-spacing: .02em; }
+  .scrim-l, .scrim-r { background: linear-gradient(0deg, rgba(14, 15, 12, .94), rgba(14, 15, 12, .7) 56%, rgba(14, 15, 12, 0)); } /* taste-skill-ignore: scrim neutro sobre fotografia. */
+}
+@media (prefers-reduced-motion: reduce) {
+  .house-photo { animation: none; }
+  .house-camera { transform: none !important; }
+  .house-controls, .house-scene { display: none; }
+  .scene-ready .house-camera { visibility: visible; }
+}

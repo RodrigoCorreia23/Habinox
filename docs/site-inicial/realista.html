@@ -1,0 +1,1400 @@
+<!doctype html>
+<html lang="pt-PT" class="flow">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0c1220">
+<title>Habinox — Uma casa vivida</title>
+<meta name="description" content="Serralharia em aço inoxidável, alumínio soldado e ferro desde 2005 em Antas, Esposende. Escadas, gradeamentos, portões e muito mais. Orçamentos gratuitos, em todo o país.">
+<link rel="canonical" href="https://habinox.pt/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230c1220'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23e8c37a'%3EH%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_PT">
+<meta property="og:site_name" content="HABINOX">
+<meta property="og:title" content="HABINOX — Trabalhos em aço inoxidável | Esposende">
+<meta property="og:description" content="Serralharia em inox, alumínio e ferro desde 2005. Do projeto à obra.">
+<meta property="og:url" content="https://habinox.pt/">
+<meta property="og:image" content="https://habinox.pt/img/casa-realista/casa.webp">
+
+<script>
+/* =========================================================
+   CONFIGURAÇÃO — editar aqui
+   ========================================================= */
+const SHOP_URL = '#loja';            // protótipo: a loja vive na mesma página
+
+// Números da secção "Números". Os de clientes e toneladas são PROVISÓRIOS.
+const STATS = [
+  { value: 20,   suffix: '+', label: 'anos de atividade', note: 'desde 2005' },
+
+];
+
+// Vídeo + scroll, salvo se o visitante pediu menos movimento.
+// Without it (or without JS) the page is an ordinary scrolling document.
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) { document.documentElement.classList.remove('flow'); document.documentElement.classList.add('scrolly'); }
+  else document.documentElement.classList.add('flow');
+})();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "HABINOX",
+  "description": "Serralharia em aço inoxidável, alumínio soldado e ferro.",
+  "url": "https://habinox.pt/",
+  "email": "geral@habinox.pt",
+  "telephone": "+351253873429",
+  "foundingDate": "2005",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Núcleo Industrial de Antas",
+    "postalCode": "4740-016",
+    "addressLocality": "Antas, Esposende",
+    "addressCountry": "PT"
+  },
+  "geo": { "@type": "GeoCoordinates", "latitude": 41.61266, "longitude": -8.77526 },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    "opens": "09:00", "closes": "18:30"
+  },
+  "areaServed": ["PT", "EU"]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,200..700&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300&family=IBM+Plex+Mono:wght@400&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night: #0c1220;
+    --cream: #f1e8d6;
+    --muted: rgba(241, 232, 214, .62);
+    --gold: #e8c37a;
+    --gold-line: rgba(232, 195, 122, .5);
+    --glass: rgba(12, 18, 32, .58);
+    --serif: "Fraunces", Georgia, serif;
+    --sans: "IBM Plex Sans", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+    --side: clamp(16px, 4.5vw, 72px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--night); color: var(--cream); }
+  body {
+    font-family: var(--sans);
+    font-size: 15px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+  /* ---------- stage ---------- */
+  .view { position: fixed; inset: 0; overflow: hidden; z-index: 0; }
+  .view canvas { display: block; width: 100%; height: 100%; }
+  .view { background: radial-gradient(120% 90% at 70% 40%, #1a2236 0%, var(--night) 60%); }
+
+  /* ---------- header ---------- */
+  .top {
+    position: fixed; z-index: 4;
+    top: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: max(18px, env(safe-area-inset-top)) var(--side) 18px;
+    background: linear-gradient(rgba(8, 12, 22, .55), transparent);
+  }
+  .logo {
+    font-family: var(--serif); font-weight: 600;
+    font-size: 1.2rem; letter-spacing: .2em;
+    text-decoration: none; white-space: nowrap;
+    text-shadow: 0 1px 14px rgba(0, 0, 0, .5);
+  }
+  .logo sup, .brand sup { color: var(--gold); font-size: .5em; letter-spacing: 0; margin-left: .15em; vertical-align: .9em; }
+  .top nav { display: flex; gap: clamp(10px, 2.2vw, 28px); }
+  .top nav a {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    text-decoration: none; color: var(--muted);
+    padding: 6px 0; transition: color .2s;
+  }
+  .top nav a:hover { color: var(--cream); }
+  .top nav a.shop { color: var(--gold); }
+  @media (max-width: 520px) {
+    .logo { font-size: 1rem; letter-spacing: .14em; }
+    .top nav { gap: 11px; }
+    .top nav a { font-size: 9.5px; letter-spacing: .06em; }
+  }
+
+  /* ---------- content blocks: text straight on the scene ---------- */
+  .block {
+    width: min(500px, 40vw);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .55), 0 2px 22px rgba(0, 0, 0, .5);
+  }
+  .num {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 14px;
+  }
+  .block h1, .block h2 {
+    font-family: var(--serif); font-weight: 400;
+    font-size: clamp(2.5rem, 4.6vw, 4.5rem); line-height: 1.04; letter-spacing: -.02em;
+    margin-bottom: 18px;
+  }
+  .lead { font-size: 17px; line-height: 1.55; color: rgba(241, 232, 214, .9); max-width: 34em; }
+  .note { font-size: 12px; color: var(--muted); margin-top: 12px; }
+
+  /* lists: one line at a time, each with a small gold dash */
+  .lines { list-style: none; margin-top: 18px; }
+  .lines li { position: relative; padding: 5px 0 5px 26px; font-size: 16px; color: rgba(241, 232, 214, .92); }
+  .lines li::before { content: ""; position: absolute; left: 0; top: 1.05em; width: 14px; height: 1px; background: var(--gold); box-shadow: 0 0 6px rgba(232, 195, 122, .6); }
+  .lines a { color: var(--cream); text-decoration-color: var(--gold-line); text-underline-offset: 3px; }
+  .lines a:hover { color: var(--gold); }
+  .nw { white-space: nowrap; }
+
+  .with-photo { display: grid; grid-template-columns: 1fr auto; gap: 22px; align-items: end; }
+  .work { width: 132px; text-shadow: none; }
+  .work img {
+    display: block; width: 100%; height: auto;           /* whole photo, portrait 3:4, no crop */
+    padding: 4px; background: linear-gradient(160deg, #f0d391, #b98a3e 55%, #e8c37a);
+    box-shadow: 0 14px 34px -12px rgba(0, 0, 0, .8);
+  }
+  .work figcaption { margin-top: 8px; font-family: var(--mono); font-size: 9.5px; line-height: 1.45; letter-spacing: .08em; color: var(--muted); text-shadow: 0 1px 6px rgba(0, 0, 0, .8); }
+  .cols { columns: 2; column-gap: 18px; }
+  .services { width: min(360px, 30vw); }
+  /* at 90% the stair fills all but the right ~22% of the screen */
+  .contacts { width: min(290px, 23vw); }
+  html.scrolly .contacts.right { right: clamp(16px, 2.5vw, 32px); }
+  .narrow { width: min(430px, 36vw); }
+  .cols li { break-inside: avoid; font-size: 15px; padding-top: 3px; padding-bottom: 3px; }
+
+  .stats { display: flex; gap: clamp(20px, 3vw, 44px); margin-top: 8px; }
+  .stat b { display: block; font-family: var(--serif); font-weight: 300; font-size: clamp(2.6rem, 4.4vw, 4rem); line-height: 1; color: var(--gold); font-variant-numeric: tabular-nums; }
+  .stat span { display: block; margin-top: 6px; font-size: 13px; line-height: 1.35; color: var(--muted); }
+
+  .hint { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 26px; align-items: center; }
+  .btn-shop {
+    display: inline-flex; align-items: center; gap: .5em;
+    padding: 16px 32px;
+    font-family: var(--serif); font-size: 1.4rem; font-weight: 500;
+    color: #1b1408; text-decoration: none; text-shadow: none;
+    background: linear-gradient(180deg, #f3d798, #e2b462);
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px rgba(255, 230, 170, .6), 0 0 28px rgba(232, 195, 122, .45), 0 10px 30px -10px rgba(0, 0, 0, .6);
+    animation: glow 3.2s ease-in-out infinite;
+    transition: transform .2s;
+  }
+  .btn-shop:hover { transform: translateY(-1px); }
+  @keyframes glow {
+    50% { box-shadow: 0 0 0 1px rgba(255, 230, 170, .8), 0 0 44px rgba(232, 195, 122, .7), 0 10px 30px -10px rgba(0, 0, 0, .6); }
+  }
+  .btn-quote {
+    padding: 14px 4px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+    text-decoration: none; color: var(--cream);
+    border-bottom: 1px solid var(--gold-line);
+  }
+  .btn-quote:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* reading scrims: soft dark gradients from the side the text is on, no edges */
+  .scrim { position: fixed; z-index: 1; pointer-events: none; opacity: 0; top: 0; bottom: 0; width: 62vw; }
+  .scrim-l { left: 0; background: linear-gradient(90deg, rgba(5, 8, 16, .6), rgba(5, 8, 16, .38) 45%, rgba(5, 8, 16, 0)); }
+  .scrim-r { right: 0; background: linear-gradient(270deg, rgba(5, 8, 16, .6), rgba(5, 8, 16, .38) 45%, rgba(5, 8, 16, 0)); }
+
+  /* ---------- progress ---------- */
+  .progress {
+    position: fixed; z-index: 3;
+    left: var(--side); right: var(--side);
+    bottom: max(18px, env(safe-area-inset-bottom));
+    pointer-events: none;
+  }
+  .progress ol { list-style: none; display: flex; justify-content: space-between; margin-bottom: 8px; }
+  .progress li {
+    font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+    color: rgba(241, 232, 214, .4); transition: color .3s;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, .8);
+  }
+  .progress li.on { color: var(--gold); }
+  .bar { height: 1px; background: rgba(241, 232, 214, .18); position: relative; }
+  .bar i {
+    position: absolute; inset: 0; background: var(--gold);
+    transform-origin: left; transform: scaleX(0);
+    box-shadow: 0 0 8px var(--gold);
+  }
+
+  /* splash while the 3D scene builds: dark ground, the logo breathing */
+  .loading {
+    position: fixed; inset: 0; z-index: 10;
+    display: grid; place-items: center;
+    background: var(--night);
+    transition: background-color .9s ease, visibility 0s 3s;
+    pointer-events: none;
+  }
+  .loading span {
+    font-family: var(--serif); font-weight: 600; letter-spacing: .2em; white-space: nowrap;
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    animation: breathe 2.4s ease-in-out infinite;
+  }
+  .loading sup { color: var(--gold); font-size: .5em; letter-spacing: 0; margin-left: .15em; vertical-align: .9em; }
+  @media (max-width: 760px) { .loading span { letter-spacing: .14em; } }
+  @keyframes breathe { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+  /* o fundo desaparece e o nome vai encaixar-se no cabeçalho */
+  html.ready .loading { background-color: transparent; visibility: hidden; }
+  html.ready .loading span { animation: none; }
+
+  /* ---------- scrolly mode: blocks are fixed and driven by the scroll ---------- */
+  html.scrolly .track { height: 900vh; }
+  html.scrolly .block {
+    position: fixed; z-index: 2;
+    top: 50%;
+    opacity: 0; transform: translateY(-50%);
+    pointer-events: none;
+    will-change: opacity, transform;
+  }
+  html.scrolly .block.on { pointer-events: auto; }
+  html.scrolly .left { left: var(--side); }
+  html.scrolly .right { right: var(--side); }
+  html.scrolly .hero { opacity: 1; }
+  html.flow .block { width: min(560px, 100%); }
+  @media (max-width: 760px) {
+    html.scrolly .block {
+      left: 20px; right: 20px; width: auto;
+      top: auto; bottom: calc(max(18px, env(safe-area-inset-bottom)) + 44px);
+      transform: none;
+    }
+    .block h1, .block h2 { font-size: 2.5rem; margin-bottom: 12px; }
+    .lead { font-size: 15px; }
+    .lines { margin-top: 12px; }
+    .lines li { font-size: 14px; padding: 3px 0 3px 22px; }
+    .lines li::before { width: 12px; }
+    .cols li { font-size: 13px; padding-top: 2px; padding-bottom: 2px; }
+    .stat b { font-size: 2.4rem; }
+    .stat span { font-size: 11px; }
+    .with-photo { gap: 14px; }
+    .work { width: 86px; }
+    .work figcaption { font-size: 8.5px; }
+    .btn-shop { padding: 13px 24px; font-size: 1.2rem; }
+    /* text sits at the bottom: the scrim rises from the bottom edge instead */
+    .scrim { width: auto; left: 0; right: 0; top: auto; height: 72vh; }
+    .scrim-l, .scrim-r { background: linear-gradient(0deg, rgba(5, 8, 16, .6), rgba(5, 8, 16, .4) 45%, rgba(5, 8, 16, 0)); }
+  }
+
+  /* ---------- flow mode: reduced motion / no WebGL / no JS ---------- */
+  html.flow .view canvas, html.flow .progress, html.flow .loading { display: none; }
+  html.flow .scrim { display: none; }
+  html.flow .top { background: rgba(8, 12, 22, .82); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  html.flow .track {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; gap: 28vh;
+    padding: 28vh var(--side) 30vh;
+  }
+  html.flow .left { align-self: flex-start; }
+  html.flow .right { align-self: flex-end; }
+  html.flow .track > :first-child { margin-top: 10vh; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn-shop { animation: none; }
+    * { scroll-behavior: auto !important; }
+  }
+
+  /* =========================================================
+     Passagem contínua início ↔ loja. As cores são propriedades registadas,
+     por isso o fundo passa da noite azul do início ao grafite da loja sem corte.
+     ========================================================= */
+  @property --night { syntax: '<color>'; inherits: true; initial-value: #0c1220; }
+  @property --cream { syntax: '<color>'; inherits: true; initial-value: #f1e8d6; }
+  @property --gold  { syntax: '<color>'; inherits: true; initial-value: #e8c37a; }
+  :root {
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --display: "Archivo", "Fraunces", Georgia, sans-serif;
+    --line: rgba(238, 233, 226, .14);
+    --line-strong: #706960;
+    --soft: #A8A095;
+    --on-gold: #15120E;
+    color-scheme: dark;
+    transition: --night 1.8s var(--ease-in-out), --cream 1.8s var(--ease-in-out), --gold 1.8s var(--ease-in-out);
+  }
+  html.in-shop { --night: #0F0E0D; --cream: #EEE9E2; --gold: #D6A25E; --muted: #A8A095; }
+  html, body { background: var(--night); }
+  html.in-shop .track { height: 0 !important; overflow: visible; }
+  html.flow.in-shop .track { display: none; }
+  html.in-shop .block { opacity: 0 !important; pointer-events: none !important; transition: opacity .35s ease-out; }
+  html.in-shop .scrim { opacity: 0 !important; transition: opacity .6s ease-out; }
+  .progress { transition: opacity .35s ease-out; }
+  html.in-shop .progress { opacity: 0; }
+  html.covered .view { visibility: hidden; }
+  html.in-shop .view { background: var(--night); }
+  html.covered .top { background: var(--night); }
+  html.in-shop:not(.covered) .top { background: linear-gradient(rgba(15, 14, 13, .7), rgba(15, 14, 13, 0)); }
+
+  .w { display: inline-block; will-change: opacity, transform; }
+
+  /* cabeçalho: mantém-se fixo, só troca a navegação */
+  .top { view-transition-name: top; }
+  .logo { background: none; border: 0; cursor: pointer; }
+  .top nav { position: relative; }
+  .nav-site { position: absolute; right: calc(100% + 32px); top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: clamp(10px, 2.2vw, 28px); white-space: nowrap; transition: opacity .45s var(--ease-out), transform .45s var(--ease-out), visibility 0s; }
+  html.in-shop .nav-site { opacity: 0; transform: translateY(calc(-50% - 8px)); visibility: hidden; }
+  .top nav a { min-height: 44px; display: inline-flex; align-items: center; }
+  /* sempre à direita, no início e na loja: língua, conta e carrinho */
+  .tools { display: flex; align-items: center; gap: 20px; }
+  .lang { position: relative; }
+  .lang-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 4px; border: 0; background: none; cursor: pointer; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: #C9C2B8; transition: color .2s; }
+  .lang-btn:hover, .lang-btn[aria-expanded="true"] { color: var(--cream); }
+  .lang-btn svg { width: 10px; height: 10px; fill: none; stroke: currentColor; stroke-width: 1.5; transition: transform .16s var(--ease-out); }
+  .lang-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .lang-menu { position: absolute; right: 0; top: 100%; min-width: 168px; margin: 4px 0 0; padding: 6px 0; list-style: none; background: #181715; border: 1px solid #2A2724; transform-origin: top right; transition: opacity .16s var(--ease-out), transform .16s var(--ease-out), visibility 0s; }
+  .lang-menu[data-closed] { opacity: 0; transform: scale(.97) translateY(-4px); visibility: hidden; transition: opacity .12s var(--ease-out), transform .12s var(--ease-out), visibility 0s .12s; }
+  .lang-menu button { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 44px; padding: 0 16px; border: 0; background: none; cursor: pointer; font-family: var(--sans); font-size: 14px; color: #C9C2B8; text-align: left; }
+  .lang-menu button:hover, .lang-menu button:focus-visible { color: var(--cream); background: #2A2724; }
+  .lang-menu button[aria-current] { color: var(--cream); }
+  .lang-menu button[aria-current]::after { content: "✓"; font-family: var(--mono); color: var(--gold); }
+  .top nav .tools a { font-family: var(--sans); font-size: 14px; letter-spacing: 0; text-transform: none; color: #C9C2B8; }
+  .top nav .tools a:hover, .top nav .tools a[aria-current] { color: var(--cream); }
+  .bag { display: inline-flex; align-items: center; gap: 6px; min-width: 24px; min-height: 44px; color: #C9C2B8; }
+  .bag svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+  .cart { font-family: var(--mono); font-size: 13px; color: var(--gold); }
+  @media (max-width: 760px) { .nav-site { display: none; } .tools { gap: 12px; } }
+
+  /* ---------- loja ---------- */
+  .shop { position: relative; z-index: 2; }
+  .page { --gut: clamp(20px, 4vw, 56px); }
+  .wrap { max-width: 1440px; margin-inline: auto; padding-left: max(var(--gut), env(safe-area-inset-left, 0px)); padding-right: max(var(--gut), env(safe-area-inset-right, 0px)); }
+  .s-hero { min-height: 100svh; display: flex; align-items: flex-end; padding-block: 0 72px; position: relative; }
+  .s-hero::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(15,14,13,.82), rgba(15,14,13,.3) 38%, rgba(15,14,13,0) 62%), linear-gradient(90deg, rgba(15,14,13,.62), rgba(15,14,13,0) 58%); }
+  .s-hero .wrap { width: 100%; position: relative; }
+  html.flow .s-hero { background: center / cover url(img/hero-escada-luz.jpg); }
+  .s-hero h1 { font-family: var(--display); font-stretch: 115%; font-weight: 300; font-size: clamp(44px, 6.2vw, 96px); line-height: 1; max-width: 11em; text-wrap: balance; }
+  .s-hero h1 em { display: block; font-style: normal; color: var(--gold); }
+  .s-hero p { margin-top: 24px; font-size: clamp(16px, 1.3vw, 18px); max-width: 34em; color: #C9C2B8; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 32px; }
+  .s-hero .stag { opacity: 0; transform: translateY(26px); transition: opacity .25s ease-out, transform .25s ease-out; }
+  .s-hero.in .stag { opacity: 1; transform: none; transition: opacity 1s var(--ease-out), transform 1s var(--ease-out); }
+  .s-hero.in .stag:nth-child(2) { transition-delay: 80ms; }
+  .s-hero.in .stag:nth-child(3) { transition-delay: 160ms; }
+  /* ao abrir, as cores já estão certas por trás do nome */
+  html:not(.ready), html:not(.ready) .nav-site { transition: none; }
+  /* entrada: o site aparece enquanto os degraus acendem */
+  html.scrolly:not(.lit) .s-hero .stag { opacity: 0; transform: translateY(14px); }
+  html.scrolly:not(.lit) .top, html.scrolly:not(.lit) .s-hero::before { opacity: 0; }
+  .top, .s-hero::before { transition: opacity 1.2s var(--ease-out); }
+  html.scrolly:not(.lit) #inicio > * { opacity: 0; transform: translateY(14px); }
+  #inicio > * { transition: opacity 1.1s var(--ease-out), transform 1.1s var(--ease-out); }
+  #inicio > :nth-child(2) { transition-delay: 90ms; }
+  #inicio > :nth-child(3) { transition-delay: 220ms; }
+  .primary { display: inline-flex; align-items: center; justify-content: center; min-height: 58px; padding: 0 32px; border: 0; background: var(--gold); color: var(--on-gold); font: 500 15px var(--sans); text-decoration: none; cursor: pointer; transition: background-color .2s ease, transform .16s var(--ease-out); }
+  .primary:active { transform: scale(.98); }
+  @media (hover: hover) and (pointer: fine) { .primary:hover { background: #E4B676; } }
+  .tlink { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; color: var(--cream); text-decoration: underline; text-decoration-color: rgba(238,233,226,.35); text-underline-offset: 5px; }
+  .tlink:hover { color: var(--gold); text-decoration-color: currentColor; }
+  /* a cena dissolve-se no fundo por baixo do herói, sem linha a separar as secções */
+  .s-body { background: linear-gradient(90deg, rgba(15,14,13,.62), rgba(15,14,13,0) 58%), linear-gradient(rgba(15,14,13,.82), rgba(15,14,13,.97) 26vh, var(--night) 42vh); padding-top: 16vh; }
+  html.flow .s-body { background: var(--night); padding-top: 72px; }
+  .s-title { font-family: var(--display); font-stretch: 115%; font-weight: 300; font-size: clamp(40px, 5vw, 64px); line-height: 1.04; letter-spacing: -.01em; text-wrap: balance; }
+  .s-sub { margin-top: 14px; color: var(--soft); font-size: 16px; }
+  /* catálogo: duas linhas que passam sozinhas, em sentidos opostos e em ciclo contínuo */
+  .cat-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 40px; scroll-margin-top: 104px; }
+  .cat-pause { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line-strong); background: transparent; color: var(--cream); font: 14px var(--sans); cursor: pointer; }
+  .cat-rows { display: grid; gap: 12px; margin-top: 40px; }
+  .cat-row { overflow: hidden; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  .cat-row.dragging { cursor: grabbing; }
+  .cat-row.dragging .tile { cursor: grabbing; }
+  .rail { display: flex; width: max-content; will-change: transform; }
+  .set { display: flex; gap: 12px; padding-right: 12px; }
+  html.flow .cat-pause { display: none; }
+  .tile { position: relative; display: block; flex: none; width: max(28vw, 340px); height: clamp(220px, 31vh, 420px); overflow: hidden; color: var(--cream); text-decoration: none; background: #181715; }
+
+  .tile img, .card img, .banner img, .cfg-view img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .tile img, .card img { transition: transform 1.1s var(--ease-out); }
+  .tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(15,14,13,.88), rgba(15,14,13,0) 55%); }
+  .tile div { position: absolute; z-index: 1; left: 24px; right: 24px; bottom: 24px; }
+  .tile b { display: block; font: 300 clamp(26px, 2.4vw, 36px)/1.05 var(--display); font-stretch: 115%; }
+  .tile span { display: block; margin-top: 8px; font: 12px/1.5 var(--mono); color: #C9C2B8; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 72px 24px; margin-top: 48px; }
+  .card { display: block; color: var(--cream); text-decoration: none; }
+  .card figure { aspect-ratio: 4 / 5; overflow: hidden; background: #181715; }
+  .card b { display: block; margin-top: 16px; font: 400 23px/1.2 var(--display); font-stretch: 110%; }
+  .card span { display: block; margin-top: 4px; color: var(--soft); font-size: 14px; }
+  .card i { display: block; margin-top: 8px; font: normal 14px var(--mono); }
+  @media (hover: hover) and (pointer: fine) {
+    a.tile:hover img, a.card:hover img { transform: scale(1.04); }
+    a.card:hover b { color: var(--gold); }
+  }
+  /* capa panorâmica: funde-se com o fundo em baixo, e o título assenta na fotografia */
+  .banner { position: relative; height: clamp(440px, 72vh, 780px); overflow: hidden; margin-top: 88px; }
+  .banner::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, var(--night), rgba(15, 14, 13, .4) 20%, rgba(15, 14, 13, 0) 42%), linear-gradient(90deg, rgba(15, 14, 13, .55), rgba(15, 14, 13, 0) 45%); }
+  .banner-text { position: absolute; z-index: 1; left: 0; right: 0; bottom: 8px; }
+  .banner-text .crumb { color: #C9C2B8; margin-top: 0; }
+  .crumb { font: 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #8E867B; margin-top: 40px; }
+  .crumb a { color: inherit; }
+  .deep-title { font-family: var(--display); font-stretch: 115%; font-weight: 300; font-size: clamp(64px, 9vw, 128px); line-height: 1; margin-top: 16px; }
+  @media (max-width: 520px) { .deep-title { font-size: calc((100vw - 40px) / 7.7); } }   /* "Gradeamentos" tem de caber numa linha */
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 32px; }
+  .pill { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line-strong); background: transparent; color: var(--cream); font: 14px var(--sans); cursor: pointer; transition: background-color .2s ease, color .2s ease; }
+  .pill[aria-pressed="true"] { background: var(--cream); color: var(--on-gold); border-color: var(--cream); }
+  .cfg { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(28px, 4vw, 64px); margin-top: 88px; padding-bottom: 88px; align-items: start; }
+  .cfg-view { position: sticky; top: 88px; height: calc(100svh - 112px); min-height: 420px; overflow: hidden; background: #181715; }
+  .cfg h1 { font: 300 clamp(56px, 6vw, 80px)/1 var(--display); font-stretch: 115%; margin-top: 12px; }
+  .label { font: 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #8E867B; }
+  .price { font: 400 44px/1.1 var(--mono); margin-top: 24px; font-variant-numeric: tabular-nums; }
+  .opt { border-top: 1px solid var(--line); padding-block: 22px; margin-top: 22px; }
+  .opt + .opt { margin-top: 0; }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+  .fields label { display: block; font-size: 13px; color: var(--soft); }
+  .fields input { display: block; width: 100%; min-height: 48px; margin-top: 6px; padding: 0 12px; border-radius: 2px; border: 1px solid var(--line-strong); background: #181715; color: var(--cream); font: 16px var(--mono); }
+  .fields input[aria-invalid="true"] { border: 2px solid #E5796F; }
+  .hint-txt { display: block; margin-top: 6px; font: 12px var(--mono); color: #8E867B; }
+  .hint-txt.bad { color: #F0A39B; }
+  .swatch { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-strong); cursor: pointer; }
+  .swatch[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--night), 0 0 0 5px var(--gold); }
+  .primary.full { width: 100%; margin-top: 8px; }
+  /* entrar: a mesma escada por trás, com a câmara a dar-lhe a volta */
+  .s-login { position: relative; min-height: 100svh; display: flex; align-items: center; padding-block: 112px 56px; }
+  .s-login::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(270deg, rgba(15,14,13,.9), rgba(15,14,13,.72) 38%, rgba(15,14,13,0) 66%); }
+  html.flow .s-login { background: center / cover url(img/hero-escada-luz.jpg); }
+  .s-login .wrap { position: relative; width: 100%; display: flex; justify-content: flex-end; }
+  .login { width: min(420px, 100%); }
+  .login h1 { font-family: var(--display); font-stretch: 115%; font-weight: 300; font-size: clamp(40px, 4.4vw, 64px); line-height: 1.02; }
+  .login h1 em { display: block; font-style: normal; color: var(--gold); }
+  .login .fields { grid-template-columns: 1fr; margin-top: 32px; margin-bottom: 28px; }
+  .login .fields input { transition: border-color .2s; }
+  .login .fields input:focus { border-color: var(--gold); }
+  .login .row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; margin-top: 16px; }
+  .login .stag { opacity: 0; transform: translateY(22px); }
+  .s-login.in .stag { opacity: 1; transform: none; transition: opacity .9s var(--ease-out), transform .9s var(--ease-out); }
+  .s-login.in .stag:nth-child(2) { transition-delay: 120ms; }
+  .s-login.in .stag:nth-child(3) { transition-delay: 220ms; }
+  .s-login.in .stag:nth-child(4) { transition-delay: 300ms; }
+  @media (max-width: 760px) {
+    .s-login { align-items: flex-end; padding-block: 88px 32px; }
+    .s-login::before { background: linear-gradient(0deg, rgba(15,14,13,.94), rgba(15,14,13,.82) 56%, rgba(15,14,13,0) 82%); }
+    .login .fields { margin-top: 20px; margin-bottom: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .login .stag { opacity: 1; transform: none; } }
+  .demo { margin-top: 14px; font-size: 13px; color: #8E867B; }
+  .foot { border-top: 1px solid var(--line); margin-top: 140px; padding-block: 56px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px 40px; font-size: 13px; color: var(--soft); }
+  .foot a { color: inherit; }
+  .mt { margin-top: 140px; }
+  @media (max-width: 760px) {
+    .tile { width: 68vw; height: 280px; }
+    .banner img { object-position: 78% center; }
+    .tile b { font-size: 28px; }
+    .grid { grid-template-columns: 1fr; gap: 48px; }
+    .cfg { grid-template-columns: minmax(0, 1fr); margin-top: 72px; }
+    .cfg-view { position: relative; top: 0; height: 56vh; min-height: 0; }
+    .mt, .foot { margin-top: 88px; }
+    .s-hero { padding-bottom: 40px; }
+  }
+
+  /* morfismo das fotografias entre ecrãs da loja */
+  ::view-transition { pointer-events: none; }
+  ::view-transition-group(photo) { animation-duration: .9s; animation-timing-function: var(--ease-in-out); }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .45s; animation-timing-function: var(--ease-out); }
+  ::view-transition-old(photo), ::view-transition-new(photo) { height: 100%; object-fit: cover; overflow: clip; }
+</style>
+<link rel="preload" as="image" href="img/casa-realista/casa-portrait.webp" media="(max-width: 900px)">
+<link rel="preload" as="image" href="img/casa-realista/casa.webp" media="(min-width: 901px)">
+<link rel="stylesheet" href="realista.css">
+</head>
+<body>
+
+<div class="view" aria-hidden="true">
+  <div class="house-camera">
+    <picture class="house-picture">
+      <source media="(max-width: 900px)" type="image/webp" srcset="img/casa-realista/casa-portrait.webp">
+      <img class="house-photo" src="img/casa-realista/casa.webp" width="1672" height="941" fetchpriority="high" decoding="async" alt="">
+    </picture>
+  </div><canvas class="house-scene" aria-hidden="true"></canvas>
+</div>
+
+<header class="top">
+  <a class="logo" href="#loja" data-to="#shopHero" aria-label="HABINOX — início">HABINOX<sup>®</sup></a>
+  <nav aria-label="Principal">
+    <div class="nav-site">
+      <a href="#empresa">Empresa</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#contactos">Contactos</a>
+      <a href="#loja" class="shop" data-shop>Loja</a>
+    </div>
+    <div class="tools">
+      <div class="lang" id="lang">
+        <button class="lang-btn" type="button" aria-expanded="false" aria-controls="langMenu" aria-label="Língua: Português"><span>PT</span><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5"/></svg></button>
+        <ul class="lang-menu" id="langMenu" data-closed>
+          <li><button type="button" lang="pt" data-code="PT" aria-current="true">Português</button></li>
+          <li><button type="button" lang="es" data-code="ES">Español</button></li>
+          <li><button type="button" lang="fr" data-code="FR">Français</button></li>
+        </ul>
+      </div>
+      <a href="#entrar">Entrar</a>
+      <span class="bag" role="img" id="bag" aria-label="Carrinho vazio">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l1 13H4L5 8Z"/><path d="M9 11V6a3 3 0 0 1 6 0v5"/></svg>
+        <span class="cart" id="cart" hidden>0</span>
+      </span>
+    </div>
+  </nav>
+</header>
+
+<!-- Each block shows between data-in and data-out (fractions of the scroll).
+     left/right = the side of the screen that is free of the stair at that moment of the camera path. -->
+<main class="track" id="track">
+
+  <section class="block hero left narrow" id="inicio" data-in="0" data-out=".055">
+    <p class="num">HABINOX®</p>
+    <h1>Especialistas em aço inoxidável.</h1>
+    <p class="hint">Faça scroll para descobrir.</p>
+  </section>
+
+  <section class="block left narrow" id="empresa" data-in=".085" data-out=".14">
+    <p class="num">01 — Quem somos</p>
+    <h2>Desde 2005 em Antas, Esposende.</h2>
+    <p class="lead">Começámos no aço inoxidável e hoje fazemos serralharia em inox, alumínio soldado e ferro, com aposta na modernização e inovação.</p>
+  </section>
+
+  <!-- timed to the stretch where the camera passes closest to the laser-cut guards -->
+  <section class="block left" id="como" data-in=".15" data-out=".245">
+    <p class="num">02 — Como trabalhamos</p>
+    <h2>Do corte ao polimento.</h2>
+    <p class="lead">Projeto em 2D e 3D, preparação e execução de obra, com equipamento próprio:</p>
+    <div class="with-photo">
+      <ul class="lines">
+        <li>Linha de corte e quinagem de chapa</li>
+        <li>Corte CNC — como as guardas desta escada</li>
+        <li>Torno e fresa</li>
+        <li>Esmerilagem e polimento de perfis</li>
+      </ul>
+      <figure class="work">
+        <img src="img/casa-realista/casa.webp" width="1672" height="941" loading="lazy" decoding="async" onerror="this.closest('figure').remove()"
+             alt="Estudo de ambiente com escada helicoidal, guardas recortadas e iluminação quente">
+        <figcaption>Estudo de ambiente · guarda em corte CNC</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="block right services" id="servicos" data-in=".32" data-out=".46">
+    <p class="num">03 — O que fazemos</p>
+    <h2>Por medida.</h2>
+    <ul class="lines cols">
+      <li>Escadas</li><li>Gradeamento interior</li><li>Gradeamento exterior</li>
+      <li>Portões</li><li>Portões em alumínio</li><li>Portas de entrada</li>
+      <li>Hottes</li><li>Chaminés</li><li>Quedas e capitéis</li>
+      <li>Cascatas</li><li>Churrasqueiras</li><li>Toalheiros</li>
+      <li>Mesas</li><li>Bases de chuveiro</li><li>Puxadores</li>
+    </ul>
+  </section>
+
+  <section class="block right" id="inox" data-in=".5" data-out=".6">
+    <p class="num">04 — Porquê inox</p>
+    <h2>Bonito e feito para durar.</h2>
+    <p class="lead">Ciclo de vida longo e baixo custo de manutenção: uma escolha bonita e económica para arquitetura e construção.</p>
+  </section>
+
+  <section class="block left" id="perto" data-in=".63" data-out=".73">
+    <p class="num">05 — Ao seu lado</p>
+    <h2>Vamos à obra consigo.</h2>
+    <ul class="lines">
+      <li>Aconselhamento e levantamento na obra</li>
+      <li>Orçamentos gratuitos e sem compromisso</li>
+      <li>Todo o país — e fabricamos para a Europa</li>
+      <li>Particulares e empresas</li>
+    </ul>
+  </section>
+
+  <section class="block left" id="numeros" data-in=".76" data-out=".85">
+    <p class="num">06 — Números</p>
+    <h2>Duas décadas de inox.</h2>
+    <div class="stats" id="stats"></div>
+  </section>
+
+  <section class="block right contacts" id="contactos" data-in=".87" data-out=".94">
+    <p class="num">07 — Contactos</p>
+    <h2>Fale connosco.</h2>
+    <ul class="lines">
+      <li><address style="font-style:normal">Núcleo Industrial de Antas, <span class="nw">4740-016 Antas</span>, Esposende</address></li>
+      <li><span class="nw">Tel. <a href="tel:+351253873429">253 873 429</a></span> · <span class="nw">Tlm. <a href="tel:+351969413616">969 413 616</a></span></li>
+      <li><a href="mailto:geral@habinox.pt">geral@habinox.pt</a> · <a href="https://www.google.com/maps?q=41.61266,-8.775260" target="_blank" rel="noopener">Google Maps ↗</a></li>
+    </ul>
+    <p class="note">Dias úteis, 9h00–18h30. Chamada para a rede fixa / móvel nacional.</p>
+  </section>
+
+  <section class="block left final" id="loja" data-in=".955" data-out="1">
+    <p class="num">08 — Loja</p>
+    <h2>Do projeto à obra.</h2>
+    <div class="actions">
+      <a class="btn-shop" href="#loja" data-shop>Entrar na loja <span aria-hidden="true">→</span></a>
+      <a class="btn-quote" href="mailto:geral@habinox.pt?subject=Pedido%20de%20or%C3%A7amento">Pedir orçamento</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- A loja usa a mesma cena: o herói é transparente e deixa ver o canvas. Preços e fotografias de exemplo. -->
+<div class="shop" id="shop" hidden>
+  <section class="page" data-page="loja">
+    <div class="s-hero" id="shopHero"><div class="house-controls"><button class="house-replay" type="button" aria-label="Repetir iluminação">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5a5 5 0 1 1-.5 5M3 1v4h4"/></svg><span>Repetir luzes</span>
+    </button><button class="house-control" type="button" aria-pressed="false">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path class="pause-icon" d="M5 3v10M11 3v10"/><path class="play-icon" d="m5 2 8 6-8 6Z"/></svg>
+      <span>Pausar ambiente</span>
+    </button></div><div class="wrap">
+      <h1 class="stag">Metal feito à medida. <em>Preço na hora.</em></h1>
+      <p class="stag">Escreva as medidas, escolha o material e veja o preço enquanto configura.</p>
+      <div class="row stag"><a class="primary" href="#linear">Configurar um portão</a><a class="tlink" href="#loja" data-to="#familias">Ver a loja</a></div>
+    </div></div>
+    <div class="s-body">
+     <div class="wrap cat-head" id="familias">
+       <div><h2 class="s-title">Escolha o que quer fabricar.</h2>
+       <p class="s-sub">Tudo por medida, em inox, ferro ou alumínio.</p></div>
+       <button class="cat-pause" id="catPause" type="button" aria-pressed="false">Pausar</button>
+     </div>
+     <div class="cat-rows" id="catRows"><div class="cat-row"><div class="rail"></div></div><div class="cat-row"><div class="rail"></div></div></div>
+     <div class="wrap">
+      <footer class="foot"><span>© 2026 Habinox · Preços com IVA incluído</span><span><a href="#inicio">Sobre a Habinox</a> · Termos · Privacidade · Livro de Reclamações</span></footer>
+    </div></div>
+  </section>
+
+  <section class="page" data-page="categoria" hidden>
+    <div class="banner"><img id="catCover" data-morph="cat" src="img/portoes-capa.jpg" alt="">
+      <div class="wrap banner-text">
+        <p class="crumb"><a href="#loja">Loja</a> / <span id="catCrumb">Portões</span></p>
+        <h1 class="deep-title" id="catTitle">Portões</h1>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="filters" id="filters"></div>
+      <div class="grid" id="gates"></div>
+      <p class="demo" id="catNote">Neste protótipo só os portões têm configurador.</p>
+      <footer class="foot"><span>© 2026 Habinox · Preços com IVA incluído</span><span><a href="#inicio">Sobre a Habinox</a> · Termos · Privacidade · Livro de Reclamações</span></footer>
+    </div>
+  </section>
+
+  <section class="page" data-page="entrar" hidden>
+    <div class="s-login" id="sLogin"><div class="wrap"><div class="login">
+      <h1 class="stag">Entrar <em>na sua conta.</em></h1>
+      <form id="loginForm" class="stag">
+        <div class="fields">
+          <label for="email">Email<input id="email" type="email" autocomplete="email" required></label>
+          <label for="pass">Palavra-passe<input id="pass" type="password" autocomplete="current-password" required></label>
+        </div>
+        <button class="primary full" type="submit">Entrar</button>
+      </form>
+      <p class="row stag"><a class="tlink" href="#entrar">Esqueci-me da palavra-passe</a><a class="tlink" href="#entrar">Criar conta</a></p>
+      <p class="demo stag">Ecrã de exemplo: nesta demonstração não inicia sessão.</p>
+    </div></div></div>
+  </section>
+
+  <section class="page" data-page="linear" hidden>
+    <div class="wrap cfg">
+      <div class="cfg-view"><img data-morph="linear" src="img/portao-correr-cinza.jpg" alt="Portão de correr Linear, com barras verticais"></div>
+      <div>
+        <p class="crumb" style="margin-top:0"><a href="#loja">Loja</a> / <a href="#portoes" id="cfgCat">Portões</a> / Linear</p>
+        <h1>Linear</h1>
+        <p class="s-sub">Folha única com barras verticais, a deslizar sobre calha.</p>
+        <p class="price" id="price" aria-live="polite"></p>
+        <div class="opt"><span class="label">Medidas da abertura · mm</span>
+          <div class="fields">
+            <label for="w">Largura<input id="w" inputmode="numeric" value="4000"><span class="hint-txt" id="wh">1 000 a 6 000</span></label>
+            <label for="h">Altura<input id="h" inputmode="numeric" value="1600"><span class="hint-txt" id="hh">800 a 2 200</span></label>
+          </div>
+        </div>
+        <div class="opt"><span class="label">Material</span><div class="filters" id="mats" style="margin-top:12px"></div></div>
+        <div class="opt"><span class="label">Cor · <span id="colorName"></span></span><div class="filters" id="cols" style="margin-top:12px"></div></div>
+        <button class="primary full" id="add" type="button"></button>
+        <p class="demo">Preço e fórmula de exemplo, só para esta demonstração.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="scrim scrim-l" aria-hidden="true"></div>
+<div class="scrim scrim-r" aria-hidden="true"></div>
+
+<div class="progress" aria-hidden="true">
+  <ol>
+    <li data-at="0">Empresa</li>
+    <li data-at=".32">Serviços</li>
+    <li data-at=".87">Contactos</li>
+    <li data-at=".955">Loja</li>
+  </ol>
+  <div class="bar"><i id="bar"></i></div>
+</div>
+
+<div class="loading" id="loading" aria-hidden="true"><span>HABINOX<sup>®</sup></span></div>
+
+<script>
+/* =========================================================
+   Content: shown/hidden in step with the scroll position
+   ========================================================= */
+(() => {
+  const html = document.documentElement, scrolly = html.classList.contains('scrolly');
+  const clamp01 = x => Math.min(1, Math.max(0, x));
+  const smooth = (a, b, x) => { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+
+  document.querySelectorAll('[data-shop]').forEach(a => a.href = SHOP_URL);
+  const statsEl = document.getElementById('stats');
+  statsEl.innerHTML = STATS.map(s =>
+    `<div class="stat"><b data-to="${s.value}" data-suffix="${s.suffix}">${s.value}${s.suffix}</b>` +
+    `<span>${s.label}${s.note ? ` (${s.note})` : ''}</span></div>`).join('');
+
+  // títulos: as palavras chegam uma a uma, presas ao scroll
+  document.querySelectorAll('.block h2').forEach(h => {
+    h.innerHTML = h.textContent.trim().split(/\s+/).map(w => `<span class="w">${w}</span>`).join(' ');
+  });
+  const blocks = [...document.querySelectorAll('.block')].map(el => ({
+    el, a: +el.dataset.in, b: +el.dataset.out,
+    words: [...el.querySelectorAll('.w')],
+    items: [...el.querySelectorAll('.lines > li')],
+    counters: [...el.querySelectorAll('[data-to]')]
+  }));
+  const labels = [...document.querySelectorAll('.progress li')];
+  const bar = document.getElementById('bar');
+  const scrims = { left: document.querySelector('.scrim-l'), right: document.querySelector('.scrim-r') };
+  const F = .015;                      // fade length, in scroll fraction
+  const mobile = matchMedia('(max-width: 760px)');
+  const maxScroll = () => document.documentElement.scrollHeight - innerHeight;
+
+  function update(p) {
+    if (!scrolly) return;
+    const shade = { left: 0, right: 0 };
+    for (const k of blocks) {
+      const vin = k.a <= 0 ? 1 : smooth(k.a - F, k.a, p);
+      const vout = k.b >= 1 ? 0 : smooth(k.b, k.b + F, p);
+      const v = vin * (1 - vout);
+      const dy = (1 - vin) * 18 - vout * 14;           // rise in, drift up out
+      k.el.style.opacity = v.toFixed(3);
+      k.el.style.transform = mobile.matches ? `translateY(${dy}px)` : `translateY(calc(-50% + ${dy}px))`;
+      k.el.classList.toggle('on', v > .5);
+      const side = k.el.classList.contains('right') ? 'right' : 'left';
+      shade[side] = Math.max(shade[side], v);
+      const local = clamp01((p - k.a) / ((k.b - k.a) * .55));
+      k.items.forEach((li, i) => {                    // list lines arrive one by one
+        const s = i / k.items.length * .75, t = smooth(s, s + .25, local);
+        li.style.opacity = t.toFixed(3);
+        li.style.transform = `translateX(${((1 - t) * -10).toFixed(1)}px)`;
+      });
+      k.words.forEach((w, i) => {
+        const s = i / k.words.length * .4, t = smooth(s, s + .3, local);
+        w.style.opacity = t.toFixed(3);
+        w.style.transform = `translateY(${((1 - t) * 16).toFixed(1)}px)`;
+      });
+      k.counters.forEach(c => { c.textContent = Math.round(+c.dataset.to * smooth(0, 1, local)) + c.dataset.suffix; });
+    }
+    scrims.left.style.opacity = shade.left.toFixed(3);
+    scrims.right.style.opacity = shade.right.toFixed(3);
+    bar.style.transform = `scaleX(${p})`;
+    let cur = 0;
+    labels.forEach((l, i) => { if (p >= +l.dataset.at - .001) cur = i; });
+    labels.forEach((l, i) => l.classList.toggle('on', i === cur));
+  }
+
+  // Until the 3D module takes over (it feeds the smoothed scroll), follow the raw scroll
+  window.HABINOX = { update, driven: false };
+  if (scrolly) {
+    const raw = () => { if (!window.HABINOX.driven && window.HABINOX.route !== 'loja') update(scrollY / Math.max(1, maxScroll())); };
+    addEventListener('scroll', raw, { passive: true });
+    raw();
+
+    // Nav links and keyboard focus jump to the moment each block is on screen
+    const go = (el, smoothScroll) => {
+      const k = blocks.find(b => b.el === el); if (!k) return;
+      const p = k.b >= 1 ? 1 : (k.a + k.b) / 2;
+      scrollTo({ top: p * maxScroll(), behavior: smoothScroll ? 'smooth' : 'auto' });
+    };
+    document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t && t.classList.contains('block') && !a.dataset.to && a.getAttribute('href') !== SHOP_URL && !html.classList.contains('in-shop')) { e.preventDefault(); go(t, true); }
+    }));
+    document.getElementById('track').addEventListener('focusin', e => {
+      const t = e.target.closest('.block');
+      if (t && !t.classList.contains('on')) go(t, false);
+    });
+  }
+})();
+</script>
+
+<script type="text/x-scene" id="scene">
+// Reprojeção 2.5D da fotografia, com iluminação presa às coordenadas dos degraus.
+// Incorporado por cenarios/realista.mjs antes do controlador realista.js.
+function createHouseRenderer(canvas, image, portrait) {
+  const gl=canvas.getContext('webgl',{alpha:false,antialias:false,depth:false});
+  if (!gl) return null;
+  const width=image.naturalWidth, height=image.naturalHeight, aspect=width/height;
+  const config=portrait ? {
+    size:[941,1672],
+    lights:[[487,1098,641,1103],[479,1072,639,1072],[478,1045,637,1045],[486,1008,636,1006],[507,976,636,975],[527,945,639,944],[551,910,644,910],[586,874,654,875],[624,835,662,840],[657,802,674,806]],
+    stair:[[.497,.66],[.65,.67],[.75,.46],[1,.34],[1,.25],[.61,.39],[.493,.54]],
+    window:[[0,.18],[.37,.35],[.38,.65],[0,.72]],
+    ceiling:[[0,0],[1,0],[1,.25],[.72,.34],[.37,.35],[0,.18]],
+    floor:[[0,.72],[.51,.65],[1,.61],[1,1],[0,1]],foot:.67,top:.29,horizon:.59,
+  } : {
+    size:[1672,941],
+    lights:[[744,815,982,815],[746,780,984,780],[761,744,985,743],[783,705,993,704],[815,668,1005,666],[865,625,1019,627],[926,578,1034,586],[985,535,1055,546],[1045,498,1071,506]],
+    stair:[[.44,.89],[.60,.89],[.65,.54],[.76,.38],[1,.16],[1,0],[.88,0],[.59,.28],[.44,.69]],
+    window:[[0,0],[.35,.29],[.43,.85],[0,.88]],
+    ceiling:[[0,0],[1,0],[.64,.26],[.35,.29]],
+    floor:[[0,.88],[.44,.84],[.65,.81],[1,.80],[1,1],[0,1]],foot:.88,top:.13,horizon:.69,
+  };
+  const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+  function polygonDistance(x,y,points) {
+    let inside=false,distance=1;
+    for (let i=0,j=points.length-1;i<points.length;j=i++) {
+      const [ax,ay]=points[j], [bx,by]=points[i],dx=bx-ax,dy=by-ay;
+      if ((ay>y)!==(by>y) && x<(bx-ax)*(y-ay)/(by-ay)+ax) inside=!inside;
+      const t=clamp(((x-ax)*dx+(y-ay)*dy)/(dx*dx+dy*dy));
+      distance=Math.min(distance,Math.hypot(x-ax-t*dx,y-ay-t*dy));
+    }
+    return (inside?1:-1)*distance;
+  }
+  function depthAt(u,v) {
+    // A sala fica num plano rígido: caixilharias e portas não devem ondular.
+    // O relevo da escada é contínuo nas margens, sem saltos de profundidade.
+    const t=clamp((polygonDistance(u,v,config.stair)+.055)/.11);
+    const weight=t*t*(3-2*t);
+    const near=clamp((v-config.top)/(config.foot-config.top));
+    return 10.5-weight*(1.5+near*1.6);
+  }
+  const vertex=`
+    attribute vec3 a_vertex;
+    uniform vec2 u_fit,u_offset,u_travel;
+    uniform float u_aspect,u_angle,u_zoom;
+    varying vec2 v_uv;
+    void main(){
+      v_uv=a_vertex.xy;
+      float depth=a_vertex.z;
+      float lens=.4244748;
+      vec3 p=vec3((v_uv.x-.5)*2.0*u_aspect*depth*lens,(.5-v_uv.y)*2.0*depth*lens,-depth);
+      p.z+=7.3;
+      float c=cos(u_angle),s=sin(u_angle);
+      p.xz=mat2(c,-s,s,c)*p.xz;
+      p.z-=7.3;
+      vec2 projected=vec2(p.x/u_aspect,p.y)/(-p.z*lens);
+      gl_Position=vec4((projected*u_fit+u_offset)*u_zoom+u_travel,0.0,1.0);
+    }`;
+  const fragment=`
+    precision mediump float;
+    uniform sampler2D u_photo,u_lights;
+    uniform float u_age;
+    varying vec2 v_uv;
+    void main(){
+      vec3 base=texture2D(u_photo,v_uv).rgb;
+      vec3 light=texture2D(u_lights,v_uv).rgb;
+      float delay=.25+light.g*2.2;
+      float lit=smoothstep(delay,delay+.38,u_age);
+      vec3 color=base*(1.0-(1.0-lit)*(light.r*.62+light.b*.12));
+      color+=vec3(1.0,.64,.28)*lit*(light.r*.36+light.b*.075);
+      color*=.86+.14*smoothstep(.25,2.83,u_age);
+      gl_FragColor=vec4(color,1.0);
+    }`;
+  function shader(type,source){
+    const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);
+    if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){const message=gl.getShaderInfoLog(s);gl.deleteShader(s);throw new Error(message);}
+    return s;
+  }
+  const program=gl.createProgram(),vs=shader(gl.VERTEX_SHADER,vertex),fs=shader(gl.FRAGMENT_SHADER,fragment);
+  gl.attachShader(program,vs);gl.attachShader(program,fs);gl.linkProgram(program);gl.deleteShader(vs);gl.deleteShader(fs);
+  if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(program));
+  gl.useProgram(program);
+  const uniforms=Object.fromEntries(['fit','offset','travel','aspect','angle','zoom','photo','lights','age'].map(n=>[n,gl.getUniformLocation(program,'u_'+n)]));
+  const cols=portrait?120:200,rows=portrait?214:114,vertices=[],indices=[];
+  for(let y=0;y<=rows;y++)for(let x=0;x<=cols;x++){
+    const u=x/cols,v=y/rows;vertices.push(u,v,depthAt(u,v));
+    if(x<cols&&y<rows){const a=y*(cols+1)+x,b=a+cols+1;indices.push(a,b,a+1,a+1,b,b+1);}
+  }
+  const vertexBuffer=gl.createBuffer(),indexBuffer=gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER,vertexBuffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(vertices),gl.STATIC_DRAW);
+  const attr=gl.getAttribLocation(program,'a_vertex');gl.enableVertexAttribArray(attr);gl.vertexAttribPointer(attr,3,gl.FLOAT,false,0,0);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,indexBuffer);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(indices),gl.STATIC_DRAW);
+  function texture(unit,source){
+    const t=gl.createTexture();gl.activeTexture(gl.TEXTURE0+unit);gl.bindTexture(gl.TEXTURE_2D,t);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+    gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,source);return t;
+  }
+  const photoTexture=texture(0,image),mask=new ImageData(width,height),sx=width/config.size[0],sy=height/config.size[1];
+  // R: emissão; G: ordem do degrau; B: luz difusa na pedra e no metal.
+  config.lights.forEach(([x1,y1,x2,y2],i)=>{
+    x1*=sx;x2*=sx;y1*=sy;y2*=sy;
+    const radius=(portrait?1.8:2.2)*sx,halo=radius*5,dx=x2-x1,dy=y2-y1,length=dx*dx+dy*dy;
+    for(let y=Math.max(0,Math.floor(Math.min(y1,y2)-halo));y<Math.min(height,Math.ceil(Math.max(y1,y2)+halo));y++){
+      for(let x=Math.max(0,Math.floor(Math.min(x1,x2)-halo));x<Math.min(width,Math.ceil(Math.max(x1,x2)+halo));x++){
+        const t=clamp(((x-x1)*dx+(y-y1)*dy)/length),distance=Math.hypot(x-x1-t*dx,y-y1-t*dy);
+        const core=Math.exp(-Math.pow(distance/radius,2)*1.5),spill=Math.exp(-Math.pow(distance/(radius*3.5),2)*1.5),p=(y*width+x)*4;
+        if(spill*255<mask.data[p+2])continue;
+        mask.data[p]=Math.round(core*255);mask.data[p+1]=Math.round(i/(config.lights.length-1)*255);mask.data[p+2]=Math.round(spill*255);mask.data[p+3]=255;
+      }
+    }
+  });
+  const lightTexture=texture(1,mask);
+  gl.uniform1i(uniforms.photo,0);gl.uniform1i(uniforms.lights,1);gl.uniform1f(uniforms.aspect,aspect);
+  let fitX=1,fitY=1,offsetX=0,offsetY=0;
+  function resize(){
+    const dpr=Math.min(devicePixelRatio||1,1.5);
+    canvas.width=Math.round(innerWidth*dpr);canvas.height=Math.round(innerHeight*dpr);gl.viewport(0,0,canvas.width,canvas.height);
+    const viewport=canvas.width/canvas.height,fx=Math.max(1,aspect/viewport),fy=Math.max(1,viewport/aspect);
+    fitX=fx;fitY=fy;offsetX=-(fx-1)*(portrait?0:.16);offsetY=(fy-1)*(portrait?.08:.04);
+    gl.uniform2f(uniforms.fit,fx,fy);gl.uniform2f(uniforms.offset,offsetX,offsetY);
+  }
+  resize();
+  return {
+    count:config.lights.length,resize,
+    draw(age,angle,login=0){
+      // A escada aproxima-se e abre espaço à direita, como no enquadramento original.
+      // No telemóvel, o movimento é menor para manter a escada acima do formulário.
+      const mobile=innerWidth<=760,targetZoom=mobile?1.22:1.48;
+      const zoom=1.035+(targetZoom-1.035)*login;
+      // O limite usa a pose final: o travelling mantém a curva original sem expor margens.
+      const pan=Math.min(mobile?.18:.58,Math.max(0,(fitX+offsetX)*targetZoom-1-.065));
+      const lift=Math.min(mobile?.08:.32,Math.max(0,(fitY-offsetY)*targetZoom-1-.065));
+      gl.uniform1f(uniforms.age,age);gl.uniform1f(uniforms.angle,angle);gl.uniform1f(uniforms.zoom,zoom);
+      gl.uniform2f(uniforms.travel,-pan*login,lift*login);
+      gl.clear(gl.COLOR_BUFFER_BIT);gl.drawElements(gl.TRIANGLES,indices.length,gl.UNSIGNED_SHORT,0);
+    },
+    dispose(){gl.deleteTexture(photoTexture);gl.deleteTexture(lightTexture);gl.deleteBuffer(vertexBuffer);gl.deleteBuffer(indexBuffer);gl.deleteProgram(program);},
+  };
+}
+
+// Tempos do original: luz ascendente, vaivém de 24 s e travelling de login de 2,3 s.
+const root=document.documentElement;
+const photograph=document.querySelector('.house-photo');
+const canvas=document.querySelector('.house-scene');
+const control=document.querySelector('.house-control');
+const replay=document.querySelector('.house-replay');
+const H=window.HABINOX;
+const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+const narrow=matchMedia('(max-width: 900px)');
+const clamp=value=>Math.max(0,Math.min(1,value));
+const INTRO=3.2, PERIOD=24, AMPLITUDE=.028, LOGIN_DURATION=2300;
+// A mesma curva cubic-bezier(.77,0,.175,1) da câmara original.
+function loginEase(x){
+  const bez=(a,b,t)=>3*a*t*(1-t)**2+3*b*t*t*(1-t)+t**3;
+  let low=0,high=1;
+  for(let i=0;i<18;i++){
+    const mid=(low+high)/2;
+    if(bez(.77,.175,mid)<x)low=mid;else high=mid;
+  }
+  return bez(0,1,(low+high)/2);
+}
+let renderer=null,loadId=0;
+let position=0,shot=H.T||0,login=H.route==='entrar'?1:0,targetShot=shot,targetLogin=login;
+let loginTween=null;
+let last=0,drawnAt=0,raf=0;
+let age=0,loopTime=0,rest=1,stillFor=1,lastY=scrollY;
+let paused=false,failed=false;
+
+function frame(now){
+  raf=0;
+  const dt=Math.min(last?(now-last)/1000:0,.05);last=now;
+  if(H.shot){targetShot=H.shot.T;if(H.shot.instant)shot=targetShot;H.shot=null;}
+  if(H.login){
+    const to=H.login.on?1:0;
+    if(H.login.instant||reduce.matches){login=to;loginTween=null;}
+    else if(to!==targetLogin){
+      loginTween={from:login,to,start:now,duration:LOGIN_DURATION*Math.max(.45,Math.abs(to-login))};
+    }
+    targetLogin=to;H.login=null;
+  }
+  let arrived=false;
+  if(loginTween){
+    const progress=clamp((now-loginTween.start)/loginTween.duration);
+    login=loginTween.from+(loginTween.to-loginTween.from)*loginEase(progress);
+    if(progress===1){login=loginTween.to;loginTween=null;arrived=true;}
+  }
+  const targetPosition=H.route==='inicio'?clamp(scrollY/Math.max(1,document.documentElement.scrollHeight-innerHeight)):position;
+  const ease=reduce.matches?1:1-Math.exp(-dt*5);
+  position+=(targetPosition-position)*ease;shot+=(targetShot-shot)*ease;
+  H.T=shot;H.update(position);if(shot>.6)H.heroIn();
+  const visible=!root.classList.contains('covered')&&(H.route==='inicio'||scrollY<innerHeight*1.45);
+  stillFor=Math.abs(scrollY-lastY)>.5?0:stillFor+dt;lastY=scrollY;
+  rest+=((stillFor>.4?1:0)-rest)*(1-Math.exp(-dt*(stillFor>.4?1.5:7)));
+  if(renderer&&visible&&!paused&&!reduce.matches){
+    age+=dt;
+    // Retomar o vaivém só quando a câmara regressa à loja evita um salto de fase.
+    if(age>=INTRO&&H.route==='loja'&&!loginTween&&login===0)loopTime+=dt*rest;
+  }
+  if(age>1.1||H.route!=='loja'||failed||reduce.matches)root.classList.add('lit');
+  const orbit=Math.sin(2*Math.PI*loopTime/PERIOD)*AMPLITUDE;
+  const angle=orbit*shot*(1-login)+position*.022*(1-shot)-login*.018;
+  if(renderer&&visible&&(now-drawnAt>=1000/30||arrived)){
+    renderer.draw(reduce.matches?INTRO:age,reduce.matches?0:angle,login);drawnAt=now;
+    H.scene={age,loopTime,angle,login,paused,lights:renderer.count,renderer:'webgl-depth'};
+  }
+  const moving=loginTween||Math.abs(targetPosition-position)+Math.abs(targetShot-shot)>.0001;
+  const ambient=age<INTRO||H.route==='loja';
+  if((renderer&&visible&&ambient&&!paused&&!reduce.matches)||moving)schedule();
+}
+function schedule(){if(!raf&&!document.hidden)raf=requestAnimationFrame(frame);}
+function wake(){last=performance.now();schedule();}
+function setPaused(value){
+  paused=value;control.setAttribute('aria-pressed',String(paused));
+  // Pausar a abertura nunca deve esconder indefinidamente a navegação.
+  if(paused)root.classList.add('lit');
+  if(H.scene)H.scene={...H.scene,age,loopTime,paused};
+  control.querySelector('span').textContent=paused?'Retomar ambiente':'Pausar ambiente';wake();
+}
+control.addEventListener('click',()=>setPaused(!paused));
+replay.addEventListener('click',()=>{
+  age=0;loopTime=0;rest=1;stillFor=1;root.classList.remove('lit');setPaused(false);
+});
+async function loadScene(){
+  const id=++loadId;root.classList.remove('scene-ready');renderer?.dispose();renderer=null;
+  try{
+    await photograph.decode();if(id!==loadId)return;
+    if(reduce.matches){root.classList.add('ready','lit');window.__ready=true;return;}
+    renderer=createHouseRenderer(canvas,photograph,narrow.matches);
+    if(!renderer)throw new Error('WebGL indisponível');
+    renderer.draw(age,-login*.018,login);root.classList.add('scene-ready','ready');control.disabled=false;replay.disabled=false;failed=false;
+  }catch(error){
+    console.warn('Ambiente estático:',error.message);
+    failed=true;control.disabled=true;replay.disabled=true;root.classList.add('ready','lit');
+  }
+  window.__ready=true;wake();
+}
+addEventListener('scroll',wake,{passive:true});
+addEventListener('resize',()=>{renderer?.resize();drawnAt=0;wake();},{passive:true});
+addEventListener('hashchange',()=>{if(H.route!=='loja')age=INTRO;wake();});
+document.addEventListener('click',()=>requestAnimationFrame(wake));
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){cancelAnimationFrame(raf);raf=0;last=0;}else wake();
+});
+narrow.addEventListener('change',()=>requestAnimationFrame(loadScene));
+reduce.addEventListener('change',()=>{
+  age=INTRO;login=H.route==='entrar'?1:0;targetLogin=login;loginTween=null;
+  if(reduce.matches){cancelAnimationFrame(raf);raf=0;root.classList.remove('scene-ready');}
+  loadScene();
+});
+canvas.addEventListener('webglcontextlost',event=>{
+  event.preventDefault();cancelAnimationFrame(raf);raf=0;renderer=null;
+  root.classList.remove('scene-ready');root.classList.add('lit');control.disabled=true;replay.disabled=true;
+});
+canvas.addEventListener('webglcontextrestored',loadScene);
+H.driven=true;
+if(H.route!=='loja')age=INTRO;
+loadScene();
+
+</script>
+
+<script>
+/* =========================================================
+   Navegação: início e loja são estados da mesma página.
+   Entre início e loja move-se a câmara; entre ecrãs da loja, as fotografias.
+   ========================================================= */
+(() => {
+  const html = document.documentElement, H = window.HABINOX, $ = id => document.getElementById(id);
+  const shop = $('shop'), track = $('track'), hero = $('shopHero');
+  /* ---------- categorias e modelos de exemplo: cada categoria tem a sua capa panorâmica ---------- */
+  const CATS = [
+    [{ slug: 'portoes', name: 'Portões', sub: 'De correr, de batente e pedonais · desde 1 290 €', img: 'portao-geometrico', cover: 'portoes-capa', alt: 'Portão em chapa com relevo, entre muros de betão ao anoitecer', filter: true },
+     { slug: 'escadas', focus: '47% 50%', name: 'Escadas', sub: 'Retas e em L · desde 2 450 €', img: 'escada-corrimao-luz', cover: 'capas/escada-corrimao-luz', alt: 'Escada reta com corrimão iluminado, junto a uma parede de betão', models: [['Reta', 'Degraus em pedra · corrimão com LED', 'desde 2 450 €', 'escada-corrimao-luz'], ['Caracol', 'Inox e carvalho · por medida', 'desde 3 650 €', 'escada-caracol'], ['Flutuante', 'Degraus em carvalho · luz na parede', 'desde 4 120 €', 'escada-madeira-luz']] },
+     { slug: 'guardas', focus: '42% 50%', name: 'Guardas', sub: 'Vidro, barras e cabo · desde 180 €/m', img: 'guarda-varanda', cover: 'capas/guarda-varanda', alt: 'Terraço com guarda de vidro, ao fim do dia', models: [['Vidro', 'Terraços e varandas', 'desde 180 €/m', 'guarda-varanda'], ['Barras', 'Barras verticais em ferro lacado', 'desde 210 €/m', 'guarda-preta']] },
+     { slug: 'chamines', focus: '50% 50%', name: 'Chaminés', sub: 'Tubos e chapéus em inox · desde 95 €', img: 'chamine-chapeus', cover: 'capas/chamine-chapeus', alt: 'Três chaminés em inox sobre uma cobertura de zinco', models: [['Tubo com chapéu', 'Inox · por medida', 'desde 95 €', 'chamine-chapeus']] },
+     { slug: 'caixas-de-correio', focus: '52% 50%', name: 'Caixas de correio', sub: 'De parede e de pé · desde 85 €', img: 'caixa-correio', cover: 'capas/caixa-correio', alt: 'Caixa de correio em inox numa parede de betão', models: [['De parede', 'Inox · com número gravado', 'desde 85 €', 'caixa-correio']] },
+     { slug: 'portoes-de-correr', focus: '60% 50%', name: 'Portões de correr', sub: 'Folha única sobre calha · desde 2 786 €', img: 'portao-correr-cinza', cover: 'capas/portao-correr-cinza', alt: 'Portão de correr com barras verticais, entreaberto', gates: 'correr' }],
+    [{ slug: 'portas-de-entrada', focus: '50% 50%', name: 'Portas de entrada', sub: 'Ferro lacado e inox · desde 1 290 €', img: 'portao-pedonal', cover: 'capas/portao-pedonal', alt: 'Porta de entrada pivotante, entreaberta para a luz', models: [['Pivotante', 'Folha larga em madeira e aço', 'desde 1 290 €', 'portao-pedonal']] },
+     { slug: 'escadas-de-caracol', focus: '50% 50%', name: 'Escadas de caracol', sub: 'Por medida · desde 3 650 €', img: 'escada-caracol', cover: 'capas/escada-caracol', alt: 'Escada de caracol em inox e carvalho', models: [['Caracol', 'Inox e carvalho · por medida', 'desde 3 650 €', 'escada-caracol']] },
+     { slug: 'gradeamentos', focus: '48% 50%', name: 'Gradeamentos', sub: 'Interior e exterior · desde 210 €/m', img: 'guarda-preta', cover: 'capas/guarda-preta', alt: 'Gradeamento de barras em silhueta contra uma parede iluminada', models: [['Barras', 'Barras verticais em ferro lacado', 'desde 210 €/m', 'guarda-preta']] },
+     { slug: 'portoes-em-aluminio', focus: '46% 50%', name: 'Portões em alumínio', sub: 'Ripas e painéis · desde 3 120 €', img: 'portao-ripas', cover: 'capas/portao-ripas', alt: 'Portão de ripas horizontais em alumínio, com luz por trás', models: [['Órbita', 'Ripas horizontais · de correr', 'desde 3 120 €', 'portao-ripas']] },
+     { slug: 'escadas-interiores', focus: '52% 50%', name: 'Escadas interiores', sub: 'Degraus em madeira ou chapa · desde 4 120 €', img: 'escada-madeira-luz', cover: 'capas/escada-madeira-luz', alt: 'Degraus flutuantes em carvalho, com luz na parede', models: [['Flutuante', 'Degraus em carvalho · luz na parede', 'desde 4 120 €', 'escada-madeira-luz']] },
+     { slug: 'vedacoes-em-chapa', focus: '50% 50%', name: 'Vedações em chapa', sub: 'Chapa perfurada · desde 240 €/m', img: 'portao-perfurado', cover: 'capas/portao-perfurado', alt: 'Painel de chapa perfurada, com luz a passar pelas aberturas', models: [['Perfurada', 'Painéis à medida da abertura', 'desde 240 €/m', 'portao-perfurado']] }]
+  ];
+  const catOf = slug => CATS.flat().find(k => k.slug === slug);
+  let cat = CATS[0][0];
+  const PAGES = ['loja', ...CATS.flat().map(k => k.slug), 'linear', 'entrar'], euro = v => new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR', useGrouping: 'always' }).format(v);
+  const num = n => new Intl.NumberFormat('pt-PT', { useGrouping: 'always' }).format(n);
+  const motion = html.classList.contains('scrolly') && document.startViewTransition;
+  history.scrollRestoration = 'manual';
+  let route = 'inicio', homeY = 0; const seen = {};
+  // o site abre na loja; a apresentação da empresa fica em #inicio
+  const routeOf = () => { const r = location.hash.slice(1); return !r || PAGES.includes(r) ? r || 'loja' : 'inicio'; };
+
+  const rank = r => r === 'loja' ? 0 : r === 'linear' ? 2 : r === 'entrar' ? 3 : catOf(r) ? 1 : -1;
+  function fillCat(k) {
+    cat = k;
+    $('catCover').src = `img/${k.cover}.jpg`; $('catCover').alt = k.alt;
+    $('catCover').style.objectPosition = k.focus || '';   // em ecrãs estreitos só se vê uma faixa: tem de ser a do produto
+    $('catCrumb').textContent = $('catTitle').textContent = k.name;
+    drawGates();
+    // a Linear só pertence às categorias de portões; para as outras, o caminho fica em Portões
+    const own = k.filter || k.gates ? k : CATS[0][0];
+    $('cfgCat').href = `#${own.slug}`; $('cfgCat').textContent = own.name;
+  }
+  function show(next) {
+    if (catOf(next)) fillCat(catOf(next));
+    const wasHome = route === 'inicio', goHome = next === 'inicio';
+    if (wasHome && !goHome) homeY = scrollY; else if (!wasHome) seen[route] = scrollY;
+    html.classList.toggle('in-shop', !goHome);
+    shop.hidden = goHome; track.inert = !goHome;
+    document.querySelectorAll('.page').forEach(p => { p.hidden = p.dataset.page !== (catOf(next) ? 'categoria' : next); });
+    html.classList.toggle('covered', !goHome && next !== 'loja' && next !== 'entrar');
+    H.shot = { T: goHome ? 0 : 1, instant: H.firstRoute };
+    H.login = { on: next === 'entrar', instant: H.firstRoute };
+    $('sLogin').classList.remove('in');
+    if (next === 'entrar') requestAnimationFrame(() => requestAnimationFrame(() => $('sLogin').classList.add('in')));
+    route = next; H.route = next; H.firstRoute = false;
+    scrollTo({ top: goHome ? homeY : seen[next] || 0, behavior: 'auto' });
+    if (goHome || !html.classList.contains('scrolly')) hero.classList.toggle('in', !goHome);
+    else if (next !== 'loja') hero.classList.add('in');
+    else if (H.T > .9) hero.classList.add('in');
+    if (goHome) hero.classList.remove('in');
+    document.querySelector('.tools a[href="#entrar"]').toggleAttribute('aria-current', next === 'entrar');
+  }
+  H.heroIn = () => { if (route === 'loja') hero.classList.add('in'); };
+
+  let curVt = null;
+  const clearMorph = () => document.querySelectorAll('[data-morph], .tile img').forEach(el => { el.style.viewTransitionName = ''; });
+  // durante uma transição o browser entrega os cliques ao <html>: encaminha-os para a ligação que está naquele ponto
+  document.addEventListener('click', e => {
+    if (e.target !== html || !curVt) return;
+    const hit = [...document.querySelectorAll('.page:not([hidden]) a, .top a, .top button')].find(el => {
+      const r = el.getBoundingClientRect();
+      return e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+    });
+    if (hit) hit.click();
+  }, true);
+  function go() {
+    const next = routeOf(); if (next === route) return;
+    const between = route !== 'inicio' && next !== 'inicio';
+    // o login mostra a cena viva: uma transição de ecrã congelava a viagem da câmara
+    if (!between || !motion || next === 'entrar' || route === 'entrar') { show(next); return; }
+    // o ecrã "maior" é o que dá nome à fotografia, para o morfismo servir nos dois sentidos
+    const big = rank(next) > rank(route) ? next : route, key = big === 'linear' ? 'linear' : 'cat';
+    const mark = name => { const el = document.querySelector(`.page:not([hidden]) [data-morph="${key}"]`); if (el) el.style.viewTransitionName = name; };
+    // uma transição interrompida pode deixar o nome numa imagem; dois nomes iguais fariam falhar as seguintes
+    clearMorph(); mark('photo');
+    const vt = curVt = document.startViewTransition(async () => {
+      clearMorph();
+      show(next);
+      // a capa tem de estar pronta antes de a transição fotografar o ecrã novo
+      if (catOf(next)) await $('catCover').decode().catch(() => {});
+      mark('photo');
+    });
+    vt.finished.catch(() => {}).finally(() => { if (curVt === vt) { clearMorph(); curVt = null; } });
+  }
+  addEventListener('hashchange', go);
+
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]'); if (!a) return;
+    const to = a.dataset.to;
+    // o logótipo num ecrã interior: a fotografia volta à sua categoria e a página fica nas categorias
+    if (to === '#shopHero' && route !== 'loja' && route !== 'inicio') {
+      e.preventDefault(); history.pushState(null, '', '#loja');
+      const photo = document.querySelector('.page:not([hidden]) [data-morph]');
+      if (!motion || !photo) { seen.loja = 0; show('loja'); return; }
+      clearMorph(); photo.style.viewTransitionName = 'photo';
+      let target = null;
+      const vt = curVt = document.startViewTransition(() => {
+        photo.style.viewTransitionName = '';
+        show('loja');
+        target = placeTile();
+        target.style.viewTransitionName = 'photo';
+      });
+      vt.finished.catch(() => {}).finally(() => {
+        if (curVt === vt) { clearMorph(); curVt = null; }
+      });
+      return;
+    }
+    if (to) { e.preventDefault(); if (routeOf() !== 'loja') location.hash = 'loja'; setTimeout(() => document.querySelector(to).scrollIntoView({ behavior: 'smooth', block: 'start' }), routeOf() === route ? 0 : 60); return; }
+    const home = ['#inicio', '#empresa', '#servicos', '#contactos'].includes(a.getAttribute('href'));
+    if (home && route !== 'inicio') {
+      e.preventDefault();
+      if (a.getAttribute('href') === '#inicio') homeY = 0;
+      history.pushState(null, '', a.getAttribute('href')); show('inicio');
+    }
+  });
+
+  // continuar a descer no fim do início leva à loja, sem clique
+  if (html.classList.contains('scrolly')) {
+    let push = 0, ty = 0; const atEnd = () => route === 'inicio' && scrollY >= document.documentElement.scrollHeight - innerHeight - 2;
+    const pushOn = d => { if (!atEnd() || d <= 0) { push = 0; return; } push += d; if (push > 320) { push = 0; location.hash = 'loja'; } };
+    addEventListener('wheel', e => pushOn(e.deltaY), { passive: true });
+    addEventListener('touchstart', e => { ty = e.touches[0].clientY; }, { passive: true });
+    addEventListener('touchmove', e => { const y = e.touches[0].clientY; pushOn((ty - y) * 1.5); ty = y; }, { passive: true });
+  }
+
+  /* ---------- catálogo e configurador de exemplo ---------- */
+  const GATES = [
+    { n: 'Linear', s: 'Ferro lacado · barras verticais', p: 'desde 2 786 €', t: 'correr', i: 'portao-correr-cinza', link: 'linear' },
+    { n: 'Prisma', s: 'Chapa com relevo · duas folhas', p: 'desde 3 940 €', t: 'batente', i: 'portao-perfurado' },
+    { n: 'Órbita', s: 'Ripas horizontais · de correr', p: 'desde 3 120 €', t: 'correr', i: 'portao-ripas' },
+    { n: 'Moradia', s: 'Ferro lacado · duas folhas', p: 'desde 3 280 €', t: 'batente', i: 'portao-moradia' },
+    { n: 'Passo', s: 'Portão pedonal · uma folha', p: 'desde 1 290 €', t: 'pedonal', i: 'portao-pedonal' }
+  ];
+  const pills = (el, items, cur, pick) => { el.innerHTML = ''; items.forEach(([id, label, hex]) => {
+    const b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-pressed', id === cur);
+    if (hex) { b.className = 'swatch'; b.style.background = hex; b.setAttribute('aria-label', label); } else { b.className = 'pill'; b.textContent = label; }
+    b.onclick = () => pick(id); el.appendChild(b); }); };
+  let ftr = 'todos';
+  const drawGates = () => {
+    $('filters').style.display = cat.filter ? '' : 'none';
+    if (cat.filter) pills($('filters'), [['todos', 'Todos'], ['correr', 'De correr'], ['batente', 'De batente'], ['pedonal', 'Pedonais']], ftr, f => { ftr = f; drawGates(); });
+    if (cat.models) {
+      $('gates').innerHTML = cat.models.map(([n, sub, p, i]) => `<div class="card"><figure><img loading="lazy" src="img/${i}.jpg" alt="${n}"></figure><b>${n}</b><span>${sub}</span><i>${p}</i></div>`).join('');
+    } else {
+      const want = cat.gates || ftr;
+      $('gates').innerHTML = GATES.filter(g => want === 'todos' || g.t === want).map(g =>
+        `<a class="card" href="#${g.link || 'linear'}"><figure><img ${g.link ? `data-morph="${g.link}"` : ''} loading="lazy" src="img/${g.i}.jpg" alt="Portão ${g.n}"></figure><b>${g.n}</b><span>${g.s}</span><i>${g.p}</i></a>`).join('');
+    }
+    $('catNote').hidden = !cat.models;
+  };
+  drawGates();
+  const MAT = { ferro: ['Ferro', 1], inox: ['Inox', 1.85], aluminio: ['Alumínio', 1.35] };
+  const COL = [['7016', 'RAL 7016 · Cinza antracite', '#383E42'], ['9005', 'RAL 9005 · Preto', '#0E0E10'], ['9016', 'RAL 9016 · Branco', '#F1F0EA'], ['8017', 'RAL 8017 · Castanho', '#44322D']];
+  const c = { mat: 'ferro', col: '7016', n: 0 };
+  const LIM = { w: [1000, 6000], h: [800, 2200] };
+  function drawCfg() {
+    const w = +$('w').value.replace(/\D/g, ''), hv = +$('h').value.replace(/\D/g, '');
+    const okW = w >= LIM.w[0] && w <= LIM.w[1], okH = hv >= LIM.h[0] && hv <= LIM.h[1];
+    $('w').setAttribute('aria-invalid', !okW); $('h').setAttribute('aria-invalid', !okH);
+    $('wh').classList.toggle('bad', !okW); $('hh').classList.toggle('bad', !okH);
+    // fórmula só de demonstração, calibrada no exemplo do mockup (4 000 × 1 600 mm em ferro = 2 786,43 €)
+    const v = 2786.43 * (.35 + .65 * w * hv / 6.4e6) * MAT[c.mat][1], ok = okW && okH;
+    $('price').textContent = ok ? euro(v) : '—';
+    const add = $('add'); add.disabled = !ok;
+    add.textContent = ok ? `Adicionar ao carrinho · ${euro(v)}` : `Corrija as medidas (${num(LIM.w[0])}–${num(LIM.w[1])} × ${num(LIM.h[0])}–${num(LIM.h[1])} mm)`;
+    pills($('mats'), Object.entries(MAT).map(([k, m]) => [k, m[0]]), c.mat, m => { c.mat = m; drawCfg(); });
+    pills($('cols'), COL, c.col, k => { c.col = k; drawCfg(); });
+    $('colorName').textContent = COL.find(x => x[0] === c.col)[1];
+  }
+  $('w').oninput = $('h').oninput = drawCfg;
+  $('add').onclick = () => { $('cart').textContent = ++c.n; $('cart').hidden = false; $('bag').setAttribute('aria-label', `Carrinho: ${c.n} artigos`); };
+  // só marca a língua escolhida: a tradução chega com o next-intl
+  const langBox = $('lang'), langBtn = langBox.querySelector('.lang-btn'), langMenu = $('langMenu');
+  const langOpen = on => { langMenu.toggleAttribute('data-closed', !on); langBtn.setAttribute('aria-expanded', on); };
+  langBtn.onclick = () => { const on = langMenu.hasAttribute('data-closed'); langOpen(on); if (on) (langMenu.querySelector('[aria-current]')).focus(); };
+  langMenu.querySelectorAll('button').forEach(b => { b.onclick = () => {
+    langMenu.querySelectorAll('button').forEach(x => x.toggleAttribute('aria-current', x === b));
+    if (b.hasAttribute('aria-current')) b.setAttribute('aria-current', 'true');
+    langBtn.firstElementChild.textContent = b.dataset.code; langBtn.setAttribute('aria-label', `Língua: ${b.textContent}`);
+    langOpen(false); langBtn.focus();
+  }; });
+  document.addEventListener('click', e => { if (!langBox.contains(e.target)) langOpen(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !langMenu.hasAttribute('data-closed')) { langOpen(false); langBtn.focus(); } });
+  $('loginForm').onsubmit = e => e.preventDefault();
+  drawCfg();
+
+  /* ---------- catálogo em duas linhas automáticas (categorias e preços de exemplo) ---------- */
+  const tileHtml = k => `<a class="tile" href="#${k.slug}" draggable="false"><img draggable="false" loading="lazy" src="img/${k.img}.jpg" alt="${k.name}"><div><b>${k.name}</b><span>${k.sub}</span></div></a>`;
+  const rails = [...document.querySelectorAll('.rail')];
+  rails.forEach((rail, i) => {
+    const set = `<div class="set">${CATS[i].map(tileHtml).join('')}</div>`;
+    // a segunda cópia só serve para o ciclo não ter emenda: fica fora do teclado e dos leitores de ecrã, mas aceita cliques
+    rail.innerHTML = set + `<div class="set" aria-hidden="true">${CATS[i].map(tileHtml).join('')}</div>`;
+    rail.lastElementChild.querySelectorAll('a').forEach(a => { a.tabIndex = -1; });
+  });
+  $('catRows').addEventListener('click', e => {
+    const t = e.target.closest('.tile'); if (!t) return;
+    // a fotografia clicada, onde quer que esteja nesse instante, é a que passa para o ecrã seguinte
+    $('catRows').querySelectorAll('[data-morph]').forEach(im => im.removeAttribute('data-morph'));
+    t.querySelector('img').dataset.morph = 'cat';
+  });
+  // a capa começa a carregar assim que o rato ou o dedo chegam à categoria
+  $('catRows').addEventListener('pointerover', e => {
+    const t = e.target.closest('.tile'), k = t && catOf(t.getAttribute('href').slice(1));
+    if (k) new Image().src = `img/${k.cover}.jpg`;
+  });
+  // cada linha passa sozinha e pode ser arrastada para qualquer lado; ao largar, segue com a inércia
+  const moving = html.classList.contains('scrolly');
+  const rows = rails.map((rail, i) => ({ rail, el: rail.parentElement, x: 0, v: 0, drift: !moving ? 0 : i ? 1 / 86 : -1 / 72, drag: false, hover: false, focus: false }));
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  let dragged = false, onScreen = true, lastT = performance.now();
+  rows.forEach(r => {
+    let id = null, sx = 0, px = 0, pt = 0;
+    r.el.addEventListener('pointerdown', e => {
+      if (e.button !== 0) return;
+      id = e.pointerId; sx = px = e.clientX; pt = e.timeStamp; dragged = false; r.v = 0;
+    });
+    r.el.addEventListener('pointermove', e => {
+      if (e.pointerId !== id) return;
+      if (!r.drag) {
+        if (Math.abs(e.clientX - sx) < 6) return;
+        r.drag = dragged = true; px = e.clientX; r.el.setPointerCapture(id); r.el.classList.add('dragging');
+      }
+      const dx = e.clientX - px, dt = Math.max(1, e.timeStamp - pt);
+      r.x += dx; r.v = r.v * .7 + dx / dt * 1000 * .3; px = e.clientX; pt = e.timeStamp;
+    });
+    const end = e => {
+      if (e.pointerId !== id) return;
+      id = null; r.drag = false; r.el.classList.remove('dragging');
+      if (e.timeStamp - pt > 90) r.v = 0;                // parou antes de largar: não há inércia
+    };
+    r.el.addEventListener('pointerup', end);
+    r.el.addEventListener('pointercancel', end);
+    r.el.addEventListener('wheel', e => {                // deslizar na horizontal com o trackpad
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      e.preventDefault(); r.x -= e.deltaX; r.v = 0;
+    }, { passive: false });
+    if (fine) { r.el.addEventListener('pointerenter', () => { r.hover = true; }); r.el.addEventListener('pointerleave', () => { r.hover = false; }); }
+    // com o teclado, a categoria em foco entra sempre no ecrã
+    r.el.addEventListener('focusin', e => {
+      r.el.scrollLeft = 0;
+      if (!e.target.matches(':focus-visible')) return;
+      r.focus = true; r.v = 0;
+      r.x = Math.min(0, 20 - e.target.offsetLeft);
+    });
+    r.el.addEventListener('focusout', () => { r.focus = false; });
+  });
+  // põe a categoria aberta no meio do ecrã e devolve a imagem para onde a fotografia vai aterrar
+  function placeTile() {
+    const tile = $('catRows').querySelector(`.tile[href="#${cat.slug}"]`);
+    const r = rows.find(row => row.el.contains(tile)), i = [...tile.parentElement.children].indexOf(tile);
+    const [a, b] = r.rail.children, w = a.offsetWidth;
+    let x = (innerWidth - tile.offsetWidth) / 2 - a.children[i].offsetLeft, el = a.children[i];
+    if (x > 0) { x -= w; el = b.children[i]; }
+    r.x = x; r.v = 0; r.rail.style.transform = `translate3d(${x}px, 0, 0)`;
+    scrollTo(0, scrollY + $('familias').getBoundingClientRect().top - 104);   // o título da secção fica logo abaixo do cabeçalho
+    return el.querySelector('img');
+  }
+  // um arrasto não abre a categoria em que começou
+  $('catRows').addEventListener('click', e => { if (dragged) { e.preventDefault(); e.stopPropagation(); dragged = false; } }, true);
+  new IntersectionObserver(es => { onScreen = es[0].isIntersecting; }).observe($('catRows'));
+  (function run(now) {
+    requestAnimationFrame(run);
+    const dt = Math.min(.1, (now - lastT) / 1000); lastT = now;
+    if (!onScreen) return;
+    const off = html.classList.contains('cats-paused');
+    rows.forEach(r => {
+      const w = r.rail.firstElementChild.offsetWidth; if (!w) return;
+      if (!r.drag) {
+        const rest = off || r.hover || r.focus ? 0 : r.drift * w;
+        r.v += (rest - r.v) * (1 - Math.exp(-dt * 2.6));
+        r.x += r.v * dt;
+      }
+      if (!r.focus) { while (r.x <= -w) r.x += w; while (r.x > 0) r.x -= w; }
+      r.rail.style.transform = `translate3d(${r.x.toFixed(2)}px, 0, 0)`;
+    });
+  })(lastT);
+  $('catPause').onclick = e => {
+    const off = html.classList.toggle('cats-paused');
+    e.currentTarget.textContent = off ? 'Retomar' : 'Pausar';
+    e.currentTarget.setAttribute('aria-pressed', off);
+  };
+
+  H.firstRoute = true; H.route = 'inicio'; H.T = routeOf() === 'inicio' ? 0 : 1;
+  if (routeOf() !== 'inicio') show(routeOf()); else H.firstRoute = false;
+})();
+</script>
+<script>
+// O nome do ecrã de carregamento viaja até ao logótipo do cabeçalho, letra sobre letra
+window.HABINOX.dock = () => {
+  const root = document.documentElement; if (root.classList.contains('ready')) return;
+  const word = document.querySelector('.loading span'), logo = document.querySelector('.top .logo');
+  const textRect = el => { const r = document.createRange(); r.selectNodeContents(el.firstChild); return r.getBoundingClientRect(); };
+  const box = word.getBoundingClientRect(), from = textRect(word), to = textRect(logo);
+  const k = parseFloat(getComputedStyle(logo).fontSize) / parseFloat(getComputedStyle(word).fontSize);
+  const x = to.left - box.left - (from.left - box.left) * k, y = to.top - box.top - (from.top - box.top) * k;
+  const glow = getComputedStyle(word).opacity;
+  root.classList.add('ready');
+  word.animate(
+    [{ opacity: glow, transform: 'none', transformOrigin: '0 0' }, { opacity: 1, offset: .3 }, { opacity: 1, transform: `translate(${x}px, ${y}px) scale(${k})`, transformOrigin: '0 0' }],
+    { duration: 1300, easing: 'cubic-bezier(.77, 0, .175, 1)', fill: 'forwards' });
+};
+if (document.documentElement.classList.contains('scrolly')) {
+  const s = document.createElement('script');
+  s.type = 'module';
+  s.textContent = document.getElementById('scene').textContent;
+  document.body.appendChild(s);
+  setTimeout(() => { window.HABINOX.dock(); document.documentElement.classList.add('lit'); }, 8000);   // never keep the splash up for long, even if the scene fails
+}
+</script>
+</body>
+</html>
