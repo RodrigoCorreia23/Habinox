@@ -2,22 +2,32 @@
 
 > Documento vivo. **Atualizar no fim de cada sessão de trabalho** (secções 2, 6 e 7).
 > O `CLAUDE.md` tem o contexto de negócio, as decisões e as regras; este ficheiro tem
-> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-11-06.
+> **o que já está feito, como está feito e o que falta**. Última atualização: 2026-11-26.
 
 ---
 
 ## 1. Resumo rápido (ler isto primeiro)
 
-> Atualizado a **2026-11-06**. A fase 1 está quase toda feita localmente; o último trabalho foi o
-> **construtor de produto** (commit `11793c1`). O detalhe de cada peça está na secção 6 ("Fase 1");
+> Atualizado a **2026-11-26**. A fase 1 está quase toda feita localmente; o último trabalho foi o
+> **passo das medidas** (commit `180427f`), depois do **construtor de produto** (commit `11793c1`). O detalhe de cada peça está na secção 6 ("Fase 1");
 > o histórico em `git log`.
 
-### Retomar aqui (última sessão: 2026-11-05/06)
+### Retomar aqui (última sessão: 2026-11-26)
 
-- **Feito e enviado:** construtor de produto no backoffice (Base do produto + divisões com nome escolhido pelo Bruno, artigo, quantidade e margem por opção; vista «Avançado» com as fórmulas livres), correções do ensaio completo, traduções automáticas, emails em HTML, redesenho do backoffice, custos e margens por produto, cores do Odoo. Commits `a2faa54`, `9713af8`, `11793c1`.
+- **Feito e enviado (2026-11-26):**
+  - Admin que abre «A minha conta» na loja vai para `/admin` (`41a1ff8`). É o que acontece logo a seguir ao login.
+  - Documentação e wireframes passaram de PHC GO para Odoo (`ddf0794`, `7164889`).
+  - Passo das medidas: publicar fica bloqueado se o máximo não cai no passo; a loja mostra «de 10 em 10 mm» e sugere os valores aceites mais próximos (`180427f`).
+  - Detalhe na secção 6 («Sessão de 2026-11-26»).
 - **Próximo passo natural:** mostrar o construtor ao Bruno e recolher o que ele achar; depois os pontos de «Próximos passos sugeridos» abaixo.
-- **Nada por fazer commit** no fim da sessão; CI local verde (formatação, lint, tipos, 350 testes unitários, 6 e2e).
-- **Dados de ensaio só na BD local da máquina antiga** (não estão no git): categoria "Caixas de correio", produto "Caixa de correio de muro" (feito com fórmulas, por isso o construtor mostra o aviso de linhas avançadas), clientes `cliente.ensaio@exemplo.pt` e `cliente.dois@exemplo.pt`, encomenda HBX-2026-00001. Num PC novo há só o que `pnpm db:seed` e `pnpm db:demo` criam; para ensaiar, criar um produto pelo construtor.
+- **Nada por fazer commit** no fim da sessão; CI local verde (formatação, lint, tipos, 360 testes unitários; e2e não corridos nesta sessão).
+- **BD local desta máquina limpa a 2026-11-26** (apagados os schemas `public` e `drizzle`, migrações de novo, `pnpm db:seed`). Tem agora:
+  - Um admin, `admin@abinox.local`, com uma password **gerada nesta sessão**, diferente da que está no `.env.local`. Guardá-la ou repor com o seed.
+  - Os 10 materiais do Odoo fake.
+  - As categorias «portões» e «portoes de correr».
+  - O produto «portao de correr lacrado», publicado com altura mínimo 5, máximo 1000 e passo 10, ou seja, com o problema que a nova validação apanha. Para corrigir: novo rascunho, mínimo 10 (ou máximo 995), publicar.
+- **Na máquina antiga** continuam os dados de ensaio de 2026-11-05 (fora do git): categoria «Caixas de correio», produto «Caixa de correio de muro», clientes `cliente.ensaio@exemplo.pt` e `cliente.dois@exemplo.pt`, encomenda HBX-2026-00001.
+- **Docker Desktop** tem de estar aberto no Windows antes de `pnpm db:up`; sem ele, o `docker` não existe no WSL.
 
 ### Onde estamos
 
@@ -26,7 +36,7 @@
 - **Não há deploy.** Tudo corre só localmente (bloqueado pelas contas Vercel/Neon/Resend/R2 em nome da Habinox).
 - **Ver a funcionar num PC novo:** seguir a secção 5, depois `pnpm db:demo` (carrega um portão de correr de demonstração) e abrir http://localhost:3000/pt. Entrar no backoffice (`/admin`) com o `SEED_ADMIN_EMAIL`/`SEED_ADMIN_PASSWORD` do `.env.local`. `pnpm db:demo:clean` apaga a demonstração.
 - **Cliente:** marca **HABINOX®** (não "Abinox"), Bruno Miguel Freitas, Lda, Núcleo Industrial de Antas, 4740-016 Antas, **Esposende**. Domínio `habinox.pt`, email `geral@habinox.pt`.
-- **Repositório:** `github.com/RodrigoCorreia23/Habinox`, ramo `main`, CI verde (formatação, lint, tipos, migrações `0000`–`0011`, 350 testes unitários, build, 6 e2e).
+- **Repositório:** `github.com/RodrigoCorreia23/Habinox`, ramo `main`, CI verde (formatação, lint, tipos, migrações `0000`–`0011`, 360 testes unitários, build, 6 e2e).
 
 ### Decisões que mudaram desde o plano original (já no `CLAUDE.md`)
 
@@ -98,6 +108,9 @@
 - **Preço no checkout:** a encomenda é recusada se o total não for o que o cliente viu no botão (um orçamento pode expirar entretanto).
 - **drizzle-kit generate** pergunta (sem terminal interativo) quando se renomeia uma coluna: fazer em duas migrações (remover, depois acrescentar).
 - **Next dev:** depois de mover rotas, apagar `.next/dev/types` se o typecheck se queixar de ficheiros que já não existem.
+- **Better Auth, `signIn.email` com `callbackURL`:** a resposta traz `redirect: true` e o cliente faz `window.location.href = callbackURL` sozinho, por cima de qualquer `router.push` a seguir. Não há `disableRedirect` no login por email. O `callbackURL` faz falta (é o destino do email de verificação), por isso decidir o destino no servidor, na página de chegada (ex.: `/conta` → `/admin` para admins).
+- **Passo das medidas** conta a partir do mínimo (`min + k × step`), não de 0. A validação da versão bloqueia máximos inatingíveis (`lastReachable` em `src/lib/options/step.ts`).
+- **Troca de nomes em massa nos documentos** (ex.: PHC → Odoo): rever as frases que já falavam dos dois («Odoo, não PHC GO» ficou «Odoo, não Odoo»).
 
 ---
 
@@ -120,7 +133,7 @@
 | `325b7ca` docs: fase 0                           | `docs/fase-0.md`: decisões já tomadas com o Rodrigo, perguntas para o Bruno (blocos A–I) e checklist de entregáveis                                                   |
 | `b4415cb` docs: wireframes da loja               | Configurador do portão de correr, carrinho, checkout e confirmação                                                                                                    |
 | `68fa6fa` docs: wireframe do editor de fórmulas  | Backoffice: fórmula por linhas de custo, pré-visualização com valores de exemplo, versões                                                                             |
-| `f46bfe7` docs: restantes wireframes             | Home, categoria, área de cliente; backoffice de produto/opções, encomendas, materiais/sincronização Odoo                                                               |
+| `f46bfe7` docs: restantes wireframes             | Home, categoria, área de cliente; backoffice de produto/opções, encomendas, materiais/sincronização Odoo                                                              |
 | `2c22b11` / `60cd4fd` / `8a1d165` chore: skills  | `find-skills` + 10 skills de backend e frontend em `.agents/skills/` (ver secção 4); `.agents/` fora do ESLint e do Prettier                                          |
 | `99e30fb` docs: revisão dos wireframes           | Revisão com `impeccable` + `web-design-guidelines` (`docs/revisao-wireframes.md`), P1 corrigidos, 3 ecrãs de telemóvel, perguntas novas 40–50 (bloco J)               |
 | `ac8a01a` feat: identidade visual                | `DESIGN.md` ("catálogo técnico"), mockup de referência em `docs/design/`, tokens em `globals.css`, fontes Archivo + IBM Plex Sans/Mono, raio 2px; regras no CLAUDE.md |
@@ -459,6 +472,21 @@ Notas:
    - **Ensaio completo como o Bruno (2026-11-05), só pelo browser:** mão de obra nova (Corte laser), margens das cores, categoria "Caixas de correio" + subcategoria com imagem, produto "Caixa de correio de muro" com opções criadas dentro do produto (Largura e Altura com limites; Cor com as 4 cores importadas do Odoo), regra (Verde musgo bloqueado), 4 linhas de custo (chapa, lacagem conforme a cor, corte laser, serralharia), margem própria na chapa, publicar; na loja: mosaico na página inicial, configurar (400 × 350 mm, Preto → 83,55 €), carrinho, criar conta, confirmar email, checkout, encomenda HBX-2026-00001; no backoffice: painel com o passo seguinte, marcar como paga com email ao cliente; tradução automática dos textos novos. As contas da encomenda conferem linha a linha (67,93 € + IVA = 83,55 €) e o snapshot regista a margem própria. **Corrigido no ensaio:** (1) a cor por omissão (a primeira importada) era a que a regra bloqueava e a loja abria com "não é possível": a validação passa a avisar em "Convém ver antes de publicar" (`blockedDefaults`, testado); (2) medidas novas ficavam com a chave longa na fórmula (`largura_da_caixa`): passam a ter uma letra curta livre (L, H, C, P, E, D ou a inicial; `suggestVarName`, testado); (3) quem cria conta a partir do checkout volta ao checkout depois de confirmar o email (`?next` no registo). Os dados do ensaio ficaram na BD local (produto, categoria, 2 clientes de teste, 1 encomenda).
    - **Construtor de produto (2026-11-05, pedido do Bruno: "quase como vai ficar na loja"):** o editor de produto passa a abrir num construtor (`src/app/admin/produtos/[id]/builder.tsx`). **Base do produto** (o cliente não vê): linhas com nome, artigo do Odoo ou mão de obra, quantidade (`fixo + fator × base`; base: uma vez, por m², por metro de largura, de altura ou de perímetro) e margem. **Divisões** em cartões, pela ordem da loja: nome escolhido pelo Bruno e editável no sítio; medidas com mínimo, máximo, passo e "É a: Largura | Altura | Outra" (dá o L e o H das contas); escolhas com as opções, a que vem escolhida, e em cada opção "Sem custo" ou artigo + quantidade + margem; "Acrescentar divisão" (escolha ou medida) e "Copiar de outro produto" (traz opções, artigos e margens). Cada campo guarda ao sair dele; sem rascunho fica só leitura. **A margem de cada linha é sempre escrita pelo Bruno** (não herda a do artigo); vazia → aviso no sítio e bloqueio em Publicar. Por baixo: linhas de fórmula geradas (`formula_lines.builder` com a especificação, `formula_lines.margin`), divisões próprias do produto (`option_definitions.product_id`, chave única por produto), migração `0011_construtor`; o motor aplica a margem da linha (`withLineMargin`) e as regras da biblioteca só às opções da biblioteca (`applicableLibraryRules`); tudo testado (`pricing-builder`, `builder-engine`). Vista **Avançado** (`?vista=avancado`) com as fórmulas livres, opções da biblioteca, contas auxiliares e custos por produto, como antes; o construtor avisa quando o produto tem linhas escritas como fórmula (ex.: a Caixa de correio do ensaio). Ensaiado no browser: produto novo só pelo construtor (Largura 500–4000, Altura 800–1200, Acabamento Natural/Lacado; corrimão em tubo por metro de largura a 30 %; Lacado em chapa por m²) → 2 250 × 1 000 mm Lacado = 61,39 € sem IVA, conferido à mão; sem a margem do Lacado a publicação fica bloqueada com "Corrigir". Produtos de teste apagados.
    - Corrigido no login: com `?next=` o `callbackURL` fixo em `/conta` competia com o `router.push(next)` e às vezes ganhava.
+   - **Sessão de 2026-11-26:**
+     - **Admin → backoffice** (`41a1ff8`): `src/app/[locale]/(loja)/conta/page.tsx` redireciona admins para `/admin`. Um admin não tem encomendas nem consentimentos de cliente. A tentativa no formulário de login não funcionava: ver «Armadilhas», Better Auth.
+     - **PHC GO → Odoo na documentação** (`ddf0794`, `7164889`): 12 ficheiros em `docs/` (estado, fase 0, modelo de opções, análise dos orçamentos, revisões, wireframes, `plano.html`).
+       - «AppID/token» passou a «chave de API».
+       - O PHC ficou só onde se regista a mudança: ata de 30/10, decisões no `CLAUDE.md`, nota no topo do `fase-0.md`.
+       - O código já usava Odoo desde a reunião de 30/10.
+       - A cópia antiga do `CLAUDE.md` em `/mnt/c/.../HabiNox`, fora do git, foi substituída pela do repositório.
+     - **Passo das medidas** (`180427f`). Caso real: altura com mínimo 5, máximo 1000 e passo 10. O 1000 era recusado com «Medida fora do passo permitido», sem mais explicação.
+       - `src/lib/options/step.ts`, puro: `lastReachable` dá o último valor aceite quando o máximo não cai no passo; `nearestSteps` dá os vizinhos aceites dentro dos limites.
+       - `checkVersion` (`src/server/catalog/rules.ts`) bloqueia validar/publicar com uma mensagem que diz o valor a usar.
+       - O configurador (`src/components/shop/configurator.tsx`) mostra «Entre 5 e 1000 mm, de 10 em 10 mm» (o passo de 1 não aparece) e, no erro, «Use 995 mm» ou «Use 995 ou 1005 mm». Textos `everyStep`, `everyStepOnly`, `stepNear`, `stepNearOne` nas 7 línguas.
+       - Testes em `tests/unit/option-step.test.ts` (10), ligados ao `resolveConfig`.
+       - Verificado no browser (Playwright) e com `checkVersion` sobre o produto real.
+     - **Discutido e deixado como está:** tirar «Opções» e «Regras» (biblioteca) do menu. O Rodrigo percebeu o funcionamento e preferiu manter. Nota: no construtor não se acrescentam opções da biblioteca (só na vista «Avançado», passo Opções); no construtor reutiliza-se com «Copiar de outro produto».
+     - **Imagens de categoria:** o mínimo de 2400 × 1000 px é intencional (a capa 12:5 ocupa o ecrã). Para a categoria Portões há uma capa pronta, `docs/site-inicial/img/portoes-capa.jpg` (2400 × 1000).
 4. 🟡 **Sincronização Odoo feita com o adaptador fake (2026-11-04)** em `src/server/sync/odoo/`: `ErpClient` + `FakeErpClient` (6 artigos de exemplo), `planSync` puro e testado (cria, atualiza, histórico só quando o custo muda, marca desaparecidos sem apagar, ignora inválidos e repetidos, resposta vazia não marca nada), `syncErpMaterials` numa transação com advisory lock e registo em `sync_runs`; job `odoo-sync` no cron. O fake só corre em development; noutro ambiente o job falha até existir o adaptador real. Ensaiado contra o Postgres local. Falta: adaptador Odoo (API JSON-2), `vercel.json` com o cron diário, botão "sincronizar agora" e avisos no backoffice, limiar de variação de custo que pede aprovação (pergunta 45 da fase 0).
 5. RGPD: consentimentos no registo **feitos (2026-11-05)** — termos/privacidade obrigatórios e contacto comercial opcional, gravados em `consents` (`source: sign_up`); apagamento de contas e retirar o consentimento comercial também feitos (ver "RGPD: consentimento e apagamento").
 6. Visualizador GLB (react-three-fiber), SEO básico, templates HTML de email.
@@ -466,10 +494,9 @@ Notas:
 ### Pequenas pendências técnicas
 
 - `NextIntlClientProvider` envia todas as mensagens para o cliente; filtrar por namespace quando o ficheiro crescer.
-- Emails só em texto simples; falta template HTML com a marca.
-- Sem página de erro/404 personalizada.
 - O build descarrega as fontes do Google (`next/font/google`); a 2026-10-09 o CI falhou uma vez a obter a IBM Plex Sans e passou ao repetir. Se voltar a acontecer (ou na Vercel), passar a fontes locais (`next/font/local` com os ficheiros no repositório).
 - Página `/admin` não tem login próprio: usa o estado "entrar" da página inicial (`/pt?next=/admin#entrar`).
+- `docs/plano/Habinox-plano.pdf` ainda diz PHC GO: gerar de novo a partir do `plano.html` (já com Odoo), com o Chromium do Playwright (`--print-to-pdf`).
 
 ---
 
