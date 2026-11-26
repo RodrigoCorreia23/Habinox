@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { intlLocale } from "@/i18n/locales";
 import { Link } from "@/i18n/navigation";
@@ -30,6 +31,8 @@ export default async function AccountPage({ params }: PageProps<"/[locale]/conta
   const money = (cents: number) => formatEuros(cents, intlLocale(locale));
   setRequestLocale(locale);
   const session = await requireUser(`/${locale}/conta`, locale);
+  // Um admin não tem encomendas nem consentimentos de cliente: a "conta" dele é o backoffice.
+  if (session.user.role === "admin") redirect("/admin");
   const t = await getTranslations("Account");
   const ts = await getTranslations("Shop.order");
   const [orders, marketing] = await Promise.all([
