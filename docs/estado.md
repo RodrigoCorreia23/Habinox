@@ -30,7 +30,7 @@
 
 ### Decisões que mudaram desde o plano original (já no `CLAUDE.md`)
 
-- **ERP = Odoo** (Odoo Online, API JSON-2, só no plano Custom), não Odoo. O Bruno regista os artigos; não há dados de teste. Lista de campos para ele: `docs/odoo-artigos.md`.
+- **ERP = Odoo** (Odoo Online, API JSON-2, só no plano Custom), em vez do PHC GO. O Bruno regista os artigos; não há dados de teste. Lista de campos para ele: `docs/odoo-artigos.md`.
 - **Sem produtos-piloto:** o Bruno cria tudo de raiz no backoffice.
 - **Margem sobre o custo, por item:** `preço = custo × (1 + margem)`; cada material, componente e sector tem a sua; `null` = por decidir e bloqueia a publicação. Componentes (motores…) são artigos do ERP.
 - **Línguas:** BD com texto por língua (`jsonb`, `src/lib/localized.ts`); lançamento só em PT; 7 línguas no fim (PT, EN, DE, FR, IT, ES, NL), traduzidas pelo Rodrigo.
