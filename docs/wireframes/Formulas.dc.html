@@ -40,7 +40,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
     <a href="#" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Clientes</a>
     <a href="#" style="color: #C9CDD2; text-decoration: none; padding: 10px 12px; border-radius: 2px">Definições</a>
     <div style="margin-top: auto; padding: 12px; border-radius: 2px; background: #33373D; font-size: 13px; line-height: 1.45; color: #A9AEB5">
-      <span style="display: block; color: #FFFFFF; font-weight: 600">Sincronização PHC</span>
+      <span style="display: block; color: #FFFFFF; font-weight: 600">Sincronização Odoo</span>
       Última: hoje às [hora]. 1 artigo para rever.
     </div>
   </nav>
@@ -81,7 +81,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
 
     <sc-if value="{{krPending}}" hint-placeholder-val="{{ true }}">
       <div style="display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; background: #FFF4D6; border: 1px solid #E8D59A; border-radius: 2px; padding: 12px 16px; font-size: 15px">
-        <strong>Kit de rodízios (PHC KR02) desapareceu do PHC em [data].</strong>
+        <strong>Kit de rodízios (Odoo KR02) desapareceu do Odoo em [data].</strong>
         <span>A fórmula usa o último custo conhecido ([€/un]).</span>
         <button type="button" onClick="{{keepKr}}" style="height: 40px; padding: 0 12px; border-radius: 2px; border: 0; background: #15171A; color: #FFFFFF; font-size: 14px; font-weight: 700; cursor: pointer">Manter este custo</button>
         <a href="Materiais.dc.html">Trocar de artigo</a>
@@ -94,7 +94,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
         <div style="background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; overflow: hidden">
           <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; padding: 16px 18px; border-bottom: 1px solid #EDECE8">
             <h2 style="margin: 0; font-size: 20px; font-weight: 700">Linhas de custo</h2>
-            <span style="font-size: 14px; color: #5A5F66">Quantidades em função de <strong style="color: #15171A">L</strong> (largura) e <strong style="color: #15171A">H</strong> (altura), em metros. O artigo PHC de cada material depende do material escolhido pelo cliente. Linhas e expressões de exemplo.</span>
+            <span style="font-size: 14px; color: #5A5F66">Quantidades em função de <strong style="color: #15171A">L</strong> (largura) e <strong style="color: #15171A">H</strong> (altura), em metros. O artigo do Odoo de cada material depende do material escolhido pelo cliente. Linhas e expressões de exemplo.</span>
           </div>
           <div style="position: relative; overflow-x: auto">
             <table style="width: 100%; min-width: 860px; border-collapse: collapse; font-size: 15px">
@@ -299,7 +299,7 @@ class Component extends DCLogic {
         { id: 1, label: 'Tubo 40×40 (quadro)', kind: 'Material', expr: '2*L + 2*H', unit: 'm', cost: '[€/m]', art: { ferro: 'TQ40F', inox: 'TQ40I', aluminio: 'TQ40A' } },
         { id: 2, label: 'Barras verticais 20×20', kind: 'Material', expr: 'ceil(L / 0,12) * H', unit: 'm', cost: '[€/m]', art: { ferro: 'TQ20F', inox: 'TQ20I', aluminio: 'TQ20A' } },
         { id: 3, label: 'Calha de chão', kind: 'Material', expr: '2 * L', unit: 'm', cost: '[€/m]', art: { ferro: 'CAL01', inox: 'CAL01I', aluminio: 'CAL01' } },
-        { id: 4, label: 'Kit de rodízios e guias', kind: 'Material', expr: '1', unit: 'un', cost: '[€/un]', source: 'PHC KR02 · para rever', review: true },
+        { id: 4, label: 'Kit de rodízios e guias', kind: 'Material', expr: '1', unit: 'un', cost: '[€/un]', source: 'Odoo KR02 · para rever', review: true },
         { id: 5, label: 'Corte laser', kind: 'Mão de obra · Corte laser', expr: '0,5 + 0,1 * L', unit: 'h', cost: '[€/h]', source: 'Taxa do sector (Definições)' },
         { id: 9, label: 'Soldadura e montagem', kind: 'Mão de obra · Serralharia', expr: '2 + 0,8 * L', unit: 'h', cost: '[€/h]', source: 'Taxa do sector (Definições)' },
         { id: 6, label: 'Lacagem', kind: 'Serviço externo', expr: '2 * L * H', unit: 'm²', cost: '[€/m²]', source: 'Fornecedor de lacagem', cond: { k: 'tAc', v: 'lacado', t: 'Acabamento lacado' } },
@@ -403,7 +403,7 @@ class Component extends DCLogic {
         expr: r.expr,
         unit: r.unit,
         cost: r.cost,
-        source: r.art ? 'PHC ' + r.art[s.tMat] + ' (' + MAT[s.tMat] + ') · atualizado [data]' : r.source,
+        source: r.art ? 'Odoo ' + r.art[s.tMat] + ' (' + MAT[s.tMat] + ') · atualizado [data]' : r.source,
         sourceStyle: 'display: block; font-size: 13px; ' + (r.review ? 'color: #8A5A00; font-weight: 700' : 'color: #5A5F66'),
         inputId: 'expr-' + r.id,
         inputLabel: 'Quantidade de ' + r.label,
@@ -435,7 +435,7 @@ class Component extends DCLogic {
     var checks = [
       { label: 'linhas sem erros', ok: errors === 0 },
       { label: 'orçamentos reais dentro da tolerância (' + s.cmp.filter(function (c) { return c === 'dentro'; }).length + ' de ' + s.cmp.length + ')', ok: cmpOk },
-      { label: 'artigos do PHC revistos', ok: !s.krPending }
+      { label: 'artigos do Odoo revistos', ok: !s.krPending }
     ];
     var canValidate = s.status === 'rascunho' && checks.every(function (c) { return c.ok; });
     var canPublish = s.status === 'validada';
@@ -470,7 +470,7 @@ class Component extends DCLogic {
       onMot: function (e) { self.setState({ tMot: e.target.value }); },
       onInst: function () { self.setState({ tInst: !s.tInst }); },
 
-      addMaterial: function () { add('Material', 'm', 'Novo material', '[€/m]', 'Escolher artigo do PHC'); },
+      addMaterial: function () { add('Material', 'm', 'Novo material', '[€/m]', 'Escolher artigo do Odoo'); },
       addLabour: function () { add('Mão de obra', 'h', 'Nova mão de obra', '[€/h]', 'Custo/hora da oficina'); },
       addFixed: function () { add('Componente', 'un', 'Novo componente', '[€] preço de venda', 'Escolher componente'); },
 

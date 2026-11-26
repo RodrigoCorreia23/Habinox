@@ -20,7 +20,7 @@ Protótipos clicáveis da fase 0, para validar com o Bruno antes de programar.
 | `Produto.dc.html` | Produto: estado, medidas em mm, opções da biblioteca com valores permitidos, regras de combinação |
 | `Formulas.dc.html` | Fórmula de preço: linhas de custo com expressões (L, H), condições por opção, teste ao vivo, comparação com orçamentos reais, rascunho → validada → publicada |
 | `Encomendas.dc.html` | Encomendas: filtros por estado, detalhe com snapshot de preço e histórico, só transições permitidas, caso "pago depois de expirar" |
-| `Materiais.dc.html` | Materiais e sincronização PHC: estado da última sync, caso de falha, sincronizar agora, artigos para rever, histórico de custos e de sincronizações |
+| `Materiais.dc.html` | Materiais e sincronização Odoo: estado da última sync, caso de falha, sincronizar agora, artigos para rever, histórico de custos e de sincronizações |
 | `canvas.json` | Disposição no canvas e notas com as perguntas para o Bruno |
 
 Os ficheiros `.dc.html` são do formato *Design Component* do canvas (precisam do runtime do canvas para correr; não abrem diretamente no browser).

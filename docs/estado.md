@@ -30,7 +30,7 @@
 
 ### Decisões que mudaram desde o plano original (já no `CLAUDE.md`)
 
-- **ERP = Odoo** (Odoo Online, API JSON-2, só no plano Custom), não PHC GO. O Bruno regista os artigos; não há dados de teste. Lista de campos para ele: `docs/odoo-artigos.md`.
+- **ERP = Odoo** (Odoo Online, API JSON-2, só no plano Custom), não Odoo. O Bruno regista os artigos; não há dados de teste. Lista de campos para ele: `docs/odoo-artigos.md`.
 - **Sem produtos-piloto:** o Bruno cria tudo de raiz no backoffice.
 - **Margem sobre o custo, por item:** `preço = custo × (1 + margem)`; cada material, componente e sector tem a sua; `null` = por decidir e bloqueia a publicação. Componentes (motores…) são artigos do ERP.
 - **Línguas:** BD com texto por língua (`jsonb`, `src/lib/localized.ts`); lançamento só em PT; 7 línguas no fim (PT, EN, DE, FR, IT, ES, NL), traduzidas pelo Rodrigo.
@@ -120,7 +120,7 @@
 | `325b7ca` docs: fase 0                           | `docs/fase-0.md`: decisões já tomadas com o Rodrigo, perguntas para o Bruno (blocos A–I) e checklist de entregáveis                                                   |
 | `b4415cb` docs: wireframes da loja               | Configurador do portão de correr, carrinho, checkout e confirmação                                                                                                    |
 | `68fa6fa` docs: wireframe do editor de fórmulas  | Backoffice: fórmula por linhas de custo, pré-visualização com valores de exemplo, versões                                                                             |
-| `f46bfe7` docs: restantes wireframes             | Home, categoria, área de cliente; backoffice de produto/opções, encomendas, materiais/sincronização PHC                                                               |
+| `f46bfe7` docs: restantes wireframes             | Home, categoria, área de cliente; backoffice de produto/opções, encomendas, materiais/sincronização Odoo                                                               |
 | `2c22b11` / `60cd4fd` / `8a1d165` chore: skills  | `find-skills` + 10 skills de backend e frontend em `.agents/skills/` (ver secção 4); `.agents/` fora do ESLint e do Prettier                                          |
 | `99e30fb` docs: revisão dos wireframes           | Revisão com `impeccable` + `web-design-guidelines` (`docs/revisao-wireframes.md`), P1 corrigidos, 3 ecrãs de telemóvel, perguntas novas 40–50 (bloco J)               |
 | `ac8a01a` feat: identidade visual                | `DESIGN.md` ("catálogo técnico"), mockup de referência em `docs/design/`, tokens em `globals.css`, fontes Archivo + IBM Plex Sans/Mono, raio 2px; regras no CLAUDE.md |
@@ -207,7 +207,7 @@ Pontos principais dos wireframes (detalhe em `docs/wireframes/README.md` e `docs
 
 - **Configurador:** desenho técnico cotado que acompanha as medidas; aceita "3 500" e sugere a unidade certa; lado de recolha obrigatório com espaço livre cotado; ajuda "Como medir" + "Pedir medição no local"; confirmação das medidas presa às medidas (anula-se se mudarem); preço sempre visível (faixa fixa em desktop, barra em baixo em telemóvel); o botão de adicionar diz o que falta.
 - **Checkout:** confirmação das medidas por produto, separada das condições; telefone visível. **Confirmação:** 4 casos (pago, à espera do MB WAY, Multibanco por pagar, pagamento falhou).
-- **Backoffice:** validar uma fórmula exige linhas sem erros + orçamentos reais dentro de ±[x]% + artigos PHC revistos; produto com fluxo único guardar → publicar; variações de custo do PHC acima de [x]% ficam "por aprovar"; cancelar/devolver encomenda pede confirmação com motivo e valor.
+- **Backoffice:** validar uma fórmula exige linhas sem erros + orçamentos reais dentro de ±[x]% + artigos do Odoo revistos; produto com fluxo único guardar → publicar; variações de custo do Odoo acima de [x]% ficam "por aprovar"; cancelar/devolver encomenda pede confirmação com motivo e valor.
 - Canvas online (privado, partilhar pelo menu Share): https://claude.ai/artifact/Vi61zk6137BkzVVcppTCc6 — cópia do código em `docs/wireframes/`.
 
 Mockup final (detalhe em `docs/mockup/README.md`; canvas https://claude.ai/artifact/Lr38BFXy4aW4uXqiTbG64a, privado):
@@ -373,7 +373,7 @@ Notas:
 - Build de staging/prod: `pnpm db:migrate && next build`.
 - **Resend** com domínio verificado (obrigatório fora de dev). **Sentry** opcional por agora.
 - Configurar `trustedOrigins` do Better Auth para os URLs de preview da Vercel.
-- `vercel.json` com crons só quando existir o primeiro job real (sync PHC).
+- `vercel.json` com crons só quando existir o primeiro job real (sync Odoo).
 
 ### Fase 0 (próximo trabalho real; não depende do deploy)
 
@@ -391,12 +391,12 @@ Notas:
 - Erros nas folhas Excel do Bruno (soma que ignora a linha 10, títulos "15%"/"5 sectores" que não batem) **não** foram incluídos no email; estão em `docs/orcamentos-analise.md`.
 - ✅ Fatura dos **50% da fase 0** enviada para `geral@habinox.pt` (2026-10-22). ⏳ **Contrato por assinar** (vai ser assinado pessoalmente).
 - Falta contactar o privado que aloja o site atual (bloco H: domínio, DNS, email, conteúdo).
-- Wireframes feitos (14 ecrãs, todos ligados entre si): home, categoria, configurador, carrinho, checkout, confirmação, área de cliente; backoffice de produto/opções, fórmula de preço, encomendas, materiais/sincronização PHC — ver `docs/wireframes/README.md` (canvas online + cópia do código). A direção visual destes wireframes ("ficha de fabrico") está ultrapassada; valem pela estrutura e pelos fluxos.
+- Wireframes feitos (14 ecrãs, todos ligados entre si): home, categoria, configurador, carrinho, checkout, confirmação, área de cliente; backoffice de produto/opções, fórmula de preço, encomendas, materiais/sincronização Odoo — ver `docs/wireframes/README.md` (canvas online + cópia do código). A direção visual destes wireframes ("ficha de fabrico") está ultrapassada; valem pela estrutura e pelos fluxos.
 - Revisão dos wireframes com `impeccable` + `web-design-guidelines` feita e P1 corrigidos (ver `docs/revisao-wireframes.md`); 3 ecrãs de telemóvel acrescentados (14 no total). Perguntas novas 40–50 na `docs/fase-0.md`.
 - **Segunda revisão, com a skill taste (2026-10-22):** `docs/revisao-taste.md`. Os wireframes foram renderizados localmente com o runtime do canvas (`artifact-type/dc-runtime.js` do artifact, servido como `support.js`) e medidos com o `inspect.mjs` da skill (`CHROME_PATH` = Chromium do Playwright). P1 e P2 corrigidos; as regras da skill que contrariam o `DESIGN.md` (mono, linhas finas, numeração, 3 fontes, corpo a 15 px) foram ignoradas de propósito. P3: o logótipo em vetor está feito (2026-10-26); fotografias de obras usadas no mockup a partir do site atual — faltam fotos recentes do Bruno.
 - **Cópias de telemóvel** (`Mobile-*.dc.html`) são geradas a partir dos ecrãs de desktop: só mudam o `<title>` e o `$preview` (390 px). Ao alterar um ecrã de desktop, regenerar a cópia.
 - **Identidade visual:** fechada pelo mockup v2 e pelo `DESIGN.md` (arquitetura moderna, escura, âmbar). A direção "catálogo técnico" (`docs/design/`, mockup v1, azul `#2005A2` como acento) foi **substituída na loja** a 2026-10-27; mantém-se só no backoffice e nos 14 wireframes, que ainda têm esse aspeto. Fontes em `src/lib/fonts.ts` (Archivo, IBM Plex Sans, IBM Plex Mono).
-- **Decisões técnicas da revisão:** números com `Intl.NumberFormat('pt-PT', { useGrouping: 'always' })`; tokens de design em variáveis CSS; linhas de fórmula com artigo PHC por material (decidido: `formula_line_materials`, já no `CLAUDE.md`).
+- **Decisões técnicas da revisão:** números com `Intl.NumberFormat('pt-PT', { useGrouping: 'always' })`; tokens de design em variáveis CSS; linhas de fórmula com artigo do Odoo por material (decidido: `formula_line_materials`, já no `CLAUDE.md`).
 - **Nomes técnicos internos** (`abinox` na BD, utilizador do Postgres, `package.json`, CI) ficaram de propósito com o nome antigo: invisíveis e mudá-los obriga a recriar a BD local. Mudar só se houver motivo.
 - **Mockup v2 aprovado (2026-10-27)** — ver secção 2 e `docs/mockup-v2/README.md`. Por fazer:
   - **Tokens da loja escura** em `src/app/globals.css` (`ground`, `surface`, `line-strong`, `amber`, …) e fonte Archivo com eixo de largura em `src/lib/fonts.ts`; o tema atual é o claro (fica para o backoffice). Fazer no início da UI da fase 1.

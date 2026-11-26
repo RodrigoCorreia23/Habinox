@@ -46,7 +46,7 @@ Há três vias, que se combinam:
    - **parâmetros dos valores**: cada valor de escolha pode ter números com nome (`params`), usados como `opcao.parametro`. Exemplo: "Espaçamento 12 cm" tem `{ "valor": 0.12 }` → `ceil(L / espacamento.valor)`;
    - booleanos (`1`/`0`): `horas = 2 + 0,5 × L + 1,5 × iluminacao`.
 
-E o **artigo** de uma linha de material pode depender de uma escolha: a linha "Tubo 40×40" aponta para o papel "tubo 40×40" e o artigo PHC resolve-se pelo valor escolhido em `material` (ferro → `TF4040`, inox → `TI4040`). Generaliza o `formula_line_materials` que já estava decidido: em vez de "por material", é "por valor de qualquer opção de escolha" (serve também para o tipo de vidro de uma guarda). Valor sem artigo associado = combinação "não é possível".
+E o **artigo** de uma linha de material pode depender de uma escolha: a linha "Tubo 40×40" aponta para o papel "tubo 40×40" e o artigo do Odoo resolve-se pelo valor escolhido em `material` (ferro → `TF4040`, inox → `TI4040`). Generaliza o `formula_line_materials` que já estava decidido: em vez de "por material", é "por valor de qualquer opção de escolha" (serve também para o tipo de vidro de uma guarda). Valor sem artigo associado = combinação "não é possível".
 
 ### Expressões
 
@@ -179,7 +179,7 @@ Cada produto descrito só com este modelo. Números de exemplo; a estrutura é o
   - "Varões", `qtd = n_varoes × L`, só se varões;
   - "Vidro" (m²), `qtd = L × H`, só se vidro, artigo pelo valor de `tipo_vidro`;
   - "Montagem", horas `= a + b × L + c × n_cantos`.
-- Custo ao kg no PHC (orçamento C: `kg/m × €/kg`): resolve-se no **material** (fator de conversão kg/m por artigo), não nas opções.
+- Custo ao kg no Odoo (orçamento C: `kg/m × €/kg`): resolve-se no **material** (fator de conversão kg/m por artigo), não nas opções.
 - ✅ Encaixa. Mostrou que é preciso o tipo `number`, os `params` dos valores e o artigo escolhido por uma opção que não é o material.
 
 ### Escada (orçamento B)

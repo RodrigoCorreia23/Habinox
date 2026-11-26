@@ -2,7 +2,7 @@
 
 Objetivo: fechar a lista de produtos e campos, as regras de preço e os wireframes antes de escrever lógica de negócio.
 
-> **Atualização de 2026-11-04 (reunião de 30/10, ver `docs/reuniao-2026-10-30.md`):** o ERP passa a ser o **Odoo** em vez do PHC GO; as referências ao PHC abaixo valem para o Odoo. **Não há produtos-piloto**: o Bruno cria tudo de raiz no backoffice, por isso as perguntas 1 e 43 caem. A margem passa a ser **sobre o custo**: `preço = custo × (1 + margem)` (confirmado a 2026-11-04); onde abaixo aparece `custo / (1 − margem)`, já não vale.
+> **Atualização de 2026-11-04 (reunião de 30/10, ver `docs/reuniao-2026-10-30.md`):** o ERP passa a ser o **Odoo** em vez do PHC GO; as referências abaixo já foram atualizadas para o Odoo. **Não há produtos-piloto**: o Bruno cria tudo de raiz no backoffice, por isso as perguntas 1 e 43 caem. A margem passa a ser **sobre o custo**: `preço = custo × (1 + margem)` (confirmado a 2026-11-04); onde abaixo aparece `custo / (1 − margem)`, já não vale.
 
 Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para analisar mais tarde · 🔴 bloqueia trabalho
 
@@ -47,7 +47,7 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 
 ### Preço e responsabilidade
 
-- ✅ **O custo depende do material escolhido.** Uma linha de custo (ex.: "tubo 40×40") não aponta para um artigo fixo: aponta para um **papel** ("tubo 40×40") e o artigo PHC (e o custo) resolve-se pelo material que o cliente escolheu (ferro, inox, alumínio).
+- ✅ **O custo depende do material escolhido.** Uma linha de custo (ex.: "tubo 40×40") não aponta para um artigo fixo: aponta para um **papel** ("tubo 40×40") e o artigo do Odoo (e o custo) resolve-se pelo material que o cliente escolheu (ferro, inox, alumínio).
   - 📝 Proposta técnica: `formula_lines` deixa de ter `material_id` único; nova tabela `formula_line_materials (formula_line_id, material_option_value, material_id)`. Material sem artigo associado = combinação "não é possível". O snapshot guarda o artigo e o custo efetivamente usados.
 
 - ✅ O preço mostrado online **é final**. Antes de um produto ficar visível, a fórmula tem de ser **validada pelo Bruno** com orçamentos reais.
@@ -57,7 +57,7 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 
 ### Responsabilidades
 
-- ✅ **Bruno** valida as entregas, mantém os custos no PHC e exporta os GLB do TopSolid.
+- ✅ **Bruno** valida as entregas, mantém os custos no Odoo e exporta os GLB do TopSolid.
 - ✅ **Logótipo** existe.
 - ✅ **Mockup não existe** — construí-lo faz parte da fase 0 (wireframes → mockup).
 - ✅ **Staging** é necessário (ambiente para o Bruno testar antes de cada lançamento).
@@ -136,13 +136,13 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 17. **Zona de entrega:** Portugal continental? Ilhas? Espanha já no beta?
 18. **Portes:** transporte próprio ou transportadora? Por peso, volume ou zona? Pode-se **levantar nas instalações**?
 19. **Prazos de produção** típicos por produto (para mostrar ao cliente).
-20. **Faturação no PHC:** automática quando o pagamento entra, ou manual?
+20. **Faturação no Odoo:** automática quando o pagamento entra, ou manual?
 
-### E. PHC GO 🔴 (para a fase 1)
+### E. Odoo 🔴 (para a fase 1)
 
 21. **AppID, token e ambiente de testes** da Simple API.
-22. Que **artigos** do PHC são os materiais usados nos produtos, e em que **unidade** (kg, m, m²)?
-23. O custo no PHC é o **preço de compra atualizado**? Com que frequência muda?
+22. Que **artigos** do Odoo são os materiais usados nos produtos, e em que **unidade** (kg, m, m²)?
+23. O custo no Odoo é o **preço de compra atualizado**? Com que frequência muda?
 
 ### F. Legal (antes de lançar)
 
@@ -179,9 +179,9 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
 40. 🔴 **Medição:** o cliente indica o **lado de recolha** do portão de correr? Que espaço livre é preciso desse lado (a largura do vão + quanto)? Há mais medidas a pedir?
 41. 🔴 **Guia "Como medir":** texto e ilustrações — onde medir a largura e a altura, o que fazer com chão desnivelado.
 42. **Medição no local:** a Habinox faz? Em que zonas? Com que preço, e é descontado na encomenda?
-43. 🔴 **Artigos PHC por material:** para cada linha de custo dos produtos-piloto, qual é o artigo PHC em ferro, em inox e em alumínio? (Já decidido que o custo muda com o material; falta a lista.)
+43. 🔴 **Artigos do Odoo por material:** para cada linha de custo dos produtos-piloto, qual é o artigo do Odoo em ferro, em inox e em alumínio? (Já decidido que o custo muda com o material; falta a lista.)
 44. **Tolerância de validação:** que diferença aceita entre a fórmula e os orçamentos reais (±3%? ±5%)? Quantos orçamentos reais por produto?
-45. **Variações de custo do PHC:** acima de que percentagem uma subida/descida de custo deve esperar aprovação antes de mudar os preços da loja?
+45. **Variações de custo do Odoo:** acima de que percentagem uma subida/descida de custo deve esperar aprovação antes de mudar os preços da loja?
 46. **Multibanco não pago:** quantos dias para pagar? Passado o prazo, a encomenda cancela ou fica para revisão? (Hoje a confirmação diz "[a definir]".)
 47. **Pagamento falhado:** durante quanto tempo se guarda a encomenda e o preço para tentar de novo?
 48. **Cancelamentos:** que motivos quer registar? Quem pode cancelar e devolver?
@@ -202,10 +202,10 @@ Legenda: ✅ decidido · ❓ perguntar ao Bruno · 📝 nota técnica para anali
   - [x] Home e página de categoria
   - [x] Área de cliente (encomendas, orçamentos guardados, privacidade)
   - [x] Backoffice: fórmula de preço com pré-visualização
-  - [x] Backoffice: produtos/opções, encomendas, materiais e sincronização PHC
+  - [x] Backoffice: produtos/opções, encomendas, materiais e sincronização Odoo
   - [ ] Validar com o Bruno os fluxos que o mockup não cobre: carrinho, checkout, confirmação, área de cliente e backoffice (o aspeto é o do mockup v2; os wireframes valem pela estrutura)
 - [x] Mockup visual: v1 recusado (2026-10-26, `docs/mockup/`); **v2 aprovado a 2026-10-27** (`docs/mockup-v2/`), `DESIGN.md` reescrito
 - [ ] Logótipo em SVG validado pelo Bruno (`public/brand/`)
 - [ ] Contrato assinado (fatura dos 50% da fase 0 já enviada a 2026-10-22)
 
-Para começar a fase 1 pelo `lib/money` + `lib/pricing` (código puro, sem UI) basta o contrato assinado; o schema segue `docs/modelo-opcoes.md`. Pendências que não bloqueiam o arranque: acessos Vercel/Neon (deploy), acessos PHC GO, GLB de teste do TopSolid, fotografias recentes das obras.
+Para começar a fase 1 pelo `lib/money` + `lib/pricing` (código puro, sem UI) basta o contrato assinado; o schema segue `docs/modelo-opcoes.md`. Pendências que não bloqueiam o arranque: acessos Vercel/Neon (deploy), acessos Odoo, GLB de teste do TopSolid, fotografias recentes das obras.

@@ -39,7 +39,7 @@ A maior parte das falhas do inspetor são proibições da casa da skill que cont
 
 ## O que foi corrigido (2026-10-22)
 
-- **Fórmula:** consumíveis em %; margem sobre o preço de venda (`custo ÷ (1 − margem)`); mão de obra por sector (corte laser, serralharia) com taxa em Definições; artigo PHC conforme o material (ferro / inox / alumínio, com seletor no teste); componentes a preço de venda, sem margem; instalação = zona + horas; "Sem arredondamento" como opção; IVA fora da fórmula ("Preço sem IVA"). Notas do canvas atualizadas.
+- **Fórmula:** consumíveis em %; margem sobre o preço de venda (`custo ÷ (1 − margem)`); mão de obra por sector (corte laser, serralharia) com taxa em Definições; artigo do Odoo conforme o material (ferro / inox / alumínio, com seletor no teste); componentes a preço de venda, sem margem; instalação = zona + horas; "Sem arredondamento" como opção; IVA fora da fórmula ("Preço sem IVA"). Notas do canvas atualizadas.
 - **Configurador:** desenho fixo ao scroll em desktop (`position: sticky` a partir de 1000 px); "Adicionar ao carrinho" sempre no azul de ação, a dizer o que falta.
 - **Página inicial:** produtos em 3 colunas (2 em tablet, 1 em telemóvel); "Do modelo à encomenda." em 2 linhas; botão "Menu" no telemóvel em vez de 3 linhas de links; categorias em lista de 2 colunas no telemóvel; títulos do herói e da Área Pro com `clamp()`.
 - **Cabeçalho das páginas interiores** (categoria, configurador, carrinho, conta): botão "Menu" no telemóvel.

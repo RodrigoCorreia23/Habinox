@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Backoffice — Materiais e sincronização PHC</title>
+<title>Backoffice — Materiais e sincronização Odoo</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -57,9 +57,9 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
 
       <sc-if value="{{failed}}" hint-placeholder-val="{{ false }}">
         <div role="alert" style="border-radius: 2px; background: #FBEAE8; border: 1px solid #E8B4AE; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; font-size: 15px; line-height: 1.45">
-          <strong style="color: #8C1D17; font-size: 17px">A sincronização com o PHC falha há 36 horas</strong>
+          <strong style="color: #8C1D17; font-size: 17px">A sincronização com o Odoo falha há 36 horas</strong>
           <span>A última que correu bem foi a [data, hora]. A loja continua a calcular preços com os custos dessa data.</span>
-          <span>Erro: o PHC recusou o acesso (token inválido ou expirado). Verifique o token da API do PHC em Definições.</span>
+          <span>Erro: o Odoo recusou o acesso (chave de API inválida ou expirada). Verifique a chave de API do Odoo em Definições.</span>
           <span style="color: #5A5F66">Já avisámos o Bruno e o programador por email.</span>
         </div>
       </sc-if>
@@ -76,7 +76,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
       <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
         <section aria-label="Materiais" style="flex: 999 1 620px; min-width: 0; background: #FFFFFF; border: 1px solid #DAD8D2; border-radius: 2px; overflow: hidden">
           <div style="padding: 14px 16px; border-bottom: 1px solid #EDECE8; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; align-items: center">
-            <h2 style="margin: 0; font-size: 20px; font-weight: 700">Artigos do PHC</h2>
+            <h2 style="margin: 0; font-size: 20px; font-weight: 700">Artigos do Odoo</h2>
             <label style="display: flex; align-items: center; gap: 8px; font-size: 15px; cursor: pointer">
               <input type="checkbox" checked="{{onlyReview}}" onChange="{{toggleReview}}" style="width: 18px; height: 18px; accent-color: #15171A">
               Só os que precisam de atenção
@@ -98,7 +98,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
                   <tr style="{{m.rowStyle}}">
                     <td style="padding: 10px 14px">
                       <button type="button" onClick="{{m.select}}" style="border: 0; background: transparent; padding: 0; text-align: left; cursor: pointer; color: #15171A; font-size: 15px; font-weight: 700; text-decoration: underline">{{m.name}}</button>
-                      <span style="display: block; font-size: 13px; color: #5A5F66">PHC {{m.code}} · por {{m.unit}}</span>
+                      <span style="display: block; font-size: 13px; color: #5A5F66">Odoo {{m.code}} · por {{m.unit}}</span>
                     </td>
                     <td style="padding: 10px 14px; font-family: 'IBM Plex Mono', monospace">[€]</td>
                     <td style="padding: 10px 14px; font-size: 14px">{{m.change}}</td>
@@ -113,10 +113,10 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
 
         <aside aria-label="Detalhe do artigo" style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; border: 1px solid #DAD8D2; border-top: 4px solid #15171A; border-radius: 2px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
           <h2 style="margin: 0; font-size: 22px; font-family: Archivo, sans-serif; font-weight: 600;">{{sel.name}}</h2>
-          <span style="font-size: 14px; color: #5A5F66">PHC {{sel.code}} · por {{sel.unit}}</span>
+          <span style="font-size: 14px; color: #5A5F66">Odoo {{sel.code}} · por {{sel.unit}}</span>
           <sc-if value="{{sel.missing}}" hint-placeholder-val="{{ false }}">
             <div style="border-radius: 2px; background: #FFF4D6; border: 1px solid #E8D59A; padding: 12px; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 8px">
-              <span><strong>Deixou de aparecer no PHC em [data].</strong> Mantemos o último custo conhecido; nunca fica a zero.</span>
+              <span><strong>Deixou de aparecer no Odoo em [data].</strong> Mantemos o último custo conhecido; nunca fica a zero.</span>
               <div style="display: flex; flex-wrap: wrap; gap: 8px">
                 <button type="button" onClick="{{confirmKeep}}" style="height: 40px; padding: 0 12px; border-radius: 2px; border: 0; background: #15171A; color: #FFFFFF; font-size: 14px; font-weight: 700; cursor: pointer">Manter este custo</button>
                 <button type="button" style="height: 40px; padding: 0 12px; border-radius: 2px; border: 1px solid #85827A; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Trocar por outro artigo</button>
@@ -125,7 +125,7 @@ input[inputmode=decimal],input[inputmode=numeric],input[type=tel],.mono{font-fam
           </sc-if>
           <sc-if value="{{sel.variation}}" hint-placeholder-val="{{ true }}">
             <div style="border-radius: 2px; background: #FFF4D6; border: 1px solid #E8D59A; padding: 12px; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 8px">
-              <span><strong>O custo no PHC subiu [%].</strong> Variações acima de [x]% só chegam aos preços da loja depois de aprovadas.</span>
+              <span><strong>O custo no Odoo subiu [%].</strong> Variações acima de [x]% só chegam aos preços da loja depois de aprovadas.</span>
               <span>Impacto num portão de correr de 3,5 × 1,8 m: <strong>[preço atual] €</strong> passa a <strong>[novo preço] €</strong>.</span>
               <div style="display: flex; flex-wrap: wrap; gap: 8px">
                 <button type="button" onClick="{{applyTq}}" style="height: 44px; padding: 0 12px; border-radius: 2px; border: 0; background: #15171A; color: #FFFFFF; font-size: 14px; font-weight: 700; cursor: pointer">Aplicar aos preços</button>
@@ -183,9 +183,9 @@ class Component extends DCLogic {
       { code: 'TQ40', name: 'Tubo quadrado 40×40', unit: 'm', change: 'subiu [%]', used: '[n] produtos', status: { pendente: 'Por aprovar', aplicado: 'Novo custo aplicado', mantido: 'Custo anterior mantido' }[s.tq], tone: s.tq === 'pendente' ? 'warn' : 'info', attention: s.tq === 'pendente', variation: s.tq === 'pendente' },
       { code: 'TQ20', name: 'Tubo quadrado 20×20', unit: 'm', change: 'igual', used: '[n] produtos', status: 'Atualizado', tone: 'ok' },
       { code: 'CAL01', name: 'Calha de chão', unit: 'm', change: 'desceu [%]', used: '[n] produtos', status: 'Atualizado', tone: 'ok' },
-      { code: 'KR02', name: 'Kit de rodízios e guias', unit: 'un', change: 'não veio do PHC', used: '[n] produtos', status: s.kept ? 'Custo mantido' : 'Para rever', tone: s.kept ? 'info' : 'bad', attention: !s.kept, missing: !s.kept },
+      { code: 'KR02', name: 'Kit de rodízios e guias', unit: 'un', change: 'não veio do Odoo', used: '[n] produtos', status: s.kept ? 'Custo mantido' : 'Para rever', tone: s.kept ? 'info' : 'bad', attention: !s.kept, missing: !s.kept },
       { code: 'MOT1', name: 'Motor de correr', unit: 'un', change: 'igual', used: '[n] produtos', status: 'Atualizado', tone: 'ok' },
-      { code: 'CH304', name: 'Chapa inox 304 1,5 mm', unit: 'm²', change: 'novo', used: 'nenhum', status: 'Novo no PHC', tone: 'info', attention: true }
+      { code: 'CH304', name: 'Chapa inox 304 1,5 mm', unit: 'm²', change: 'novo', used: 'nenhum', status: 'Novo no Odoo', tone: 'info', attention: true }
     ];
     var shown = MATS.filter(function (m) { return !s.onlyReview || m.attention; });
     var sel = MATS.filter(function (m) { return m.code === s.selected; })[0] || MATS[0];
@@ -204,7 +204,7 @@ class Component extends DCLogic {
 
     var bigValue = 'font-size: 30px; line-height: 1.1; font-family: Archivo, sans-serif; font-weight: 600; ';
     return {
-      cases: [{ id: 'ok', label: 'Sincronização a funcionar' }, { id: 'falha', label: 'PHC a falhar há 36 h' }].map(function (c) {
+      cases: [{ id: 'ok', label: 'Sincronização a funcionar' }, { id: 'falha', label: 'Odoo a falhar há 36 h' }].map(function (c) {
         var on = c.id === s.kase;
         return {
           label: c.label, on: on,
@@ -224,7 +224,7 @@ class Component extends DCLogic {
         { label: 'Última sincronização', value: failed ? 'há 36 h' : 'hoje, [hora]', tone: failed ? 'bad' : 'ok' },
         { label: 'Artigos lidos', value: '[n]' },
         { label: 'Custos por aprovar', value: s.tq === 'pendente' ? '1' : '0', tone: s.tq === 'pendente' ? 'bad' : null },
-        { label: 'Novos no PHC', value: '1' },
+        { label: 'Novos no Odoo', value: '1' },
         { label: 'Desapareceram', value: s.kept ? '0' : '1', tone: s.kept ? null : 'bad' }
       ].map(function (x) {
         var color = x.tone === 'bad' ? '#8C1D17' : '#15171A';

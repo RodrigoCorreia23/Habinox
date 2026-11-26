@@ -105,7 +105,7 @@
       "y": 4620,
       "w": 1440,
       "h": 1350,
-      "title": "Backoffice — Materiais e sincronização PHC",
+      "title": "Backoffice — Materiais e sincronização Odoo",
       "expand": "fill",
       "is_interactive": true
     },
@@ -224,7 +224,7 @@
       "w": 420,
       "maxH": 480,
       "fill": "orange",
-      "text": "Checkout — perguntar ao Bruno\n• Compra sem conta (convidado) ou conta obrigatória?\n• Pagamento total ou sinal (ex.: 50%)?\n• Zonas de entrega: continente? ilhas? Espanha?\n• Levantamento nas instalações?\n• Portes: como se calculam?\n• Faturação no PHC: automática ou manual?"
+      "text": "Checkout — perguntar ao Bruno\n• Compra sem conta (convidado) ou conta obrigatória?\n• Pagamento total ou sinal (ex.: 50%)?\n• Zonas de entrega: continente? ilhas? Espanha?\n• Levantamento nas instalações?\n• Portes: como se calculam?\n• Faturação no Odoo: automática ou manual?"
     },
     "k2": {
       "x": 2020,
@@ -248,7 +248,7 @@
       "w": 420,
       "maxH": 460,
       "fill": "blue",
-      "text": "Fórmula de preço — como funciona (modelo dos orçamentos do Bruno)\n• Custo de fabrico = materiais (quantidade × custo do artigo PHC do material escolhido) + consumíveis (% dos materiais) + horas × taxa de cada sector.\n• Preço = custo ÷ (1 − margem): margem sobre o preço de venda (50% → o dobro do custo).\n• Componentes (motor, LED…) entram a preço de venda, sem margem. Instalação = preço da zona + horas.\n• O IVA não entra na fórmula: soma-se uma vez ao total da encomenda.\n• Só as quantidades são expressões: L e H (em metros), + − × ÷, parênteses, ceil, floor, min, max (argumentos separados por ;). Nunca eval."
+      "text": "Fórmula de preço — como funciona (modelo dos orçamentos do Bruno)\n• Custo de fabrico = materiais (quantidade × custo do artigo do Odoo do material escolhido) + consumíveis (% dos materiais) + horas × taxa de cada sector.\n• Preço = custo ÷ (1 − margem): margem sobre o preço de venda (50% → o dobro do custo).\n• Componentes (motor, LED…) entram a preço de venda, sem margem. Instalação = preço da zona + horas.\n• O IVA não entra na fórmula: soma-se uma vez ao total da encomenda.\n• Só as quantidades são expressões: L e H (em metros), + − × ÷, parênteses, ceil, floor, min, max (argumentos separados por ;). Nunca eval."
     },
     "b2": {
       "x": 1520,
@@ -256,7 +256,7 @@
       "w": 420,
       "maxH": 420,
       "fill": "blue",
-      "text": "Versões e validação\n• Rascunho → validada → publicada.\n• Só se valida com: linhas sem erros, todos os orçamentos reais dentro de ±[x]% e artigos do PHC revistos.\n• Publicar só afeta novos orçamentos; guardados e encomendas mantêm o preço (snapshot)."
+      "text": "Versões e validação\n• Rascunho → validada → publicada.\n• Só se valida com: linhas sem erros, todos os orçamentos reais dentro de ±[x]% e artigos do Odoo revistos.\n• Publicar só afeta novos orçamentos; guardados e encomendas mantêm o preço (snapshot)."
     },
     "b3": {
       "x": 1980,
@@ -326,7 +326,7 @@
       "w": 420,
       "maxH": 360,
       "fill": "orange",
-      "text": "Encomendas — perguntar ao Bruno\n• Que estados usa na oficina (em fabrico, pronto, enviado…)?\n• Quer uma ficha de fabrico para imprimir?\n• Fatura: emitida no PHC à mão ou automática?"
+      "text": "Encomendas — perguntar ao Bruno\n• Que estados usa na oficina (em fabrico, pronto, enviado…)?\n• Quer uma ficha de fabrico para imprimir?\n• Fatura: emitida no Odoo à mão ou automática?"
     },
     "m1": {
       "x": 5600,
@@ -334,7 +334,7 @@
       "w": 420,
       "maxH": 460,
       "fill": "blue",
-      "text": "Materiais e sincronização PHC\n• PHC só lido, 1x/dia, para cópia local.\n• Falha: a loja continua com os últimos custos + aviso.\n• Artigo desaparecido: último custo, \"para rever\".\n• Variação de custo acima de [x]%: fica \"por aprovar\", com impacto num preço de referência; só chega à loja depois de \"Aplicar aos preços\"."
+      "text": "Materiais e sincronização Odoo\n• Odoo só lido, 1x/dia, para cópia local.\n• Falha: a loja continua com os últimos custos + aviso.\n• Artigo desaparecido: último custo, \"para rever\".\n• Variação de custo acima de [x]%: fica \"por aprovar\", com impacto num preço de referência; só chega à loja depois de \"Aplicar aos preços\"."
     },
     "t3": {
       "x": 7200,
