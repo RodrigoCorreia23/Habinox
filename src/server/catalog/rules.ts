@@ -18,6 +18,7 @@ import type { LocalizedText } from "@/lib/localized";
 import {
   blockedDefaults,
   conditionsSchema,
+  lastReachable,
   ruleEffectSchema,
   type Rule,
   validateRules,
@@ -191,6 +192,23 @@ export async function checkVersion(versionId: string): Promise<VersionProblems> 
       warnings.push(
         `A medida ${option.key} não tem mínimo e máximo: o cliente pode pedir qualquer tamanho`,
       );
+    }
+    if (option.type === "dimension" || option.type === "number") {
+      // O passo conta a partir do mínimo: com mínimo 5 e passo 10, o máximo 1000 nunca é aceite.
+      const bounds = {
+        min: option.min ?? null,
+        max: option.max ?? null,
+        step: option.step ?? null,
+      };
+      const last = lastReachable(bounds);
+      if (last !== null && bounds.max !== null && bounds.step !== null) {
+        const n = (value: number) => new Intl.NumberFormat("pt-PT").format(value);
+        const what = option.type === "dimension" ? "A medida" : "O número";
+        const base = bounds.min ?? 0;
+        blocking.push(
+          `${what} ${option.key}: com mínimo ${n(base)} e passo ${n(bounds.step)}, o máximo ${n(bounds.max)} nunca é aceite (o último valor aceite é ${n(last)}). Mude o máximo para ${n(last)}, ou o mínimo ou o passo.`,
+        );
+      }
     }
   }
 

@@ -251,6 +251,10 @@
       "range": "Tussen {min} en {max} {unit}",
       "rangeMin": "Vanaf {min} {unit}",
       "rangeMax": "Tot {max} {unit}",
+      "everyStep": "in stappen van {step} {unit}",
+      "everyStepOnly": "In stappen van {step} {unit}",
+      "stepNear": "Gebruik {below} of {above} {unit}",
+      "stepNearOne": "Gebruik {value} {unit}",
       "errors": {
         "required": "Verplicht",
         "out_of_range": "Buiten de grenzen",

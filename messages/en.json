@@ -251,6 +251,10 @@
       "range": "Between {min} and {max} {unit}",
       "rangeMin": "From {min} {unit}",
       "rangeMax": "Up to {max} {unit}",
+      "everyStep": "in steps of {step} {unit}",
+      "everyStepOnly": "In steps of {step} {unit}",
+      "stepNear": "Use {below} or {above} {unit}",
+      "stepNearOne": "Use {value} {unit}",
       "errors": {
         "required": "Required",
         "out_of_range": "Out of range",

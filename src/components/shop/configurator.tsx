@@ -13,7 +13,7 @@ import { intlLocale } from "@/i18n/locales";
 import { Link } from "@/i18n/navigation";
 import { formatEuros } from "@/lib/money";
 import { measureFormat, normalizeNumberInput } from "@/lib/number-input";
-import { resolveConfig } from "@/lib/options";
+import { nearestSteps, resolveConfig } from "@/lib/options";
 import type { AddResult } from "@/server/store/cart";
 import type { ConfiguratorData, ConfiguratorOption, QuoteResult } from "@/server/store/catalog";
 
@@ -229,6 +229,9 @@ export function Configurator({
             const state = resolved.state[option.key];
             if (!state?.visible) return null;
             const error = fieldErrors.get(option.key);
+            const typed = input[option.key];
+            const near =
+              error === "step" && typeof typed === "number" ? nearestSteps(option, typed) : null;
             return (
               <OptionField
                 key={option.key}
@@ -237,6 +240,7 @@ export function Configurator({
                 allowed={state.allowed}
                 required={state.required}
                 error={error ? t(`errors.${error}`) : null}
+                near={near}
                 onChange={(value) => set(option.key, value)}
               />
             );
@@ -287,6 +291,7 @@ function OptionField({
   allowed,
   required,
   error,
+  near,
   onChange,
 }: {
   option: ConfiguratorOption;
@@ -294,6 +299,8 @@ function OptionField({
   allowed?: string[];
   required: boolean;
   error: string | null;
+  /** Valores aceites mais próximos, quando a medida está fora do passo. */
+  near?: { below: number | null; above: number | null } | null;
   onChange: (value: string | boolean) => void;
 }) {
   const t = useTranslations("Shop.configurator");
@@ -317,6 +324,19 @@ function OptionField({
           : option.max !== null
             ? t("rangeMax", { max: show(option.max), unit })
             : null;
+    // Passo de 1 (mm ou unidade) não precisa de explicação.
+    const step =
+      option.step !== null && option.step > 0 && option.step !== 1
+        ? t(range ? "everyStep" : "everyStepOnly", { step: show(option.step), unit }).trim()
+        : null;
+    const limits = range && step ? `${range.trim()}, ${step}` : (range ?? step);
+    const nearText =
+      near?.below != null && near.above != null
+        ? t("stepNear", { below: show(near.below), above: show(near.above), unit })
+        : near?.below != null || near?.above != null
+          ? t("stepNearOne", { value: show((near.below ?? near.above)!), unit })
+          : null;
+    const errorText = error && nearText ? `${error}. ${nearText.trim()}.` : error;
     return (
       <div className="grid gap-2 py-6">
         <label htmlFor={id} className="text-sm font-medium">
@@ -331,7 +351,7 @@ function OptionField({
             onChange={(event) => onChange(event.target.value)}
             aria-invalid={error ? true : undefined}
             aria-describedby={
-              [range || option.help ? helpId : "", error ? errorId : ""].join(" ").trim() ||
+              [limits || option.help ? helpId : "", error ? errorId : ""].join(" ").trim() ||
               undefined
             }
             className="bg-night-surface border-night-line-strong focus-visible:outline-night-text aria-invalid:border-night-error-border h-12 w-full rounded-[2px] border px-4 pr-14 font-mono text-lg tabular-nums outline-offset-3 focus-visible:outline-2 aria-invalid:border-2"
@@ -342,14 +362,14 @@ function OptionField({
             </span>
           )}
         </div>
-        {(range || option.help) && (
+        {(limits || option.help) && (
           <p id={helpId} className="text-night-faint text-xs">
-            {[range, option.help].filter(Boolean).join(" · ")}
+            {[limits, option.help].filter(Boolean).join(" · ")}
           </p>
         )}
-        {error && (
+        {errorText && (
           <p id={errorId} className="text-night-error text-xs">
-            {error}
+            {errorText}
           </p>
         )}
       </div>
